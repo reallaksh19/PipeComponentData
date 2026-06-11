@@ -16,6 +16,12 @@
     "fromCsv",
     "fromRawText",
     "fromUxmlXml",
-    "classifyComponent"
+    "classifyComponent",
+    "PHASE4_DATASETS",
+    "createPipeDataDb",
+    "REQUIRED_PROVENANCE_FIELDS",
+    "listDatasetRows",
+    "rowProvenance",
+    "validateDatasetProvenance"
   ]
 }
