@@ -1,0 +1,35 @@
+{
+  "schema": "pipedata-pipe-index/v1",
+  "datasetVersion": "pipedata-db/2026.06.dbphase5",
+  "sampledRowCount": 2,
+  "byKey": {
+    "PIPE|NPS0+1/8|SCH40": 0,
+    "PIPE|NPS4|SCH40": 1
+  },
+  "readyKeys": [
+    "PIPE|NPS4|SCH40"
+  ],
+  "partialKeys": [
+    "PIPE|NPS0+1/8|SCH40"
+  ],
+  "sourceFiles": {
+    "Database/Pipe/PIPE10.csv": 30,
+    "Database/Pipe/PIPE100.csv": 27,
+    "Database/Pipe/PIPE10S.csv": 24,
+    "Database/Pipe/PIPE20.csv": 30,
+    "Database/Pipe/PIPE30.csv": 22,
+    "Database/Pipe/PIPE40.csv": 30,
+    "Database/Pipe/PIPE40S.csv": 24,
+    "Database/Pipe/PIPE5.csv": 27,
+    "Database/Pipe/PIPE60.csv": 24,
+    "Database/Pipe/PIPE80.csv": 30,
+    "Database/Pipe/PIPE80S.csv": 24,
+    "Database/Pipe/PIPEXS.csv": 30,
+    "Database/Pipe/PIPEXXS.csv": 22,
+    "Database/Pipe/Pipe120.csv": 25,
+    "Database/Pipe/Pipe140.csv": 25,
+    "Database/Pipe/Pipe160.csv": 17,
+    "Database/Pipe/pipe5s.csv": 24,
+    "Database/Pipe/pipestd.csv": 24
+  }
+}
