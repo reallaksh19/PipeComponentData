@@ -22,7 +22,7 @@
     "gate:phase11": "npm run gate:phase10 && node --test gates/phase-11-dxf-sidecar.gate.test.js",
     "gate:phase12": "npm run gate:phase11 && node --test gates/phase-12-ui-workbench.gate.test.js",
     "gate:phase13": "npm run gate:phase12 && node --test gates/phase-13-full.gate.test.js",
-    "test": "npm run gate:phase13 && npm run db:gate6",
+    "test": "npm run gate:phase13 && npm run db:gate7",
     "db:gate0": "node --test gates/db-phase-00-contract.gate.test.js",
     "db:gate1": "npm run db:gate0 && node --test gates/db-phase-01-raw-inventory.gate.test.js",
     "db:gate2": "npm run db:gate1 && node --test gates/db-phase-02-parser-policies.gate.test.js",
@@ -30,7 +30,8 @@
     "db:gate4": "npm run db:gate3 && node --test gates/db-phase-04-normalization-foundation.gate.test.js",
     "db:gate5": "npm run db:gate4 && node --test gates/db-phase-05-pipe-schedules.gate.test.js",
     "db:gate6": "npm run db:gate5 && node --test gates/db-phase-06-flanges.gate.test.js",
-    "db:test": "npm run db:gate6"
+    "db:gate7": "npm run db:gate6 && node --test gates/db-phase-07-valves.gate.test.js",
+    "db:test": "npm run db:gate7"
   },
   "engines": {
     "node": ">=20"
