@@ -1,32 +1,53 @@
 import { createAdapterGraph } from '../graph/createAdapterGraph.js';
+import { namespaceImportedIds } from '../uxml/namespaceImportedIds.js';
+import { unescapeXml } from '../uxml/xmlEscapes.js';
+import { ARRAY_SECTION_KEYS, SECTION_TAGS } from '../uxml/sectionNames.js';
 
 export function fromUxmlXml(xmlText, options = {}) {
   const text = String(xmlText || '').trim();
   const root = text.match(/^<UXML\b([^>]*)>/i);
   if (!root) throw new Error('UXML root element not found');
-  const attrs = parseAttributes(root[1]);
-  return createAdapterGraph({
+  const rootAttrs = parseAttributes(root[1]);
+  const graph = createAdapterGraph({
     now: options.now,
-    schemaVersion: attrs.schemaVersion || 'uxml-topology-v1',
-    profile: attrs.profile || 'UXML-TOPOLOGY-FULL',
-    header: readHeader(text),
-    components: readComponents(text),
+    schemaVersion: rootAttrs.schemaVersion || 'uxml-topology-v1',
+    profile: rootAttrs.profile || 'UXML-TOPOLOGY-FULL',
+    header: readObject(text, 'Header', defaultHeader(options.now)),
+    units: readObject(text, 'Units', undefined),
+    adapter: readObject(text, 'Adapter', undefined),
   });
+  for (const key of ARRAY_SECTION_KEYS) graph[key] = readArray(text, SECTION_TAGS[key]);
+  if (!graph.components.length) graph.components = readLegacyComponents(text);
+  return namespaceImportedIds(graph, options.idNamespace || '');
 }
 
-function readHeader(text) {
-  const header = readElementAttributes(text, 'Header');
+function defaultHeader(now) {
   return {
-    projectId: header.projectId || '',
-    modelId: header.modelId || '',
-    createdBy: header.createdBy || 'piping-adapter',
-    createdAt: header.createdAt || '1970-01-01T00:00:00.000Z',
-    purpose: header.purpose || 'cross-repo-piping-exchange',
-    notes: header.notes || '',
+    projectId: '',
+    modelId: '',
+    createdBy: 'piping-adapter',
+    createdAt: now || '1970-01-01T00:00:00.000Z',
+    purpose: 'cross-repo-piping-exchange',
+    notes: '',
   };
 }
 
-function readComponents(text) {
+function readObject(text, tag, fallback) {
+  const attrs = readElementAttributes(text, tag);
+  if (!attrs.data) return fallback;
+  return JSON.parse(unescapeXml(attrs.data));
+}
+
+function readArray(text, tag) {
+  const body = readElementBody(text, tag);
+  if (!body) return [];
+  return [...body.matchAll(/<Item\b([^/>]*?)\/>/gi)]
+    .map((match) => parseAttributes(match[1]).data)
+    .filter((data) => data != null)
+    .map((data) => JSON.parse(unescapeXml(data)));
+}
+
+function readLegacyComponents(text) {
   return [...text.matchAll(/<Component\b([^/>]*?)\/>/gi)].map((match) => {
     const attrs = parseAttributes(match[1]);
     return {
@@ -58,6 +79,11 @@ function readComponents(text) {
   });
 }
 
+function readElementBody(text, name) {
+  const match = text.match(new RegExp(`<${name}\\b[^>]*>([\\s\\S]*?)</${name}>`, 'i'));
+  return match ? match[1] : '';
+}
+
 function readElementAttributes(text, name) {
   const match = text.match(new RegExp(`<${name}\\b([^>]*)\\/?>(?:</${name}>)?`, 'i'));
   return match ? parseAttributes(match[1]) : {};
@@ -69,8 +95,4 @@ function parseAttributes(text) {
     attrs[match[1]] = unescapeXml(match[2]);
   }
   return attrs;
-}
-
-function unescapeXml(value) {
-  return value.replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&');
 }
