@@ -46,3 +46,9 @@ export {
   NORMALIZATION_DATASET_VERSION,
 } from './normalize/rowEnvelope.js';
 export { normalizeStagingRow, normalizeStagingRows } from './normalize/normalizeStagingRows.js';
+export {
+  valveKey,
+  parseValveTable,
+  buildValveIndex,
+  lookupValveRecord,
+} from './db/valveCatalog.js';

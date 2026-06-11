@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "family": "VALVE",
+    "phase": "DB_PHASE_07",
+    "sourceRoot": "docs/Pipedata/Database/Vlfl",
+    "generationMode": "SOURCE_TABLE_IN_REPO_SAMPLE_ROWS",
+    "sourceFile": "docs/Pipedata/Database/Vlfl/VLV1150.csv",
+    "sourceStandard": "ASME B16.10",
+    "sourceTableRows": 28,
+    "sampledRowCount": 2,
+    "notes": [
+      "Rows are source-backed samples from VLV1150.csv until the full valve family catalog is promoted.",
+      "N/A, SPA, and blank source values remain null with UNAVAILABLE basis and are never coerced to zero."
+    ]
+  },
+  "rows": [
+    {
+      "id": "VALVE|GATE|FLANGED|NPS8|CL150|RF",
+      "componentType": "VALVE",
+      "valveType": "GATE",
+      "endType": "FLANGED",
+      "nps": "8",
+      "dn": 200,
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV1150.csv",
+      "datasetVersion": "pipedata-db/2026.06.phase7",
+      "dataStatus": "READY",
+      "sourceRowNumber": 18,
+      "dimensions": {
+        "faceToFaceRfMm": { "value": 292, "basis": "SOURCE_VALUE", "sourceColumn": "RF-F/F", "unit": "mm" },
+        "faceToFaceRtjMm": { "value": 305, "basis": "SOURCE_VALUE", "sourceColumn": "RTJ F/F", "unit": "mm" },
+        "buttWeldLengthMm": { "value": 419, "basis": "SOURCE_VALUE", "sourceColumn": "BW-F/F", "unit": "mm" },
+        "heightMm": { "value": 960, "basis": "SOURCE_VALUE", "sourceColumn": "Height-HW", "unit": "mm" },
+        "handwheelDiaMm": { "value": 350, "basis": "SOURCE_VALUE", "sourceColumn": "Diam-HW", "unit": "mm" },
+        "rtjAddLengthMm": { "value": 13, "basis": "SOURCE_VALUE", "sourceColumn": "RTJ Add Len", "unit": "mm" },
+        "gapMm": { "value": 4, "basis": "SOURCE_VALUE", "sourceColumn": "gap", "unit": "mm" }
+      },
+      "weights": {
+        "rfRtjKg": { "value": 144, "basis": "SOURCE_VALUE", "sourceColumn": "RF/RTJ KG", "unit": "kg" },
+        "buttWeldKg": { "value": 122, "basis": "SOURCE_VALUE", "sourceColumn": "BW KG", "unit": "kg" }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV1150.csv",
+        "datasetVersion": "pipedata-db/2026.06.phase7",
+        "dataStatus": "READY",
+        "sourceRowNumber": 18
+      }
+    },
+    {
+      "id": "VALVE|GATE|FLANGED|NPS22|CL150|RF",
+      "componentType": "VALVE",
+      "valveType": "GATE",
+      "endType": "FLANGED",
+      "nps": "22",
+      "dn": 550,
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV1150.csv",
+      "datasetVersion": "pipedata-db/2026.06.phase7",
+      "dataStatus": "PARTIAL",
+      "sourceRowNumber": 25,
+      "dimensions": {
+        "faceToFaceRfMm": { "value": null, "basis": "UNAVAILABLE", "sourceColumn": "RF-F/F" },
+        "faceToFaceRtjMm": { "value": null, "basis": "UNAVAILABLE", "sourceColumn": "RTJ F/F" },
+        "buttWeldLengthMm": { "value": 762, "basis": "SOURCE_VALUE", "sourceColumn": "BW-F/F", "unit": "mm" },
+        "heightMm": { "value": 2400, "basis": "SOURCE_VALUE", "sourceColumn": "Height-HW", "unit": "mm" },
+        "handwheelDiaMm": { "value": 720, "basis": "SOURCE_VALUE", "sourceColumn": "Diam-HW", "unit": "mm" },
+        "rtjAddLengthMm": { "value": 13, "basis": "SOURCE_VALUE", "sourceColumn": "RTJ Add Len", "unit": "mm" },
+        "gapMm": { "value": 3, "basis": "SOURCE_VALUE", "sourceColumn": "gap", "unit": "mm" }
+      },
+      "weights": {
+        "rfRtjKg": { "value": 1250, "basis": "SOURCE_VALUE", "sourceColumn": "RF/RTJ KG", "unit": "kg" },
+        "buttWeldKg": { "value": 1000, "basis": "SOURCE_VALUE", "sourceColumn": "BW KG", "unit": "kg" }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV1150.csv",
+        "datasetVersion": "pipedata-db/2026.06.phase7",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 25
+      }
+    }
+  ]
+}
