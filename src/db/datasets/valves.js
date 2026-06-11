@@ -19,4 +19,17 @@ export const VALVES = Object.freeze([
     handwheelDiaMm: 350,
     weightKg: 144,
   },
+  {
+    standard: 'ASME B16.10',
+    source: 'PipeData sketch-only Vlbw1',
+    datasetVersion: 'pipedata-db/2026.06.phase5',
+    dataStatus: 'SKETCH_ONLY',
+    componentCode: 'Vlbw1',
+    valveType: 'GATE',
+    endType: 'BW',
+    nps: '8',
+    dn: '200',
+    classRating: '150',
+    facing: 'BW',
+  },
 ]);
