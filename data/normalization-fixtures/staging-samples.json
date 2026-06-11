@@ -1,0 +1,54 @@
+{
+  "pipe": {
+    "sourceId": "Database/Pipe/PIPE40.csv",
+    "sourceRowNumber": 4,
+    "raw": {
+      "nps": "4",
+      "schedule": "40",
+      "OD": "114.3",
+      "wall": "6.02",
+      "weight": "16.07"
+    },
+    "inferred": {
+      "family": "PIPE",
+      "subfamily": "SCHEDULE",
+      "unitSystem": "METRIC"
+    },
+    "diagnostics": []
+  },
+  "valve": {
+    "sourceId": "Database/Vlfl/VLV1150.csv",
+    "sourceRowNumber": 10,
+    "raw": {
+      "nps": "8",
+      "RF": "292",
+      "RTJ": "305",
+      "BW": "419",
+      "height": "960",
+      "weight": "144"
+    },
+    "inferred": {
+      "family": "VALVE",
+      "subfamily": "FLANGED",
+      "classRating": "150",
+      "unitSystem": "METRIC"
+    },
+    "diagnostics": []
+  },
+  "missingNumericValve": {
+    "sourceId": "Database/Vlfl/VLV1150.csv",
+    "sourceRowNumber": 11,
+    "raw": {
+      "nps": "8",
+      "RF": null,
+      "RTJ": "SPA",
+      "weight": ""
+    },
+    "inferred": {
+      "family": "VALVE",
+      "subfamily": "FLANGED",
+      "classRating": "150"
+    },
+    "diagnostics": []
+  }
+}

@@ -31,3 +31,18 @@ export { toSolid3dSpecs, assertNoInvalidSpecNumbers } from './solid3d/toSolid3dS
 export { toSemanticDxf } from './dxf/toSemanticDxf.js';
 export { fromSemanticDxf } from './dxf/fromSemanticDxf.js';
 export { createWorkbenchModel } from './ui/createWorkbenchModel.js';
+export {
+  VALUE_BASIS,
+  sourceValue,
+  numericSource,
+  derivedValue,
+  unavailable,
+  toFiniteNumber,
+} from './normalize/valueBasis.js';
+export {
+  makeNormalizedRow,
+  validateNormalizedRow,
+  collectTaggedValues,
+  NORMALIZATION_DATASET_VERSION,
+} from './normalize/rowEnvelope.js';
+export { normalizeStagingRow, normalizeStagingRows } from './normalize/normalizeStagingRows.js';
