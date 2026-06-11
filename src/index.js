@@ -8,3 +8,7 @@ export { createPipingGraphSlice } from './state/createPipingGraphSlice.js';
 export { assertExactGraphKeySet } from './validate/assertExactGraphKeySet.js';
 export { assertJsonSerializable } from './validate/assertJsonSerializable.js';
 export { assertUniversalInvariants } from './validate/assertUniversalInvariants.js';
+export { fromCsv } from './parse/fromCsv.js';
+export { fromRawText } from './parse/fromRawText.js';
+export { fromUxmlXml } from './parse/fromUxmlXml.js';
+export { classifyComponent } from './parse/classifyComponent.js';
