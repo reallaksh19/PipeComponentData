@@ -27,3 +27,7 @@ export { resolveConnectivity } from './connectivity/resolveConnectivity.js';
 export { toCeg } from './ceg/toCeg.js';
 export { fromCeg } from './ceg/fromCeg.js';
 export { toCanonicalGeometry } from './analysis/toCanonicalGeometry.js';
+export { toSolid3dSpecs, assertNoInvalidSpecNumbers } from './solid3d/toSolid3dSpecs.js';
+export { toSemanticDxf } from './dxf/toSemanticDxf.js';
+export { fromSemanticDxf } from './dxf/fromSemanticDxf.js';
+export { createWorkbenchModel } from './ui/createWorkbenchModel.js';
