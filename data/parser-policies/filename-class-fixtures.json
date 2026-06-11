@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "pipedata-filename-class-fixtures/v1",
+  "cases": [
+    { "filename": "VLV1150.csv", "expectedClass": "150", "expectedUnitSystem": "METRIC" },
+    { "filename": "VLV1300.csv", "expectedClass": "300", "expectedUnitSystem": "METRIC" },
+    { "filename": "VLV1600.csv", "expectedClass": "600", "expectedUnitSystem": "METRIC" },
+    { "filename": "VLV1900.csv", "expectedClass": "900", "expectedUnitSystem": "METRIC" },
+    { "filename": "VLV11500.csv", "expectedClass": "1500", "expectedUnitSystem": "METRIC" },
+    { "filename": "VLV12500.csv", "expectedClass": "2500", "expectedUnitSystem": "METRIC" },
+    { "filename": "VLV1_Imperial_150.csv", "expectedClass": "150", "expectedUnitSystem": "IMPERIAL" },
+    { "filename": "VLV1_Imperial_1500.csv", "expectedClass": "1500", "expectedUnitSystem": "IMPERIAL" }
+  ]
+}
