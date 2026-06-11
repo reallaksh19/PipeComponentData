@@ -2,6 +2,14 @@
   "src/index.js": [
     "ADAPTER_GRAPH_KEYS",
     "createAdapterGraph",
+    "patchComponent",
+    "addGraphDiagnostic",
+    "selectComponentById",
+    "createGraphHistory",
+    "commitGraph",
+    "undoGraph",
+    "redoGraph",
+    "createPipingGraphSlice",
     "assertExactGraphKeySet",
     "assertJsonSerializable",
     "assertUniversalInvariants"
