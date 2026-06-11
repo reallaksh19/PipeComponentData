@@ -59,7 +59,6 @@ jobs:
   gate-map:
     name: Gate map report
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     steps:
       - name: Checkout
@@ -84,7 +83,8 @@ jobs:
         run: |
           set +e
           status=0
-          for script in $(node -e "const p=require('./package.json'); console.log(Object.keys(p.scripts||{}).filter(k => /^gate:phase\d+$|^db:gate\d+$/.test(k)).sort().join(' '))"); do
+          scripts=$(node -e "const p=require('./package.json'); const keys=Object.keys(p.scripts||{}).filter(k => /^gate:phase\d+$|^db:gate\d+$/.test(k)); const n=s => Number((s.match(/\d+$/)||['0'])[0]); console.log(keys.sort((a,b)=>a.startsWith('db:')-b.startsWith('db:') || n(a)-n(b)).join(' '))")
+          for script in $scripts; do
             echo "::group::$script"
             npm run "$script"
             code=$?
@@ -92,4 +92,7 @@ jobs:
             echo "::endgroup::"
             if [ "$code" -ne 0 ]; then status=1; fi
           done
-          exit "$status"
+          if [ "$status" -ne 0 ]; then
+            echo "::warning::One or more exploratory gate-map scripts failed. The blocking Node gates job remains the source of truth."
+          fi
+          exit 0
