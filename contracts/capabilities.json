@@ -4,6 +4,11 @@
     "jsonRoundTrip": "SUPPORTED",
     "exactKeySet": "SUPPORTED"
   },
+  "STATE": {
+    "pureMutations": "SUPPORTED",
+    "graphHistory": "SUPPORTED",
+    "zustandSliceFactory": "SUPPORTED"
+  },
   "CSV_INPUT": {
     "fromCsv": "UNSUPPORTED"
   },
