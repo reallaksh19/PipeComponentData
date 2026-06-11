@@ -16,8 +16,12 @@
     "gate:phase7": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js gates/phase-03-inputs.gate.test.js gates/phase-04-pipedata-db.gate.test.js gates/phase-05-enrichment.gate.test.js gates/phase-06-connectivity.gate.test.js gates/phase-07-uxml-roundtrip.gate.test.js",
     "gate:phase8": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js gates/phase-03-inputs.gate.test.js gates/phase-04-pipedata-db.gate.test.js gates/phase-05-enrichment.gate.test.js gates/phase-06-connectivity.gate.test.js gates/phase-07-uxml-roundtrip.gate.test.js gates/phase-08-ceg-bridge.gate.test.js",
     "gate:phase9": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js gates/phase-03-inputs.gate.test.js gates/phase-04-pipedata-db.gate.test.js gates/phase-05-enrichment.gate.test.js gates/phase-06-connectivity.gate.test.js gates/phase-07-uxml-roundtrip.gate.test.js gates/phase-08-ceg-bridge.gate.test.js gates/phase-09-simplified-weight.gate.test.js",
-    "test": "npm run gate:phase9"
+    "gate:phase10": "npm run gate:phase9 && node --test gates/phase-10-solid3d.gate.test.js",
+    "gate:phase11": "npm run gate:phase10 && node --test gates/phase-11-dxf-sidecar.gate.test.js",
+    "gate:phase12": "npm run gate:phase11 && node --test gates/phase-12-ui-workbench.gate.test.js",
+    "gate:phase13": "npm run gate:phase12 && node --test gates/phase-13-full.gate.test.js",
+    "test": "npm run gate:phase13"
   },
-  "engines": { "node": ">=20" },
+  "engines": { "node": ">=22" },
   "devDependencies": {}
 }
