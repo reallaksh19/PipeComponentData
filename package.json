@@ -22,6 +22,6 @@
     "gate:phase13": "npm run gate:phase12 && node --test gates/phase-13-full.gate.test.js",
     "test": "npm run gate:phase13"
   },
-  "engines": { "node": ">=22" },
+  "engines": { "node": ">=20" },
   "devDependencies": {}
 }
