@@ -26,11 +26,15 @@ test('Phase 13: cumulative gate scripts are present through final phase', () => 
     assert.ok(pkg.scripts[`gate:phase${phase}`], `missing gate:phase${phase}`);
   }
   assertTestRuns(pkg.scripts.test, 'gate:phase13');
-  if (pkg.scripts['db:gate0']) assertTestRuns(pkg.scripts.test, 'db:gate0');
+  if (pkg.scripts['db:test']) assertDbGateRuns(pkg.scripts.test);
 });
 
 function assertTestRuns(script, command) {
   assert.ok(script?.includes(`npm run ${command}`), `test script must run ${command}`);
+}
+
+function assertDbGateRuns(script) {
+  assert.ok(/npm run db:(test|gate\d+)/.test(script ?? ''), 'test script must run a DB gate');
 }
 
 function listFiles(roots) {
