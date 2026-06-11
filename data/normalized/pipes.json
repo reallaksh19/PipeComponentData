@@ -1,0 +1,66 @@
+{
+  "schema": "pipedata-normalized-pipes/v1",
+  "summary": {
+    "rowCount": 489,
+    "readyRows": 384,
+    "partialRows": 105,
+    "sourceFileCount": 18,
+    "sourceFolder": "Database/Pipe",
+    "sourceArchiveSha256": "c3e50452e10a05e6e84c1c089f46a9ef4b4e24a155b153036b9dcf1afeeae408",
+    "datasetVersion": "pipedata-db/2026.06.dbphase5",
+    "statusPolicy": "Rows with N/A/SPA/blank numeric source cells remain PARTIAL with null values; blanks are never coerced to 0.",
+    "runtimeSeedPolicy": "Existing runtime screening seeds remain separate; source-table values in this dataset are authoritative for DB phases."
+  },
+  "sourceFiles": {
+    "Database/Pipe/PIPE10.csv": 30,
+    "Database/Pipe/PIPE100.csv": 27,
+    "Database/Pipe/PIPE10S.csv": 24,
+    "Database/Pipe/PIPE20.csv": 30,
+    "Database/Pipe/PIPE30.csv": 22,
+    "Database/Pipe/PIPE40.csv": 30,
+    "Database/Pipe/PIPE40S.csv": 24,
+    "Database/Pipe/PIPE5.csv": 27,
+    "Database/Pipe/PIPE60.csv": 24,
+    "Database/Pipe/PIPE80.csv": 30,
+    "Database/Pipe/PIPE80S.csv": 24,
+    "Database/Pipe/PIPEXS.csv": 30,
+    "Database/Pipe/PIPEXXS.csv": 22,
+    "Database/Pipe/Pipe120.csv": 25,
+    "Database/Pipe/Pipe140.csv": 25,
+    "Database/Pipe/Pipe160.csv": 17,
+    "Database/Pipe/pipe5s.csv": 24,
+    "Database/Pipe/pipestd.csv": 24
+  },
+  "rows": [
+    {
+      "id": "PIPE|NPS0+1/8|SCH10",
+      "componentType": "PIPE",
+      "nps": "0+1/8",
+      "dn": 6,
+      "schedule": "10",
+      "odMm": null,
+      "wallMm": null,
+      "halfOdMm": null,
+      "idMm": null,
+      "weightKgPerM": null,
+      "weightWithWaterKgPerM": null,
+      "momentOfInertiaSource": null,
+      "unitSystem": "METRIC",
+      "materialFamily": "CS",
+      "standard": "PROJECT_PIPE_TABLE",
+      "source": "Database/Pipe/PIPE10.csv",
+      "sourceRow": 2,
+      "datasetVersion": "pipedata-db/2026.06.dbphase5",
+      "dataStatus": "PARTIAL",
+      "valueBasis": {
+        "odMm": "UNAVAILABLE",
+        "wallMm": "UNAVAILABLE",
+        "halfOdMm": "UNAVAILABLE",
+        "idMm": "UNAVAILABLE",
+        "weightKgPerM": "UNAVAILABLE",
+        "weightWithWaterKgPerM": "UNAVAILABLE",
+        "momentOfInertiaSource": "UNAVAILABLE"
+      }
+    }
+  ]
+}
