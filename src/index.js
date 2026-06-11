@@ -1,5 +1,10 @@
 export { ADAPTER_GRAPH_KEYS } from './graph/adapterGraphKeys.js';
 export { createAdapterGraph } from './graph/createAdapterGraph.js';
+export { patchComponent } from './mutations/patchComponent.js';
+export { addGraphDiagnostic } from './mutations/addGraphDiagnostic.js';
+export { selectComponentById } from './selectors/selectComponentById.js';
+export { createGraphHistory, commitGraph, undoGraph, redoGraph } from './state/createGraphHistory.js';
+export { createPipingGraphSlice } from './state/createPipingGraphSlice.js';
 export { assertExactGraphKeySet } from './validate/assertExactGraphKeySet.js';
 export { assertJsonSerializable } from './validate/assertJsonSerializable.js';
 export { assertUniversalInvariants } from './validate/assertUniversalInvariants.js';
