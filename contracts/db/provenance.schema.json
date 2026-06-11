@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pipe-component-data/contracts/db/provenance.schema.json",
+  "title": "PipeData provenance contract",
+  "type": "object",
+  "required": [
+    "standard",
+    "source",
+    "datasetVersion",
+    "dataStatus"
+  ],
+  "properties": {
+    "standard": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "datasetVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dataStatus": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sourceRow": {
+      "type": [
+        "integer",
+        "string",
+        "null"
+      ]
+    },
+    "checksumSha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": true
+}
