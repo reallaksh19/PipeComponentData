@@ -10,5 +10,9 @@
   "phase1": {
     "name": "adaptergraph-core",
     "gate": "npm run gate:phase1"
+  },
+  "phase2": {
+    "name": "state-store-contract",
+    "gate": "npm run gate:phase2"
   }
 }
