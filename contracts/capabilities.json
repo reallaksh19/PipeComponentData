@@ -1,0 +1,14 @@
+{
+  "ADAPTER_GRAPH": {
+    "create": "SUPPORTED",
+    "jsonRoundTrip": "SUPPORTED",
+    "exactKeySet": "SUPPORTED"
+  },
+  "CSV_INPUT": {
+    "fromCsv": "UNSUPPORTED"
+  },
+  "UXML_ROUNDTRIP": {
+    "toUxmlXml": "UNSUPPORTED",
+    "fromUxmlXml": "UNSUPPORTED"
+  }
+}

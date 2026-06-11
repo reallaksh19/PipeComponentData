@@ -1,0 +1,19 @@
+{
+  "name": "pipe-component-data",
+  "version": "0.1.0",
+  "description": "Shared piping component data and adapter APIs for UXML, CEG, Solid3D, DXF, and analysis integrations.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "gate:phase0": "node --test gates/phase-00-contract.gate.test.js",
+    "gate:phase1": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js",
+    "test": "npm run gate:phase1"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {}
+}

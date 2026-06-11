@@ -1,0 +1,9 @@
+{
+  "src/index.js": [
+    "ADAPTER_GRAPH_KEYS",
+    "createAdapterGraph",
+    "assertExactGraphKeySet",
+    "assertJsonSerializable",
+    "assertUniversalInvariants"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "phase0": {
+    "name": "contracts",
+    "requiredDocs": [
+      "docs/adaptergraph-uxml-contract.md",
+      "docs/state-store-contract.md",
+      "docs/distribution-contract.md"
+    ]
+  },
+  "phase1": {
+    "name": "adaptergraph-core",
+    "gate": "npm run gate:phase1"
+  }
+}
