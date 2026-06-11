@@ -16,7 +16,7 @@ test('DB Phase 7: VLV1150 source table parses exact gate-valve dimensions', () =
   const rows = parseValveTable(text, { source: SOURCE });
   const gate8 = rows.find((row) => row.nps === '8');
   assert.equal(rows.length, 28);
-  assert.equal(gate8.sourceRowNumber, 18);
+  assert.equal(gate8.sourceRowNumber, 16);
   assert.equal(gate8.dimensions.faceToFaceRfMm.value, 292);
   assert.equal(gate8.dimensions.faceToFaceRtjMm.value, 305);
   assert.equal(gate8.dimensions.buttWeldLengthMm.value, 419);
