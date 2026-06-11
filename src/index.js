@@ -24,3 +24,5 @@ export {
 } from './db/provenance.js';
 export { enrichWithPipeData } from './enrich/enrichWithPipeData.js';
 export { resolveConnectivity } from './connectivity/resolveConnectivity.js';
+export { toCeg } from './ceg/toCeg.js';
+export { fromCeg } from './ceg/fromCeg.js';
