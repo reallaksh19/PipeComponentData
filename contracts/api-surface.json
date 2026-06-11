@@ -12,6 +12,10 @@
     "createPipingGraphSlice",
     "assertExactGraphKeySet",
     "assertJsonSerializable",
-    "assertUniversalInvariants"
+    "assertUniversalInvariants",
+    "fromCsv",
+    "fromRawText",
+    "fromUxmlXml",
+    "classifyComponent"
   ]
 }
