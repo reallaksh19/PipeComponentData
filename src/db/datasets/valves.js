@@ -1,0 +1,22 @@
+export const VALVES = Object.freeze([
+  {
+    standard: 'ASME B16.10',
+    source: 'PipeData Vlfl/VLV1150.csv',
+    datasetVersion: 'pipedata-db/2026.06.phase4',
+    dataStatus: 'VERIFIED_SCREENING',
+    componentCode: 'Vlfl1',
+    valveType: 'GATE',
+    endType: 'FLANGED',
+    nps: '8',
+    dn: '200',
+    classRating: '150',
+    facing: 'RF',
+    ffRfMm: 292,
+    ffRtjMm: 305,
+    ffBwMm: 419,
+    boreMm: 203,
+    heightMm: 960,
+    handwheelDiaMm: 350,
+    weightKg: 144,
+  },
+]);
