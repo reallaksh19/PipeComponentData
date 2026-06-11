@@ -1,13 +1,15 @@
 {
   "schema": "pipedata-normalized-pipes/v1",
   "summary": {
-    "rowCount": 489,
-    "readyRows": 384,
-    "partialRows": 105,
+    "sourceRowCount": 489,
+    "sourceReadyRows": 384,
+    "sourcePartialRows": 105,
+    "sampledRowCount": 2,
     "sourceFileCount": 18,
     "sourceFolder": "Database/Pipe",
     "sourceArchiveSha256": "c3e50452e10a05e6e84c1c089f46a9ef4b4e24a155b153036b9dcf1afeeae408",
     "datasetVersion": "pipedata-db/2026.06.dbphase5",
+    "generationMode": "SAMPLE_UNTIL_SOURCE_ARCHIVE_IN_REPO",
     "statusPolicy": "Rows with N/A/SPA/blank numeric source cells remain PARTIAL with null values; blanks are never coerced to 0.",
     "runtimeSeedPolicy": "Existing runtime screening seeds remain separate; source-table values in this dataset are authoritative for DB phases."
   },
@@ -33,11 +35,11 @@
   },
   "rows": [
     {
-      "id": "PIPE|NPS0+1/8|SCH10",
+      "id": "PIPE|NPS0+1/8|SCH40",
       "componentType": "PIPE",
       "nps": "0+1/8",
       "dn": 6,
-      "schedule": "10",
+      "schedule": "40",
       "odMm": null,
       "wallMm": null,
       "halfOdMm": null,
@@ -48,7 +50,7 @@
       "unitSystem": "METRIC",
       "materialFamily": "CS",
       "standard": "PROJECT_PIPE_TABLE",
-      "source": "Database/Pipe/PIPE10.csv",
+      "source": "Database/Pipe/PIPE40.csv",
       "sourceRow": 2,
       "datasetVersion": "pipedata-db/2026.06.dbphase5",
       "dataStatus": "PARTIAL",
@@ -60,6 +62,36 @@
         "weightKgPerM": "UNAVAILABLE",
         "weightWithWaterKgPerM": "UNAVAILABLE",
         "momentOfInertiaSource": "UNAVAILABLE"
+      }
+    },
+    {
+      "id": "PIPE|NPS4|SCH40",
+      "componentType": "PIPE",
+      "nps": "4",
+      "dn": 100,
+      "schedule": "40",
+      "odMm": 114.3,
+      "wallMm": 6.02,
+      "halfOdMm": 57.15,
+      "idMm": 102.26,
+      "weightKgPerM": 16.08,
+      "weightWithWaterKgPerM": 24.28,
+      "momentOfInertiaSource": 300.89,
+      "unitSystem": "METRIC",
+      "materialFamily": "CS",
+      "standard": "PROJECT_PIPE_TABLE",
+      "source": "Database/Pipe/PIPE40.csv",
+      "sourceRow": 14,
+      "datasetVersion": "pipedata-db/2026.06.dbphase5",
+      "dataStatus": "READY",
+      "valueBasis": {
+        "odMm": "SOURCE_VALUE",
+        "wallMm": "SOURCE_VALUE",
+        "halfOdMm": "SOURCE_VALUE",
+        "idMm": "SOURCE_VALUE",
+        "weightKgPerM": "SOURCE_VALUE",
+        "weightWithWaterKgPerM": "SOURCE_VALUE",
+        "momentOfInertiaSource": "SOURCE_VALUE"
       }
     }
   ]
