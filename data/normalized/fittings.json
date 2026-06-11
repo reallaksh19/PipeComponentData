@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "family": "FITTING",
+    "phase": "DB_PHASE_08",
+    "sourceRoot": "docs/Pipedata/Database/Ftbw",
+    "generationMode": "SOURCE_TABLE_IN_REPO_SAMPLE_ROWS",
+    "sourceFiles": [
+      "docs/Pipedata/Database/Ftbw/90Elbow40.csv",
+      "docs/Pipedata/Database/Ftbw/StraightTee40.csv",
+      "docs/Pipedata/Database/Ftbw/Cap40.csv"
+    ],
+    "sourceStandard": "ASME B16.9",
+    "sampledRowCount": 3
+  },
+  "rows": [
+    {
+      "id": "FITTING|ELBOW_90|NPS4|SCH40|METRIC",
+      "componentType": "FITTING",
+      "subtype": "ELBOW_90",
+      "nps": "4",
+      "dn": 100,
+      "schedule": "40",
+      "unitSystem": "METRIC",
+      "standard": "ASME B16.9",
+      "source": "docs/Pipedata/Database/Ftbw/90Elbow40.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase8",
+      "dataStatus": "READY",
+      "sourceRowNumber": 14,
+      "dimensions": {
+        "odMm": { "value": 114.3, "basis": "SOURCE_VALUE", "sourceColumn": "OD", "unit": "mm" },
+        "angleDeg": { "value": 90, "basis": "SOURCE_VALUE", "sourceColumn": "derived subtype angle", "unit": "deg" },
+        "centerToEndMm": { "value": 152, "basis": "SOURCE_VALUE", "sourceColumn": "90 ctr to end", "unit": "mm" },
+        "developedLengthMm": { "value": 238.761042, "basis": "DERIVED_VALUE", "formula": "arc length from center-to-end", "unit": "mm" }
+      },
+      "weights": {
+        "weightKg": { "value": 3.9, "basis": "SOURCE_VALUE", "sourceColumn": "WT KG", "unit": "kg" }
+      },
+      "diagnostics": []
+    },
+    {
+      "id": "FITTING|TEE_STRAIGHT|NPS4|SCH40|METRIC",
+      "componentType": "FITTING",
+      "subtype": "TEE_STRAIGHT",
+      "nps": "4",
+      "dn": 100,
+      "schedule": "40",
+      "unitSystem": "METRIC",
+      "standard": "ASME B16.9",
+      "source": "docs/Pipedata/Database/Ftbw/StraightTee40.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase8",
+      "dataStatus": "READY",
+      "sourceRowNumber": 14,
+      "dimensions": {
+        "odMm": { "value": 114, "basis": "SOURCE_VALUE", "sourceColumn": "od", "unit": "mm" },
+        "centerToEndMm": { "value": 105, "basis": "SOURCE_VALUE", "sourceColumn": "Ctr to E", "unit": "mm" },
+        "branchCenterToEndMm": { "value": 105, "basis": "SOURCE_VALUE", "sourceColumn": "M", "unit": "mm" }
+      },
+      "weights": {
+        "weightKg": { "value": 6, "basis": "SOURCE_VALUE", "sourceColumn": "wt", "unit": "kg" }
+      },
+      "diagnostics": []
+    },
+    {
+      "id": "FITTING|CAP|NPS4|SCH40|METRIC",
+      "componentType": "FITTING",
+      "subtype": "CAP",
+      "nps": "4",
+      "dn": 100,
+      "schedule": "40",
+      "unitSystem": "METRIC",
+      "standard": "ASME B16.9",
+      "source": "docs/Pipedata/Database/Ftbw/Cap40.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase8",
+      "dataStatus": "READY",
+      "sourceRowNumber": 14,
+      "dimensions": {
+        "odMm": { "value": 114, "basis": "SOURCE_VALUE", "sourceColumn": "od", "unit": "mm" },
+        "overCapMm": { "value": 64, "basis": "SOURCE_VALUE", "sourceColumn": "Over Cap-E", "unit": "mm" },
+        "overCapE1Mm": { "value": 76, "basis": "SOURCE_VALUE", "sourceColumn": "OverCap-E1", "unit": "mm" }
+      },
+      "weights": {
+        "weightKg": { "value": 1.6, "basis": "SOURCE_VALUE", "sourceColumn": "WT KG", "unit": "kg" }
+      },
+      "diagnostics": []
+    }
+  ]
+}
