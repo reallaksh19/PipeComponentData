@@ -2,10 +2,13 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import fs from 'node:fs';
 import path from 'node:path';
-import capabilities from '../contracts/capabilities.json' with { type: 'json' };
+
+function capabilities() {
+  return JSON.parse(fs.readFileSync('contracts/capabilities.json', 'utf8'));
+}
 
 test('Phase 13: capability matrix has supported output cells', () => {
-  const supported = Object.values(capabilities).flatMap((row) => Object.values(row)).filter((v) => v === 'SUPPORTED');
+  const supported = Object.values(capabilities()).flatMap((row) => Object.values(row)).filter((v) => v === 'SUPPORTED');
   assert.ok(supported.length >= 30);
 });
 
