@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "family": "FITTING",
+    "phase": "DB_PHASE_08",
+    "source": "data/normalized/fittings.json",
+    "keyFormat": "FITTING|{subtype}|NPS{nps}|SCH{schedule}|{unitSystem}",
+    "rowCount": 3
+  },
+  "byKey": {
+    "FITTING|ELBOW_90|NPS4|SCH40|METRIC": "FITTING|ELBOW_90|NPS4|SCH40|METRIC",
+    "FITTING|TEE_STRAIGHT|NPS4|SCH40|METRIC": "FITTING|TEE_STRAIGHT|NPS4|SCH40|METRIC",
+    "FITTING|CAP|NPS4|SCH40|METRIC": "FITTING|CAP|NPS4|SCH40|METRIC"
+  }
+}
