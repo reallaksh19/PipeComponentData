@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "pipedata-header-policy-fixtures/v1",
+  "cases": [
+    { "source": "Database/Vlfl/VLV1150.csv", "folder": "Vlfl", "type": "COUNT_PREFIXED", "headerRows": 2, "dataStartsAtRow": 3 },
+    { "source": "Database/Flan/Flg300.csv", "folder": "Flan", "type": "COUNT_PREFIXED", "headerRows": 2, "dataStartsAtRow": 3 },
+    { "source": "Database/Piwt/B36-10 2004.csv", "folder": "Piwt", "type": "PUBLISHED_DUAL_UNIT", "headerRows": 3, "dataStartsAtRow": 4 },
+    { "source": "Database/Pipe/PIPE40.csv", "folder": "Pipe", "type": "COUNT_PREFIXED", "headerRows": 2, "dataStartsAtRow": 3 },
+    { "source": "Database/Gensets/SearchFile.csv", "folder": "Gensets", "type": "APP_CONFIG_TABLE", "headerRows": 1, "dataStartsAtRow": 2 }
+  ]
+}
