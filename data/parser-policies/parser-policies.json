@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "pipedata-parser-policies/v1",
+  "defaults": {
+    "sentinelValues": ["", "N/A", "NA", "SPA"],
+    "blankNumericMeans": "NULL",
+    "classRatings": ["2500", "1500", "900", "600", "400", "300", "150"],
+    "filenameClassStrategy": "LONGEST_MATCH"
+  },
+  "folders": {
+    "Vlfl": {
+      "family": "VALVE",
+      "subfamily": "FLANGED",
+      "headerPolicy": { "type": "COUNT_PREFIXED", "headerRows": 2, "dataStartsAtRow": 3, "columnCountCell": true },
+      "filenamePolicy": { "classFromFilename": true, "unitFromFilename": true, "classStrategy": "LONGEST_MATCH" },
+      "columnPolicy": { "mode": "INDEXED", "duplicateNamesAllowed": false, "declaredIgnoredRanges": [] }
+    },
+    "Flan": {
+      "family": "FLANGE",
+      "subfamily": "ASME_B16_5",
+      "headerPolicy": { "type": "COUNT_PREFIXED", "headerRows": 2, "dataStartsAtRow": 3, "columnCountCell": true },
+      "rowExplosion": { "required": true, "subtypes": ["WN", "SO", "THREADED", "LAPPED", "BLIND"] },
+      "columnPolicy": { "mode": "INDEXED", "duplicateNamesAllowed": true, "declaredIgnoredRanges": [[45, 53]], "extrasPolicy": "MAPPED_OR_EXTRAS_OR_IGNORED" }
+    },
+    "Piwt": {
+      "family": "PIPE_AUX",
+      "subfamily": "PIPE_WEIGHT",
+      "headerPolicy": { "type": "PUBLISHED_DUAL_UNIT", "headerRows": 3, "dataStartsAtRow": 4, "columnCountCell": false },
+      "columnPolicy": { "mode": "INDEXED", "duplicateNamesAllowed": false, "declaredIgnoredRanges": [] },
+      "precedence": { "overlapsWith": ["Pipe"], "rule": "DECLARED_SOURCE_PRECEDENCE_REQUIRED" }
+    },
+    "Pipe": {
+      "family": "PIPE",
+      "subfamily": "ASME_PIPE",
+      "headerPolicy": { "type": "COUNT_PREFIXED", "headerRows": 2, "dataStartsAtRow": 3, "columnCountCell": true },
+      "columnPolicy": { "mode": "INDEXED", "duplicateNamesAllowed": false, "declaredIgnoredRanges": [] }
+    },
+    "Ftbw": {
+      "family": "FITTING",
+      "subfamily": "BUTTWELD",
+      "headerPolicy": { "type": "COUNT_PREFIXED", "headerRows": 2, "dataStartsAtRow": 3, "columnCountCell": true },
+      "columnPolicy": { "mode": "INDEXED", "duplicateNamesAllowed": true, "declaredIgnoredRanges": [] }
+    },
+    "Gensets": {
+      "family": "APP_CONFIG",
+      "subfamily": "GENERIC_CONFIG",
+      "headerPolicy": { "type": "APP_CONFIG_TABLE", "headerRows": 1, "dataStartsAtRow": 2, "columnCountCell": false },
+      "columnPolicy": { "mode": "CONFIG", "duplicateNamesAllowed": true, "declaredIgnoredRanges": [] }
+    }
+  }
+}

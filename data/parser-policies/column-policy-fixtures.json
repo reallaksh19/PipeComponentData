@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "pipedata-column-policy-fixtures/v1",
+  "cases": [
+    {
+      "folder": "Flan",
+      "source": "Database/Flan/Flg300.csv",
+      "duplicateNamesAllowed": true,
+      "rowExplosionRequired": true,
+      "declaredIgnoredRanges": [[45, 53]],
+      "requiredExplodedSubtypes": ["WN", "SO", "THREADED", "LAPPED", "BLIND"]
+    },
+    {
+      "folder": "Vlfl",
+      "source": "Database/Vlfl/VLV1150.csv",
+      "duplicateNamesAllowed": false,
+      "rowExplosionRequired": false,
+      "declaredIgnoredRanges": []
+    },
+    {
+      "folder": "Piwt",
+      "source": "Database/Piwt/B36-10 2004.csv",
+      "duplicateNamesAllowed": false,
+      "rowExplosionRequired": false,
+      "declaredIgnoredRanges": [],
+      "requiresDeclaredPrecedence": true
+    }
+  ]
+}
