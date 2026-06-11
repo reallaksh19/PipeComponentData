@@ -20,3 +20,4 @@ export {
   rowProvenance,
   validateDatasetProvenance,
 } from './db/provenance.js';
+export { enrichWithPipeData } from './enrich/enrichWithPipeData.js';
