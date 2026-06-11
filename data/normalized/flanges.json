@@ -10,8 +10,9 @@
     "columnCount": 54,
     "ignoredColumnRange": [45, 53],
     "datasetVersion": "pipedata-db/2026.06.dbphase6",
-    "generationMode": "SOURCE_TABLE_IN_REPO_EXPLODED_SAMPLE_ROWS",
-    "explosionPolicy": "Metric Flan rows are exploded into WN, SO, and BLIND normalized rows in the VI gate; threaded/lapped stay reserved for later phases."
+    "generationMode": "SOURCE_PATH_DECLARED_EXPLODED_SAMPLE_ROWS",
+    "sourceAvailability": "Full source CSV verification runs when docs/Pipedata/Database/Flan/*.csv files are committed in the checkout.",
+    "explosionPolicy": "Metric Flan rows are exploded into WN, SO, and BLIND normalized rows; threaded/lapped stay reserved for later phases."
   },
   "sourceFiles": {
     "docs/Pipedata/Database/Flan/Flg150.csv": 23,
