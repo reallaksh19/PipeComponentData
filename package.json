@@ -10,7 +10,8 @@
   "scripts": {
     "gate:phase0": "node --test gates/phase-00-contract.gate.test.js",
     "gate:phase1": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js",
-    "test": "npm run gate:phase1"
+    "gate:phase2": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js",
+    "test": "npm run gate:phase2"
   },
   "engines": {
     "node": ">=20"
