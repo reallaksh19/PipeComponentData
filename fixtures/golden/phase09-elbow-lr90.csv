@@ -1,2 +1,2 @@
 id,type,subtype,nps,schedule,x1,y1,z1,xc,yc,zc,x2,y2,z2
-E-4-LR90,ELBOW,LR90,4,40,0,0,0,152.4,0,0,152.4,152.4,0
+E-4-LR90,ELBOW,ELBOW_90_LR,4,40,0,0,0,152.4,0,0,152.4,152.4,0
