@@ -12,6 +12,8 @@ export { fromCsv } from './parse/fromCsv.js';
 export { fromRawText } from './parse/fromRawText.js';
 export { fromUxmlXml } from './parse/fromUxmlXml.js';
 export { classifyComponent } from './parse/classifyComponent.js';
+export { toUxmlXml } from './uxml/toUxmlXml.js';
+export { namespaceImportedIds } from './uxml/namespaceImportedIds.js';
 export { PHASE4_DATASETS } from './db/datasets/index.js';
 export { createPipeDataDb } from './db/createPipeDataDb.js';
 export {
