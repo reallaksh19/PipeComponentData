@@ -1,0 +1,9 @@
+
+1. Limited by a deflection 10mm 
+2. Limited by stress of 22 MPa
+3. Temperatures up to 400 deg C
+4. Young's modulus = 20339 MPa (Carbon Steel)
+5. Insulation density = 145 kg/m3
+6. Empty = line is carrying gas, air etc. 
+7. Full = line is carrying water.
+8. Corrosion allowance 1.5mm

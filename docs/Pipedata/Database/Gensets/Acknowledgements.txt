@@ -1,0 +1,17 @@
+						
+
+	ACKNOWLEDGEMENTS
+	The value in this software is in the efficient retrieval and display of engineering data. Zeataline takes 
+	no responsibility or credit for the source of this data. The data in pipedata-pro is generally available 
+	in the public domain as printed lists and tables and as standardised by American standardisation 
+	authorities. Some of the data in this software is based on manufacturing data which has become the 
+	accepted norm within the oil gas and chemical industries.
+		Zeataline wishes to thank all those manufacturers and authorities that have given their 
+	co-operation in the development of Pipedata-Pro.
+
+
+
+
+
+
+

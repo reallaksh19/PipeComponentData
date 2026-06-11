@@ -1,0 +1,169 @@
+Ftbw1,Buttwelded 45deg Elbow,Ft,,Buttwelded Components,ASME B16.9-2007
+Ftbw2,Buttwelded 90deg Long Radius Elbow,Ft,,Buttwelded Components,ASME B16.9-2007
+Ftbw3,Buttwelded 180deg Long Radius Return,Ft,,Buttwelded Components,ASME B16.9-2007
+Ftbw4,Buttwelded 90deg Short Radius Elbow,Ft,,Buttwelded Components,ASME B16.9-2007
+Ftbw5,Buttwelded 180deg Short Radius Return,Ft,,Buttwelded Components,ASME B16.9-2007
+Ftbw6,Buttwelded Equal Tee,Ft,,Buttwelded Components,ASME B16.9-2007
+Ftbw7,Buttwelded Reducing Tee,Ft,,Buttwelded Components,ASME B16.9-2007
+Ftbw8,Buttwelded Cap,Ft,,Buttwelded Components,ASME B16.9-2007
+Ftbw9,Buttwelded Concentric Reducer,Ft,,Buttwelded Components,ASME B16.9-2007
+Ftbw10,Buttwelded Eccentric Reducer,Ft,,Buttwelded Components,ASME B16.9-2007
+Ftbw11,Buttwelded Lap Joint Stub End,Ft,,Buttwelded Components,ASME B16.9-2007
+Ftsc1,Threaded 90deg Elbow,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc2,Threaded Tee,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc3,Threaded Cross,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc4,Threaded 45deg Elbow,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc5,Threaded 90deg Street Elbow,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc6,Threaded Coupling,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc7,Threaded Half Coupling,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc8,Threaded Cap,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc9,Threaded Square Head Plug,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc10,Threaded Hex Head Plug,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc11,Threaded Round Head Plug,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc12,Threaded Hex Head Bushing,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc13,Threaded Flush Bushing,Ft,,Threaded Components,ASME B16.11-2011
+Ftsc14,Threaded Female-Male Reducer,Ft,,Threaded Components,ASME Unadopted
+Ftsc15,Threaded Reducing Hex Nipple,Ft,,Threaded Components,ASME Unadopted
+Ftsc16,Threaded Reducing Coupling,Ft,,Threaded Components,ASME Unadopted
+Ftsc17,Threaded Hexangonal Nipple,Ft,,Threaded Components,ASME Unadopted
+Ftsc18,Threaded Welding Boss,Ft,,Threaded Components,ASME Unadopted
+Ftsc19,Threaded Union Elbow Female-Female,Ft,,Threaded Components,ASME Unadopted
+Ftsc20,Threaded Union Elbow Female-Male,Ft,,Threaded Components,ASME Unadopted
+Ftsc21,Threaded Union Tee Female-Female,Ft,,Threaded Components,ASME Unadopted
+Ftsc22,Threaded Union Tee Female-Male,Ft,,Threaded Components,ASME Unadopted
+Ftsc23,Threaded Union Female-Female,Ft,,Threaded Components,ASME Unadopted
+Ftsc24,Threaded Union Female-Male,Ft,,Threaded Components,ASME Unadopted
+Ftsc25,Thread Details,Ft,,Threaded Components,ASME B16.11-2011
+Ftsw1,Socketwelded 90deg Deg Elbow,Ft,,Socketwelded Components,ASME B16.11-2011
+Ftsw2,Socketwelded 45deg deg Elbow,Ft,,Socketwelded Components,ASME B16.11-2011
+Ftsw3,Socketwelded Tee,Ft,,Socketwelded Components,ASME B16.11-2011
+Ftsw4,Socketwelded Cross,Ft,,Socketwelded Components,ASME B16.11-2011
+Ftsw5,Socketwelded Coupling,Ft,,Socketwelded Components,ASME B16.11-2011
+Ftsw6,Socketwelded Half Coupling,Ft,,Socketwelded Components,ASME B16.11-2011
+Ftsw7,Socketwelded Cap,Ft,,Socketwelded Components,ASME B16.11-2011
+Ftsw8,Socketwelded Reducing Coupling,Ft,,Socketwelded Components,ASME Unadopted
+Ftsw9,Socketwelded Welding Boss,Ft,,Socketwelded Components,ASME Unadopted
+Ftsw10,Socketwelded Reducing Insert Type 1,Ft,,Socketwelded Components,ASME Unadopted
+Ftsw11,Socketwelded Reducing Insert Type 2,Ft,,Socketwelded Components,ASME Unadopted
+Ftsw12,Socketwelded Reducing Insert Type 3,Ft,,Socketwelded Components,ASME Unadopted
+Ftsw13,Socketwelded Union,Ft,,Socketwelded Components,ASME Unadopted
+Ftsw14,Socket Details,Ft,,Socketwelded Components,ASME B16.11-2011
+Flan1,WeldNeck Flange,Fl,,ASME B16.5 Flanges,ASME B16.5-2013
+Flan2,Slip On Flange,Fl,,ASME B16.5 Flanges,ASME B16.5-2013
+Flan3,Blind Flange,Fl,,ASME B16.5 Flanges,ASME B16.5-2013
+Flan4,Threaded Flange,Fl,,ASME B16.5 Flanges,ASME B16.5-2013
+Flan5,SocketWelded Flange,Fl,,ASME B16.5 Flanges,ASME B16.5-2013
+Flan6,Lapped Flange,Fl,,ASME B16.5 Flanges,ASME B16.5-2013
+Flan7,Long Welding Neck Flange,Fl,,ASME B16.5 Flanges,ASME B16.5-2013
+Flaa1,Series 'A' WeldNeck Flange,Fl,,ASME B16.47 Series A Flanges,ASME B16.47-2006
+Flaa2,Series 'A' Blind Flange,Fl,,ASME B16.47 Series A Flanges,ASME B16.47-2006
+Flap1,Series 'B' WeldNeck Flange,Fl,,ASME B16.47 Series B Flanges,ASME B16.47-2006
+Flap2,Series 'B' Blind Flange,Fl,,ASME B16.47 Series B Flanges,ASME B16.47-2006
+Orif1,Orifice Flange - WeldNeck,Fl,,Orifice Flanges,ASME B16.36-2009
+Orif2,Orifice Flange - Slip On,Fl,,Orifice Flanges,ASME B16.36-2009
+Orif3,Orifice Flange - Threaded,Fl,,Orifice Flanges,ASME B16.36-2009
+Flre1,Threaded Reducing Flange,Fl,,Reducing Flanges,ASME B16.5-2009
+Flre2,Slip-On Reducing Flange,Fl,,Reducing Flanges,ASME B16.5-2009
+Flco1,DESTEC ANSI Compact Flange,Fl,,Compact Flanges,
+Flco2,DESTEC ANSI Compact Swivel Flange,Fl,,Compact Flanges,
+Flco3,DESTEC ANSI Compact Bind Flange,Fl,,Compact Flanges,
+Fl6b1,API Type 6B Weldneck,Fl,,API Type 6B Flanges,ANSI/API SPEC 6A 2004
+Fl6b2,API Type 6B Threaded Flange,Fl,,API Type 6B Flanges,ANSI/API SPEC 6A 2004
+Fl6b3,API Type 6B Blind,Fl,,API Type 6B Flanges,ANSI/API SPEC 6A 2004
+Flbx1,API Type 6BX WeldNeck Flange,Fl,,API Type 6BX Flanges,ANSI/API SPEC 6A 2004
+Flbx2,API Type 6BX Blind and Test Flange,Fl,,API Type 6BX Flanges,ANSI/API SPEC 6A 2004
+Fldi1,Plate Flange,Fl,,DIN (EN) Flanges,
+Fldi2,Blind Flange,Fl,,DIN (EN) Flanges,
+Fldi3,Weldneck Flange,Fl,,DIN (EN) Flanges,
+Fldi4,Slip On Flange,Fl,,DIN (EN) Flanges,
+Fldi5,Threaded Flange,Fl,,DIN (EN) Flanges,
+Flhb1,Hub-Clamp Pipe Connector,Fl,,Hub and Clamp,
+Flbs1,BS 10 Flanges,Fl,,BS10 Flanges,BS 10
+Gflt1,Non Metallic Flat Ring for ASME B16.5 Flanges,Ga,,Non Metallic Flat Ring Gaskets,ASME B16.21-2011
+Gflt2,Non Metallic Flat Ring for ASME B16.47 Series A Flanges,Ga,,Non Metallic Flat Ring Gaskets,ASME B16.21-2011
+Gflt3,Non Metallic Flat Ring for ASME B16.47 Series B Flanges,Ga,,Non Metallic Flat Ring Gaskets,ASME B16.21-2011
+Gspr1,Spiral wound for ASME B16.5 Flanges,Ga,,Metallic Spiral Wound Gaskets,ASME B16.20-2012
+Gspr2,Spiral wound for ASME B16.47 Series A Flanges,Ga,,Metallic Spiral Wound Gaskets,ASME B16.20-2012
+Gspr3,Spiral wound for ASME B16.47 Series B Flanges,Ga,,Metallic Spiral Wound Gaskets,ASME B16.20-2012
+Grtj1,RTJ Soft Iron Ring type R,Ga,,Metallic Ring Type Joint,ASME B16.20-2012
+Grtj2,RTJ Soft Iron Ring RX,Ga,,Metallic Ring Type Joint,ASME B16.20-2012
+Grtj3,RTJ Soft Iron Ring BX,Ga,,Metallic Ring Type Joint,ASME B16.20-2012
+Vlfl1,Flanged Gate Valve,Vl,,Flanged Valves,ASME B16.10-2009
+Vlfl2,Flanged Globe Valve,Vl,,Flanged Valves,ASME B16.10-2009
+Vlfl3,Flanged Ball Valve,Vl,,Flanged Valves,ASME B16.10-2009
+Vlfl4,Flanged Control Valve,Vl,,Flanged Valves,ASME B16.10-2009
+Vlfl5,Flanged Swing Check Valve,Vl,,Flanged Valves,ASME B16.10-2009
+Vlfl6,Flanged Wafer Check Valve,Vl,,Flanged Valves,API 594
+Vlfl7,Wafer type Butterfly Valves,Vl,,Flanged Valves,ASME B16.10-2009
+Vlfl8,Lug type Butterfly Valves,Vl,,Flanged Valves,ASME B16.10-2009
+Vlbw1,ButtWelded Gate Valve,Vl,,Buttwelded Valves,ASME B16.10-2009
+Vlbw2,ButtWelded Globe Valve,Vl,,Buttwelded Valves,ASME B16.10-2009
+Vlbw3,ButtWelded Ball Valve,Vl,,Buttwelded Valves,ASME B16.10-2009
+Vlbw4,ButtWelded Swing Check Valve,Vl,,Buttwelded Valves,ASME B16.10-2009
+Vlsc1,Threaded Gate Valve,Vl,,Threaded Valves,API 602
+Vlsc2,Threaded Globe Valve,Vl,,Threaded Valves,API 602
+Vlsc3,Threaded Horizontal Check Valve,Vl,,Threaded Valves,API 602
+Vlsc4,Threaded Vertical Check Valve,Vl,,Threaded Valves,API 602
+Vlsc5,Threaded Ball Valve,Vl,,Threaded Valves,API 602
+Vlsw1,SW Gate Valve,Vl,,SW Valves,API 602
+Vlsw2,SW Globe Valve,Vl,,SW Valves,API 602
+Vlsw3,SW Horizontal Check Valve,Vl,,SW Valves,API 602
+Vlsw4,SW Vertical Check Valve,Vl,,SW Valves,API 602
+Vlsw5,SW Ball Valve,Vl,,SW Valves,API 603
+Wbol1,Weldolet,Wb,,Olets,
+Wbol2,Elbowlet,Wb,,Olets,
+Wbol3,Latrolet,Wb,,Olets,
+Wbol4,Threadolet,Wb,,Olets,
+Wbol5,Threaded Elbowolet,Wb,,Olets,
+Wbol6,Threaded Latrolet,Wb,,Olets,
+Wbol7,Sockolet,Wb,,Olets,
+Wbol8,Socketweld Elbolet,Wb,,Olets,
+Wbol9,Socketweld Latrolet,Wb,,Olets,
+Wbol10,Weldoflange,Wb,,Olets,
+Wbol11,Elboflange,Wb,,Olets,
+Wbol12,Latroflange,Wb,,Olets,
+Wbol13,Nipoflange,Wb,,Olets,
+Wbpi1,ButtWelded Pipet,Wb,,Pipets,
+Wbpi2,Elbow Pipet,Wb,,Pipets,
+Wbpi3,Lateral Pipet,Wb,,Pipets,
+Wbpi4,Threaded Pipet,Wb,,Pipets,
+Wbpi5,Elbow Threaded Pipet,Wb,,Pipets,
+Wbpi6,Lateral Threaded Pipet,Wb,,Pipets,
+Wbpi7,SocketWelded Pipet,Wb,,Pipets,
+Wbpi8,Elbow SocketWelded Pipet,Wb,,Pipets,
+Wbpi9,Lateral SocketWelded Pipet,Wb,,Pipets,
+Wbpi10,Flanged Pipet,Wb,,Pipets,
+Wbpi11,Elbow Flanged Pipet,Wb,,Pipets,
+Wbpi12,Lateral Flanged Pipet,Wb,,Pipets,
+Nuts1,ISO Nuts,Wb,,Pipets,
+Nuts2,UNC Nuts,Wb,,Pipets,
+Blnu1,Figure-8 Blank,Bl,,Line Blanks - ASME B16.48,ASME B16.48-2010
+Blnu2,Paddle Blank and Spacer,Bl,,Line Blanks - ASME B16.48,ASME B16.48-2010
+Blnu3,RTJ Male Figure-8 Blank,Bl,,Line Blanks - ASME B16.48,ASME B16.48-2010
+Blnu4,RTJ Male Type Paddle Blank and Spacer,Bl,,Line Blanks - ASME B16.48,ASME B16.48-2010
+Blnd1,Spectacle Blind,Bl,,Blinds and Spades - European,
+Blnd2,Line Spade and Spacer,Bl,,Blinds and Spades - European,
+Blnd3,RTJ Male Type Reversible Spade,Bl,,Blinds and Spades - European,
+Blnd4,RTJ Male Type Line Spade,Bl,,Blinds and Spades - European,
+Fxly1,Pipe Leg,Fx,,Pipe Flexibility,
+Fxly2,Pipe Loop,Fx,,Pipe Flexibility,
+Span1,Recommended Pipe Span,Sp,,Safe Pipe Spans,
+Span2,General safe spans,Sp,,Safe Pipe Spans,
+Gpas1,Safe Pipe Spacing,Gp,,Pipe Spacing,
+Gpas2,Safe Pipe Spacing with Insulation,Gp,,Pipe Spacing,
+Gpas3,Safe Flanged Pipe Spacing,Gp,,Pipe Spacing,
+Gpas4,Safe Flanged Pipe Spacing With Insulation,Gp,,Pipe Spacing,
+Pipe1,Pipe by Schedule,Pi,,ASME Pipe,ASME B36.10M/19M-2004
+SrrA1,Y Type Strainer Flanged,Sr,,Strainers,
+SrrA2,Y Type Strainer Buttwelded,Sr,,Strainers,
+SrrA3,Y Type Strainer Threaded,Sr,,Strainers,
+SrrA4,Y Type Strainer Socketwelded,Sr,,Strainers,
+SrrB1,Basket Type Strainer,Sr,,Strainers,
+SrrB2,Basket Type Strainer Duplex,Sr,,Strainers,
+SrrB3,Basket Type Strainer Duplex Skid Mounted,Sr,,Strainers,
+SrrC1,Witch Hat Type Strainer,Sr,,Strainers,
+SrrD1,Top Hat Strainer,Sr,,Strainers,
+SrrE1,Bath Tub Stainer,Sr,,Strainers,
+Fswa1,Concentric Swage Nipple,Fs,,Swage and Pipe Nipples,MSS-SP-2006
+Fswa2,Eccentric Swages Nipple,Fs,,Swage and Pipe Nipples,MSS-SP-2006
+Fswa3,Pipe Nipple,Fs,,Swage and Pipe Nipples,MSS-SP-2006

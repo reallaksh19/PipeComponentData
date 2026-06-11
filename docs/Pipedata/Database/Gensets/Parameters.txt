@@ -1,0 +1,3 @@
+MATERIAL
+Unless otherwise stated all material weights and mechanical properties are
+based on carbon steel.

@@ -1,0 +1,9 @@
+						
+
+	Tolerances in inches
+	Width of ring +/- 0.008"
+	Height of ring +/- 0.02"
+	Width of end flat on octagonal ring +/- 0.008"
+	Average pith diameter of ring +/- 0.007"
+	Corner radius on octagonal ring +/- 0.02"
+	Angle +/- 1/2 deg

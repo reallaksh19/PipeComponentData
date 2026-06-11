@@ -1,0 +1,19 @@
+13,2,3,4,5,6,7,8,9,10,11,12,13
+Control Valve NB inches,Control Valve NB mm,RF Face to Face,RTJ Face to Face,Height,Diaphram Diameter,Side HW Standout,Side HW Diameter,N/A,N/A,weight RF/RTJ,weight BW,Note1
+0+1/4,8,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,In Header
+0+3/8,10,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,In Header
+0+1/2,15,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,5,3,In Header
+0+3/4,20,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,7.5,5.5,In Header
+1,25,7.25,7.75,30.625,11.375,11.375,12,N/A,N/A,10,7,In Header
+1+1/4,32,7.875,8.375,30.625,11.375,11.375,12,N/A,N/A,14,10,In Header
+1+1/2,40,8.75,9.25,35.375,13.125,11.375,12,N/A,N/A,18,15,In Header
+2,50,10,10.5,40.375,13.125,11.375,12,N/A,N/A,23.6,18,In Header
+2+1/2,65,N/A,N/A,40.375,13.125,11.375,12,N/A,N/A,43,34,In Header
+3,80,11.75,12.25,42,13.125,11.375,12,N/A,N/A,43,34,In Header
+3+1/2,90,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,In Header
+4,100,13.875,14.375,49,16,14.75,14.03125,N/A,N/A,61.2,48,In Header
+5,130,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,In Header
+6,150,17.75,18.25,57,16,15,15,N/A,N/A,108.8,88,In Header
+8,200,21.375,21.75,58,18.625,15,15,N/A,N/A,170.5,136,In Header
+10,250,26.5,27,71.75,21,15,15,N/A,N/A,276.6,228,In Header
+12,300,29,29.5,72,21,15,15,N/A,N/A,385.5,313,In Header

@@ -1,0 +1,16 @@
+21,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21
+NPS,DN,RF-F/F,RTJ-F/F,BW-F/F,Height,Lever Length,Hand Wheel Spindle Height,Hand Wheel Diameter,Hand Wheel Spindle Length,Hand Wheel Spindle Offset,weight RF/RTJ,weight BW,RF-F/F Short Pattern,RTJ-F/F Sort Pattern,BW-F/F Short Pattern,RTJ Addition,RTJ Gap,Long Pattern,Short Pattern,Section - Full Bore Valve
+0+1/2,15,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,30,25,N/A,N/A,N/A,0,4,Long Pattern,Short Pattern,Section - Full Bore Valve
+0+3/4,20,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,40,27,N/A,N/A,N/A,0,4,Long Pattern,Short Pattern,Section - Full Bore Valve
+1,25,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,60,29,N/A,N/A,N/A,0,4,Long Pattern,Short Pattern,Section - Full Bore Valve
+1+1/4,32,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,65,32,N/A,N/A,N/A,3,3,Long Pattern,Short Pattern,Section - Full Bore Valve
+1+1/2,40,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,70,40,N/A,N/A,N/A,3,3,Long Pattern,Short Pattern,Section - Full Bore Valve
+2,50,451,454,451,215,915,171,635,330,75,71,45,N/A,N/A,N/A,3,3,Long Pattern,Short Pattern,Section - Full Bore Valve
+2+1/2,65,508,514,508,215,915,N/A,N/A,N/A,N/A,71,50,N/A,N/A,N/A,6,3,Long Pattern,Short Pattern,Section - Full Bore Valve
+3,80,578,584,578,265,915,215,635,330,101,71,59,N/A,N/A,N/A,6,3,Long Pattern,Short Pattern,Section - Full Bore Valve
+4,100,673,683,673,311,915,275,635,330,133,130,112,N/A,N/A,N/A,10,4,Long Pattern,Short Pattern,Section - Full Bore Valve
+5,125,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,,N/A,N/A,N/A,N/A,N/A,13,4,Long Pattern,Short Pattern,Section - Full Bore Valve
+6,150,914,927,914,N/A,N/A,361,635,400,222,290,233,N/A,N/A,N/A,13,4,Long Pattern,Short Pattern,Section - Full Bore Valve
+8,200,1022,1038,1022,N/A,N/A,348,1120,514,241,590,462,N/A,N/A,N/A,16,5,Long Pattern,Short Pattern,Section - Full Bore Valve
+10,250,1270,1292,1270,N/A,N/A,482,1120,514,241,1145,871,N/A,N/A,N/A,22,6,Long Pattern,Short Pattern,Section - Full Bore Valve
+12,300,1422,1444,1422,N/A,N/A,520,1120,514,241,1621,1208,N/A,N/A,N/A,22,8,Long Pattern,Short Pattern,Section - Full Bore Valve
