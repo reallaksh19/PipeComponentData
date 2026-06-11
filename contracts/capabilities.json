@@ -1,8 +1,68 @@
 {
-  "PIPE": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" },
-  "FLANGE": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" },
-  "VALVE": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" },
-  "SUPPORT": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" },
-  "ELBOW": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" },
-  "TEE": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" }
+  "PIPE": {
+    "fromCsv": "SUPPORTED",
+    "fromRawText": "SUPPORTED",
+    "fromUxmlXml": "SUPPORTED",
+    "toUxmlXml": "SUPPORTED",
+    "toCeg": "SUPPORTED",
+    "fromCeg": "SUPPORTED",
+    "toCanonicalGeometry": "SUPPORTED",
+    "toSolid3dSpecs": "SUPPORTED",
+    "toSemanticDxf": "SUPPORTED"
+  },
+  "FLANGE": {
+    "fromCsv": "SUPPORTED",
+    "fromRawText": "SUPPORTED",
+    "fromUxmlXml": "SUPPORTED",
+    "toUxmlXml": "SUPPORTED",
+    "toCeg": "SUPPORTED",
+    "fromCeg": "SUPPORTED",
+    "toCanonicalGeometry": "SUPPORTED",
+    "toSolid3dSpecs": "SUPPORTED",
+    "toSemanticDxf": "SUPPORTED"
+  },
+  "VALVE": {
+    "fromCsv": "SUPPORTED",
+    "fromRawText": "SUPPORTED",
+    "fromUxmlXml": "SUPPORTED",
+    "toUxmlXml": "SUPPORTED",
+    "toCeg": "SUPPORTED",
+    "fromCeg": "SUPPORTED",
+    "toCanonicalGeometry": "SUPPORTED",
+    "toSolid3dSpecs": "SUPPORTED",
+    "toSemanticDxf": "SUPPORTED"
+  },
+  "SUPPORT": {
+    "fromCsv": "SUPPORTED",
+    "fromRawText": "SUPPORTED",
+    "fromUxmlXml": "SUPPORTED",
+    "toUxmlXml": "SUPPORTED",
+    "toCeg": "SUPPORTED",
+    "fromCeg": "SUPPORTED",
+    "toCanonicalGeometry": "SUPPORTED",
+    "toSolid3dSpecs": "SUPPORTED",
+    "toSemanticDxf": "SUPPORTED"
+  },
+  "ELBOW": {
+    "fromCsv": "SUPPORTED",
+    "fromRawText": "SUPPORTED",
+    "fromUxmlXml": "SUPPORTED",
+    "toUxmlXml": "SUPPORTED",
+    "toCeg": "SUPPORTED",
+    "fromCeg": "SUPPORTED",
+    "toCanonicalGeometry": "SUPPORTED",
+    "toSolid3dSpecs": "SUPPORTED",
+    "toSemanticDxf": "SUPPORTED"
+  },
+  "TEE": {
+    "fromCsv": "SUPPORTED",
+    "fromRawText": "SUPPORTED",
+    "fromUxmlXml": "SUPPORTED",
+    "toUxmlXml": "SUPPORTED",
+    "toCeg": "SUPPORTED",
+    "fromCeg": "SUPPORTED",
+    "toCanonicalGeometry": "SUPPORTED",
+    "toSolid3dSpecs": "SUPPORTED",
+    "toSemanticDxf": "SUPPORTED"
+  }
 }
