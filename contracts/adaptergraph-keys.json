@@ -1,0 +1,19 @@
+[
+  "adapter",
+  "anchors",
+  "components",
+  "diagnostics",
+  "header",
+  "lossContract",
+  "mappings",
+  "pipelines",
+  "ports",
+  "profile",
+  "rayEvidence",
+  "schemaVersion",
+  "segments",
+  "sources",
+  "supports",
+  "topologyHints",
+  "units"
+]

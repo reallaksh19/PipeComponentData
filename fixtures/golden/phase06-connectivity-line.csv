@@ -1,0 +1,8 @@
+id,type,subtype,nps,schedule,class,face,endtype,x1,y1,z1,x2,y2,z2,xb,yb,zb
+P1,PIPE,,4,40,,,,0,0,0,100,0,0,,,
+FL1,FLANGE,WN,4,,300,RF,FLANGED,100,0,0,110,0,0,,,
+V1,VALVE,GATE,8,,150,RF,FLANGED,110,0,0,140,0,0,,,
+P2,PIPE,,4,40,,,,140,0,0,300,0,0,,,
+E1,ELBOW,LR90,4,40,,,,300,0,0,350,50,0,,,
+T1,TEE,EQUAL,4,40,,,,350,50,0,450,50,0,400,100,0
+P3,PIPE,,4,40,,,,450,50,0,550,50,0,,,

@@ -1,25 +1,31 @@
 # PipeComponentData
 
-Shared, gate-driven piping adapter and component-data package.
+Shared piping component data and adapter APIs for UXML, CEG, PipeData, Solid3D, DXF, and analysis integrations.
 
-## Current phase
+## Delivery model
 
-Phase 0/1 scaffold is implemented:
-
-- UXML-shaped `AdapterGraph` contract.
-- Exact top-level key gate.
-- JSON serializability gate.
-- Contract checksum gate.
-- Public API surface lock placeholder.
-- No module may exceed 200 lines.
-
-## Run
+This repo uses phase gates. Each phase is cumulative: later gates must keep earlier gates green.
 
 ```bash
+npm run gate:phase0
 npm run gate:phase1
-npm run check:line-count
 ```
 
-## Design rule
+## Phase 0/1 scope
 
-`AdapterGraph` is the cross-repo exchange object. It follows the UXML object model and remains plain JSON. Renderers, stores, DXF, CEG, and Simplified outputs are projections.
+Implemented now:
+
+- AdapterGraph contract scaffold.
+- UXML-shaped `createAdapterGraph()`.
+- Exact top-level key gate.
+- JSON serializability gate.
+- API surface lock gate.
+- No module file above 200 lines.
+
+Not implemented yet:
+
+- CSV parser.
+- UXML reader/writer.
+- CEG bridge.
+- PipeData DB enrichment.
+- Solid3D renderer.
