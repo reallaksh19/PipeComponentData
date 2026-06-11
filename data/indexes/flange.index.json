@@ -1,0 +1,19 @@
+{
+  "schema": "pipedata-flange-index/v1",
+  "summary": {
+    "sampledRowCount": 3,
+    "sourceExplodedRowCount": 483,
+    "datasetVersion": "pipedata-db/2026.06.dbphase6"
+  },
+  "byKey": {
+    "FLANGE|WN|NPS4|CL300|METRIC": 0,
+    "FLANGE|SO|NPS4|CL300|METRIC": 1,
+    "FLANGE|BLIND|NPS4|CL300|METRIC": 2
+  },
+  "readyKeys": [
+    "FLANGE|WN|NPS4|CL300|METRIC",
+    "FLANGE|SO|NPS4|CL300|METRIC",
+    "FLANGE|BLIND|NPS4|CL300|METRIC"
+  ],
+  "partialKeys": []
+}
