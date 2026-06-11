@@ -1,19 +1,8 @@
 {
-  "ADAPTER_GRAPH": {
-    "create": "SUPPORTED",
-    "jsonRoundTrip": "SUPPORTED",
-    "exactKeySet": "SUPPORTED"
-  },
-  "STATE": {
-    "pureMutations": "SUPPORTED",
-    "graphHistory": "SUPPORTED",
-    "zustandSliceFactory": "SUPPORTED"
-  },
-  "CSV_INPUT": {
-    "fromCsv": "UNSUPPORTED"
-  },
-  "UXML_ROUNDTRIP": {
-    "toUxmlXml": "UNSUPPORTED",
-    "fromUxmlXml": "UNSUPPORTED"
-  }
+  "PIPE": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" },
+  "FLANGE": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" },
+  "VALVE": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" },
+  "SUPPORT": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" },
+  "ELBOW": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" },
+  "TEE": { "fromCsv": "SUPPORTED", "fromRawText": "SUPPORTED", "fromUxmlXml": "PLACEHOLDER" }
 }
