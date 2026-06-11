@@ -13,7 +13,8 @@
     "gate:phase4": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js gates/phase-03-inputs.gate.test.js gates/phase-04-pipedata-db.gate.test.js",
     "gate:phase5": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js gates/phase-03-inputs.gate.test.js gates/phase-04-pipedata-db.gate.test.js gates/phase-05-enrichment.gate.test.js",
     "gate:phase6": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js gates/phase-03-inputs.gate.test.js gates/phase-04-pipedata-db.gate.test.js gates/phase-05-enrichment.gate.test.js gates/phase-06-connectivity.gate.test.js",
-    "test": "npm run gate:phase6"
+    "gate:phase7": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js gates/phase-03-inputs.gate.test.js gates/phase-04-pipedata-db.gate.test.js gates/phase-05-enrichment.gate.test.js gates/phase-06-connectivity.gate.test.js gates/phase-07-uxml-roundtrip.gate.test.js",
+    "test": "npm run gate:phase7"
   },
   "engines": { "node": ">=20" },
   "devDependencies": {}
