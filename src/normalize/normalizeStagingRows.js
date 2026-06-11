@@ -28,7 +28,7 @@ function normalizePipe(row, options) {
       odMm: numericSource(od, 'mm'),
       wallMm: numericSource(wall, 'mm'),
       idMm: odNumber !== null && wallNumber !== null
-        ? derivedValue(odNumber - 2 * wallNumber, 'OD - 2 * WALL', { odMm: odNumber, wallMm: wallNumber }, 'mm')
+        ? derivedValue(roundDimension(odNumber - 2 * wallNumber), 'OD - 2 * WALL', { odMm: odNumber, wallMm: wallNumber }, 'mm')
         : unavailable('PIPE_ID_REQUIRES_OD_AND_WALL'),
     },
     weights: { weightKgPerM: numericSource(raw(row, ['weight', 'kg/m', 'wt']), 'kg/m') },
@@ -81,6 +81,10 @@ function provenance(row, options, standard, dataStatus = 'PARTIAL') {
 
 function sourceRef(row) {
   return { source: row.sourceId, rowNumber: row.sourceRowNumber };
+}
+
+function roundDimension(value, decimals = 6) {
+  return Number(value.toFixed(decimals));
 }
 
 function raw(row, names) {
