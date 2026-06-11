@@ -1,0 +1,13 @@
+{
+  "metadata": {
+    "family": "VALVE",
+    "phase": "DB_PHASE_07",
+    "source": "data/normalized/valves.json",
+    "keyFormat": "VALVE|{valveType}|{endType}|NPS{nps}|CL{classRating}|{facing}",
+    "rowCount": 2
+  },
+  "byKey": {
+    "VALVE|GATE|FLANGED|NPS8|CL150|RF": "VALVE|GATE|FLANGED|NPS8|CL150|RF",
+    "VALVE|GATE|FLANGED|NPS22|CL150|RF": "VALVE|GATE|FLANGED|NPS22|CL150|RF"
+  }
+}
