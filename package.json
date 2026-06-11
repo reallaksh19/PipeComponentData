@@ -11,7 +11,8 @@
     "gate:phase2": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js",
     "gate:phase3": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js gates/phase-03-inputs.gate.test.js",
     "gate:phase4": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js gates/phase-03-inputs.gate.test.js gates/phase-04-pipedata-db.gate.test.js",
-    "test": "npm run gate:phase4"
+    "gate:phase5": "node --test gates/phase-00-contract.gate.test.js gates/phase-01-adaptergraph.gate.test.js gates/phase-02-state.gate.test.js gates/phase-03-inputs.gate.test.js gates/phase-04-pipedata-db.gate.test.js gates/phase-05-enrichment.gate.test.js",
+    "test": "npm run gate:phase5"
   },
   "engines": { "node": ">=20" },
   "devDependencies": {}
