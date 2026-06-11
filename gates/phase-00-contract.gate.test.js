@@ -3,6 +3,7 @@ import test from 'node:test';
 import { access } from 'node:fs/promises';
 import { readJson } from './utils/readJson.js';
 import { readApiSurface } from './utils/apiSurface.js';
+import { listJsFiles, readSourceFile } from './utils/sourceFiles.js';
 
 const docs = [
   'docs/adaptergraph-uxml-contract.md',
@@ -28,11 +29,8 @@ test('public API surface matches lockfile', async () => {
 });
 
 test('module line count stays below 200 lines', async () => {
-  const files = ['src/index.js', 'src/graph/createAdapterGraph.js'];
-  for (const file of files) {
-    const lineCount = (await import('node:fs/promises'))
-      .readFile(file, 'utf8')
-      .then((text) => text.split('\n').length);
-    assert.ok((await lineCount) <= 200, `${file} exceeds 200 lines`);
+  for (const file of await listJsFiles('src')) {
+    const count = (await readSourceFile(file)).split('\n').length;
+    assert.ok(count <= 200, `${file} exceeds 200 lines`);
   }
 });
