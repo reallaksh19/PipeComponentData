@@ -25,8 +25,13 @@ test('Phase 13: cumulative gate scripts are present through final phase', () => 
   for (let phase = 0; phase <= 13; phase += 1) {
     assert.ok(pkg.scripts[`gate:phase${phase}`], `missing gate:phase${phase}`);
   }
-  assert.equal(pkg.scripts.test, 'npm run gate:phase13');
+  assertTestRuns(pkg.scripts.test, 'gate:phase13');
+  if (pkg.scripts['db:gate0']) assertTestRuns(pkg.scripts.test, 'db:gate0');
 });
+
+function assertTestRuns(script, command) {
+  assert.ok(script?.includes(`npm run ${command}`), `test script must run ${command}`);
+}
 
 function listFiles(roots) {
   return roots.flatMap((root) => walk(root));
