@@ -34,8 +34,15 @@ function defaultHeader(now) {
 
 function readObject(text, tag, fallback) {
   const attrs = readElementAttributes(text, tag);
-  if (!attrs.data) return fallback;
-  return JSON.parse(unescapeXml(attrs.data));
+  if (attrs.data) return JSON.parse(unescapeXml(attrs.data));
+  const plain = readPlainAttributes(attrs);
+  if (!plain) return fallback;
+  return fallback ? { ...fallback, ...plain } : plain;
+}
+
+function readPlainAttributes(attrs) {
+  const entries = Object.entries(attrs).filter(([key]) => key !== 'data');
+  return entries.length ? Object.fromEntries(entries) : null;
 }
 
 function readArray(text, tag) {
