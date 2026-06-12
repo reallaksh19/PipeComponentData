@@ -9,14 +9,14 @@
     "noFabrication": true,
     "noEngineeringFallback": true,
     "missingValuesRemainNull": true,
-    "purpose": "Coverage visibility only; this dashboard does not promote or synthesize engineering values."
+    "purpose": "Coverage visibility only; no engineering values are promoted by this dashboard."
   },
   "summary": {
     "familyCount": 6,
     "indexedEntryCount": 6,
     "normalizedRowCount": 15,
-    "indexedResolvedRowCount": 3,
-    "missingCatalogRows": 3,
+    "indexedResolvedRowCount": 6,
+    "missingCatalogRows": 0,
     "readyRows": 8,
     "partialRows": 2,
     "missingDimensionRows": 3,
@@ -30,8 +30,9 @@
     },
     "coverageStatusCounts": {
       "PARTIAL": 2,
-      "PARTIAL_SAMPLE": 1,
-      "INDEX_MISMATCH": 3
+      "PARTIAL_SAMPLE": 2,
+      "MISSING_DIMENSION": 1,
+      "PROJECT_OVERRIDE": 1
     },
     "unsupportedOrConfigOnlyFamilyCount": 2
   },
@@ -47,7 +48,10 @@
       "indexedResolvedRows": 1,
       "missingCatalogRows": 0,
       "normalizedRows": 2,
-      "statusCounts": { "PARTIAL": 1, "READY": 1 },
+      "statusCounts": {
+        "PARTIAL": 1,
+        "READY": 1
+      },
       "readyRows": 1,
       "partialRows": 1,
       "missingDimensionRows": 0,
@@ -61,7 +65,9 @@
         "sourcePartialRows": 105,
         "sampledRowCount": 2,
         "explodedRowCount": null,
-        "sourceFolders": ["Database/Pipe"],
+        "sourceFolders": [
+          "Database/Pipe"
+        ],
         "sourceRoots": [],
         "generationMode": "SAMPLE_UNTIL_SOURCE_ARCHIVE_IN_REPO"
       },
@@ -78,7 +84,9 @@
       "indexedResolvedRows": 1,
       "missingCatalogRows": 0,
       "normalizedRows": 3,
-      "statusCounts": { "READY": 3 },
+      "statusCounts": {
+        "READY": 3
+      },
       "readyRows": 3,
       "partialRows": 0,
       "missingDimensionRows": 0,
@@ -93,7 +101,9 @@
         "sampledRowCount": 3,
         "explodedRowCount": 483,
         "sourceFolders": [],
-        "sourceRoots": ["docs/Pipedata/Database/Flan"],
+        "sourceRoots": [
+          "docs/Pipedata/Database/Flan"
+        ],
         "generationMode": "SOURCE_PATH_DECLARED_EXPLODED_SAMPLE_ROWS"
       },
       "gaps": []
@@ -109,7 +119,10 @@
       "indexedResolvedRows": 1,
       "missingCatalogRows": 0,
       "normalizedRows": 2,
-      "statusCounts": { "READY": 1, "PARTIAL": 1 },
+      "statusCounts": {
+        "READY": 1,
+        "PARTIAL": 1
+      },
       "readyRows": 1,
       "partialRows": 1,
       "missingDimensionRows": 0,
@@ -124,7 +137,9 @@
         "sampledRowCount": 2,
         "explodedRowCount": null,
         "sourceFolders": [],
-        "sourceRoots": ["docs/Pipedata/Database/Vlfl"],
+        "sourceRoots": [
+          "docs/Pipedata/Database/Vlfl"
+        ],
         "generationMode": "SOURCE_TABLE_IN_REPO_SAMPLE_ROWS"
       },
       "gaps": []
@@ -134,13 +149,15 @@
       "path": "data/normalized/fittings.json",
       "schema": "pipedata-normalized-fittings/v1",
       "generationMode": "SOURCE_TABLE_IN_REPO_SAMPLE_ROWS",
-      "coverageStatus": "INDEX_MISMATCH",
+      "coverageStatus": "PARTIAL_SAMPLE",
       "unsupportedOrConfigOnly": false,
       "indexedRows": 1,
-      "indexedResolvedRows": 0,
-      "missingCatalogRows": 1,
+      "indexedResolvedRows": 1,
+      "missingCatalogRows": 0,
       "normalizedRows": 3,
-      "statusCounts": { "READY": 3 },
+      "statusCounts": {
+        "READY": 3
+      },
       "readyRows": 3,
       "partialRows": 0,
       "missingDimensionRows": 0,
@@ -155,30 +172,27 @@
         "sampledRowCount": 3,
         "explodedRowCount": null,
         "sourceFolders": [],
-        "sourceRoots": ["docs/Pipedata/Database/Ftbw"],
+        "sourceRoots": [
+          "docs/Pipedata/Database/Ftbw"
+        ],
         "generationMode": "SOURCE_TABLE_IN_REPO_SAMPLE_ROWS"
       },
-      "gaps": [
-        {
-          "code": "INDEXED_ROW_MISSING_FROM_CATALOG",
-          "family": "FITTING",
-          "id": "FITTING|BW|ELBOW90|NPS4|SCH40",
-          "source": "data/normalized/fittings.json"
-        }
-      ]
+      "gaps": []
     },
     "GASKET": {
       "family": "GASKET",
       "path": "data/normalized/gaskets.json",
       "schema": "pipedata-normalized-gaskets/v1",
       "generationMode": "SOURCE_INVENTORY_SELECTOR_ROWS_ONLY",
-      "coverageStatus": "INDEX_MISMATCH",
+      "coverageStatus": "MISSING_DIMENSION",
       "unsupportedOrConfigOnly": true,
       "indexedRows": 1,
-      "indexedResolvedRows": 0,
-      "missingCatalogRows": 1,
+      "indexedResolvedRows": 1,
+      "missingCatalogRows": 0,
       "normalizedRows": 3,
-      "statusCounts": { "MISSING_DIMENSION": 3 },
+      "statusCounts": {
+        "MISSING_DIMENSION": 3
+      },
       "readyRows": 0,
       "partialRows": 0,
       "missingDimensionRows": 3,
@@ -192,31 +206,32 @@
         "sourcePartialRows": null,
         "sampledRowCount": 3,
         "explodedRowCount": null,
-        "sourceFolders": ["Gflt", "Grtj", "Gspr"],
-        "sourceRoots": ["docs/Pipedata/Database"],
+        "sourceFolders": [
+          "Gflt",
+          "Grtj",
+          "Gspr"
+        ],
+        "sourceRoots": [
+          "docs/Pipedata/Database"
+        ],
         "generationMode": "SOURCE_INVENTORY_SELECTOR_ROWS_ONLY"
       },
-      "gaps": [
-        {
-          "code": "INDEXED_ROW_MISSING_FROM_CATALOG",
-          "family": "GASKET",
-          "id": "GASKET|RTJ|NPS4|CL300",
-          "source": "data/normalized/gaskets.json"
-        }
-      ]
+      "gaps": []
     },
     "SUPPORT": {
       "family": "SUPPORT",
       "path": "data/normalized/supports.json",
       "schema": "pipedata-normalized-supports/v1",
       "generationMode": "PROJECT_DEFAULT_AND_SOURCE_AVAILABILITY",
-      "coverageStatus": "INDEX_MISMATCH",
+      "coverageStatus": "PROJECT_OVERRIDE",
       "unsupportedOrConfigOnly": true,
       "indexedRows": 1,
-      "indexedResolvedRows": 0,
-      "missingCatalogRows": 1,
+      "indexedResolvedRows": 1,
+      "missingCatalogRows": 0,
       "normalizedRows": 2,
-      "statusCounts": { "PROJECT_OVERRIDE": 2 },
+      "statusCounts": {
+        "PROJECT_OVERRIDE": 2
+      },
       "readyRows": 0,
       "partialRows": 0,
       "missingDimensionRows": 0,
@@ -231,7 +246,10 @@
         "sampledRowCount": null,
         "explodedRowCount": null,
         "sourceFolders": [],
-        "sourceRoots": ["docs/Pipedata/Database/Span", "docs/Pipedata/Database/Gpas"],
+        "sourceRoots": [
+          "docs/Pipedata/Database/Span",
+          "docs/Pipedata/Database/Gpas"
+        ],
         "generationMode": "PROJECT_DEFAULT_AND_SOURCE_AVAILABILITY",
         "sourceAvailability": {
           "groups": 2,
@@ -241,36 +259,10 @@
           "fileCount": 14
         }
       },
-      "gaps": [
-        {
-          "code": "INDEXED_ROW_MISSING_FROM_CATALOG",
-          "family": "SUPPORT",
-          "id": "SUPPORT|SHOE|PROJECT_DEFAULT",
-          "source": "data/normalized/supports.json"
-        }
-      ]
+      "gaps": []
     }
   },
-  "gaps": [
-    {
-      "code": "INDEXED_ROW_MISSING_FROM_CATALOG",
-      "family": "FITTING",
-      "id": "FITTING|BW|ELBOW90|NPS4|SCH40",
-      "source": "data/normalized/fittings.json"
-    },
-    {
-      "code": "INDEXED_ROW_MISSING_FROM_CATALOG",
-      "family": "GASKET",
-      "id": "GASKET|RTJ|NPS4|CL300",
-      "source": "data/normalized/gaskets.json"
-    },
-    {
-      "code": "INDEXED_ROW_MISSING_FROM_CATALOG",
-      "family": "SUPPORT",
-      "id": "SUPPORT|SHOE|PROJECT_DEFAULT",
-      "source": "data/normalized/supports.json"
-    }
-  ],
+  "gaps": [],
   "diagnostics": [],
   "ok": true
 }
