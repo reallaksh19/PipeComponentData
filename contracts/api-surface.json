@@ -25,6 +25,8 @@
     "listDatasetRows",
     "rowProvenance",
     "validateDatasetProvenance",
+    "lookupComponentExact",
+    "LOOKUP_STATUS",
     "enrichWithPipeData",
     "resolveConnectivity",
     "toCeg",
