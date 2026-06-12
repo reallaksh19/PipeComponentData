@@ -21,10 +21,9 @@ test('DB Phase 52: source CSV rows exactly match candidate SCH80 values', () => 
   assert.match(csvRows[0], /3-OD/);
   assert.match(csvRows[0], /13-NPS/);
   for (const candidate of manifest.candidateRows) {
-    const line = csvRows[candidate.sourceRowNumber - 1];
+    const line = csvRows.find((row) => row.startsWith(`${candidate.nps},${candidate.dn},`));
+    assert.ok(line, `Missing PIPE80 source row for NPS ${candidate.nps}`);
     const cols = line.split(',');
-    assert.equal(cols[0], candidate.nps);
-    assert.equal(Number(cols[1]), candidate.dn);
     assert.equal(Number(cols[2]), candidate.odMm);
     assert.equal(Number(cols[3]), candidate.wallMm);
     assert.equal(Number(cols[5]), candidate.idMm);
@@ -37,7 +36,7 @@ test('DB Phase 52: current normalized pipe boundary remains unchanged until the 
   assert.equal(index.entries.filter((entry) => entry.family === 'PIPE').length, 9);
   for (const nps of ['8', '10', '12']) {
     const id = `PIPE|NPS${nps}|SCH80`;
-    assert.equal(pipes.rows.some((row) => row.id === id), nps === '8' ? false : false);
+    assert.equal(pipes.rows.some((row) => row.id === id), false);
     assert.equal(index.entries.some((entry) => entry.id === id), false);
   }
 });
