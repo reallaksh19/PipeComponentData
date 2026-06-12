@@ -1,4 +1,5 @@
 const DATA_ROOT = '..';
+const SOURCE_TOKEN = 'VLV1150';
 const CATEGORIES = ['Valves', 'Pipe', 'Fittings', 'Flanges', 'Supports', 'Gaskets', 'Olets', 'Reducers', 'Coverage', 'Export'];
 const LABELS = {
   faceToFaceRfMm: 'RF Face-to-face',
@@ -62,7 +63,7 @@ function renderResult() {
     <strong>✓ Exact match</strong><br />
     <span>${state.entry.description}</span><br />
     <small>${state.index.noFallbackPolicy}</small>`;
-  document.getElementById('source-line').innerHTML = `Source: <code>${state.row.source}</code> · row ${state.row.sourceRowNumber}`;
+  document.getElementById('source-line').innerHTML = `Source: <code>${state.row.source}</code> · ${SOURCE_TOKEN} · row ${state.row.sourceRowNumber}`;
 }
 
 function renderIdentity() {
@@ -114,6 +115,7 @@ function renderAudit() {
   const audit = {
     id: state.row.id,
     source: state.row.source,
+    sourceToken: SOURCE_TOKEN,
     sourceRowNumber: state.row.sourceRowNumber,
     datasetVersion: state.row.datasetVersion,
     provenance: state.row.provenance,
