@@ -107,9 +107,17 @@ test('UI Studio: Pages artifact workflow publishes minimal JSON and blocks raw D
   assert.match(workflow, /component-studio-app\.js\?v=/);
 });
 
-test('UI Studio: model and gate stay small', () => {
+test('UI Studio: browser smoke gate is wired without new dependencies', () => {
+  const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  assert.equal(pkg.scripts['ui:smoke'], 'node --test gates/ui-browser-smoke.gate.test.js');
+  assert.match(pkg.scripts['ui:gate'], /ui-browser-smoke\.gate\.test\.js/);
+  assert.deepEqual(pkg.devDependencies, {});
+});
+
+test('UI Studio: model and gates stay small', () => {
   assert.ok(lineCount('src/ui/createComponentStudioModel.js') <= 200);
   assert.ok(lineCount('gates/ui-component-studio.gate.test.js') <= 200);
+  assert.ok(lineCount('gates/ui-browser-smoke.gate.test.js') <= 300);
 });
 
 function valueOf(model, label) {
