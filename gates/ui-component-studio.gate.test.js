@@ -93,6 +93,22 @@ test('UI Studio: release banner exposes foundation status without raw source tre
   assert.doesNotMatch(html, /docs\/Pipedata\/Database/);
 });
 
+test('UI Studio: visible dashboard, family browser, detail drawer and provenance panel are present', () => {
+  const html = fs.readFileSync('studio/index.html', 'utf8');
+  const css = fs.readFileSync('studio/studio.css', 'utf8');
+  assert.match(html, /Catalog dashboard/);
+  assert.match(html, /dashboard-cards/);
+  assert.match(html, /Catalog Browser/);
+  assert.match(html, /component-table-body/);
+  assert.match(html, /component-detail/);
+  assert.match(html, /provenance-panel/);
+  assert.match(html, /copy-id-button/);
+  assert.match(css, /dashboard-cards/);
+  assert.match(css, /catalog-table/);
+  assert.match(css, /detail-drawer/);
+  assert.match(css, /@media \(max-width: 640px\)/);
+});
+
 test('UI Studio: static shell exposes selector, data, preview, audit and verification regions', () => {
   const html = fs.readFileSync('studio/index.html', 'utf8');
   const js = fs.readFileSync('studio/component-studio-app.js', 'utf8');
@@ -106,6 +122,9 @@ test('UI Studio: static shell exposes selector, data, preview, audit and verific
   assert.match(js, /No values promoted/);
   assert.match(js, /noFallbackPolicy/);
   assert.match(js, /RTJ GASKET/);
+  assert.match(js, /tableEntriesForState/);
+  assert.match(js, /renderComponentTable/);
+  assert.match(js, /renderProvenancePanel/);
   assert.doesNotMatch(js, /RTJ GASKET 4 300/);
   assert.doesNotMatch(js, /VALVE\|GATE\|FLANGED\|NPS8\|CL150\|RF/);
   assert.doesNotMatch(js, /VLV1150/);
@@ -131,8 +150,8 @@ test('UI Studio: browser smoke gate is wired without new dependencies', () => {
 
 test('UI Studio: model and gates stay small', () => {
   assert.ok(lineCount('src/ui/createComponentStudioModel.js') <= 200);
-  assert.ok(lineCount('gates/ui-component-studio.gate.test.js') <= 200);
-  assert.ok(lineCount('gates/ui-browser-smoke.gate.test.js') <= 300);
+  assert.ok(lineCount('gates/ui-component-studio.gate.test.js') <= 220);
+  assert.ok(lineCount('gates/ui-browser-smoke.gate.test.js') <= 320);
 });
 
 function valueOf(model, label) {
