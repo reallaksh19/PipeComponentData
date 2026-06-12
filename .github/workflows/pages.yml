@@ -45,12 +45,13 @@ jobs:
         shell: bash
         run: |
           rm -rf _site
-          mkdir -p _site/studio _site/data/indexes _site/data/normalized _site/data/search _site/data/audit
+          mkdir -p _site/studio _site/data/indexes _site/data/normalized _site/data/search _site/data/audit _site/data/exports
           cp -R studio/. _site/studio/
           cp data/indexes/component-search.index.json _site/data/indexes/
           cp data/normalized/*.json _site/data/normalized/
           cp data/search/component-aliases.json _site/data/search/
           cp data/audit/db-coverage-dashboard.json _site/data/audit/
+          cp data/exports/*.json _site/data/exports/
 
           BUILD_SHA="${GITHUB_SHA::12}"
           sed -i "s|./studio.css|./studio.css?v=${BUILD_SHA}|g" _site/studio/index.html
@@ -61,6 +62,8 @@ jobs:
           test -f _site/data/indexes/component-search.index.json
           test -f _site/data/search/component-aliases.json
           test -f _site/data/audit/db-coverage-dashboard.json
+          test -f _site/data/exports/db-export-manifest.json
+          test -f _site/data/exports/public-export-pack.manifest.json
           test -f _site/data/normalized/valves.json
 
           if [ -d _site/docs/Pipedata/Database ]; then
