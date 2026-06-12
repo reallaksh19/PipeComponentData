@@ -1,0 +1,33 @@
+{
+  "schema": "pipedata-pipe-full-schedule-preflight/v1",
+  "phase": "DB_PHASE_42",
+  "status": "PREFLIGHT_READY_NOT_PROMOTED",
+  "family": "PIPE",
+  "scope": {
+    "roadmapItem": "DATA-PIPE-FULL-SCHEDULES",
+    "promotionApplied": false,
+    "normalizedDataChanged": false,
+    "intendedNextPromotion": "source-backed pipe schedule expansion beyond current wave-1 samples"
+  },
+  "sourceEvidence": {
+    "requiredSourceFiles": [
+      "docs/Pipedata/Database/Pipe/PIPE40.csv",
+      "docs/Pipedata/Database/Pipe/PIPE80.csv"
+    ],
+    "sourceRoot": "docs/Pipedata/Database/Pipe",
+    "currentPromotedSchedules": ["40", "80"],
+    "futureScheduleReviewRequired": true
+  },
+  "currentBoundary": {
+    "normalizedRowsRemain": 10,
+    "indexedRowsRemain": 9,
+    "latestPromotionPhase": "DB_PHASE_47",
+    "productionComplete": false
+  },
+  "safetyRules": {
+    "noFabricatedEngineeringValues": true,
+    "noNearestScheduleFallback": true,
+    "missingValuesRemainNullOrUnavailable": true,
+    "sourceProvenanceRequired": true
+  }
+}

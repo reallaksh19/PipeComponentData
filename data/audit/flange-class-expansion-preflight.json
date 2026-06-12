@@ -1,0 +1,40 @@
+{
+  "schema": "pipedata-flange-class-expansion-preflight/v1",
+  "phase": "DB_PHASE_43",
+  "status": "PREFLIGHT_READY_NOT_PROMOTED",
+  "family": "FLANGE",
+  "scope": {
+    "roadmapItem": "DATA-FLANGE-MORE-CLASSES",
+    "promotionApplied": false,
+    "normalizedDataChanged": false,
+    "intendedNextPromotion": "source-backed WN/SO/BLIND flange expansion beyond Class 150/300"
+  },
+  "sourceEvidence": {
+    "alreadyPromotedSourceFiles": [
+      "docs/Pipedata/Database/Flan/Flg150.csv",
+      "docs/Pipedata/Database/Flan/Flg300.csv"
+    ],
+    "candidateSourceFiles": [
+      "docs/Pipedata/Database/Flan/Flg400.csv",
+      "docs/Pipedata/Database/Flan/Flg600.csv",
+      "docs/Pipedata/Database/Flan/Flg900.csv",
+      "docs/Pipedata/Database/Flan/Flg1500.csv",
+      "docs/Pipedata/Database/Flan/Flg2500.csv"
+    ],
+    "candidateClassRatings": ["400", "600", "900", "1500", "2500"],
+    "sourceRoot": "docs/Pipedata/Database/Flan"
+  },
+  "currentBoundary": {
+    "normalizedClassRatingsRemain": ["150", "300"],
+    "normalizedRowsRemain": 18,
+    "indexedRowsRemain": 18,
+    "latestPromotionPhase": "DB_PHASE_48",
+    "productionComplete": false
+  },
+  "safetyRules": {
+    "noFabricatedEngineeringValues": true,
+    "noNearestClassFallback": true,
+    "blindFlangeUnavailableFieldsRemainUnavailable": true,
+    "sourceProvenanceRequired": true
+  }
+}

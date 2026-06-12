@@ -162,6 +162,12 @@ jobs:
         run: node --test gates/db-phase-40-consumer-onboarding.gate.test.js
       - name: Run DB Phase 41 roadmap backlog gate
         run: node --test gates/db-phase-41-roadmap-backlog.gate.test.js
+      - name: Run DB Phase 42 pipe full schedule preflight gate
+        run: node --test gates/db-phase-42-pipe-full-schedule-preflight.gate.test.js
+      - name: Run DB Phase 43 flange class expansion preflight gate
+        run: node --test gates/db-phase-43-flange-class-expansion-preflight.gate.test.js
+      - name: Run DB Phase 44 valve type expansion preflight gate
+        run: node --test gates/db-phase-44-valve-type-expansion-preflight.gate.test.js
       - name: Run UI gates
         run: npm run ui:gate --if-present
 
