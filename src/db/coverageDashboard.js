@@ -2,39 +2,56 @@ const SCHEMA = 'pipedata-db-coverage-dashboard/v1';
 const PHASE = 'DB_PHASE_14';
 const NORMALIZED = 'NORMALIZED_DATA';
 
+const SUMMARY_KEYS = {
+  normalizedRows: 'normalizedRowCount',
+  indexedResolvedRows: 'indexedResolvedRowCount',
+  missingCatalogRows: 'missingCatalogRows',
+  readyRows: 'readyRows',
+  partialRows: 'partialRows',
+  missingDimensionRows: 'missingDimensionRows',
+  projectOverrideRows: 'projectOverrideRows',
+  unavailableFieldCount: 'unavailableFieldCount',
+};
+
 export function buildCoverageDashboard({ manifest, searchIndex, catalogs } = {}) {
   const entries = Array.isArray(searchIndex?.entries) ? searchIndex.entries : [];
-  const out = {
+  const dashboard = {
     schema: SCHEMA,
     phase: PHASE,
-    generatedFrom: { exportManifestSchema: manifest?.schema ?? null, searchIndexSchema: searchIndex?.schema ?? null },
+    generatedFrom: {
+      exportManifestSchema: manifest?.schema ?? null,
+      searchIndexSchema: searchIndex?.schema ?? null,
+    },
     policy: {
       noFabrication: true,
       noEngineeringFallback: true,
       missingValuesRemainNull: true,
-      purpose: 'Coverage visibility only; this dashboard does not promote or synthesize engineering values.',
+      purpose: 'Coverage visibility only; no engineering values are promoted by this dashboard.',
     },
     summary: emptySummary(entries.length),
     families: {},
     gaps: [],
     diagnostics: [],
   };
+
   for (const artifact of normalizedArtifacts(manifest)) {
     const catalog = catalogs?.[artifact.path] ?? catalogs?.[artifact.family];
     if (!catalog) {
-      out.diagnostics.push({ code: 'COVERAGE_CATALOG_UNREADABLE', path: artifact.path, family: artifact.family });
+      dashboard.diagnostics.push({ code: 'COVERAGE_CATALOG_UNREADABLE', path: artifact.path, family: artifact.family });
       continue;
     }
+
     const family = artifact.family ?? inferFamily(catalog, artifact.path);
     const familyEntries = entries.filter((entry) => entry.source === artifact.path || entry.family === family);
     const coverage = summarizeFamily(family, artifact, catalog, familyEntries);
-    out.families[family] = coverage;
-    out.gaps.push(...coverage.gaps);
-    mergeSummary(out.summary, coverage);
+    dashboard.families[family] = coverage;
+    dashboard.gaps.push(...coverage.gaps);
+    mergeSummary(dashboard.summary, coverage);
   }
-  out.summary.familyCount = Object.keys(out.families).length;
-  out.ok = out.diagnostics.length === 0;
-  return out;
+
+  dashboard.summary.familyCount = Object.keys(dashboard.families).length;
+  dashboard.ok = dashboard.diagnostics.length === 0;
+  return dashboard;
 }
 
 export function validateCoverageDashboard(dashboard) {
@@ -44,8 +61,11 @@ export function validateCoverageDashboard(dashboard) {
   if (!dashboard?.summary) diagnostics.push({ code: 'COVERAGE_SUMMARY_REQUIRED' });
   if (!dashboard?.families || typeof dashboard.families !== 'object') diagnostics.push({ code: 'COVERAGE_FAMILIES_REQUIRED' });
   if (!Array.isArray(dashboard?.gaps)) diagnostics.push({ code: 'COVERAGE_GAPS_REQUIRED' });
+
   const missing = dashboard?.gaps?.filter((gap) => gap.code === 'INDEXED_ROW_MISSING_FROM_CATALOG').length ?? 0;
-  if ((dashboard?.summary?.missingCatalogRows ?? 0) !== missing) diagnostics.push({ code: 'COVERAGE_MISSING_CATALOG_GAP_COUNT_MISMATCH' });
+  if ((dashboard?.summary?.missingCatalogRows ?? 0) !== missing) {
+    diagnostics.push({ code: 'COVERAGE_MISSING_CATALOG_GAP_COUNT_MISMATCH' });
+  }
   return { ok: diagnostics.length === 0, diagnostics };
 }
 
@@ -78,15 +98,15 @@ function summarizeFamily(family, artifact, catalog, entries) {
     .filter((entry) => !rowIds.has(entry.id))
     .map((entry) => ({ code: 'INDEXED_ROW_MISSING_FROM_CATALOG', family, id: entry.id, source: entry.source }));
   const statusCounts = countStatuses(rows);
-  const values = countUnavailableValues(rows);
+  const valueStats = countUnavailableValues(rows);
   const sourceCoverage = extractSourceCoverage(catalog);
-  const coverageStatus = classifyCoverage(rows, statusCounts, gaps, sourceCoverage);
+
   return {
     family,
     path: artifact.path,
     schema: catalog.schema ?? null,
     generationMode: sourceCoverage.generationMode,
-    coverageStatus,
+    coverageStatus: classifyCoverage(rows, statusCounts, gaps, sourceCoverage),
     unsupportedOrConfigOnly: isUnsupportedOrConfigOnly(sourceCoverage.generationMode),
     indexedRows: entries.length,
     indexedResolvedRows: entries.length - gaps.length,
@@ -97,8 +117,8 @@ function summarizeFamily(family, artifact, catalog, entries) {
     partialRows: statusCounts.PARTIAL ?? 0,
     missingDimensionRows: statusCounts.MISSING_DIMENSION ?? 0,
     projectOverrideRows: statusCounts.PROJECT_OVERRIDE ?? 0,
-    unavailableFieldCount: values.unavailableFieldCount,
-    nullValueCount: values.nullValueCount,
+    unavailableFieldCount: valueStats.unavailableFieldCount,
+    nullValueCount: valueStats.nullValueCount,
     sourceCoverage,
     gaps,
   };
@@ -179,18 +199,31 @@ function isSampleOnly({ sampledRowCount, sourceRowCount, explodedRowCount, gener
   if (sampledRowCount && explodedRowCount && sampledRowCount < explodedRowCount) return true;
   return /SAMPLE/.test(generationMode ?? '');
 }
-function isUnsupportedOrConfigOnly(generationMode) { return /(INVENTORY_SELECTOR|PROJECT_DEFAULT|SOURCE_AVAILABILITY)/.test(generationMode ?? ''); }
-function inferFamily(catalog, path) { return catalog.metadata?.family ?? catalog.summary?.family ?? path.split('/').pop()?.replace('.json', '').toUpperCase(); }
-function fileCount(sourceFiles, availability) { return Object.keys(sourceFiles).length || availability.fileCount; }
+
+function isUnsupportedOrConfigOnly(generationMode) {
+  return /(INVENTORY_SELECTOR|PROJECT_DEFAULT|SOURCE_AVAILABILITY)/.test(generationMode ?? '');
+}
+
+function inferFamily(catalog, path) {
+  return catalog.metadata?.family ?? catalog.summary?.family ?? path.split('/').pop()?.replace('.json', '').toUpperCase();
+}
+
+function fileCount(sourceFiles, availability) {
+  return Object.keys(sourceFiles).length || availability.fileCount;
+}
+
 function rowCount(sourceFiles) {
   const values = Object.values(sourceFiles).filter((value) => Number.isFinite(value));
   return values.length ? values.reduce((total, value) => total + value, 0) : null;
 }
+
 function mergeSummary(summary, family) {
-  for (const key of ['normalizedRows', 'indexedResolvedRows', 'missingCatalogRows', 'readyRows', 'partialRows', 'missingDimensionRows', 'projectOverrideRows', 'unavailableFieldCount']) {
-    summary[key === 'normalizedRows' ? 'normalizedRowCount' : key] += family[key];
+  for (const [familyKey, summaryKey] of Object.entries(SUMMARY_KEYS)) {
+    summary[summaryKey] += family[familyKey] ?? 0;
   }
   if (family.unsupportedOrConfigOnly) summary.unsupportedOrConfigOnlyFamilyCount += 1;
-  for (const [key, value] of Object.entries(family.statusCounts)) summary.statusCounts[key] = (summary.statusCounts[key] ?? 0) + value;
+  for (const [key, value] of Object.entries(family.statusCounts)) {
+    summary.statusCounts[key] = (summary.statusCounts[key] ?? 0) + value;
+  }
   summary.coverageStatusCounts[family.coverageStatus] = (summary.coverageStatusCounts[family.coverageStatus] ?? 0) + 1;
 }
