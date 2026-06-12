@@ -7,6 +7,7 @@ import { componentSearch, SEARCH_MODE } from '../src/db/componentSearch.js';
 const searchIndex = JSON.parse(fs.readFileSync('data/indexes/component-search.index.json', 'utf8'));
 const aliases = JSON.parse(fs.readFileSync('data/search/component-aliases.json', 'utf8'));
 const valves = JSON.parse(fs.readFileSync('data/normalized/valves.json', 'utf8'));
+const coverage = JSON.parse(fs.readFileSync('data/audit/db-coverage-dashboard.json', 'utf8'));
 
 function studio(query = 'gate valve 8 class 150 rf', filters = { componentType: 'VALVE', classRating: '150', nps: '8' }) {
   return createComponentStudioModel({
@@ -70,6 +71,14 @@ test('UI Studio: gasket quick filter does not imply unavailable size or class co
   assert.equal(stale.ok, false);
 });
 
+test('UI Studio: coverage dashboard is static audit data only', () => {
+  assert.equal(coverage.schema, 'pipedata-db-coverage-dashboard/v1');
+  assert.equal(coverage.policy.noFabrication, true);
+  assert.equal(coverage.policy.noEngineeringFallback, true);
+  assert.equal(coverage.summary.missingCatalogRows, 0);
+  assert.equal(coverage.ok, true);
+});
+
 test('UI Studio: static shell exposes selector, data, preview, audit and verification regions', () => {
   const html = fs.readFileSync('studio/index.html', 'utf8');
   const js = fs.readFileSync('studio/component-studio-app.js', 'utf8');
@@ -78,6 +87,9 @@ test('UI Studio: static shell exposes selector, data, preview, audit and verific
   assert.match(html, /CAD Preview/);
   assert.match(html, /Source Audit/);
   assert.match(html, /verification-footer/);
+  assert.match(js, /db-coverage-dashboard\.json/);
+  assert.match(js, /Coverage only/);
+  assert.match(js, /No values promoted/);
   assert.match(js, /noFallbackPolicy/);
   assert.match(js, /RTJ GASKET/);
   assert.doesNotMatch(js, /RTJ GASKET 4 300/);
@@ -89,6 +101,7 @@ test('UI Studio: static shell exposes selector, data, preview, audit and verific
 test('UI Studio: Pages artifact workflow publishes minimal JSON and blocks raw DB tree', () => {
   const workflow = fs.readFileSync('.github/workflows/pages.yml', 'utf8');
   assert.match(workflow, /cp data\/normalized\/\*\.json _site\/data\/normalized\//);
+  assert.match(workflow, /cp data\/audit\/db-coverage-dashboard\.json _site\/data\/audit\//);
   assert.match(workflow, /Raw source database tree must not be published to Pages/);
   assert.match(workflow, /studio\.css\?v=/);
   assert.match(workflow, /component-studio-app\.js\?v=/);
