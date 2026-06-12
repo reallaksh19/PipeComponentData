@@ -54,5 +54,5 @@ test('DB Phase 22: public pack and package scripts include the release candidate
 
   assert.equal(paths.has('data/audit/foundation-release-candidate.json'), true);
   assert.equal(pkg.scripts['db:gate22'], 'npm run db:gate21 && node --test gates/db-phase-22-release-candidate.gate.test.js');
-  assert.equal(pkg.scripts['db:test'], 'npm run db:gate22');
+  assert.equal(pkg.scripts['db:test'], 'npm run db:gate63');
 });

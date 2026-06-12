@@ -125,6 +125,8 @@ jobs:
         run: npm run db:gate20 --if-present
       - name: Run DB Phase 21 integration contract gate
         run: npm run db:gate21 --if-present
+      - name: Run DB Phase 22 release candidate gate
+        run: npm run db:gate22 --if-present
       - name: Run DB Phase 23 source expansion ledger gate
         run: npm run db:gate23 --if-present
       - name: Run DB Phase 24 pipe schedule expansion gate
@@ -193,6 +195,12 @@ jobs:
         run: node --test gates/db-phase-59-flange-cl600-wave3-promotion.gate.test.js
       - name: Run DB Phase 60 blocked families gate
         run: node --test gates/db-phase-60-blocked-families-after-wave3.gate.test.js
+      - name: Run DB Phase 61 pipe SCH80 wave 4 promotion gate
+        run: node --test gates/db-phase-61-pipe-sch80-wave4.gate.test.js
+      - name: Run DB Phase 62 flange CL600 wave 4 promotion gate
+        run: node --test gates/db-phase-62-flange-cl600-wave4.gate.test.js
+      - name: Run DB Phase 63 blocked families gate
+        run: node --test gates/db-phase-63-blocked-families.gate.test.js
       - name: Run UI gates
         run: npm run ui:gate --if-present
 

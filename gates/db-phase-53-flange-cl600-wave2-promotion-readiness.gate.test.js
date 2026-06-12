@@ -5,6 +5,7 @@ import test from 'node:test';
 const manifest = JSON.parse(fs.readFileSync('data/audit/flange-cl600-wave2-promotion-readiness.json', 'utf8'));
 const cl600 = JSON.parse(fs.readFileSync('data/normalized/flanges-cl600-wave2.json', 'utf8'));
 const cl600Wave3 = JSON.parse(fs.readFileSync('data/normalized/flanges-cl600-wave3.json', 'utf8'));
+const cl600Wave4 = JSON.parse(fs.readFileSync('data/normalized/flanges-cl600-wave4.json', 'utf8'));
 const index = JSON.parse(fs.readFileSync('data/indexes/component-search.index.json', 'utf8'));
 
 const rows = fs.readFileSync('docs/Pipedata/Database/Flan/Flg600.csv', 'utf8').trimEnd().split('\n');
@@ -38,16 +39,19 @@ test('DB Phase 53: Class 600 source rows match bounded candidate values', () => 
 test('DB Phase 53: bounded Class 600 WN/SO/BLIND rows are promoted through addenda', () => {
   assert.equal(cl600.summary.expansionPack, 'DB_PHASE_56_FLANGE_CL600_WAVE2_PROMOTION');
   assert.equal(cl600Wave3.summary.expansionPack, 'DB_PHASE_59_FLANGE_CL600_WAVE3_PROMOTION');
+  assert.equal(cl600Wave4.summary.expansionPack, 'DB_PHASE_62_FLANGE_CL600_WAVE4_PROMOTION');
   assert.equal(cl600.rows.length, 9);
   assert.equal(cl600Wave3.rows.length, 6);
-  assert.equal(index.entries.filter((entry) => entry.family === 'FLANGE').length, 33);
+  assert.equal(cl600Wave4.rows.length, 21);
+  assert.equal(index.entries.filter((entry) => entry.family === 'FLANGE').length, 54);
   for (const subtype of ['WN', 'SO', 'BLIND']) {
-    for (const nps of ['4', '8', '10']) {
+    for (const nps of ['4', '8', '10', '12', '14', '16', '18', '20', '22', '24']) {
       const id = `FLANGE|${subtype}|NPS${nps}|CL600|METRIC`;
       assert.equal(index.entries.some((entry) => entry.id === id), true, `${id} missing`);
     }
   }
-  assert.equal(index.entries.some((entry) => entry.id === 'FLANGE|WN|NPS12|CL600|METRIC'), false);
+  assert.equal(index.entries.some((entry) => entry.id === 'FLANGE|WN|NPS12|CL600|METRIC'), true);
+  assert.equal(index.entries.some((entry) => entry.id === 'FLANGE|WN|NPS24|CL600|METRIC'), true);
 });
 
 test('DB Phase 53: safety rules block class fallback and fabricated blind values', () => {

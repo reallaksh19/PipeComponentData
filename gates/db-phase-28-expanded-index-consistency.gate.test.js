@@ -19,19 +19,21 @@ test('DB Phase 28: expanded index entries resolve to catalogs', () => {
     if (!rows.some((row) => row.id === entry.id)) missing.push(entry.id);
   }
   assert.deepEqual(missing, []);
-  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'PIPE').length, 15);
-  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'FLANGE').length, 33);
+  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'PIPE').length, 18);
+  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'FLANGE').length, 54);
   assert.equal(searchIndex.entries.filter((entry) => entry.family === 'VALVE').length, 8);
   assert.equal(searchIndex.entries.filter((entry) => entry.family === 'FITTING').length, 15);
 });
 
-test('DB Phase 28: coverage dashboard is synced after wave 5 addenda', () => {
+test('DB Phase 28: coverage dashboard is synced after current addenda', () => {
   const generated = buildCoverageDashboard({ manifest, searchIndex, catalogs });
   const committed = readJson('data/audit/db-coverage-dashboard.json');
-  assert.equal(generated.summary.indexedEntryCount, 73);
-  assert.equal(generated.summary.normalizedRowCount, 77);
-  assert.equal(generated.summary.indexedResolvedRowCount, 73);
+  assert.equal(generated.summary.indexedEntryCount, 97);
+  assert.equal(generated.summary.normalizedRowCount, 101);
+  assert.equal(generated.summary.indexedResolvedRowCount, 97);
   assert.equal(generated.summary.missingCatalogRows, 0);
+  assert.equal(generated.summary.readyRows, 91);
+  assert.equal(generated.summary.partialRows, 5);
   assert.equal(committed.summary.indexedEntryCount, generated.summary.indexedEntryCount);
   assert.equal(committed.summary.normalizedRowCount, generated.summary.normalizedRowCount);
 });

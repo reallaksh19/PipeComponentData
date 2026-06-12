@@ -20,6 +20,8 @@ const requiredPaths = [
   'data/indexes/component-search.index.json',
   'data/indexes/override.index.json',
   'data/overrides/project-overrides.sample.json',
+  'data/normalized/pipes-sch80-wave4.json',
+  'data/normalized/flanges-cl600-wave4.json',
 ];
 
 test('DB Phase 13: export manifest covers data, indexes, overrides, and wave addenda', () => {

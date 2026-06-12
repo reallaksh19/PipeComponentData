@@ -40,10 +40,15 @@ test('DB Phase 46: only bounded Class 600 rows are promoted, higher classes rema
   assert.equal(flanges.rows.length, 18);
   assert.equal(cl600.rows.length, 9);
   assert.equal(cl600Wave3.rows.length, 6);
+  const cl600Wave4 = JSON.parse(fs.readFileSync('data/normalized/flanges-cl600-wave4.json', 'utf8'));
+  assert.equal(cl600Wave4.rows.length, 21);
   assert.deepEqual([...new Set(allRows.map((row) => row.classRating))].sort(), ['150', '300', '600']);
   const indexedFlanges = searchIndex.entries.filter((entry) => entry.family === 'FLANGE');
-  assert.equal(indexedFlanges.length, 33);
+  assert.equal(indexedFlanges.length, 54);
   assert.equal(indexedFlanges.some((entry) => entry.id === 'FLANGE|WN|NPS10|CL600|METRIC'), true);
+  assert.equal(indexedFlanges.some((entry) => entry.id === 'FLANGE|WN|NPS12|CL600|METRIC'), true);
+  assert.equal(indexedFlanges.some((entry) => entry.id === 'FLANGE|BLIND|NPS22|CL600|METRIC'), true);
+  assert.equal(indexedFlanges.some((entry) => entry.id === 'FLANGE|WN|NPS24|CL600|METRIC'), true);
   for (const rating of ['400', '900', '1500', '2500']) {
     assert.equal(indexedFlanges.some((entry) => entry.id.includes(`|CL${rating}|`)), false);
   }

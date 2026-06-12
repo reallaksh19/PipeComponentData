@@ -39,11 +39,15 @@ test('DB Phase 45: bounded SCH80 addenda are promoted without bulk schedule impo
   assert.equal(pipes.rows.length, 10);
   assert.equal(sch80Wave2.rows.length, 3);
   assert.equal(sch80Wave3.rows.length, 3);
+  const wave4 = JSON.parse(fs.readFileSync('data/normalized/pipes-sch80-wave4.json', 'utf8'));
+  assert.equal(wave4.rows.length, 3);
   assert.equal(allRows.find((row) => row.id === 'PIPE|NPS0+1/8|SCH40').dataStatus, 'PARTIAL');
   const indexedPipeRows = searchIndex.entries.filter((entry) => entry.family === 'PIPE');
-  assert.equal(indexedPipeRows.length, 15);
+  assert.equal(indexedPipeRows.length, 18);
   assert.equal(indexedPipeRows.some((entry) => entry.id === 'PIPE|NPS10|SCH40'), false);
   assert.equal(indexedPipeRows.some((entry) => entry.id === 'PIPE|NPS10|SCH80'), true);
   assert.equal(indexedPipeRows.some((entry) => entry.id === 'PIPE|NPS18|SCH80'), true);
+  assert.equal(indexedPipeRows.some((entry) => entry.id === 'PIPE|NPS20|SCH80'), true);
+  assert.equal(indexedPipeRows.some((entry) => entry.id === 'PIPE|NPS24|SCH80'), true);
   assert.equal(allRows.some((row) => String(row.schedule) === '160'), false);
 });
