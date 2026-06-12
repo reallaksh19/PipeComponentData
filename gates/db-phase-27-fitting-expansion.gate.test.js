@@ -7,7 +7,8 @@ import { lookupComponentExact, LOOKUP_STATUS } from '../src/db/lookupComponentEx
 const readJson = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 const fittings = readJson('data/normalized/fittings.json');
 const searchIndex = readJson('data/indexes/component-search.index.json');
-const aliases = readJson('data/search/component-aliases.json').rows;
+const aliases = readJson('data/search/component-aliases.json');
+const assets = { searchIndex, aliases, catalogs: { 'data/normalized/fittings.json': fittings } };
 
 test('DB Phase 27: BW fitting catalog promotes bounded source-backed samples only', () => {
   assert.equal(fittings.metadata.phase, 'DB_PHASE_27');
@@ -30,8 +31,7 @@ test('DB Phase 27: promoted elbow, tee, and cap rows are source-backed', () => {
 });
 
 test('DB Phase 27: fitting lookup remains exact and no nearest-schedule fallback is allowed', () => {
-  const hit = lookupComponentExact({
-    query: 'ftbw cap 6 sch40', searchIndex, catalogs: { 'data/normalized/fittings.json': fittings }, aliases,
+  const hit = lookupComponentExact('ftbw cap 6 sch40', assets, {
     filters: { componentType: 'FITTING', subtype: 'CAP', nps: '6', schedule: '40' },
   });
   assert.equal(hit.status, LOOKUP_STATUS.FOUND);
