@@ -1,0 +1,87 @@
+name: Deploy Studio to GitHub Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Studio artifact
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Run full verification gates
+        run: npm test
+
+      - name: Prepare static Pages artifact
+        shell: bash
+        run: |
+          rm -rf _site
+          mkdir -p _site/studio _site/data/indexes _site/data/normalized _site/data/search
+          cp -R studio/. _site/studio/
+          cp data/indexes/component-search.index.json _site/data/indexes/
+          cp data/normalized/valves.json _site/data/normalized/
+          cp data/search/component-aliases.json _site/data/search/
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              <meta http-equiv="refresh" content="0; url=./studio/" />
+              <title>Pipe Component Studio</title>
+            </head>
+            <body>
+              <p><a href="./studio/">Open Pipe Component Studio</a></p>
+            </body>
+          </html>
+          HTML
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy Studio
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
