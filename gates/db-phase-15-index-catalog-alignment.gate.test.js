@@ -20,14 +20,16 @@ test('DB Phase 15: every search-index entry resolves to its normalized catalog r
     if (!rows.some((row) => row.id === entry.id)) missing.push(entry.id);
   }
   assert.deepEqual(missing, []);
-  assert.equal(searchIndex.entries.length, 52);
+  assert.equal(searchIndex.entries.length, 64);
 });
 
-test('DB Phase 15: wave 1 index keeps exact IDs aligned by family', () => {
+test('DB Phase 15: wave 2 index keeps exact IDs aligned by family', () => {
   const ids = new Set(searchIndex.entries.map((entry) => entry.id));
   for (const expected of [
-    'PIPE|NPS2|SCH80',
-    'FLANGE|WN|NPS4|CL150|METRIC',
+    'PIPE|NPS8|SCH80',
+    'PIPE|NPS12|SCH80',
+    'FLANGE|WN|NPS4|CL600|METRIC',
+    'FLANGE|BLIND|NPS6|CL600|METRIC',
     'VALVE|GATE|FLANGED|NPS4|CL1500|RF',
     'FITTING|ELBOW_90|NPS4|SCH80|METRIC',
     'GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ',
@@ -35,7 +37,7 @@ test('DB Phase 15: wave 1 index keeps exact IDs aligned by family', () => {
   ]) assert.equal(ids.has(expected), true, `${expected} missing`);
 });
 
-test('DB Phase 15: gasket inventory search does not imply unavailable size/class coverage', () => {
+test('DB Phase 15: gasket inventory search does not imply unavailable size or class coverage', () => {
   const concrete = componentSearch('rtj gasket 4 300', searchIndex, {
     aliases,
     mode: SEARCH_MODE.EXACT_ALIAS_ONLY,
