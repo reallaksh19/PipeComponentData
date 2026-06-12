@@ -80,5 +80,5 @@ test('DB Phase 21: foundation release candidate pack is public and conservative'
 
 test('DB Phase 21: integration gate remains before expansion gates', () => {
   assert.equal(packageJson.scripts['db:gate21'], 'npm run db:gate20 && node --test gates/db-phase-21-integration-contract.gate.test.js');
-  assert.match(packageJson.scripts['db:test'], /db:gate2[1-5]/);
+  assert.match(packageJson.scripts['db:test'], /db:gate2[1-8]/);
 });

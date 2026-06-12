@@ -14,11 +14,13 @@ test('DB Phase 23: source expansion ledger is conservative and valid', () => {
   assert.equal(ledger.policy.missingValues, 'null_or_UNAVAILABLE');
 });
 
-test('DB Phase 23: pipe and flange are the only promotion candidates in this pack', () => {
-  assert.deepEqual(promotionCandidates(ledger).map((item) => item.family).sort(), ['FLANGE', 'PIPE']);
-  assert.deepEqual(familiesByExpansionStatus(ledger, 'READY_FOR_PROMOTION'), ['FLANGE', 'PIPE']);
+test('DB Phase 23: source-backed promotion candidates are explicit', () => {
+  assert.deepEqual(promotionCandidates(ledger).map((item) => item.family).sort(), ['FITTING', 'FLANGE', 'PIPE', 'VALVE']);
+  assert.deepEqual(familiesByExpansionStatus(ledger, 'READY_FOR_PROMOTION'), ['FITTING', 'FLANGE', 'PIPE', 'VALVE']);
   assert.equal(ledger.families.PIPE.promotionPhase, 'DB_PHASE_24');
   assert.equal(ledger.families.FLANGE.promotionPhase, 'DB_PHASE_25');
+  assert.equal(ledger.families.VALVE.promotionPhase, 'DB_PHASE_26');
+  assert.equal(ledger.families.FITTING.promotionPhase, 'DB_PHASE_27');
 });
 
 test('DB Phase 23: blocked and manual-review families are not promoted', () => {

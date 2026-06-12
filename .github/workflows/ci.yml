@@ -52,80 +52,102 @@ jobs:
 
       - name: Run adapter/API Phase 0 contract gate
         run: node --test gates/phase-00-contract.gate.test.js
-
       - name: Run adapter/API Phase 1 adapter graph gate
         run: node --test gates/phase-01-adaptergraph.gate.test.js
-
       - name: Run adapter/API Phase 2 state gate
         run: node --test gates/phase-02-state.gate.test.js
-
       - name: Run adapter/API Phase 3 inputs gate
         run: node --test gates/phase-03-inputs.gate.test.js
-
       - name: Run adapter/API Phase 4 PipeData DB gate
         run: node --test gates/phase-04-pipedata-db.gate.test.js
-
       - name: Run adapter/API Phase 5 enrichment gate
         run: node --test gates/phase-05-enrichment.gate.test.js
-
       - name: Run adapter/API Phase 6 connectivity gate
         run: node --test gates/phase-06-connectivity.gate.test.js
-
       - name: Run adapter/API Phase 7 UXML roundtrip gate
         run: node --test gates/phase-07-uxml-roundtrip.gate.test.js
-
       - name: Run adapter/API Phase 8 CEG bridge gate
         run: node --test gates/phase-08-ceg-bridge.gate.test.js
-
       - name: Run adapter/API Phase 9 simplified weight gate
         run: node --test gates/phase-09-simplified-weight.gate.test.js
-
       - name: Run adapter/API Phase 10 Solid3D gate
         run: node --test gates/phase-10-solid3d.gate.test.js
-
       - name: Run adapter/API Phase 11 DXF gate
         run: node --test gates/phase-11-dxf-sidecar.gate.test.js
-
       - name: Run adapter/API Phase 12 UI workbench gate
         run: node --test gates/phase-12-ui-workbench.gate.test.js
-
       - name: Run adapter/API Phase 13 final gate
         run: node --test gates/phase-13-full.gate.test.js
 
-      - name: Run DB gates through Phase 19
+      - name: Run DB Phase 0 contract gate
+        run: npm run db:gate0 --if-present
+      - name: Run DB Phase 1 raw inventory gate
+        run: npm run db:gate1 --if-present
+      - name: Run DB Phase 2 parser policy gate
+        run: npm run db:gate2 --if-present
+      - name: Run DB Phase 3 parser staging gate
+        run: npm run db:gate3 --if-present
+      - name: Run DB Phase 4 normalization foundation gate
+        run: npm run db:gate4 --if-present
+      - name: Run DB Phase 5 pipe schedule gate
+        run: npm run db:gate5 --if-present
+      - name: Run DB Phase 6 flange gate
+        run: npm run db:gate6 --if-present
+      - name: Run DB Phase 7 valve gate
+        run: npm run db:gate7 --if-present
+      - name: Run DB Phase 8 fitting gate
+        run: npm run db:gate8 --if-present
+      - name: Run DB Phase 9 gasket gate
+        run: npm run db:gate9 --if-present
+      - name: Run DB Phase 10 support gate
+        run: npm run db:gate10 --if-present
+      - name: Run DB Phase 11 exact search gate
+        run: npm run db:gate11 --if-present
+      - name: Run DB Phase 12 override gate
+        run: npm run db:gate12 --if-present
+      - name: Run DB Phase 13 export gate
+        run: npm run db:gate13 --if-present
+      - name: Run DB Phase 14 coverage dashboard gate
+        run: npm run db:gate14 --if-present
+      - name: Run DB Phase 15 index/catalog alignment gate
+        run: npm run db:gate15 --if-present
+      - name: Run DB Phase 16 exact lookup API gate
+        run: npm run db:gate16 --if-present
+      - name: Run DB Phase 17 public export pack gate
+        run: npm run db:gate17 --if-present
+      - name: Run DB Phase 18 TypeScript declarations gate
+        run: npm run db:gate18 --if-present
+      - name: Run DB Phase 19 data governance gate
         run: npm run db:gate19 --if-present
-
       - name: Run DB Phase 20 release readiness gate
         run: npm run db:gate20 --if-present
-
       - name: Run DB Phase 21 integration contract gate
         run: npm run db:gate21 --if-present
-
       - name: Run DB Phase 23 source expansion ledger gate
         run: npm run db:gate23 --if-present
-
       - name: Run DB Phase 24 pipe schedule expansion gate
         run: npm run db:gate24 --if-present
-
       - name: Run DB Phase 25 flange expansion gate
         run: npm run db:gate25 --if-present
-
+      - name: Run DB Phase 26 valve expansion gate
+        run: npm run db:gate26 --if-present
+      - name: Run DB Phase 27 fitting expansion gate
+        run: npm run db:gate27 --if-present
+      - name: Run DB Phase 28 expanded index consistency gate
+        run: npm run db:gate28 --if-present
       - name: Run UI gates
         run: npm run ui:gate --if-present
 
   gate-map:
     name: Gate map report
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-
       - name: Install dependencies
         shell: bash
         run: |
@@ -134,7 +156,6 @@ jobs:
           else
             npm install
           fi
-
       - name: Run available gate scripts individually
         shell: bash
         run: |

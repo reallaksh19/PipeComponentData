@@ -1,4 +1,5 @@
 const SCHEMA = 'pipedata-source-expansion-ledger/v1';
+const ALLOWED_LEDGER_PHASES = new Set(['DB_PHASE_23', 'DB_PHASE_28']);
 
 export const EXPANSION_STATUS = Object.freeze({
   READY_FOR_PROMOTION: 'READY_FOR_PROMOTION',
@@ -13,7 +14,7 @@ const REQUIRED_FAMILIES = ['PIPE', 'FLANGE', 'VALVE', 'FITTING', 'GASKET', 'SUPP
 export function validateSourceExpansionLedger(ledger) {
   const diagnostics = [];
   if (ledger?.schema !== SCHEMA) diagnostics.push({ code: 'LEDGER_SCHEMA_MISMATCH' });
-  if (ledger?.phase !== 'DB_PHASE_23') diagnostics.push({ code: 'LEDGER_PHASE_MISMATCH' });
+  if (!ALLOWED_LEDGER_PHASES.has(ledger?.phase)) diagnostics.push({ code: 'LEDGER_PHASE_MISMATCH', phase: ledger?.phase });
   if (ledger?.policy?.sourceBackedPromotionOnly !== true) diagnostics.push({ code: 'SOURCE_BACKED_POLICY_REQUIRED' });
   if (ledger?.policy?.noFabricatedEngineeringValues !== true) diagnostics.push({ code: 'NO_FABRICATION_POLICY_REQUIRED' });
   if (ledger?.policy?.noNearestEngineeringFallback !== true) diagnostics.push({ code: 'NO_FALLBACK_POLICY_REQUIRED' });
