@@ -1,0 +1,60 @@
+{
+  "schema": "pipedata-source-promotion-preflight/v1",
+  "phase": "DB_PHASE_31",
+  "policy": {
+    "sourceBackedPromotionOnly": true,
+    "noFabricatedEngineeringValues": true,
+    "noNearestEngineeringFallback": true,
+    "missingValues": "null_or_UNAVAILABLE",
+    "purpose": "Decide whether remaining unpromoted families can move from inventory/config coverage to source-backed normalized engineering rows."
+  },
+  "families": {
+    "REDUCER": {
+      "phase": "DB_PHASE_29",
+      "decision": "MANUAL_REVIEW_REQUIRED",
+      "promoteRows": false,
+      "normalizedDatasetPresent": false,
+      "sourceEvidence": [
+        "data/raw-manifest/folder-family-map.json#Fswa",
+        "data/raw-manifest/folder-family-map.json#Ftbw"
+      ],
+      "reason": "Possible reducer-like data is classified under fitting/swage or BW fitting sources; a reducer-specific schema and mapping rule must be approved before any reducer row is promoted."
+    },
+    "OLET": {
+      "phase": "DB_PHASE_29",
+      "decision": "BLOCKED_UNTIL_NORMALIZED_SCHEMA",
+      "promoteRows": false,
+      "normalizedDatasetPresent": false,
+      "sourceEvidence": [
+        "data/raw-manifest/folder-family-map.json#Wbol",
+        "data/raw-manifest/folder-family-map.json#Wbpi"
+      ],
+      "reason": "Olet source folders exist in raw inventory, but no normalized olet catalog/schema has been approved yet."
+    },
+    "GASKET": {
+      "phase": "DB_PHASE_30",
+      "decision": "KEEP_INVENTORY_ONLY",
+      "promoteRows": false,
+      "normalizedDatasetPresent": true,
+      "sourceEvidence": [
+        "data/normalized/gaskets.json",
+        "docs/Pipedata/Database/Gflt/Gflt.set",
+        "docs/Pipedata/Database/Grtj/Grtj.set",
+        "docs/Pipedata/Database/Gspr/Gspr.set"
+      ],
+      "reason": "Current gasket rows are selector/inventory rows only. Numeric gasket dimensions must remain null/UNAVAILABLE until parseable dimension source tables are verified."
+    },
+    "SUPPORT": {
+      "phase": "DB_PHASE_31",
+      "decision": "KEEP_PROJECT_OVERRIDE",
+      "promoteRows": false,
+      "normalizedDatasetPresent": true,
+      "sourceEvidence": [
+        "data/normalized/supports.json",
+        "docs/Pipedata/Database/Span",
+        "docs/Pipedata/Database/Gpas"
+      ],
+      "reason": "Support rows currently represent project/default rules and selector availability. Committed Span/Gpas inventory contains config/sketch sources, not approved numeric support/span source tables."
+    }
+  }
+}
