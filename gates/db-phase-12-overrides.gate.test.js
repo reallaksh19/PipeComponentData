@@ -21,13 +21,13 @@ test('DB Phase 12: override pack is explicit and provenance complete', () => {
 
 test('DB Phase 12: applying override does not mutate source catalog rows', () => {
   const baseRows = rows();
-  const originalWeight = baseRows[0].dimensions.weightKg.value;
+  const originalWeight = baseRows[0].weights.rfRtjKg.value;
   const applied = applyOverrides(baseRows, overrides);
   assert.equal(applied.ok, true, JSON.stringify(applied.diagnostics));
-  assert.equal(baseRows[0].dimensions.weightKg.value, originalWeight);
-  assert.equal(applied.rows[0].dimensions.weightKg.value, 150);
-  assert.equal(applied.rows[0].dimensions.weightKg.basis, 'PROJECT_OVERRIDE');
-  assert.equal(applied.rows[0].dimensions.weightKg.sourceValue, 144);
+  assert.equal(baseRows[0].weights.rfRtjKg.value, originalWeight);
+  assert.equal(applied.rows[0].weights.rfRtjKg.value, 150);
+  assert.equal(applied.rows[0].weights.rfRtjKg.basis, 'PROJECT_OVERRIDE');
+  assert.equal(applied.rows[0].weights.rfRtjKg.sourceValue, 144);
   assert.equal(applied.rows[0].overrideStatus, 'HAS_PROJECT_OVERRIDE');
 });
 
