@@ -1,0 +1,16 @@
+{
+  "schema": "pipedata-component-aliases/v1",
+  "phase": "DB_PHASE_11",
+  "mode": "EXACT_ALIAS_ONLY",
+  "rows": [
+    { "canonical": "VALVE", "aliases": ["VLV", "VALVES"] },
+    { "canonical": "GATE", "aliases": ["GATE VALVE", "VLV1"] },
+    { "canonical": "FLANGE", "aliases": ["FLG", "FLANGES"] },
+    { "canonical": "WN", "aliases": ["WELD NECK", "WELDING NECK", "WNRF"] },
+    { "canonical": "PIPE", "aliases": ["PIP", "TUBE"] },
+    { "canonical": "SCH40", "aliases": ["SCHEDULE 40", "SCH 40", "STD40"] },
+    { "canonical": "FITTING", "aliases": ["FTBW", "BUTTWELD FITTING"] },
+    { "canonical": "GASKET", "aliases": ["GSK", "GASKETS"] },
+    { "canonical": "SUPPORT", "aliases": ["SUP", "SHOE", "GUIDE"] }
+  ]
+}
