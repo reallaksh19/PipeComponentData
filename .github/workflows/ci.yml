@@ -110,6 +110,15 @@ jobs:
       - name: Run DB Phase 25 flange expansion gate
         run: npm run db:gate25 --if-present
 
+      - name: Run DB Phase 26 valve expansion gate
+        run: npm run db:gate26 --if-present
+
+      - name: Run DB Phase 27 fitting expansion gate
+        run: npm run db:gate27 --if-present
+
+      - name: Run DB Phase 28 expanded index consistency gate
+        run: npm run db:gate28 --if-present
+
       - name: Run UI gates
         run: npm run ui:gate --if-present
 
