@@ -43,7 +43,8 @@
     "db:gate16": "npm run db:gate15 && node --test gates/db-phase-16-exact-lookup-api.gate.test.js",
     "db:gate17": "npm run db:gate16 && node --test gates/db-phase-17-public-export-pack.gate.test.js",
     "db:gate18": "npm run db:gate17 && node --test gates/db-phase-18-typescript-declarations.gate.test.js",
-    "db:test": "npm run db:gate18",
+    "db:gate19": "npm run db:gate18 && node --test gates/db-phase-19-data-governance.gate.test.js",
+    "db:test": "npm run db:gate19",
     "ui:smoke": "node --test gates/ui-browser-smoke.gate.test.js",
     "ui:gate": "node --test gates/ui-component-studio.gate.test.js gates/ui-browser-smoke.gate.test.js"
   },
