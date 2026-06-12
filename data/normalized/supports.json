@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "pipedata-normalized-supports/v1",
+  "datasetVersion": "pipedata-db/2026.06.dbphase10",
+  "generationMode": "PROJECT_DEFAULT_AND_SOURCE_AVAILABILITY",
+  "sourceRoots": [
+    "docs/Pipedata/Database/Span",
+    "docs/Pipedata/Database/Gpas"
+  ],
+  "sourceAvailability": {
+    "Span": {
+      "family": "PIPE_AUX",
+      "subfamily": "SAFE_SPAN",
+      "csvFiles": 0,
+      "dxfFiles": 2,
+      "setFiles": 3,
+      "role": "SPAN_SELECTOR_CONFIG"
+    },
+    "Gpas": {
+      "family": "GASKET",
+      "subfamily": "PIPE_SPACING",
+      "csvFiles": 0,
+      "dxfFiles": 4,
+      "setFiles": 5,
+      "role": "PIPE_SPACING_SELECTOR_CONFIG"
+    }
+  },
+  "rows": [
+    {
+      "id": "SUPPORT|SHOE",
+      "componentFamily": "SUPPORT",
+      "supportKind": "SHOE",
+      "createsPipeContinuity": false,
+      "attachmentRule": "NEAREST_PIPE",
+      "dimensionValues": {
+        "shoeHeightMm": { "value": 150, "basis": "PROJECT_DEFAULT", "unit": "mm" },
+        "baseLengthMm": { "value": 300, "basis": "PROJECT_DEFAULT", "unit": "mm" },
+        "baseWidthMm": { "value": 120, "basis": "PROJECT_DEFAULT", "unit": "mm" },
+        "guideGapMm": { "value": null, "basis": "UNAVAILABLE", "unit": "mm" }
+      },
+      "provenance": {
+        "standard": "PROJECT_SUPPORT_DEFAULTS",
+        "source": "adapter-default:support-shoe",
+        "datasetVersion": "pipedata-db/2026.06.dbphase10",
+        "dataStatus": "PROJECT_OVERRIDE"
+      }
+    },
+    {
+      "id": "SUPPORT|GUIDE",
+      "componentFamily": "SUPPORT",
+      "supportKind": "GUIDE",
+      "createsPipeContinuity": false,
+      "attachmentRule": "NEAREST_PIPE",
+      "dimensionValues": {
+        "guideGapMm": { "value": 5, "basis": "PROJECT_DEFAULT", "unit": "mm" },
+        "guidePlateHeightMm": { "value": 180, "basis": "PROJECT_DEFAULT", "unit": "mm" },
+        "shoeHeightMm": { "value": null, "basis": "UNAVAILABLE", "unit": "mm" }
+      },
+      "provenance": {
+        "standard": "PROJECT_SUPPORT_DEFAULTS",
+        "source": "adapter-default:support-guide",
+        "datasetVersion": "pipedata-db/2026.06.dbphase10",
+        "dataStatus": "PROJECT_OVERRIDE"
+      }
+    }
+  ]
+}
