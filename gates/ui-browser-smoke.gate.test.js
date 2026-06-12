@@ -3,10 +3,10 @@ import fs from 'node:fs';
 import test from 'node:test';
 
 const ELEMENT_IDS = [
-  'category-tabs', 'quick-filters', 'query-box', 'component-filter', 'subtype-filter', 'nps-filter',
-  'class-filter', 'schedule-filter', 'facing-filter', 'search-button', 'result-card', 'source-line',
-  'identity-grid', 'attribute-body', 'view-buttons', 'cad-toggles', 'cad-canvas', 'verification-footer',
-  'audit-box', 'source-audit',
+  'dashboard-cards', 'category-tabs', 'quick-filters', 'query-box', 'component-filter', 'subtype-filter', 'nps-filter',
+  'class-filter', 'schedule-filter', 'facing-filter', 'search-button', 'result-card', 'source-line', 'family-summary',
+  'browser-summary', 'table-count', 'component-table-body', 'copy-id-button', 'component-detail', 'provenance-panel',
+  'identity-grid', 'attribute-body', 'view-buttons', 'cad-toggles', 'cad-canvas', 'verification-footer', 'audit-box', 'source-audit',
 ];
 
 class FakeElement {
@@ -60,6 +60,7 @@ function createDom() {
       getElementById: (id) => nodes.get(id) ?? null,
       querySelectorAll: (selector) => {
         if (selector === '#quick-filters button') return nodes.get('quick-filters').querySelectorAll('button');
+        if (selector === '#component-table-body button') return nodes.get('component-table-body').querySelectorAll('button');
         return [];
       },
     },
@@ -89,12 +90,29 @@ async function loadStudio() {
   return dom;
 }
 
-test('UI smoke: Studio boots and renders the default exact valve without exposing raw source path', async () => {
+test('UI smoke: Studio boots and renders dashboard, table, exact valve without exposing raw source path', async () => {
   const dom = await loadStudio();
+  assert.match(dom.byId('dashboard-cards').innerHTML, /Indexed components/);
+  assert.match(dom.byId('component-table-body').innerHTML, /GATE\|FLANGED/);
+  assert.match(dom.byId('component-detail').innerHTML, /Detail drawer/);
+  assert.match(dom.byId('provenance-panel').innerHTML, /Source token/);
   assert.match(dom.byId('result-card').innerHTML, /Exact match/);
   assert.match(dom.byId('source-line').innerHTML, /Dataset:/);
   assert.doesNotMatch(dom.byId('source-line').innerHTML, /docs\/Pipedata\/Database/);
-  assert.match(dom.byId('verification-footer').innerHTML, /Exact match/);
+  assert.doesNotMatch(dom.byId('provenance-panel').innerHTML, /docs\/Pipedata\/Database/);
+  assert.match(dom.byId('verification-footer').innerHTML, /Visible dashboard/);
+});
+
+test('UI smoke: family tab renders browsable flange rows and table selection loads details', async () => {
+  const dom = await loadStudio();
+  const flangeTab = dom.byId('category-tabs').querySelectorAll('button').find((button) => button.dataset.category === 'Flanges');
+  flangeTab.click();
+  await waitFor(() => dom.byId('component-table-body').innerHTML.includes('FLANGE'));
+  const rowButton = dom.byId('component-table-body').querySelectorAll('button')[0];
+  rowButton.click();
+  await waitFor(() => dom.byId('component-detail').innerHTML.includes('Component ID'));
+  assert.match(dom.byId('browser-summary').textContent, /Flanges rows/);
+  assert.match(dom.byId('provenance-panel').innerHTML, /Value basis/);
 });
 
 test('UI smoke: wrong class shows no exact match instead of fallback dimensions', async () => {
@@ -103,7 +121,7 @@ test('UI smoke: wrong class shows no exact match instead of fallback dimensions'
   dom.byId('class-filter').value = '300';
   dom.byId('search-button').click();
   await waitFor(() => dom.byId('result-card').innerHTML.includes('No exact match'));
-  assert.match(dom.byId('attribute-body').innerHTML, /Exact match is required/);
+  assert.match(dom.byId('attribute-body').innerHTML, /Exact match or row selection is required/);
   assert.match(dom.byId('verification-footer').innerHTML, /No fallback used/);
 });
 
@@ -123,6 +141,11 @@ test('UI smoke: Source Audit is explicit and Coverage tab renders audit-only dat
 
 test('UI smoke: static shell exposes release and integration status without raw DB path', () => {
   const html = fs.readFileSync('studio/index.html', 'utf8');
+  assert.match(html, /Catalog dashboard/);
+  assert.match(html, /Catalog Browser/);
+  assert.match(html, /component-table-body/);
+  assert.match(html, /component-detail/);
+  assert.match(html, /provenance-panel/);
   assert.match(html, /Source-backed foundation release · not production-complete/);
   assert.match(html, /Integration contract: stable exact lookup API/);
   assert.match(html, /Raw source tree hidden from normal Studio and Pages/);
