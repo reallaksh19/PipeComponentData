@@ -9,8 +9,10 @@ const readText = (path) => fs.readFileSync(path, 'utf8');
 const requiredPaths = [
   'data/normalized/pipes.json',
   'data/normalized/pipes-sch80-wave2.json',
+  'data/normalized/pipes-sch80-wave3.json',
   'data/normalized/flanges.json',
   'data/normalized/flanges-cl600-wave2.json',
+  'data/normalized/flanges-cl600-wave3.json',
   'data/normalized/valves.json',
   'data/normalized/fittings.json',
   'data/normalized/gaskets.json',
@@ -42,8 +44,8 @@ test('DB Phase 13: audit pack summarizes rows and status counts', () => {
   const audit = buildAuditPack(manifest, readText);
   assert.equal(audit.ok, true, JSON.stringify(audit.diagnostics));
   assert.equal(audit.artifactCount, requiredPaths.length);
-  assert.ok(audit.totalRows >= 68);
-  assert.ok(audit.dataStatusCounts.READY >= 61);
+  assert.ok(audit.totalRows >= 77);
+  assert.ok(audit.dataStatusCounts.READY >= 70);
   assert.ok(audit.dataStatusCounts.MISSING_DIMENSION >= 1);
   assert.ok(audit.dataStatusCounts.PROJECT_OVERRIDE >= 1);
 });
