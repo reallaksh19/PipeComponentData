@@ -101,7 +101,8 @@ test('UI Studio: static shell exposes selector, data, preview, audit and verific
 test('UI Studio: Pages artifact workflow publishes minimal JSON and blocks raw DB tree', () => {
   const workflow = fs.readFileSync('.github/workflows/pages.yml', 'utf8');
   assert.match(workflow, /cp data\/normalized\/\*\.json _site\/data\/normalized\//);
-  assert.match(workflow, /cp data\/audit\/db-coverage-dashboard\.json _site\/data\/audit\//);
+  assert.match(workflow, /cp data\/audit\/\*\.json _site\/data\/audit\//);
+  assert.match(workflow, /test -f _site\/data\/audit\/db-coverage-dashboard\.json/);
   assert.match(workflow, /Raw source database tree must not be published to Pages/);
   assert.match(workflow, /studio\.css\?v=/);
   assert.match(workflow, /component-studio-app\.js\?v=/);
