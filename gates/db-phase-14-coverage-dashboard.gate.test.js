@@ -31,15 +31,15 @@ test('DB Phase 14: coverage dashboard validates and preserves no-fabrication pol
 test('DB Phase 14: coverage summary counts normalized rows and data states', () => {
   const result = dashboard();
   assert.equal(result.summary.familyCount, 6);
-  assert.equal(result.summary.indexedEntryCount, 6);
-  assert.equal(result.summary.normalizedRowCount, 15);
-  assert.equal(result.summary.readyRows, 8);
+  assert.equal(result.summary.indexedEntryCount, 17);
+  assert.equal(result.summary.normalizedRowCount, 24);
+  assert.equal(result.summary.readyRows, 17);
   assert.equal(result.summary.partialRows, 2);
   assert.equal(result.summary.missingDimensionRows, 3);
   assert.equal(result.summary.projectOverrideRows, 2);
   assert.deepEqual(result.summary.statusCounts, {
     PARTIAL: 2,
-    READY: 8,
+    READY: 17,
     MISSING_DIMENSION: 3,
     PROJECT_OVERRIDE: 2,
   });
@@ -47,18 +47,20 @@ test('DB Phase 14: coverage summary counts normalized rows and data states', () 
 
 test('DB Phase 14: indexed rows resolve to normalized catalogs', () => {
   const result = dashboard();
-  assert.equal(result.summary.indexedResolvedRowCount, 6);
+  assert.equal(result.summary.indexedResolvedRowCount, 17);
   assert.equal(result.summary.missingCatalogRows, 0);
   assert.deepEqual(result.gaps, []);
-  assert.equal(result.families.FITTING.coverageStatus, 'PARTIAL_SAMPLE');
+  assert.equal(result.families.PIPE.indexedRows, 4);
+  assert.equal(result.families.FLANGE.indexedRows, 9);
   assert.equal(result.families.GASKET.coverageStatus, 'MISSING_DIMENSION');
   assert.equal(result.families.SUPPORT.coverageStatus, 'PROJECT_OVERRIDE');
 });
 
-test('DB Phase 14: source coverage exposes sampled and missing-dimension families', () => {
+test('DB Phase 14: source coverage exposes expanded sampled and missing-dimension families', () => {
   const result = dashboard();
   assert.equal(result.families.PIPE.sourceCoverage.sourceRowCount, 489);
-  assert.equal(result.families.PIPE.sourceCoverage.sampledRowCount, 2);
+  assert.equal(result.families.PIPE.sourceCoverage.sampledRowCount, 5);
+  assert.equal(result.families.FLANGE.sourceCoverage.sampledRowCount, 9);
   assert.equal(result.families.FLANGE.sourceCoverage.explodedRowCount, 483);
   assert.equal(result.families.FLANGE.coverageStatus, 'PARTIAL_SAMPLE');
   assert.equal(result.families.GASKET.missingDimensionRows, 3);
