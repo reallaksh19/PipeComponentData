@@ -2,16 +2,18 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import fs from 'node:fs';
 import { createComponentStudioModel } from '../src/index.js';
+import { componentSearch, SEARCH_MODE } from '../src/db/componentSearch.js';
 
 const searchIndex = JSON.parse(fs.readFileSync('data/indexes/component-search.index.json', 'utf8'));
 const aliases = JSON.parse(fs.readFileSync('data/search/component-aliases.json', 'utf8'));
 const valves = JSON.parse(fs.readFileSync('data/normalized/valves.json', 'utf8'));
 
-function studio(query = 'gate valve 8 class 150 rf') {
+function studio(query = 'gate valve 8 class 150 rf', filters = { componentType: 'VALVE', classRating: '150', nps: '8' }) {
   return createComponentStudioModel({
     query,
     searchIndex,
     aliases,
+    filters,
     catalogs: { VALVE: valves.rows },
   });
 }
@@ -35,17 +37,24 @@ test('UI Studio: exact valve result is DB-backed and source tagged', () => {
   assert.equal(model.sourceAudit.sourceRowNumber, 16);
 });
 
-test('UI Studio: wrong class query does not fall back to nearest valve', () => {
-  const model = createComponentStudioModel({
-    query: 'gate valve 8 class 300 rf',
-    searchIndex,
+test('UI Studio: exact search rejects partial text and wrong class fallback', () => {
+  const partial = componentSearch('gate valve', searchIndex, { aliases, mode: SEARCH_MODE.EXACT_ALIAS_ONLY });
+  assert.equal(partial.ok, false);
+
+  const wrongClass = studio('gate valve 8 class 300 rf', { componentType: 'VALVE', classRating: '300', nps: '8' });
+  assert.equal(wrongClass.search.ok, false);
+  assert.equal(wrongClass.search.selectedId, null);
+  assert.equal(wrongClass.selector.noFallbackPolicy.includes('nearest'), true);
+});
+
+test('UI Studio: complete structured filters can select an exact component without fallback', () => {
+  const result = componentSearch('', searchIndex, {
     aliases,
-    filters: { componentType: 'VALVE', classRating: '300' },
-    catalogs: { VALVE: valves.rows },
+    mode: SEARCH_MODE.EXACT_ALIAS_ONLY,
+    filters: { componentType: 'VALVE', valveType: 'GATE', nps: '8', classRating: '150', facing: 'RF' },
   });
-  assert.equal(model.search.ok, false);
-  assert.equal(model.search.selectedId, null);
-  assert.equal(model.selector.noFallbackPolicy.includes('nearest'), true);
+  assert.equal(result.ok, true);
+  assert.equal(result.results[0].id, 'VALVE|GATE|FLANGED|NPS8|CL150|RF');
 });
 
 test('UI Studio: static shell exposes selector, data, preview, audit and verification regions', () => {
@@ -53,11 +62,21 @@ test('UI Studio: static shell exposes selector, data, preview, audit and verific
   const js = fs.readFileSync('studio/component-studio-app.js', 'utf8');
   assert.match(html, /Component Selector/);
   assert.match(html, /Component Data/);
-  assert.match(html, /CAD 3D Preview/);
+  assert.match(html, /CAD Preview/);
   assert.match(html, /Source Audit/);
   assert.match(html, /verification-footer/);
   assert.match(js, /noFallbackPolicy/);
-  assert.match(js, /VLV1150/);
+  assert.doesNotMatch(js, /VALVE\|GATE\|FLANGED\|NPS8\|CL150\|RF/);
+  assert.doesNotMatch(js, /VLV1150/);
+  assert.doesNotMatch(js, /Source:\s*<code>/);
+});
+
+test('UI Studio: Pages artifact workflow publishes minimal JSON and blocks raw DB tree', () => {
+  const workflow = fs.readFileSync('.github/workflows/pages.yml', 'utf8');
+  assert.match(workflow, /cp data\/normalized\/\*\.json _site\/data\/normalized\//);
+  assert.match(workflow, /Raw source database tree must not be published to Pages/);
+  assert.match(workflow, /studio\.css\?v=/);
+  assert.match(workflow, /component-studio-app\.js\?v=/);
 });
 
 test('UI Studio: model and gate stay small', () => {
