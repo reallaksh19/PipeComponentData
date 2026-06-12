@@ -1,0 +1,14 @@
+{
+  "schema": "pipedata-override-index/v1",
+  "phase": "DB_PHASE_12",
+  "conflictPolicy": "REQUIRE_EXPLICIT_PROJECT_OVERRIDE",
+  "entries": [
+    {
+      "id": "OVERRIDE|VALVE|GATE|NPS8|CL150|WEIGHT",
+      "targetId": "VALVE|GATE|FLANGED|NPS8|CL150|RF",
+      "fieldPath": "dimensions.weightKg",
+      "overrideScope": "PROJECT",
+      "dataStatus": "PROJECT_OVERRIDE"
+    }
+  ]
+}
