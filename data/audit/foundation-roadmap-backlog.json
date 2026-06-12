@@ -1,0 +1,63 @@
+{
+  "schema": "pipedata-foundation-roadmap-backlog/v1",
+  "phase": "DB_PHASE_41",
+  "status": "BACKLOG_READY_FOR_NEXT_PLANNING",
+  "nextWork": [
+    {
+      "id": "DATA-PIPE-FULL-SCHEDULES",
+      "family": "PIPE",
+      "priority": "HIGH",
+      "rule": "promote-only-from-committed-source"
+    },
+    {
+      "id": "DATA-FLANGE-MORE-CLASSES",
+      "family": "FLANGE",
+      "priority": "HIGH",
+      "rule": "promote-only-from-committed-source"
+    },
+    {
+      "id": "DATA-VALVE-MORE-TYPES",
+      "family": "VALVE",
+      "priority": "HIGH",
+      "rule": "promote-only-from-committed-source"
+    },
+    {
+      "id": "DATA-FITTING-MORE-SCHEDULES",
+      "family": "FITTING",
+      "priority": "MEDIUM",
+      "rule": "promote-only-from-committed-source"
+    },
+    {
+      "id": "INTEGRATE-GLB-PCF",
+      "family": "INTEGRATION",
+      "priority": "MEDIUM",
+      "rule": "use-public-exact-lookup-api"
+    },
+    {
+      "id": "INTEGRATE-3D-VIEWER",
+      "family": "INTEGRATION",
+      "priority": "MEDIUM",
+      "rule": "use-public-exact-lookup-api"
+    }
+  ],
+  "blockedWork": [
+    {
+      "id": "GASKET-NUMERIC-DIMENSIONS",
+      "reason": "needs-parseable-source-table-review"
+    },
+    {
+      "id": "SUPPORT-SPAN-NUMERIC-DATA",
+      "reason": "needs-approved-support-source-logic"
+    },
+    {
+      "id": "OLET-NORMALIZED-CATALOG",
+      "reason": "needs-schema-approval"
+    }
+  ],
+  "globalRules": {
+    "noFabricatedEngineeringValues": true,
+    "noNearestEngineeringFallback": true,
+    "missingValuesRemainNullOrUnavailable": true,
+    "sourceProvenanceRequired": true
+  }
+}
