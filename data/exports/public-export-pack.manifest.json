@@ -27,10 +27,13 @@
   ],
   "publicArtifacts": [
     { "path": "data/exports/db-export-manifest.json", "pagesPath": "data/exports/db-export-manifest.json", "kind": "EXPORT_MANIFEST", "family": "ALL" },
+    { "path": "data/exports/public-export-pack.manifest.json", "pagesPath": "data/exports/public-export-pack.manifest.json", "kind": "PUBLIC_EXPORT_PACK", "family": "ALL" },
+    { "path": "data/exports/integration-contract.manifest.json", "pagesPath": "data/exports/integration-contract.manifest.json", "kind": "INTEGRATION_CONTRACT", "family": "ALL" },
     { "path": "data/indexes/component-search.index.json", "pagesPath": "data/indexes/component-search.index.json", "kind": "SEARCH_INDEX", "family": "ALL" },
     { "path": "data/search/component-aliases.json", "pagesPath": "data/search/component-aliases.json", "kind": "ALIAS_INDEX", "family": "ALL" },
     { "path": "data/audit/db-coverage-dashboard.json", "pagesPath": "data/audit/db-coverage-dashboard.json", "kind": "COVERAGE_AUDIT", "family": "ALL" },
     { "path": "data/audit/source-use-policy.json", "pagesPath": "data/audit/source-use-policy.json", "kind": "SOURCE_USE_POLICY", "family": "ALL" },
+    { "path": "data/audit/release-readiness.json", "pagesPath": "data/audit/release-readiness.json", "kind": "RELEASE_READINESS", "family": "ALL" },
     { "path": "data/normalized/pipes.json", "pagesPath": "data/normalized/pipes.json", "kind": "NORMALIZED_DATA", "family": "PIPE" },
     { "path": "data/normalized/flanges.json", "pagesPath": "data/normalized/flanges.json", "kind": "NORMALIZED_DATA", "family": "FLANGE" },
     { "path": "data/normalized/valves.json", "pagesPath": "data/normalized/valves.json", "kind": "NORMALIZED_DATA", "family": "VALVE" },

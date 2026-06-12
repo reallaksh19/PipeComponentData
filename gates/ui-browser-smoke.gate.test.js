@@ -121,6 +121,16 @@ test('UI smoke: Source Audit is explicit and Coverage tab renders audit-only dat
   assert.match(dom.byId('verification-footer').innerHTML, /Coverage only/);
 });
 
+test('UI smoke: static shell exposes release and integration status without raw DB path', () => {
+  const html = fs.readFileSync('studio/index.html', 'utf8');
+  assert.match(html, /Source-backed foundation release · not production-complete/);
+  assert.match(html, /Integration contract: stable exact lookup API/);
+  assert.match(html, /Raw source tree hidden from normal Studio and Pages/);
+  assert.match(html, /data\/audit\/release-readiness\.json/);
+  assert.match(html, /data\/exports\/integration-contract\.manifest\.json/);
+  assert.doesNotMatch(html, /docs\/Pipedata\/Database/);
+});
+
 async function waitFor(predicate) {
   for (let i = 0; i < 40; i += 1) {
     if (predicate()) return;

@@ -24,6 +24,10 @@ button, input, select { font: inherit; }
 .category-tabs { display: flex; gap: 4px; padding: 8px 14px; background: var(--panel); border-bottom: 1px solid var(--line); overflow-x: auto; }
 .category-tabs button { border: 0; border-radius: 999px; background: transparent; color: var(--muted); padding: 6px 14px; font-weight: 650; }
 .category-tabs button.active { background: var(--accent); color: #fff; }
+.status-strip { display: flex; gap: 9px; align-items: center; flex-wrap: wrap; padding: 8px 14px; border-bottom: 1px solid var(--line); background: #f7fbff; color: var(--muted); font-size: 12px; }
+.status-strip strong { color: var(--ink); }
+.status-strip span, .status-strip code { padding: 3px 8px; border-radius: 999px; background: #e9f2ff; }
+.status-strip code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--accent-dark); }
 .studio-grid { flex: 1; min-height: 0; display: grid; grid-template-columns: 300px minmax(360px, 1.05fr) minmax(460px, 1.8fr); }
 .pane { min-width: 0; min-height: 0; background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; }
 .pane-head { padding: 15px 18px 12px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.96); }

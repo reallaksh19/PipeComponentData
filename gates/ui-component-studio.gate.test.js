@@ -8,6 +8,8 @@ const searchIndex = JSON.parse(fs.readFileSync('data/indexes/component-search.in
 const aliases = JSON.parse(fs.readFileSync('data/search/component-aliases.json', 'utf8'));
 const valves = JSON.parse(fs.readFileSync('data/normalized/valves.json', 'utf8'));
 const coverage = JSON.parse(fs.readFileSync('data/audit/db-coverage-dashboard.json', 'utf8'));
+const readiness = JSON.parse(fs.readFileSync('data/audit/release-readiness.json', 'utf8'));
+const integration = JSON.parse(fs.readFileSync('data/exports/integration-contract.manifest.json', 'utf8'));
 
 function studio(query = 'gate valve 8 class 150 rf', filters = { componentType: 'VALVE', classRating: '150', nps: '8' }) {
   return createComponentStudioModel({
@@ -77,6 +79,18 @@ test('UI Studio: coverage dashboard is static audit data only', () => {
   assert.equal(coverage.policy.noEngineeringFallback, true);
   assert.equal(coverage.summary.missingCatalogRows, 0);
   assert.equal(coverage.ok, true);
+});
+
+test('UI Studio: release banner exposes foundation status without raw source tree', () => {
+  const html = fs.readFileSync('studio/index.html', 'utf8');
+  assert.equal(readiness.status, 'FOUNDATION_READY');
+  assert.equal(readiness.productionComplete, false);
+  assert.equal(integration.status, 'STABLE_FOUNDATION_CONTRACT');
+  assert.match(html, /Source-backed foundation release · not production-complete/);
+  assert.match(html, /Integration contract: stable exact lookup API/);
+  assert.match(html, /release-readiness\.json/);
+  assert.match(html, /integration-contract\.manifest\.json/);
+  assert.doesNotMatch(html, /docs\/Pipedata\/Database/);
 });
 
 test('UI Studio: static shell exposes selector, data, preview, audit and verification regions', () => {

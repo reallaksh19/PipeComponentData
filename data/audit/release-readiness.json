@@ -1,0 +1,38 @@
+{
+  "schema": "pipedata-release-readiness/v1",
+  "phase": "DB_PHASE_20",
+  "status": "FOUNDATION_READY",
+  "releaseClass": "SOURCE_BACKED_FOUNDATION",
+  "productionComplete": false,
+  "dataCoverageComplete": false,
+  "purpose": "Machine-readable readiness statement for the first source-backed foundation release.",
+  "evidence": {
+    "adapterGatePhase": 13,
+    "dbGatePhase": 21,
+    "uiSmokeGate": true,
+    "typescriptDeclarations": true,
+    "publicExportPack": "data/exports/public-export-pack.manifest.json",
+    "sourceUsePolicy": "data/audit/source-use-policy.json",
+    "coverageDashboard": "data/audit/db-coverage-dashboard.json",
+    "integrationContract": "data/exports/integration-contract.manifest.json"
+  },
+  "safety": {
+    "exactMatchOnly": true,
+    "noEngineeringFallback": true,
+    "noFabricatedEngineeringValues": true,
+    "missingValues": "null_or_UNAVAILABLE",
+    "rawSourceTreePublishedToPages": false,
+    "normalStudioExposesRawSourceTree": false,
+    "sourceRightsNeedOwnerVerification": true
+  },
+  "openRisks": [
+    "Full normalized production coverage is incomplete.",
+    "Raw source-use rights need owner verification before any broader publication decision.",
+    "Gasket, support, olet, reducer and some fitting families remain partial or placeholder-backed.",
+    "Viewer/converter applications must integrate only through the stable exact lookup contract."
+  ],
+  "releaseLanguage": {
+    "allowed": "source-backed foundation release",
+    "blocked": "production-complete engineering catalog"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "pipedata-integration-contract/v1",
+  "phase": "DB_PHASE_21",
+  "status": "STABLE_FOUNDATION_CONTRACT",
+  "purpose": "Safe downstream contract for GLB-PCF, 3D Viewer and converter integrations.",
+  "allowedApis": [
+    {
+      "module": "pipe-component-data",
+      "export": "lookupComponentExact",
+      "rule": "Use for all engineering component lookup. Exact match only."
+    },
+    {
+      "module": "pipe-component-data",
+      "export": "LOOKUP_STATUS",
+      "rule": "Use returned status values instead of guessing or falling back."
+    }
+  ],
+  "forbiddenApis": [
+    {
+      "export": "componentSearch",
+      "reason": "Internal helper. Downstream apps must use lookupComponentExact."
+    },
+    {
+      "export": "SEARCH_MODE",
+      "reason": "Internal search-mode detail. Public behavior is fixed to exact lookup."
+    }
+  ],
+  "requiredAssets": [
+    "data/indexes/component-search.index.json",
+    "data/search/component-aliases.json",
+    "data/exports/public-export-pack.manifest.json",
+    "data/audit/db-coverage-dashboard.json",
+    "data/audit/source-use-policy.json",
+    "data/audit/release-readiness.json",
+    "data/normalized/pipes.json",
+    "data/normalized/flanges.json",
+    "data/normalized/valves.json",
+    "data/normalized/fittings.json",
+    "data/normalized/gaskets.json",
+    "data/normalized/supports.json"
+  ],
+  "lookupRules": {
+    "exactMatchOnly": true,
+    "noNearestSize": true,
+    "noNearestRating": true,
+    "noNearestSchedule": true,
+    "noFabricatedValues": true,
+    "missingValues": "null_or_UNAVAILABLE",
+    "projectOverridesRequireProvenance": true
+  },
+  "downstreamTargets": [
+    "GLB-PCF-2.5-Editor",
+    "3D_Viewer",
+    "PCF/DXF/neutral-file converter adapters"
+  ]
+}
