@@ -178,7 +178,7 @@ jobs:
         run: |
           set +e
           status=0
-          scripts=$(node -e "const p=require('./package.json'); const keys=Object.keys(p.scripts||{}).filter(k => /^gate:phase\d+$|^db:gate\d+$/.test(k)); const n=s => Number((s.match(/\d+$/)||['0'])[0]); console.log(keys.sort((a,b)=>a.startsWith('db:')-b.startsWith('db:') || n(a)-b.startsWith('db:') || n(a)-n(b)).join(' '))")
+          scripts=$(node -e "const p=require('./package.json'); const keys=Object.keys(p.scripts||{}).filter(k => /^gate:phase\d+$|^db:gate\d+$/.test(k)); const n=s => Number((s.match(/\d+$/)||['0'])[0]); console.log(keys.sort((a,b)=>Number(a.startsWith('db:'))-Number(b.startsWith('db:')) || n(a)-n(b)).join(' '))")
           for script in $scripts; do
             echo "::group::$script"
             npm run "$script"
