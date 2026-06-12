@@ -92,8 +92,14 @@ jobs:
       - name: Run adapter/API Phase 13 final gate
         run: node --test gates/phase-13-full.gate.test.js
 
-      - name: Run DB gates
-        run: npm run db:test --if-present
+      - name: Run DB gates through Phase 19
+        run: npm run db:gate19 --if-present
+
+      - name: Run DB Phase 20 release readiness gate
+        run: npm run db:gate20 --if-present
+
+      - name: Run DB Phase 21 integration contract gate
+        run: npm run db:gate21 --if-present
 
       - name: Run UI gates
         run: npm run ui:gate --if-present
