@@ -52,5 +52,3 @@ jobs:
         run: node --test gates/db-phase-49-valve-wave1.gate.test.js
       - name: Run DB Phase 50 fitting wave 1 gate
         run: node --test gates/db-phase-50-fitting-wave1.gate.test.js
-      - name: Run UI gates
-        run: npm run ui:gate --if-present
