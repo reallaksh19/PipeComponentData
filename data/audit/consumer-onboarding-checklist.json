@@ -1,0 +1,29 @@
+{
+  "schema": "pipedata-consumer-onboarding-checklist/v1",
+  "phase": "DB_PHASE_40",
+  "status": "ONBOARDING_CHECKLIST_READY",
+  "requiredSteps": [
+    "install-or-reference-package",
+    "load-approved-public-json-assets",
+    "call-lookupComponentExact",
+    "handle-FOUND",
+    "handle-NO_EXACT_MATCH",
+    "handle-MISSING_DIMENSION",
+    "preserve-provenance-in-downstream-result",
+    "use-public-artifacts-only"
+  ],
+  "minimumFixtures": [
+    "PIPE 2 SCH40",
+    "WN FLANGE 4 CL300",
+    "GATE VALVE 8 150 RF",
+    "90 ELBOW 4 SCHEDULE 40",
+    "RTJ GASKET",
+    "GATE VALVE 8 300 RF"
+  ],
+  "acceptanceRules": {
+    "wrongRatingMustNotFallback": true,
+    "missingDimensionMustRemainVisible": true,
+    "rawSourcePathsHiddenByDefault": true,
+    "provenanceRequired": true
+  }
+}
