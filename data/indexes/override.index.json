@@ -6,7 +6,6 @@
     {
       "id": "OVERRIDE|VALVE|GATE|NPS8|CL150|WEIGHT",
       "targetId": "VALVE|GATE|FLANGED|NPS8|CL150|RF",
-      "fieldPath": "dimensions.weightKg",
       "overrideScope": "PROJECT",
       "dataStatus": "PROJECT_OVERRIDE"
     }
