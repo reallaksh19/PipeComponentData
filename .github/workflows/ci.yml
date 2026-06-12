@@ -152,6 +152,16 @@ jobs:
         run: npm run db:gate35 --if-present
       - name: Run DB Phase 36 foundation tag readiness gate
         run: npm run db:gate36 --if-present
+      - name: Run DB Phase 37 branch protection readiness gate
+        run: node --test gates/db-phase-37-branch-protection-readiness.gate.test.js
+      - name: Run DB Phase 38 release notes manifest gate
+        run: node --test gates/db-phase-38-release-notes-manifest.gate.test.js
+      - name: Run DB Phase 39 consumer compatibility gate
+        run: node --test gates/db-phase-39-consumer-compatibility.gate.test.js
+      - name: Run DB Phase 40 consumer onboarding gate
+        run: node --test gates/db-phase-40-consumer-onboarding.gate.test.js
+      - name: Run DB Phase 41 roadmap backlog gate
+        run: node --test gates/db-phase-41-roadmap-backlog.gate.test.js
       - name: Run UI gates
         run: npm run ui:gate --if-present
 
