@@ -57,6 +57,19 @@ test('UI Studio: complete structured filters can select an exact component witho
   assert.equal(result.results[0].id, 'VALVE|GATE|FLANGED|NPS8|CL150|RF');
 });
 
+test('UI Studio: gasket quick filter does not imply unavailable size or class coverage', () => {
+  const valid = componentSearch('RTJ GASKET', searchIndex, {
+    aliases,
+    mode: SEARCH_MODE.EXACT_ALIAS_ONLY,
+    filters: { componentType: 'GASKET', subtype: 'RTJ', facing: 'RTJ' },
+  });
+  assert.equal(valid.ok, true);
+  assert.equal(valid.results[0].id, 'GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ');
+
+  const stale = componentSearch('RTJ GASKET 4 300', searchIndex, { aliases, mode: SEARCH_MODE.EXACT_ALIAS_ONLY });
+  assert.equal(stale.ok, false);
+});
+
 test('UI Studio: static shell exposes selector, data, preview, audit and verification regions', () => {
   const html = fs.readFileSync('studio/index.html', 'utf8');
   const js = fs.readFileSync('studio/component-studio-app.js', 'utf8');
@@ -66,6 +79,8 @@ test('UI Studio: static shell exposes selector, data, preview, audit and verific
   assert.match(html, /Source Audit/);
   assert.match(html, /verification-footer/);
   assert.match(js, /noFallbackPolicy/);
+  assert.match(js, /RTJ GASKET/);
+  assert.doesNotMatch(js, /RTJ GASKET 4 300/);
   assert.doesNotMatch(js, /VALVE\|GATE\|FLANGED\|NPS8\|CL150\|RF/);
   assert.doesNotMatch(js, /VLV1150/);
   assert.doesNotMatch(js, /Source:\s*<code>/);
