@@ -19,18 +19,18 @@ test('DB Phase 28: expanded index entries resolve to catalogs', () => {
     if (!rows.some((row) => row.id === entry.id)) missing.push(entry.id);
   }
   assert.deepEqual(missing, []);
-  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'PIPE').length, 9);
-  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'FLANGE').length, 18);
+  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'PIPE').length, 12);
+  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'FLANGE').length, 27);
   assert.equal(searchIndex.entries.filter((entry) => entry.family === 'VALVE').length, 8);
   assert.equal(searchIndex.entries.filter((entry) => entry.family === 'FITTING').length, 15);
 });
 
-test('DB Phase 28: coverage dashboard is synced after wave 1 expansion', () => {
+test('DB Phase 28: coverage dashboard is synced after wave 2 addenda', () => {
   const generated = buildCoverageDashboard({ manifest, searchIndex, catalogs });
   const committed = readJson('data/audit/db-coverage-dashboard.json');
-  assert.equal(generated.summary.indexedEntryCount, 52);
-  assert.equal(generated.summary.normalizedRowCount, 56);
-  assert.equal(generated.summary.indexedResolvedRowCount, 52);
+  assert.equal(generated.summary.indexedEntryCount, 64);
+  assert.equal(generated.summary.normalizedRowCount, 68);
+  assert.equal(generated.summary.indexedResolvedRowCount, 64);
   assert.equal(generated.summary.missingCatalogRows, 0);
   assert.equal(committed.summary.indexedEntryCount, generated.summary.indexedEntryCount);
   assert.equal(committed.summary.normalizedRowCount, generated.summary.normalizedRowCount);
@@ -38,8 +38,8 @@ test('DB Phase 28: coverage dashboard is synced after wave 1 expansion', () => {
 
 test('DB Phase 28: source ledger keeps non-source families blocked or under review', () => {
   const ledger = readJson('data/audit/source-expansion-ledger.json');
-  assert.equal(ledger.families.PIPE.latestPromotionPhase, 'DB_PHASE_47');
-  assert.equal(ledger.families.FLANGE.latestPromotionPhase, 'DB_PHASE_48');
+  assert.equal(ledger.families.PIPE.latestPromotionPhase, 'DB_PHASE_55');
+  assert.equal(ledger.families.FLANGE.latestPromotionPhase, 'DB_PHASE_56');
   assert.equal(ledger.families.VALVE.latestPromotionPhase, 'DB_PHASE_49');
   assert.equal(ledger.families.FITTING.latestPromotionPhase, 'DB_PHASE_50');
   assert.equal(ledger.families.GASKET.status, 'BLOCKED_SOURCE_MISSING');
