@@ -13,20 +13,22 @@ test('DB Phase 21: integration manifest defines stable downstream lookup contrac
   assert.equal(contract.schema, 'pipedata-integration-contract/v1');
   assert.equal(contract.phase, 'DB_PHASE_21');
   assert.equal(contract.status, 'STABLE_FOUNDATION_CONTRACT');
-  assert.equal(contract.policy.exactMatchOnly, true);
-  assert.equal(contract.policy.noEngineeringFallback, true);
-  assert.equal(contract.policy.missingValues, 'null_or_UNAVAILABLE');
-  assert.equal(contract.policy.rawSourceTreePublic, false);
-  assert.deepEqual(contract.publicApis, ['lookupComponentExact', 'LOOKUP_STATUS']);
+  assert.equal(contract.lookupRules.exactMatchOnly, true);
+  assert.equal(contract.lookupRules.noNearestSize, true);
+  assert.equal(contract.lookupRules.noNearestRating, true);
+  assert.equal(contract.lookupRules.noNearestSchedule, true);
+  assert.equal(contract.lookupRules.noFabricatedValues, true);
+  assert.equal(contract.lookupRules.missingValues, 'null_or_UNAVAILABLE');
+  assert.deepEqual(contract.allowedApis.map((api) => api.export), ['lookupComponentExact', 'LOOKUP_STATUS']);
 });
 
 test('DB Phase 21: integration contract exposes only approved public artifacts', () => {
-  for (const path of contract.requiredArtifacts) {
+  for (const path of contract.requiredAssets) {
     assert.equal(fs.existsSync(path), true, `${path} missing`);
     assert.ok(publicArtifactPaths.has(path), `${path} is not in public export pack`);
   }
 
-  assert.ok(!contract.requiredArtifacts.includes('docs/Pipedata/Database'));
+  assert.ok(!contract.requiredAssets.includes('docs/Pipedata/Database'));
   assert.equal(publicPack.forbiddenArtifacts[0].path, 'docs/Pipedata/Database');
 });
 
