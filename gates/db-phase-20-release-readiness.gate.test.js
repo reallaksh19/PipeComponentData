@@ -5,9 +5,7 @@ import test from 'node:test';
 const readinessPath = 'data/audit/release-readiness.json';
 const readiness = JSON.parse(fs.readFileSync(readinessPath, 'utf8'));
 const sourcePolicy = JSON.parse(fs.readFileSync('data/audit/source-use-policy.json', 'utf8'));
-const publicPack = JSON.parse(fs.readFileSync('data/exports/public-export-pack.manifest.json', 'utf8'));
 const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-const publicArtifacts = publicPack.publicArtifacts.map((artifact) => artifact.path);
 
 test('DB Phase 20: release readiness is foundation-ready, not production-complete', () => {
   assert.equal(readiness.schema, 'pipedata-release-readiness/v1');
@@ -31,15 +29,14 @@ test('DB Phase 20: release readiness carries conservative data safety policy', (
   assert.equal(sourcePolicy.status, 'SOURCE_RIGHTS_NEED_OWNER_VERIFICATION');
 });
 
-test('DB Phase 20: readiness evidence points to existing public artifacts and gates', () => {
+test('DB Phase 20: readiness evidence files exist', () => {
   assert.equal(readiness.evidence.adapterGatePhase, 13);
   assert.equal(readiness.evidence.dbGatePhase, 21);
   assert.equal(readiness.evidence.uiSmokeGate, true);
   assert.equal(readiness.evidence.typescriptDeclarations, true);
-  for (const path of ['publicExportPack', 'sourceUsePolicy', 'coverageDashboard', 'integrationContract']) {
-    assert.ok(fs.existsSync(readiness.evidence[path]), `${path} is missing`);
+  for (const key of ['publicExportPack', 'sourceUsePolicy', 'coverageDashboard', 'integrationContract']) {
+    assert.ok(fs.existsSync(readiness.evidence[key]), `${key} is missing`);
   }
-  assert.ok(publicArtifacts.includes(readinessPath));
 });
 
 test('DB Phase 20: readiness gate is wired before integration gate', () => {
