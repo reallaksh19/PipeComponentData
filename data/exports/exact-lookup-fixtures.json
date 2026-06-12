@@ -8,40 +8,45 @@
   },
   "cases": [
     {
-      "caseId": "pipe-nps2-sch40-found",
-      "query": "PIPE 2 SCH40",
+      "caseId": "pipe-nps2-sch80-found",
+      "query": "PIPE 2 SCH80",
+      "filters": { "componentType": "PIPE", "nps": "2", "schedule": "80" },
       "expectedStatus": "FOUND",
-      "expectedId": "PIPE|NPS2|SCH40",
+      "expectedId": "PIPE|NPS2|SCH80",
       "expectedFamily": "PIPE",
       "expectedDataStatus": "READY"
     },
     {
-      "caseId": "flange-wn-nps4-cl300-found",
-      "query": "WN FLANGE 4 CL300",
+      "caseId": "flange-wn-nps4-cl150-found",
+      "query": "WN FLANGE 4 CL150",
+      "filters": { "componentType": "FLANGE", "subtype": "WN", "nps": "4", "classRating": "150" },
       "expectedStatus": "FOUND",
-      "expectedId": "FLANGE|WN|NPS4|CL300|METRIC",
+      "expectedId": "FLANGE|WN|NPS4|CL150|METRIC",
       "expectedFamily": "FLANGE",
       "expectedDataStatus": "READY"
     },
     {
-      "caseId": "valve-gate-nps8-cl150-found",
-      "query": "GATE VALVE 8 150 RF",
+      "caseId": "valve-gate-nps4-cl1500-found",
+      "query": "GATE VALVE 4 1500 RF",
+      "filters": { "componentType": "VALVE", "valveType": "GATE", "nps": "4", "classRating": "1500", "facing": "RF" },
       "expectedStatus": "FOUND",
-      "expectedId": "VALVE|GATE|FLANGED|NPS8|CL150|RF",
+      "expectedId": "VALVE|GATE|FLANGED|NPS4|CL1500|RF",
       "expectedFamily": "VALVE",
       "expectedDataStatus": "READY"
     },
     {
-      "caseId": "fitting-elbow-nps4-sch40-found",
-      "query": "90 ELBOW 4 SCHEDULE 40",
+      "caseId": "fitting-elbow-nps4-sch80-found",
+      "query": "90 ELBOW 4 SCHEDULE 80",
+      "filters": { "componentType": "FITTING", "subtype": "ELBOW_90", "nps": "4", "schedule": "80" },
       "expectedStatus": "FOUND",
-      "expectedId": "FITTING|ELBOW_90|NPS4|SCH40|METRIC",
+      "expectedId": "FITTING|ELBOW_90|NPS4|SCH80|METRIC",
       "expectedFamily": "FITTING",
       "expectedDataStatus": "READY"
     },
     {
       "caseId": "gasket-rtj-inventory-only",
       "query": "RTJ GASKET",
+      "filters": { "componentType": "GASKET", "subtype": "RTJ", "facing": "RTJ" },
       "expectedStatus": "FOUND",
       "expectedId": "GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ",
       "expectedFamily": "GASKET",
@@ -49,7 +54,8 @@
     },
     {
       "caseId": "wrong-rating-no-fallback",
-      "query": "GATE VALVE 8 300 RF",
+      "query": "GATE VALVE 4 300 RF",
+      "filters": { "componentType": "VALVE", "valveType": "GATE", "nps": "4", "classRating": "300", "facing": "RF" },
       "expectedStatus": "NO_EXACT_MATCH",
       "expectedId": null
     }
