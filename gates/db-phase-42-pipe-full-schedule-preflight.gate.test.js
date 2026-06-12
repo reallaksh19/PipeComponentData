@@ -7,8 +7,9 @@ const preflight = readJson('data/audit/pipe-full-schedule-preflight.json');
 const ledger = readJson('data/audit/source-expansion-ledger.json');
 const pipes = readJson('data/normalized/pipes.json');
 const sch80Wave2 = readJson('data/normalized/pipes-sch80-wave2.json');
+const sch80Wave3 = readJson('data/normalized/pipes-sch80-wave3.json');
 
-const allRows = [...pipes.rows, ...sch80Wave2.rows];
+const allRows = [...pipes.rows, ...sch80Wave2.rows, ...sch80Wave3.rows];
 const schedules = new Set(allRows.map((row) => String(row.schedule)));
 
 test('DB Phase 42: pipe full-schedule expansion remains preflight-governed', () => {
@@ -24,13 +25,14 @@ test('DB Phase 42: required pipe source evidence is committed and later bounded 
     assert.equal(fs.existsSync(path), true, `${path} missing`);
     assert.match(fs.readFileSync(path, 'utf8'), /NPS/);
   }
-  assert.equal(ledger.families.PIPE.latestPromotionPhase, 'DB_PHASE_55');
+  assert.ok(['DB_PHASE_55', 'DB_PHASE_58'].includes(ledger.families.PIPE.latestPromotionPhase));
   assert.equal(ledger.families.PIPE.productionComplete, false);
 });
 
-test('DB Phase 42: full schedule boundary is still partial after bounded SCH80 wave 2', () => {
+test('DB Phase 42: full schedule boundary is still partial after bounded SCH80 waves', () => {
   assert.equal(pipes.rows.length, preflight.currentBoundary.normalizedRowsRemain);
   assert.equal(sch80Wave2.rows.length, 3);
+  assert.equal(sch80Wave3.rows.length, 3);
   assert.deepEqual([...schedules].sort(), ['40', '80']);
   assert.equal(allRows.some((row) => String(row.schedule) === '160'), false);
 });

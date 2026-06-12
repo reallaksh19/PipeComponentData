@@ -6,8 +6,10 @@
   "artifacts": [
     { "path": "data/normalized/pipes.json", "kind": "NORMALIZED_DATA", "family": "PIPE" },
     { "path": "data/normalized/pipes-sch80-wave2.json", "kind": "NORMALIZED_DATA", "family": "PIPE" },
+    { "path": "data/normalized/pipes-sch80-wave3.json", "kind": "NORMALIZED_DATA", "family": "PIPE" },
     { "path": "data/normalized/flanges.json", "kind": "NORMALIZED_DATA", "family": "FLANGE" },
     { "path": "data/normalized/flanges-cl600-wave2.json", "kind": "NORMALIZED_DATA", "family": "FLANGE" },
+    { "path": "data/normalized/flanges-cl600-wave3.json", "kind": "NORMALIZED_DATA", "family": "FLANGE" },
     { "path": "data/normalized/valves.json", "kind": "NORMALIZED_DATA", "family": "VALVE" },
     { "path": "data/normalized/fittings.json", "kind": "NORMALIZED_DATA", "family": "FITTING" },
     { "path": "data/normalized/gaskets.json", "kind": "NORMALIZED_DATA", "family": "GASKET" },

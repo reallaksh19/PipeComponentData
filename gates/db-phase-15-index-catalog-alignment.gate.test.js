@@ -20,16 +20,18 @@ test('DB Phase 15: every search-index entry resolves to its normalized catalog r
     if (!rows.some((row) => row.id === entry.id)) missing.push(entry.id);
   }
   assert.deepEqual(missing, []);
-  assert.equal(searchIndex.entries.length, 64);
+  assert.equal(searchIndex.entries.length, 73);
 });
 
-test('DB Phase 15: wave 2 index keeps exact IDs aligned by family', () => {
+test('DB Phase 15: wave 5 index keeps exact IDs aligned by family', () => {
   const ids = new Set(searchIndex.entries.map((entry) => entry.id));
   for (const expected of [
     'PIPE|NPS8|SCH80',
     'PIPE|NPS12|SCH80',
+    'PIPE|NPS18|SCH80',
     'FLANGE|WN|NPS4|CL600|METRIC',
     'FLANGE|BLIND|NPS6|CL600|METRIC',
+    'FLANGE|WN|NPS10|CL600|METRIC',
     'VALVE|GATE|FLANGED|NPS4|CL1500|RF',
     'FITTING|ELBOW_90|NPS4|SCH80|METRIC',
     'GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ',
