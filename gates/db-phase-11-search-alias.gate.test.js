@@ -12,10 +12,10 @@ test('DB Phase 11: alias expansion supports discipline terms', () => {
   assert.ok(terms.includes('FLANGE'));
 });
 
-test('DB Phase 11: exact alias search returns the intended valve row', () => {
+test('DB Phase 11: exact filtered search returns the intended valve row', () => {
   const result = componentSearch('gate valve 8 class 150 rf', index, {
     aliases,
-    filters: { componentType: 'VALVE', classRating: '150', nps: '8' },
+    filters: { componentType: 'VALVE', valveType: 'GATE', classRating: '150', nps: '8', facing: 'RF' },
   });
   assert.equal(result.ok, true);
   assert.equal(result.results[0].id, 'VALVE|GATE|FLANGED|NPS8|CL150|RF');
@@ -24,7 +24,7 @@ test('DB Phase 11: exact alias search returns the intended valve row', () => {
 test('DB Phase 11: wrong rating does not fall back to nearest component', () => {
   const result = componentSearch('gate valve 8 class 300 rf', index, {
     aliases,
-    filters: { componentType: 'VALVE', classRating: '300', nps: '8' },
+    filters: { componentType: 'VALVE', valveType: 'GATE', classRating: '300', nps: '8', facing: 'RF' },
   });
   assert.equal(result.ok, false);
   assert.equal(result.results.length, 0);
@@ -41,7 +41,7 @@ test('DB Phase 11: unsupported fuzzy modes are rejected explicitly', () => {
 test('DB Phase 11: missing-dimension gasket inventory remains visible but not size-specific', () => {
   const inventory = componentSearch('rtj gasket', index, {
     aliases,
-    filters: { componentType: 'GASKET', subtype: 'RTJ' },
+    filters: { componentType: 'GASKET', subtype: 'RTJ', facing: 'RTJ' },
   });
   assert.equal(inventory.ok, true);
   assert.equal(inventory.results[0].id, 'GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ');
@@ -49,7 +49,7 @@ test('DB Phase 11: missing-dimension gasket inventory remains visible but not si
 
   const concrete = componentSearch('rtj gasket 4 300', index, {
     aliases,
-    filters: { componentType: 'GASKET', subtype: 'RTJ', classRating: '300', nps: '4' },
+    filters: { componentType: 'GASKET', subtype: 'RTJ', facing: 'RTJ', classRating: '300', nps: '4' },
   });
   assert.equal(concrete.ok, false);
   assert.equal(concrete.diagnostics[0].code, 'SEARCH_NO_EXACT_MATCH');

@@ -16,48 +16,41 @@ const catalogs = {
   'data/normalized/supports.json': readJson('data/normalized/supports.json'),
 };
 const assets = { searchIndex: index, aliases, catalogs };
+const row = (id) => pipes.rows.find((item) => item.id === id);
 
-function row(id) {
-  return pipes.rows.find((item) => item.id === id);
-}
-
-test('DB Phase 24: pipe schedule sample expansion is source-backed', () => {
-  assert.equal(pipes.summary.generationMode, 'SOURCE_BACKED_SAMPLE_EXPANSION');
-  assert.equal(pipes.summary.sampledRowCount, 5);
-  assert.equal(pipes.summary.expansionPack, 'DB_PHASE_24_PIPE_SCHEDULE_SAMPLE');
-  assert.equal(pipes.rows.length, 5);
+test('DB Phase 24: pipe expansion remains source-backed', () => {
+  assert.equal(pipes.summary.generationMode, 'SOURCE_BACKED_WAVE_1_EXPANSION');
+  assert.equal(pipes.summary.sampledRowCount, 10);
+  assert.equal(pipes.summary.expansionPack, 'DB_PHASE_47_PIPE_SCHEDULE_WAVE_1');
+  assert.equal(pipes.rows.length, 10);
   assert.equal(row('PIPE|NPS0+1/4|SCH40').sourceRow, 3);
-  assert.equal(row('PIPE|NPS1|SCH40').sourceRow, 7);
-  assert.equal(row('PIPE|NPS2|SCH40').sourceRow, 10);
+  assert.equal(row('PIPE|NPS2|SCH80').sourceRow, 10);
 });
 
-test('DB Phase 24: promoted pipe values match committed PIPE40 source rows', () => {
+test('DB Phase 24: promoted pipe values match committed source rows', () => {
   const nps2 = row('PIPE|NPS2|SCH40');
   assert.equal(nps2.odMm, 60.3);
   assert.equal(nps2.wallMm, 3.91);
   assert.equal(nps2.idMm, 52.48);
   assert.equal(nps2.weightKgPerM, 5.44);
-  assert.equal(nps2.valueBasis.odMm, 'SOURCE_VALUE');
+  const sch80 = row('PIPE|NPS2|SCH80');
+  assert.equal(sch80.wallMm, 5.54);
+  assert.equal(sch80.weightKgPerM, 7.48);
   assert.equal(row('PIPE|NPS0+1/8|SCH40').dataStatus, 'PARTIAL');
   assert.equal(row('PIPE|NPS0+1/8|SCH40').valueBasis.odMm, 'UNAVAILABLE');
 });
 
 test('DB Phase 24: exact pipe lookup works and wrong schedule does not fallback', () => {
-  const found = lookupComponentExact('PIPE 2 SCH40', assets, {
-    filters: { componentType: 'PIPE', nps: '2', schedule: '40' },
-  });
+  const found = lookupComponentExact('PIPE 2 SCH80', assets, { filters: { componentType: 'PIPE', nps: '2', schedule: '80' } });
   assert.equal(found.status, LOOKUP_STATUS.FOUND);
-  assert.equal(found.row.id, 'PIPE|NPS2|SCH40');
-
-  const wrong = lookupComponentExact('PIPE 2 SCH80', assets, {
-    filters: { componentType: 'PIPE', nps: '2', schedule: '80' },
-  });
+  assert.equal(found.row.id, 'PIPE|NPS2|SCH80');
+  const wrong = lookupComponentExact('PIPE 2 SCH160', assets, { filters: { componentType: 'PIPE', nps: '2', schedule: '160' } });
   assert.equal(wrong.status, LOOKUP_STATUS.NO_EXACT_MATCH);
 });
 
 test('DB Phase 24: promoted pipe rows are indexed and non-fabricated', () => {
   const indexed = new Set(index.entries.filter((entry) => entry.family === 'PIPE').map((entry) => entry.id));
-  for (const promoted of ['PIPE|NPS0+1/4|SCH40', 'PIPE|NPS1|SCH40', 'PIPE|NPS2|SCH40', 'PIPE|NPS4|SCH40']) {
+  for (const promoted of ['PIPE|NPS2|SCH40', 'PIPE|NPS6|SCH40', 'PIPE|NPS2|SCH80', 'PIPE|NPS6|SCH80']) {
     assert.equal(indexed.has(promoted), true, `${promoted} missing from index`);
     assert.ok(!Object.values(row(promoted).valueBasis).includes('FABRICATED'));
   }

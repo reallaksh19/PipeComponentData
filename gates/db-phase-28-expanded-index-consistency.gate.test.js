@@ -12,23 +12,25 @@ const catalogs = Object.fromEntries(
     .map((artifact) => [artifact.path, readJson(artifact.path)]),
 );
 
-test('DB Phase 28: expanded valve and fitting index entries resolve to catalogs', () => {
+test('DB Phase 28: expanded index entries resolve to catalogs', () => {
   const missing = [];
   for (const entry of searchIndex.entries) {
     const rows = catalogs[entry.source]?.rows ?? [];
     if (!rows.some((row) => row.id === entry.id)) missing.push(entry.id);
   }
   assert.deepEqual(missing, []);
-  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'VALVE').length, 5);
-  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'FITTING').length, 9);
+  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'PIPE').length, 9);
+  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'FLANGE').length, 18);
+  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'VALVE').length, 8);
+  assert.equal(searchIndex.entries.filter((entry) => entry.family === 'FITTING').length, 15);
 });
 
-test('DB Phase 28: coverage dashboard is synced after valve and fitting expansion', () => {
+test('DB Phase 28: coverage dashboard is synced after wave 1 expansion', () => {
   const generated = buildCoverageDashboard({ manifest, searchIndex, catalogs });
   const committed = readJson('data/audit/db-coverage-dashboard.json');
-  assert.equal(generated.summary.indexedEntryCount, 29);
-  assert.equal(generated.summary.normalizedRowCount, 33);
-  assert.equal(generated.summary.indexedResolvedRowCount, 29);
+  assert.equal(generated.summary.indexedEntryCount, 52);
+  assert.equal(generated.summary.normalizedRowCount, 56);
+  assert.equal(generated.summary.indexedResolvedRowCount, 52);
   assert.equal(generated.summary.missingCatalogRows, 0);
   assert.equal(committed.summary.indexedEntryCount, generated.summary.indexedEntryCount);
   assert.equal(committed.summary.normalizedRowCount, generated.summary.normalizedRowCount);
@@ -36,8 +38,10 @@ test('DB Phase 28: coverage dashboard is synced after valve and fitting expansio
 
 test('DB Phase 28: source ledger keeps non-source families blocked or under review', () => {
   const ledger = readJson('data/audit/source-expansion-ledger.json');
-  assert.equal(ledger.families.VALVE.promotionPhase, 'DB_PHASE_26');
-  assert.equal(ledger.families.FITTING.promotionPhase, 'DB_PHASE_27');
+  assert.equal(ledger.families.PIPE.latestPromotionPhase, 'DB_PHASE_47');
+  assert.equal(ledger.families.FLANGE.latestPromotionPhase, 'DB_PHASE_48');
+  assert.equal(ledger.families.VALVE.latestPromotionPhase, 'DB_PHASE_49');
+  assert.equal(ledger.families.FITTING.latestPromotionPhase, 'DB_PHASE_50');
   assert.equal(ledger.families.GASKET.status, 'BLOCKED_SOURCE_MISSING');
   assert.equal(ledger.families.SUPPORT.status, 'MANUAL_REVIEW');
   for (const family of Object.values(ledger.families)) assert.equal(family.productionComplete, false);

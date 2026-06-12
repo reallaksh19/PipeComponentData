@@ -20,19 +20,26 @@ test('DB Phase 15: every search-index entry resolves to its normalized catalog r
     if (!rows.some((row) => row.id === entry.id)) missing.push(entry.id);
   }
   assert.deepEqual(missing, []);
+  assert.equal(searchIndex.entries.length, 52);
 });
 
-test('DB Phase 15: index keeps exact IDs aligned for fitting, gasket, and support samples', () => {
-  assert.ok(searchIndex.entries.some((entry) => entry.id === 'FITTING|ELBOW_90|NPS4|SCH40|METRIC'));
-  assert.ok(searchIndex.entries.some((entry) => entry.id === 'GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ'));
-  assert.ok(searchIndex.entries.some((entry) => entry.id === 'SUPPORT|SHOE'));
+test('DB Phase 15: wave 1 index keeps exact IDs aligned by family', () => {
+  const ids = new Set(searchIndex.entries.map((entry) => entry.id));
+  for (const expected of [
+    'PIPE|NPS2|SCH80',
+    'FLANGE|WN|NPS4|CL150|METRIC',
+    'VALVE|GATE|FLANGED|NPS4|CL1500|RF',
+    'FITTING|ELBOW_90|NPS4|SCH80|METRIC',
+    'GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ',
+    'SUPPORT|SHOE',
+  ]) assert.equal(ids.has(expected), true, `${expected} missing`);
 });
 
 test('DB Phase 15: gasket inventory search does not imply unavailable size/class coverage', () => {
   const concrete = componentSearch('rtj gasket 4 300', searchIndex, {
     aliases,
     mode: SEARCH_MODE.EXACT_ALIAS_ONLY,
-    filters: { componentType: 'GASKET', subtype: 'RTJ', nps: '4', classRating: '300' },
+    filters: { componentType: 'GASKET', subtype: 'RTJ', facing: 'RTJ', nps: '4', classRating: '300' },
   });
   assert.equal(concrete.ok, false);
   assert.equal(concrete.diagnostics[0].code, 'SEARCH_NO_EXACT_MATCH');
@@ -40,7 +47,7 @@ test('DB Phase 15: gasket inventory search does not imply unavailable size/class
   const inventory = componentSearch('rtj gasket', searchIndex, {
     aliases,
     mode: SEARCH_MODE.EXACT_ALIAS_ONLY,
-    filters: { componentType: 'GASKET', subtype: 'RTJ' },
+    filters: { componentType: 'GASKET', subtype: 'RTJ', facing: 'RTJ' },
   });
   assert.equal(inventory.ok, true);
   assert.equal(inventory.results[0].id, 'GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ');

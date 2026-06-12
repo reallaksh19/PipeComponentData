@@ -11,7 +11,9 @@ const coverage = JSON.parse(fs.readFileSync('data/audit/db-coverage-dashboard.js
 const readiness = JSON.parse(fs.readFileSync('data/audit/release-readiness.json', 'utf8'));
 const integration = JSON.parse(fs.readFileSync('data/exports/integration-contract.manifest.json', 'utf8'));
 
-function studio(query = 'gate valve 8 class 150 rf', filters = { componentType: 'VALVE', classRating: '150', nps: '8' }) {
+const EXACT_VALVE_8_150_RF = { componentType: 'VALVE', valveType: 'GATE', classRating: '150', nps: '8', facing: 'RF' };
+
+function studio(query = 'gate valve 8 class 150 rf', filters = EXACT_VALVE_8_150_RF) {
   return createComponentStudioModel({
     query,
     searchIndex,
@@ -44,7 +46,7 @@ test('UI Studio: exact search rejects partial text and wrong class fallback', ()
   const partial = componentSearch('gate valve', searchIndex, { aliases, mode: SEARCH_MODE.EXACT_ALIAS_ONLY });
   assert.equal(partial.ok, false);
 
-  const wrongClass = studio('gate valve 8 class 300 rf', { componentType: 'VALVE', classRating: '300', nps: '8' });
+  const wrongClass = studio('gate valve 8 class 300 rf', { ...EXACT_VALVE_8_150_RF, classRating: '300' });
   assert.equal(wrongClass.search.ok, false);
   assert.equal(wrongClass.search.selectedId, null);
   assert.equal(wrongClass.selector.noFallbackPolicy.includes('nearest'), true);
@@ -54,7 +56,7 @@ test('UI Studio: complete structured filters can select an exact component witho
   const result = componentSearch('', searchIndex, {
     aliases,
     mode: SEARCH_MODE.EXACT_ALIAS_ONLY,
-    filters: { componentType: 'VALVE', valveType: 'GATE', nps: '8', classRating: '150', facing: 'RF' },
+    filters: EXACT_VALVE_8_150_RF,
   });
   assert.equal(result.ok, true);
   assert.equal(result.results[0].id, 'VALVE|GATE|FLANGED|NPS8|CL150|RF');

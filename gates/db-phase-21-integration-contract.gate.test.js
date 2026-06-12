@@ -27,7 +27,6 @@ test('DB Phase 21: integration contract exposes only approved public artifacts',
     assert.equal(fs.existsSync(path), true, `${path} missing`);
     assert.ok(publicArtifactPaths.has(path), `${path} is not in public export pack`);
   }
-
   assert.ok(!contract.requiredAssets.includes('docs/Pipedata/Database'));
   assert.equal(publicPack.forbiddenArtifacts[0].path, 'docs/Pipedata/Database');
 });
@@ -53,5 +52,5 @@ test('DB Phase 21: foundation release candidate pack is public and conservative'
 
 test('DB Phase 21: integration gate remains before expansion and stabilization gates', () => {
   assert.equal(packageJson.scripts['db:gate21'], 'npm run db:gate20 && node --test gates/db-phase-21-integration-contract.gate.test.js');
-  assert.match(packageJson.scripts['db:test'], /db:gate(2[1-9]|3[0-6])/);
+  assert.match(packageJson.scripts['db:test'], /db:gate(2[1-9]|3[0-9]|4[0-9]|50)/);
 });
