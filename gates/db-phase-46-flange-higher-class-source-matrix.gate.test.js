@@ -5,8 +5,9 @@ import test from 'node:test';
 const manifest = JSON.parse(fs.readFileSync('data/audit/flange-higher-class-source-matrix.json', 'utf8'));
 const flanges = JSON.parse(fs.readFileSync('data/normalized/flanges.json', 'utf8'));
 const cl600 = JSON.parse(fs.readFileSync('data/normalized/flanges-cl600-wave2.json', 'utf8'));
+const cl600Wave3 = JSON.parse(fs.readFileSync('data/normalized/flanges-cl600-wave3.json', 'utf8'));
 const searchIndex = JSON.parse(fs.readFileSync('data/indexes/component-search.index.json', 'utf8'));
-const allRows = [...flanges.rows, ...cl600.rows];
+const allRows = [...flanges.rows, ...cl600.rows, ...cl600Wave3.rows];
 
 test('DB Phase 46: flange higher-class source matrix remains governance source', () => {
   assert.equal(manifest.schema, 'pipedata-flange-higher-class-source-matrix/v1');
@@ -30,17 +31,19 @@ test('DB Phase 46: Class 600 source rows expose WN/SO/BLIND values for bounded N
   const rows = fs.readFileSync('docs/Pipedata/Database/Flan/Flg600.csv', 'utf8').trimEnd().split('\n');
   assert.match(rows[1], /od,thickness,hub-x/);
   assert.match(rows.find((line) => line.startsWith('2,50,')), /165,25\.4,84,60\.3/);
-  assert.match(rows.find((line) => line.startsWith('4,100,')), /275,38\.1,152,114\.3/);
   assert.match(rows.find((line) => line.startsWith('6,150,')), /355,47\.7,222,168\.3/);
+  assert.match(rows.find((line) => line.startsWith('8,200,')), /420,55\.6,273,219\.1/);
+  assert.match(rows.find((line) => line.startsWith('10,250,')), /510,63\.5,343,273/);
 });
 
 test('DB Phase 46: only bounded Class 600 rows are promoted, higher classes remain unpromoted', () => {
   assert.equal(flanges.rows.length, 18);
   assert.equal(cl600.rows.length, 9);
+  assert.equal(cl600Wave3.rows.length, 6);
   assert.deepEqual([...new Set(allRows.map((row) => row.classRating))].sort(), ['150', '300', '600']);
   const indexedFlanges = searchIndex.entries.filter((entry) => entry.family === 'FLANGE');
-  assert.equal(indexedFlanges.length, 27);
-  assert.equal(indexedFlanges.some((entry) => entry.id.includes('|CL600|')), true);
+  assert.equal(indexedFlanges.length, 33);
+  assert.equal(indexedFlanges.some((entry) => entry.id === 'FLANGE|WN|NPS10|CL600|METRIC'), true);
   for (const rating of ['400', '900', '1500', '2500']) {
     assert.equal(indexedFlanges.some((entry) => entry.id.includes(`|CL${rating}|`)), false);
   }
