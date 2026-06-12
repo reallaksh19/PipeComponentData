@@ -47,5 +47,5 @@ test('DB Phase 19: human governance document states the same safety rules', () =
 test('DB Phase 19: governance gate remains in the db chain after later phases', () => {
   assert.equal(packageJson.scripts['db:gate19'], 'npm run db:gate18 && node --test gates/db-phase-19-data-governance.gate.test.js');
   assert.match(packageJson.scripts['db:gate20'], /db:gate19/);
-  assert.match(packageJson.scripts['db:test'], /db:gate2[1-5]/);
+  assert.match(packageJson.scripts['db:test'], /db:gate2[1-8]/);
 });
