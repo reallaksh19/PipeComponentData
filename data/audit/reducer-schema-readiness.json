@@ -1,0 +1,26 @@
+{
+  "schema": "pipedata-reducer-schema-readiness/v1",
+  "phase": "DB_PHASE_51",
+  "status": "SCHEMA_READY_NOT_PROMOTED",
+  "family": "REDUCER",
+  "scope": {
+    "roadmapItem": "DATA-REDUCER-SCHEMA",
+    "promotionApplied": false,
+    "normalizedDataChanged": false,
+    "reason": "Reducers require two-size identity and cannot use single-NPS fitting schema."
+  },
+  "canonicalIdentity": ["largeNps", "smallNps", "largeSchedule", "smallSchedule", "reducerType"],
+  "allowedReducerTypes": ["CONCENTRIC", "ECCENTRIC", "SWAGE", "UNKNOWN"],
+  "blockedUntil": [
+    "source table columns are mapped for large/small end identity",
+    "end-to-end dimension column is verified",
+    "weight column is verified",
+    "exact search key format is approved"
+  ],
+  "safetyRules": {
+    "noReducerPromotionBeforeSchema": true,
+    "noSingleNpsReducerRows": true,
+    "noNearestLargeOrSmallNpsFallback": true,
+    "sourceProvenanceRequired": true
+  }
+}
