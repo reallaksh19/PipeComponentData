@@ -135,6 +135,12 @@ jobs:
         run: npm run db:gate27 --if-present
       - name: Run DB Phase 28 expanded index consistency gate
         run: npm run db:gate28 --if-present
+      - name: Run DB Phase 29 reducer and olet preflight gate
+        run: npm run db:gate29 --if-present
+      - name: Run DB Phase 30 gasket promotion decision gate
+        run: npm run db:gate30 --if-present
+      - name: Run DB Phase 31 support source preflight gate
+        run: npm run db:gate31 --if-present
       - name: Run UI gates
         run: npm run ui:gate --if-present
 
