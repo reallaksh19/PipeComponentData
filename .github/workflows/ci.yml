@@ -50,11 +50,14 @@ jobs:
             npm install
           fi
 
-      - name: Run cumulative gates
-        run: npm test
+      - name: Run adapter/API gates
+        run: npm run gate:phase13
 
-      - name: Run DB gates when present
+      - name: Run DB gates
         run: npm run db:test --if-present
+
+      - name: Run UI gates
+        run: npm run ui:gate --if-present
 
   gate-map:
     name: Gate map report
