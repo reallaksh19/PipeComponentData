@@ -42,8 +42,8 @@ jobs:
           else
             npm install
           fi
-      - name: Run baseline expanded index gate
-        run: npm run db:gate28 --if-present
+      - name: Run DB Phase 28 direct expanded index gate
+        run: node --test gates/db-phase-28-expanded-index-consistency.gate.test.js
       - name: Run DB Phase 47 pipe schedule wave 1 gate
         run: node --test gates/db-phase-47-pipe-schedule-wave1.gate.test.js
       - name: Run DB Phase 48 flange wave 1 gate
