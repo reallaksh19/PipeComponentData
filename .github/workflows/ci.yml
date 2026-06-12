@@ -50,8 +50,11 @@ jobs:
             npm install
           fi
 
-      - name: Run adapter/API gates
-        run: npm run gate:phase13
+      - name: Run adapter/API gates through Phase 12
+        run: npm run gate:phase12
+
+      - name: Run adapter/API Phase 13 final gate
+        run: node --test gates/phase-13-full.gate.test.js
 
       - name: Run DB gates
         run: npm run db:test --if-present
