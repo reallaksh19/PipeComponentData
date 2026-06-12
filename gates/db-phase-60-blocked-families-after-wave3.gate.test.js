@@ -11,6 +11,7 @@ const catalogs = Object.fromEntries(
   manifest.artifacts.filter((artifact) => artifact.kind === 'NORMALIZED_DATA').map((artifact) => [artifact.path, readJson(artifact.path)]),
 );
 const assets = { searchIndex: index, aliases, catalogs };
+const rowStatus = (row) => row?.dataStatus ?? row?.provenance?.dataStatus ?? null;
 
 test('DB Phase 60: reducer and olet remain unindexed after wave 5', () => {
   assert.equal(index.entries.some((entry) => entry.family === 'REDUCER'), false);
@@ -21,8 +22,8 @@ test('DB Phase 60: reducer and olet remain unindexed after wave 5', () => {
 test('DB Phase 60: gasket and support remain non-promoted families', () => {
   const gasket = catalogs['data/normalized/gaskets.json'].rows.find((row) => row.id === 'GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ');
   const support = catalogs['data/normalized/supports.json'].rows.find((row) => row.id === 'SUPPORT|SHOE');
-  assert.equal(gasket.dataStatus, 'MISSING_DIMENSION');
-  assert.equal(support.dataStatus, 'PROJECT_OVERRIDE');
+  assert.equal(rowStatus(gasket), 'MISSING_DIMENSION');
+  assert.equal(rowStatus(support), 'PROJECT_OVERRIDE');
 });
 
 test('DB Phase 60: exact lookup still blocks reducer and nearest class fallback', () => {
