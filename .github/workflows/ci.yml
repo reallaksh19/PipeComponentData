@@ -50,8 +50,20 @@ jobs:
             npm install
           fi
 
-      - name: Run adapter/API gates through Phase 9
-        run: npm run gate:phase9
+      - name: Run adapter/API gates through Phase 5
+        run: npm run gate:phase5
+
+      - name: Run adapter/API Phase 6 connectivity gate
+        run: node --test gates/phase-06-connectivity.gate.test.js
+
+      - name: Run adapter/API Phase 7 UXML roundtrip gate
+        run: node --test gates/phase-07-uxml-roundtrip.gate.test.js
+
+      - name: Run adapter/API Phase 8 CEG bridge gate
+        run: node --test gates/phase-08-ceg-bridge.gate.test.js
+
+      - name: Run adapter/API Phase 9 simplified weight gate
+        run: node --test gates/phase-09-simplified-weight.gate.test.js
 
       - name: Run adapter/API Phase 10 Solid3D gate
         run: node --test gates/phase-10-solid3d.gate.test.js
