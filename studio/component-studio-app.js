@@ -5,6 +5,13 @@ const CATEGORY_COMPONENTS = {
   Gaskets: 'GASKET', Olets: 'OLET', Reducers: 'REDUCER', Coverage: 'COVERAGE', Export: 'EXPORT',
 };
 const DEFAULT_FILTERS = { componentType: 'VALVE', valveType: 'GATE', nps: '8', classRating: '150', facing: 'RF' };
+const QUICK_FILTERS = [
+  { label: 'GATE VALVE 8 150 RF', query: 'GATE VALVE 8 150 RF', activeCategory: 'Valves', filters: { ...DEFAULT_FILTERS } },
+  { label: 'PIPE 4 SCH40', query: 'PIPE 4 SCH40', activeCategory: 'Pipe', filters: { componentType: 'PIPE', nps: '4', schedule: '40' } },
+  { label: 'WELD NECK FLANGE 4 300', query: 'WELD NECK FLANGE 4 300', activeCategory: 'Flanges', filters: { componentType: 'FLANGE', subtype: 'WN', nps: '4', classRating: '300' } },
+  { label: 'RTJ GASKET', query: 'RTJ GASKET', activeCategory: 'Gaskets', filters: { componentType: 'GASKET', subtype: 'RTJ', facing: 'RTJ' } },
+  { label: 'PIPE SHOE', query: 'PIPE SHOE', activeCategory: 'Supports', filters: { componentType: 'SUPPORT', subtype: 'SHOE' } },
+];
 const LABELS = {
   faceToFaceRfMm: 'RF Face-to-face', faceToFaceRtjMm: 'RTJ Face-to-face', buttWeldLengthMm: 'BW Length',
   heightMm: 'Valve Height', handwheelDiaMm: 'Handwheel Dia', rtjAddLengthMm: 'RTJ Add Length', gapMm: 'Gap',
@@ -87,6 +94,7 @@ function selectCategory(category) {
   const componentType = CATEGORY_COMPONENTS[category] ?? 'VALVE';
   const filters = componentType === 'VALVE' ? DEFAULT_FILTERS : { componentType };
   state = { ...state, activeCategory: category, query: '', filters, auditOpen: false };
+  closeAuditBox();
   syncControls();
   runSearch(readControls());
 }
@@ -115,12 +123,17 @@ function readControls() {
 }
 
 function renderQuickFilters() {
-  const filters = ['GATE VALVE 8 150 RF', 'PIPE 4 SCH40', 'WELD NECK FLANGE 4 300', 'RTJ GASKET 4 300', 'PIPE SHOE'];
-  document.getElementById('quick-filters').innerHTML = filters.map((item) => `<button data-query="${escapeHtml(item)}">${item}</button>`).join('');
+  document.getElementById('quick-filters').innerHTML = QUICK_FILTERS
+    .map((item, index) => `<button data-index="${index}">${escapeHtml(item.label)}</button>`)
+    .join('');
   for (const button of document.querySelectorAll('#quick-filters button')) {
     button.addEventListener('click', () => {
-      document.getElementById('query-box').value = button.dataset.query;
-      runSearch({ ...readControls(), query: button.dataset.query });
+      const item = QUICK_FILTERS[Number(button.dataset.index)];
+      const next = { activeCategory: item.activeCategory, query: item.query, filters: { ...item.filters }, auditOpen: false };
+      state = { ...state, ...next };
+      closeAuditBox();
+      syncControls();
+      runSearch(next);
     });
   }
 }
@@ -234,6 +247,7 @@ function sourceToken(row) { return String(row.source ?? '').split('/').pop()?.re
 function setValue(id, value) { const node = document.getElementById(id); if (node) node.value = value; }
 function getValue(id) { return document.getElementById(id)?.value?.trim() ?? ''; }
 function categoryFromComponent(type) { return Object.entries(CATEGORY_COMPONENTS).find(([, value]) => value === type)?.[0] ?? 'Valves'; }
+function closeAuditBox() { const node = document.getElementById('audit-box'); if (node) node.open = false; }
 function cleanFilters(filters) { return Object.fromEntries(Object.entries(filters).filter(([, value]) => value !== undefined && value !== null && value !== '')); }
 function aliasList(aliasRows) { return Array.isArray(aliasRows) ? aliasRows : (aliasRows?.rows ?? []); }
 function normalizeSearchText(value) { return String(value ?? '').toUpperCase().replace(/[”″]/g, '"').replace(/[^A-Z0-9+".]+/g, ' ').replace(/\s+/g, ' ').trim(); }
