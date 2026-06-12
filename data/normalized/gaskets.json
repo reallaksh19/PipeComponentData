@@ -1,4 +1,5 @@
 {
+  "schema": "pipedata-normalized-gaskets/v1",
   "metadata": {
     "family": "GASKET",
     "phase": "DB_PHASE_09",
