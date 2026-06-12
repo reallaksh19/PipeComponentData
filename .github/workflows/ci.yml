@@ -175,6 +175,12 @@ jobs:
         run: node --test gates/db-phase-46-flange-higher-class-source-matrix.gate.test.js
       - name: Run DB Phase 51 reducer schema readiness gate
         run: node --test gates/db-phase-51-reducer-schema-readiness.gate.test.js
+      - name: Run DB Phase 52 pipe SCH80 wave 2 readiness gate
+        run: node --test gates/db-phase-52-pipe-sch80-wave2-promotion-readiness.gate.test.js
+      - name: Run DB Phase 53 flange CL600 wave 2 readiness gate
+        run: node --test gates/db-phase-53-flange-cl600-wave2-promotion-readiness.gate.test.js
+      - name: Run DB Phase 54 reducer source column map gate
+        run: node --test gates/db-phase-54-reducer-source-column-map.gate.test.js
       - name: Run UI gates
         run: npm run ui:gate --if-present
 
