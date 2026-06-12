@@ -1,4 +1,5 @@
 {
+  "schema": "pipedata-normalized-valves/v1",
   "metadata": {
     "family": "VALVE",
     "phase": "DB_PHASE_07",
@@ -27,7 +28,7 @@
       "source": "docs/Pipedata/Database/Vlfl/VLV1150.csv",
       "datasetVersion": "pipedata-db/2026.06.phase7",
       "dataStatus": "READY",
-      "sourceRowNumber": 18,
+      "sourceRowNumber": 16,
       "dimensions": {
         "faceToFaceRfMm": { "value": 292, "basis": "SOURCE_VALUE", "sourceColumn": "RF-F/F", "unit": "mm" },
         "faceToFaceRtjMm": { "value": 305, "basis": "SOURCE_VALUE", "sourceColumn": "RTJ F/F", "unit": "mm" },
@@ -46,7 +47,7 @@
         "source": "docs/Pipedata/Database/Vlfl/VLV1150.csv",
         "datasetVersion": "pipedata-db/2026.06.phase7",
         "dataStatus": "READY",
-        "sourceRowNumber": 18
+        "sourceRowNumber": 16
       }
     },
     {
