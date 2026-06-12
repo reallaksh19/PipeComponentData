@@ -1,0 +1,26 @@
+{
+  "schema": "pipedata-flange-cl600-wave2-promotion-readiness/v1",
+  "phase": "DB_PHASE_53",
+  "status": "READY_FOR_BOUNDED_PROMOTION_NOT_APPLIED",
+  "family": "FLANGE",
+  "scope": {
+    "roadmapItem": "DATA-FLANGE-MORE-CLASSES",
+    "promotionApplied": false,
+    "normalizedDataChanged": false,
+    "sourceFile": "docs/Pipedata/Database/Flan/Flg600.csv",
+    "nextAllowedPromotion": "bounded Class 600 WN/SO/BLIND rows for NPS 2, 4, and 6 only"
+  },
+  "candidateRows": [
+    { "nps": "2", "dn": 50, "sourceRowNumber": 10, "flangeOdMm": 165, "thicknessMm": 25.4, "hubXMm": 84, "soBoreMm": 61.9, "pcdMm": 127, "boltCount": 8, "wnKg": 5.5, "soKg": 4.1, "blindKg": 4.6 },
+    { "nps": "4", "dn": 100, "sourceRowNumber": 14, "flangeOdMm": 275, "thicknessMm": 38.1, "hubXMm": 152, "soBoreMm": 116.8, "pcdMm": 215.9, "boltCount": 8, "wnKg": 19.1, "soKg": 16.8, "blindKg": 18.7 },
+    { "nps": "6", "dn": 150, "sourceRowNumber": 16, "flangeOdMm": 355, "thicknessMm": 47.7, "hubXMm": 222, "soBoreMm": 170.7, "pcdMm": 292.1, "boltCount": 12, "wnKg": 36, "soKg": 36, "blindKg": 39 }
+  ],
+  "subtypesAllowedForNextPromotion": ["WN", "SO", "BLIND"],
+  "requiredColumns": ["od", "thickness", "hub-x", "SO Bore", "pcd", "no of bolts", "wn kg", "so kg", "bld kg"],
+  "safetyRules": {
+    "noFabricatedEngineeringValues": true,
+    "noNearestClassFallback": true,
+    "blindFlangeUnavailableFieldsRemainUnavailable": true,
+    "sourceProvenanceRequired": true
+  }
+}
