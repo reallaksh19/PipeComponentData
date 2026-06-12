@@ -26,16 +26,25 @@
       <section class="pane selector-pane" aria-labelledby="selector-title">
         <div class="pane-head">
           <h2 id="selector-title">Component Selector</h2>
-          <p>Quick filters and controlled lookup</p>
+          <p>Exact source-backed lookup. No nearest-size fallback.</p>
         </div>
         <div class="pane-body">
           <div class="chips" id="quick-filters"></div>
-          <label class="field-label" for="query-box">Lookup query</label>
+          <label class="field-label" for="query-box">Lookup query / alias</label>
           <input id="query-box" class="text-input" value="gate valve 8 class 150 rf" />
           <div class="form-grid">
-            <label>NPS<select id="nps-filter"><option>8</option><option>4</option><option>22</option></select></label>
-            <label>Class<select id="class-filter"><option>150</option><option>300</option><option>600</option></select></label>
-            <label>Family<select id="family-filter"><option>VALVE</option><option>PIPE</option><option>FLANGE</option><option>FITTING</option></select></label>
+            <label>Component
+              <select id="component-filter">
+                <option>VALVE</option><option>PIPE</option><option>FITTING</option><option>FLANGE</option><option>SUPPORT</option><option>GASKET</option><option>OLET</option><option>REDUCER</option>
+              </select>
+            </label>
+            <label>Type / Subtype
+              <select id="subtype-filter"><option></option><option>GATE</option><option>WN</option><option>ELBOW90</option><option>RTJ</option><option>SHOE</option></select>
+            </label>
+            <label>NPS<select id="nps-filter"><option></option><option>4</option><option>8</option><option>22</option></select></label>
+            <label>Class<select id="class-filter"><option></option><option>150</option><option>300</option><option>600</option></select></label>
+            <label>Schedule<select id="schedule-filter"><option></option><option>40</option><option>80</option></select></label>
+            <label>Facing<select id="facing-filter"><option></option><option>RF</option><option>RTJ</option></select></label>
             <label>Mode<select disabled><option>Exact alias only</option></select></label>
           </div>
           <button class="primary" id="search-button">Find exact match</button>
@@ -52,22 +61,22 @@
           <div class="identity-grid" id="identity-grid"></div>
           <h3>Dimensions and Weight</h3>
           <table class="data-table">
-            <thead><tr><th>Attribute</th><th>Value</th><th>Basis</th><th>Source</th></tr></thead>
+            <thead><tr><th>Attribute</th><th>Value</th><th>Basis</th><th>Source column</th></tr></thead>
             <tbody id="attribute-body"></tbody>
           </table>
-          <details class="audit-box">
+          <details class="audit-box" id="audit-box">
             <summary>Source Audit</summary>
-            <pre id="source-audit"></pre>
+            <pre id="source-audit">Open Source Audit only when raw provenance is needed.</pre>
           </details>
         </div>
       </section>
 
       <section class="pane preview-pane" aria-labelledby="preview-title">
         <div class="cad-head">
-          <div><h2 id="preview-title">CAD 3D Preview</h2><p>Dimension leaders from DB values</p></div>
+          <div><h2 id="preview-title">CAD Preview</h2><p>Dimension leaders from normalized DB values</p></div>
           <div class="cad-buttons" id="view-buttons"></div>
         </div>
-        <div class="cad-canvas" id="cad-canvas" role="img" aria-label="valve dimension preview"></div>
+        <div class="cad-canvas" id="cad-canvas" role="img" aria-label="component dimension preview"></div>
         <div class="cad-toggles" id="cad-toggles"></div>
       </section>
     </main>
