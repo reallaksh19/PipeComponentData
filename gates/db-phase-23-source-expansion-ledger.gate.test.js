@@ -33,6 +33,6 @@ test('DB Phase 23: blocked and manual-review families are not promoted', () => {
 
 test('DB Phase 23: ledger gate is wired into db chain', () => {
   const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-  assert.equal(pkg.scripts['db:gate23'], 'npm run db:gate21 && node --test gates/db-phase-23-source-expansion-ledger.gate.test.js');
+  assert.equal(pkg.scripts['db:gate23'], 'npm run db:gate22 && node --test gates/db-phase-23-source-expansion-ledger.gate.test.js');
   assert.match(pkg.scripts['db:gate24'], /db:gate23/);
 });

@@ -5,6 +5,7 @@ import test from 'node:test';
 const manifest = JSON.parse(fs.readFileSync('data/audit/pipe-sch80-wave2-promotion-readiness.json', 'utf8'));
 const addendum = JSON.parse(fs.readFileSync('data/normalized/pipes-sch80-wave2.json', 'utf8'));
 const wave3 = JSON.parse(fs.readFileSync('data/normalized/pipes-sch80-wave3.json', 'utf8'));
+const wave4 = JSON.parse(fs.readFileSync('data/normalized/pipes-sch80-wave4.json', 'utf8'));
 const index = JSON.parse(fs.readFileSync('data/indexes/component-search.index.json', 'utf8'));
 
 const csvRows = fs.readFileSync('docs/Pipedata/Database/Pipe/PIPE80.csv', 'utf8').trimEnd().split('\n');
@@ -34,14 +35,17 @@ test('DB Phase 52: source CSV rows exactly match candidate SCH80 values', () => 
 test('DB Phase 52: bounded SCH80 rows are promoted through addenda without bulk import', () => {
   assert.equal(addendum.summary.expansionPack, 'DB_PHASE_55_PIPE_SCH80_WAVE2_PROMOTION');
   assert.equal(wave3.summary.expansionPack, 'DB_PHASE_58_PIPE_SCH80_WAVE3_PROMOTION');
+  assert.equal(wave4.summary.expansionPack, 'DB_PHASE_61_PIPE_SCH80_WAVE4_PROMOTION');
   assert.equal(addendum.rows.length, 3);
   assert.equal(wave3.rows.length, 3);
-  assert.equal(index.entries.filter((entry) => entry.family === 'PIPE').length, 15);
-  for (const nps of ['8', '10', '12', '14', '16', '18']) {
+  assert.equal(wave4.rows.length, 3);
+  assert.equal(index.entries.filter((entry) => entry.family === 'PIPE').length, 18);
+  for (const nps of ['8', '10', '12', '14', '16', '18', '20', '22', '24']) {
     const id = `PIPE|NPS${nps}|SCH80`;
     assert.equal(index.entries.some((entry) => entry.id === id), true);
   }
-  assert.equal(index.entries.some((entry) => entry.id === 'PIPE|NPS20|SCH80'), false);
+  assert.equal(index.entries.some((entry) => entry.id === 'PIPE|NPS20|SCH80'), true);
+  assert.equal(index.entries.some((entry) => entry.id === 'PIPE|NPS24|SCH80'), true);
 });
 
 test('DB Phase 52: gate file remains small', () => {

@@ -34,7 +34,7 @@ test('DB Phase 36: tag rules keep release conservative', () => {
   assert.match(changelog, /foundation/i);
 });
 
-test('DB Phase 36: db:test terminates at DB36 for this stabilization pack', () => {
+test('DB Phase 36: db:test terminates at DB63 for the current DB chain', () => {
   assert.equal(packageJson.scripts['db:gate36'], 'npm run db:gate35 && node --test gates/db-phase-36-foundation-tag-readiness.gate.test.js');
-  assert.equal(packageJson.scripts['db:test'], 'npm run db:gate36');
+  assert.equal(packageJson.scripts['db:test'], 'npm run db:gate63');
 });

@@ -24,6 +24,8 @@ test('DB Phase 17: every public artifact is readable and raw-source safe', () =>
   assert.ok(artifactPaths.includes('data/audit/db-coverage-dashboard.json'));
   assert.ok(artifactPaths.includes('data/indexes/component-search.index.json'));
   assert.ok(artifactPaths.includes('data/search/component-aliases.json'));
+  assert.ok(artifactPaths.includes('data/normalized/pipes-sch80-wave4.json'));
+  assert.ok(artifactPaths.includes('data/normalized/flanges-cl600-wave4.json'));
 
   for (const artifact of manifest.publicArtifacts) {
     assert.ok(artifact.path);
@@ -51,6 +53,8 @@ test('DB Phase 17: Pages workflow publishes only approved public paths', () => {
   assert.match(workflow, /test -f _site\/data\/exports\/public-export-pack\.manifest\.json/);
   assert.match(workflow, /Raw source database tree must not be published to Pages/);
   assert.ok(pagesPaths.every((path) => !path.startsWith('docs/Pipedata/Database')));
+  assert.ok(pagesPaths.includes('data/normalized/pipes-sch80-wave4.json'));
+  assert.ok(pagesPaths.includes('data/normalized/flanges-cl600-wave4.json'));
 });
 
 test('DB Phase 17: forbidden artifacts are explicit and not public', () => {
