@@ -21,7 +21,7 @@
     "partialRows": 2,
     "missingDimensionRows": 3,
     "projectOverrideRows": 2,
-    "unavailableFieldCount": 34,
+    "unavailableFieldCount": 21,
     "statusCounts": {
       "PARTIAL": 2,
       "READY": 8,
@@ -52,8 +52,8 @@
       "partialRows": 1,
       "missingDimensionRows": 0,
       "projectOverrideRows": 0,
-      "unavailableFieldCount": 14,
-      "nullValueCount": 7,
+      "unavailableFieldCount": 7,
+      "nullValueCount": 0,
       "sourceCoverage": {
         "sourceFileCount": 18,
         "sourceRowCount": 489,
@@ -83,8 +83,8 @@
       "partialRows": 0,
       "missingDimensionRows": 0,
       "projectOverrideRows": 0,
-      "unavailableFieldCount": 4,
-      "nullValueCount": 2,
+      "unavailableFieldCount": 2,
+      "nullValueCount": 0,
       "sourceCoverage": {
         "sourceFileCount": 7,
         "sourceRowCount": 161,
