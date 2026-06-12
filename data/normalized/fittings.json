@@ -1,4 +1,5 @@
 {
+  "schema": "pipedata-normalized-fittings/v1",
   "metadata": {
     "family": "FITTING",
     "phase": "DB_PHASE_08",
