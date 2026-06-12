@@ -45,18 +45,14 @@ test('DB Phase 14: coverage summary counts normalized rows and data states', () 
   });
 });
 
-test('DB Phase 14: indexed rows unresolved in normalized catalogs are explicit gaps', () => {
+test('DB Phase 14: indexed rows resolve to normalized catalogs', () => {
   const result = dashboard();
-  assert.equal(result.summary.indexedResolvedRowCount, 3);
-  assert.equal(result.summary.missingCatalogRows, 3);
-  assert.deepEqual(result.gaps.map((gap) => gap.id).sort(), [
-    'FITTING|BW|ELBOW90|NPS4|SCH40',
-    'GASKET|RTJ|NPS4|CL300',
-    'SUPPORT|SHOE|PROJECT_DEFAULT',
-  ].sort());
-  assert.equal(result.families.FITTING.coverageStatus, 'INDEX_MISMATCH');
-  assert.equal(result.families.GASKET.coverageStatus, 'INDEX_MISMATCH');
-  assert.equal(result.families.SUPPORT.coverageStatus, 'INDEX_MISMATCH');
+  assert.equal(result.summary.indexedResolvedRowCount, 6);
+  assert.equal(result.summary.missingCatalogRows, 0);
+  assert.deepEqual(result.gaps, []);
+  assert.equal(result.families.FITTING.coverageStatus, 'PARTIAL_SAMPLE');
+  assert.equal(result.families.GASKET.coverageStatus, 'MISSING_DIMENSION');
+  assert.equal(result.families.SUPPORT.coverageStatus, 'PROJECT_OVERRIDE');
 });
 
 test('DB Phase 14: source coverage exposes sampled and missing-dimension families', () => {

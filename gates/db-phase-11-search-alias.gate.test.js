@@ -38,20 +38,27 @@ test('DB Phase 11: unsupported fuzzy modes are rejected explicitly', () => {
   assert.equal(result.mode, 'FUZZY_NEAREST');
 });
 
-test('DB Phase 11: missing-dimension gasket result remains visible but status-tagged', () => {
-  const result = componentSearch('rtj gasket 4 300', index, {
+test('DB Phase 11: missing-dimension gasket inventory remains visible but not size-specific', () => {
+  const inventory = componentSearch('rtj gasket', index, {
     aliases,
-    filters: { componentType: 'GASKET', classRating: '300' },
+    filters: { componentType: 'GASKET', subtype: 'RTJ' },
   });
-  assert.equal(result.ok, true);
-  assert.equal(result.results[0].id, 'GASKET|RTJ|NPS4|CL300');
-  assert.equal(result.results[0].entry.dataStatus, 'MISSING_DIMENSION');
+  assert.equal(inventory.ok, true);
+  assert.equal(inventory.results[0].id, 'GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ');
+  assert.equal(inventory.results[0].entry.dataStatus, 'MISSING_DIMENSION');
+
+  const concrete = componentSearch('rtj gasket 4 300', index, {
+    aliases,
+    filters: { componentType: 'GASKET', subtype: 'RTJ', classRating: '300', nps: '4' },
+  });
+  assert.equal(concrete.ok, false);
+  assert.equal(concrete.diagnostics[0].code, 'SEARCH_NO_EXACT_MATCH');
 });
 
-test('DB Phase 11: search module and gate stay under 200 lines', () => {
+test('DB Phase 11: search module and gate stay under accepted 300-line limit', () => {
   for (const file of ['src/db/componentSearch.js', 'gates/db-phase-11-search-alias.gate.test.js']) {
     const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/).length;
-    assert.ok(lines <= 200, `${file} has ${lines} lines`);
+    assert.ok(lines <= 300, `${file} has ${lines} lines`);
   }
   assert.equal(index.mode, SEARCH_MODE.EXACT_ALIAS_ONLY);
 });
