@@ -1,0 +1,62 @@
+{
+  "schema": "pipedata-component-search-index/v1",
+  "phase": "DB_PHASE_11",
+  "mode": "EXACT_ALIAS_ONLY",
+  "noFallbackPolicy": "No nearest NPS, rating, schedule, family, or subtype fallback is allowed.",
+  "entries": [
+    {
+      "id": "PIPE|NPS4|SCH40",
+      "family": "PIPE",
+      "description": "4 inch Schedule 40 pipe",
+      "aliases": ["PIPE 4 SCH40", "NPS 4 SCHEDULE 40", "4 INCH PIPE"],
+      "filters": { "componentType": "PIPE", "nps": "4", "schedule": "40" },
+      "source": "data/normalized/pipes.json",
+      "dataStatus": "READY"
+    },
+    {
+      "id": "VALVE|GATE|FLANGED|NPS8|CL150|RF",
+      "family": "VALVE",
+      "description": "8 inch Class 150 RF flanged gate valve",
+      "aliases": ["VLV1 8 CL150", "GATE VALVE 8 150 RF", "VLV1150"],
+      "filters": { "componentType": "VALVE", "valveType": "GATE", "nps": "8", "classRating": "150", "facing": "RF" },
+      "source": "data/normalized/valves.json",
+      "dataStatus": "READY"
+    },
+    {
+      "id": "FLANGE|WN|NPS4|CL300|METRIC",
+      "family": "FLANGE",
+      "description": "4 inch Class 300 weld neck flange",
+      "aliases": ["FLG300 4 WN", "WELD NECK FLANGE 4 300", "WNRF 4 300"],
+      "filters": { "componentType": "FLANGE", "subtype": "WN", "nps": "4", "classRating": "300" },
+      "source": "data/normalized/flanges.json",
+      "dataStatus": "READY"
+    },
+    {
+      "id": "FITTING|BW|ELBOW90|NPS4|SCH40",
+      "family": "FITTING",
+      "description": "4 inch Schedule 40 90 degree buttweld elbow",
+      "aliases": ["FTBW ELBOW 90 4 SCH40", "90 ELBOW 4 SCHEDULE 40"],
+      "filters": { "componentType": "FITTING", "subtype": "ELBOW90", "nps": "4", "schedule": "40" },
+      "source": "data/normalized/fittings.json",
+      "dataStatus": "READY"
+    },
+    {
+      "id": "GASKET|RTJ|NPS4|CL300",
+      "family": "GASKET",
+      "description": "RTJ gasket placeholder without committed dimension table",
+      "aliases": ["RTJ GASKET 4 300", "GRtj 4 300"],
+      "filters": { "componentType": "GASKET", "subtype": "RTJ", "nps": "4", "classRating": "300" },
+      "source": "data/normalized/gaskets.json",
+      "dataStatus": "MISSING_DIMENSION"
+    },
+    {
+      "id": "SUPPORT|SHOE|PROJECT_DEFAULT",
+      "family": "SUPPORT",
+      "description": "Project default pipe shoe support",
+      "aliases": ["PIPE SHOE", "SHOE SUPPORT", "SUPPORT SHOE"],
+      "filters": { "componentType": "SUPPORT", "subtype": "SHOE" },
+      "source": "data/normalized/supports.json",
+      "dataStatus": "PROJECT_OVERRIDE"
+    }
+  ]
+}
