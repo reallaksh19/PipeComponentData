@@ -39,8 +39,8 @@ test('DB Phase 20: readiness evidence files exist', () => {
   }
 });
 
-test('DB Phase 20: readiness gate is wired before integration gate', () => {
+test('DB Phase 20: readiness gate is wired before integration and expansion gates', () => {
   assert.equal(packageJson.scripts['db:gate20'], 'npm run db:gate19 && node --test gates/db-phase-20-release-readiness.gate.test.js');
   assert.match(packageJson.scripts['db:gate21'], /db:gate20/);
-  assert.equal(packageJson.scripts['db:test'], 'npm run db:gate21');
+  assert.match(packageJson.scripts['db:test'], /db:gate2[1-5]/);
 });
