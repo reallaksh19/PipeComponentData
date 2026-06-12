@@ -7,7 +7,7 @@
     {
       "id": "OVERRIDE|VALVE|GATE|NPS8|CL150|WEIGHT",
       "targetId": "VALVE|GATE|FLANGED|NPS8|CL150|RF",
-      "fieldPath": "dimensions.weightKg",
+      "fieldPath": "weights.rfRtjKg",
       "overrideScope": "PROJECT",
       "sourceValue": 144,
       "overrideValue": 150,
