@@ -22,6 +22,7 @@ export {
   rowProvenance,
   validateDatasetProvenance,
 } from './db/provenance.js';
+export { lookupComponentExact, LOOKUP_STATUS } from './db/lookupComponentExact.js';
 export { enrichWithPipeData } from './enrich/enrichWithPipeData.js';
 export { resolveConnectivity } from './connectivity/resolveConnectivity.js';
 export { toCeg } from './ceg/toCeg.js';
