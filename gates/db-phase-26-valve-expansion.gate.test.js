@@ -7,7 +7,8 @@ import { lookupComponentExact, LOOKUP_STATUS } from '../src/db/lookupComponentEx
 const readJson = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 const valves = readJson('data/normalized/valves.json');
 const searchIndex = readJson('data/indexes/component-search.index.json');
-const aliases = readJson('data/search/component-aliases.json').rows;
+const aliases = readJson('data/search/component-aliases.json');
+const assets = { searchIndex, aliases, catalogs: { 'data/normalized/valves.json': valves } };
 
 test('DB Phase 26: valve catalog promotes bounded source-backed samples only', () => {
   assert.equal(valves.metadata.phase, 'DB_PHASE_26');
@@ -31,8 +32,7 @@ test('DB Phase 26: promoted Class 150 gate valve values are pinned to source row
 });
 
 test('DB Phase 26: valve lookup remains exact and no nearest-class fallback is allowed', () => {
-  const hit = lookupComponentExact({
-    query: 'gate valve 4 150 rf', searchIndex, catalogs: { 'data/normalized/valves.json': valves }, aliases,
+  const hit = lookupComponentExact('gate valve 4 150 rf', assets, {
     filters: { componentType: 'VALVE', valveType: 'GATE', nps: '4', classRating: '150', facing: 'RF' },
   });
   assert.equal(hit.status, LOOKUP_STATUS.FOUND);
