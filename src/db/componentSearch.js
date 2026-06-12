@@ -16,7 +16,7 @@ export function searchTokens(value) {
 export function expandQueryAliases(query, aliasRows = []) {
   const terms = new Set(searchTokens(query));
   const normalized = normalizeSearchText(query);
-  for (const row of aliasRows) {
+  for (const row of aliasList(aliasRows)) {
     const aliases = [row.canonical, ...(row.aliases ?? [])];
     if (aliases.some((alias) => normalized.includes(normalizeSearchText(alias)))) {
       for (const alias of aliases) searchTokens(alias).forEach((term) => terms.add(term));
@@ -51,6 +51,12 @@ export function matchesFilters(entry, filters) {
     const actual = entry.filters?.[key] ?? entry[key];
     return normalizeSearchText(actual) === normalizeSearchText(expected);
   });
+}
+
+function aliasList(aliasRows) {
+  if (Array.isArray(aliasRows)) return aliasRows;
+  if (Array.isArray(aliasRows?.rows)) return aliasRows.rows;
+  return [];
 }
 
 function scoreEntry(entry, terms) {
