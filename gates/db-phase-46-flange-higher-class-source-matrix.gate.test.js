@@ -26,7 +26,7 @@ test('DB Phase 46: candidate source files are declared and Class 600 is bounded-
 
 test('DB Phase 46: Class 600 source rows expose WN/SO/BLIND values for bounded NPS samples', () => {
   const rows = fs.readFileSync('docs/Pipedata/Database/Flan/Flg600.csv', 'utf8').trimEnd().split('\n');
-  assert.match(rows[3], /od,thickness,hub-x/);
+  assert.match(rows[1], /od,thickness,hub-x/);
   assert.match(rows.find((line) => line.startsWith('2,50,')), /165,25\.4,84,60\.3/);
   assert.match(rows.find((line) => line.startsWith('4,100,')), /275,38\.1,152,114\.3/);
   assert.match(rows.find((line) => line.startsWith('6,150,')), /355,47\.7,222,168\.3/);
