@@ -1,4 +1,5 @@
 {
+  "schema": "pipedata-normalized-supports/v1",
   "schemaVersion": "pipedata-normalized-supports/v1",
   "datasetVersion": "pipedata-db/2026.06.dbphase10",
   "generationMode": "PROJECT_DEFAULT_AND_SOURCE_AVAILABILITY",
