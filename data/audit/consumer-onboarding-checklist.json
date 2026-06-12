@@ -13,12 +13,12 @@
     "use-public-artifacts-only"
   ],
   "minimumFixtures": [
-    "PIPE 2 SCH40",
-    "WN FLANGE 4 CL300",
-    "GATE VALVE 8 150 RF",
-    "90 ELBOW 4 SCHEDULE 40",
+    "PIPE 2 SCH80",
+    "WN FLANGE 4 CL150",
+    "GATE VALVE 4 1500 RF",
+    "90 ELBOW 4 SCHEDULE 80",
     "RTJ GASKET",
-    "GATE VALVE 8 300 RF"
+    "GATE VALVE 4 300 RF"
   ],
   "acceptanceRules": {
     "wrongRatingMustNotFallback": true,
