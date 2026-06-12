@@ -50,8 +50,17 @@ jobs:
             npm install
           fi
 
-      - name: Run adapter/API gates through Phase 12
-        run: npm run gate:phase12
+      - name: Run adapter/API gates through Phase 9
+        run: npm run gate:phase9
+
+      - name: Run adapter/API Phase 10 Solid3D gate
+        run: node --test gates/phase-10-solid3d.gate.test.js
+
+      - name: Run adapter/API Phase 11 DXF gate
+        run: node --test gates/phase-11-dxf-sidecar.gate.test.js
+
+      - name: Run adapter/API Phase 12 UI workbench gate
+        run: node --test gates/phase-12-ui-workbench.gate.test.js
 
       - name: Run adapter/API Phase 13 final gate
         run: node --test gates/phase-13-full.gate.test.js
