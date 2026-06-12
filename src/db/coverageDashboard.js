@@ -42,9 +42,9 @@ export function buildCoverageDashboard({ manifest, searchIndex, catalogs } = {})
     }
 
     const family = artifact.family ?? inferFamily(catalog, artifact.path);
-    const familyEntries = entries.filter((entry) => entry.source === artifact.path || entry.family === family);
-    const coverage = summarizeFamily(family, artifact, catalog, familyEntries);
-    dashboard.families[family] = coverage;
+    const artifactEntries = entries.filter((entry) => entry.source === artifact.path);
+    const coverage = summarizeFamily(family, artifact, catalog, artifactEntries);
+    dashboard.families[family] = dashboard.families[family] ? mergeFamilyCoverage(dashboard.families[family], coverage) : coverage;
     dashboard.gaps.push(...coverage.gaps);
     mergeSummary(dashboard.summary, coverage);
   }
@@ -124,6 +124,51 @@ function summarizeFamily(family, artifact, catalog, entries) {
   };
 }
 
+function mergeFamilyCoverage(left, right) {
+  const merged = {
+    ...left,
+    path: joinUnique([left.path, right.path]),
+    normalizedRows: left.normalizedRows + right.normalizedRows,
+    indexedRows: left.indexedRows + right.indexedRows,
+    indexedResolvedRows: left.indexedResolvedRows + right.indexedResolvedRows,
+    missingCatalogRows: left.missingCatalogRows + right.missingCatalogRows,
+    readyRows: left.readyRows + right.readyRows,
+    partialRows: left.partialRows + right.partialRows,
+    missingDimensionRows: left.missingDimensionRows + right.missingDimensionRows,
+    projectOverrideRows: left.projectOverrideRows + right.projectOverrideRows,
+    unavailableFieldCount: left.unavailableFieldCount + right.unavailableFieldCount,
+    nullValueCount: left.nullValueCount + right.nullValueCount,
+    statusCounts: mergeCounts(left.statusCounts, right.statusCounts),
+    sourceCoverage: mergeSourceCoverage(left.sourceCoverage, right.sourceCoverage),
+    gaps: [...left.gaps, ...right.gaps],
+    unsupportedOrConfigOnly: left.unsupportedOrConfigOnly || right.unsupportedOrConfigOnly,
+  };
+  merged.generationMode = joinUnique([left.generationMode, right.generationMode]).join('+');
+  merged.coverageStatus = combineCoverageStatus([left.coverageStatus, right.coverageStatus]);
+  return merged;
+}
+
+function mergeSourceCoverage(left = {}, right = {}) {
+  return {
+    sourceFileCount: (left.sourceFileCount ?? 0) + (right.sourceFileCount ?? 0),
+    sourceRowCount: sumNullable(left.sourceRowCount, right.sourceRowCount),
+    sourceReadyRows: sumNullable(left.sourceReadyRows, right.sourceReadyRows),
+    sourcePartialRows: sumNullable(left.sourcePartialRows, right.sourcePartialRows),
+    sampledRowCount: sumNullable(left.sampledRowCount, right.sampledRowCount),
+    explodedRowCount: sumNullable(left.explodedRowCount, right.explodedRowCount),
+    sourceFolders: joinUnique([...(left.sourceFolders ?? []), ...(right.sourceFolders ?? [])]),
+    sourceRoots: joinUnique([...(left.sourceRoots ?? []), ...(right.sourceRoots ?? [])]),
+    generationMode: joinUnique([left.generationMode, right.generationMode]).join('+'),
+    sourceAvailability: {
+      groups: (left.sourceAvailability?.groups ?? 0) + (right.sourceAvailability?.groups ?? 0),
+      csvFiles: (left.sourceAvailability?.csvFiles ?? 0) + (right.sourceAvailability?.csvFiles ?? 0),
+      dxfFiles: (left.sourceAvailability?.dxfFiles ?? 0) + (right.sourceAvailability?.dxfFiles ?? 0),
+      setFiles: (left.sourceAvailability?.setFiles ?? 0) + (right.sourceAvailability?.setFiles ?? 0),
+      fileCount: (left.sourceAvailability?.fileCount ?? 0) + (right.sourceAvailability?.fileCount ?? 0),
+    },
+  };
+}
+
 function countStatuses(rows) {
   const counts = {};
   for (const row of rows) {
@@ -160,7 +205,7 @@ function extractSourceCoverage(catalog) {
   const sourceFiles = catalog.sourceFiles ?? summary.sourceFiles ?? {};
   const availability = sourceAvailability(catalog.sourceAvailability);
   return {
-    sourceFileCount: summary.sourceFileCount ?? metadata.sourceFileCount ?? metadata.sourceFiles?.length ?? fileCount(sourceFiles, availability),
+    sourceFileCount: summary.sourceFileCount ?? summary.metricSourceFileCount ?? metadata.sourceFileCount ?? metadata.sourceFiles?.length ?? fileCount(sourceFiles, availability),
     sourceRowCount: summary.sourceRowCount ?? summary.metricSourceRowCount ?? metadata.sourceTableRows ?? rowCount(sourceFiles),
     sourceReadyRows: summary.sourceReadyRows ?? null,
     sourcePartialRows: summary.sourcePartialRows ?? null,
@@ -191,6 +236,13 @@ function classifyCoverage(rows, statusCounts, gaps, sourceCoverage) {
   if (statusCounts.PROJECT_OVERRIDE) return 'PROJECT_OVERRIDE';
   if (statusCounts.PARTIAL) return 'PARTIAL';
   if (isSampleOnly(sourceCoverage)) return 'PARTIAL_SAMPLE';
+  return 'READY';
+}
+
+function combineCoverageStatus(statuses) {
+  for (const status of ['INDEX_MISMATCH', 'MISSING_DIMENSION', 'PROJECT_OVERRIDE', 'PARTIAL']) if (statuses.includes(status)) return status;
+  if (statuses.includes('PARTIAL_SAMPLE')) return 'PARTIAL_SAMPLE';
+  if (statuses.includes('MISSING')) return 'MISSING';
   return 'READY';
 }
 
@@ -226,4 +278,19 @@ function mergeSummary(summary, family) {
     summary.statusCounts[key] = (summary.statusCounts[key] ?? 0) + value;
   }
   summary.coverageStatusCounts[family.coverageStatus] = (summary.coverageStatusCounts[family.coverageStatus] ?? 0) + 1;
+}
+
+function mergeCounts(a = {}, b = {}) {
+  const merged = { ...a };
+  for (const [key, value] of Object.entries(b)) merged[key] = (merged[key] ?? 0) + value;
+  return merged;
+}
+
+function joinUnique(values) {
+  return [...new Set(values.flat().filter(Boolean))];
+}
+
+function sumNullable(a, b) {
+  const values = [a, b].filter((value) => Number.isFinite(value));
+  return values.length ? values.reduce((total, value) => total + value, 0) : null;
 }

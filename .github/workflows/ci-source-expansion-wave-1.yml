@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   wave1-gates:
-    name: Node ${{ matrix.node-version }} source expansion wave 1 gates
+    name: Node ${{ matrix.node-version }} source expansion wave gates
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -52,3 +52,9 @@ jobs:
         run: node --test gates/db-phase-49-valve-wave1.gate.test.js
       - name: Run DB Phase 50 fitting wave 1 gate
         run: node --test gates/db-phase-50-fitting-wave1.gate.test.js
+      - name: Run DB Phase 55 pipe SCH80 wave 2 promotion gate
+        run: node --test gates/db-phase-55-pipe-sch80-wave2-promotion.gate.test.js
+      - name: Run DB Phase 56 flange CL600 wave 2 promotion gate
+        run: node --test gates/db-phase-56-flange-cl600-wave2-promotion.gate.test.js
+      - name: Run DB Phase 57 reducer still-blocked gate
+        run: node --test gates/db-phase-57-reducer-still-blocked-after-wave2.gate.test.js

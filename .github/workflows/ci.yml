@@ -181,6 +181,12 @@ jobs:
         run: node --test gates/db-phase-53-flange-cl600-wave2-promotion-readiness.gate.test.js
       - name: Run DB Phase 54 reducer source column map gate
         run: node --test gates/db-phase-54-reducer-source-column-map.gate.test.js
+      - name: Run DB Phase 55 pipe SCH80 wave 2 promotion gate
+        run: node --test gates/db-phase-55-pipe-sch80-wave2-promotion.gate.test.js
+      - name: Run DB Phase 56 flange CL600 wave 2 promotion gate
+        run: node --test gates/db-phase-56-flange-cl600-wave2-promotion.gate.test.js
+      - name: Run DB Phase 57 reducer still-blocked gate
+        run: node --test gates/db-phase-57-reducer-still-blocked-after-wave2.gate.test.js
       - name: Run UI gates
         run: npm run ui:gate --if-present
 
