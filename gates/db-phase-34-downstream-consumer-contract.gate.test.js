@@ -6,6 +6,7 @@ const contract = JSON.parse(fs.readFileSync('data/exports/downstream-consumer-co
 const apiSurface = JSON.parse(fs.readFileSync('contracts/api-surface.json', 'utf8'));
 const publicPack = JSON.parse(fs.readFileSync('data/exports/public-export-pack.manifest.json', 'utf8'));
 const dts = fs.readFileSync('src/index.d.ts', 'utf8');
+const rootExports = apiSurface['src/index.js'];
 
 function publicArtifactPaths() {
   return new Set(publicPack.publicArtifacts.map((item) => item.path));
@@ -17,7 +18,7 @@ test('DB Phase 34: downstream contract names only stable public APIs', () => {
   assert.deepEqual(contract.stableApis, ['lookupComponentExact', 'LOOKUP_STATUS']);
 
   for (const api of contract.stableApis) {
-    assert.equal(apiSurface.exports.includes(api), true, `${api} missing from API surface`);
+    assert.equal(rootExports.includes(api), true, `${api} missing from API surface`);
     assert.match(dts, new RegExp(`\\b${api}\\b`), `${api} missing from declarations`);
   }
 });
