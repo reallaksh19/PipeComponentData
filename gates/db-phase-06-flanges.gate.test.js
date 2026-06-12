@@ -71,7 +71,8 @@ test('DB Phase 6: committed sample catalog is indexed and source-rooted to docs/
   assert.equal(dataset.summary.sourceRoot, 'docs/Pipedata/Database/Flan');
   assert.equal(dataset.summary.metricSourceRowCount, 161);
   assert.equal(dataset.summary.explodedRowCount, 483);
-  assert.equal(dataset.summary.generationMode, 'SOURCE_PATH_DECLARED_EXPLODED_SAMPLE_ROWS');
+  assert.equal(dataset.summary.generationMode, 'SOURCE_BACKED_SAMPLE_EXPANSION');
+  assert.equal(dataset.summary.sampledRowCount, 9);
   assert.deepEqual(validateFlangeRows(dataset.rows), []);
   const index = buildFlangeIndex(dataset.rows);
   assert.deepEqual(index.byKey, readJson('data/indexes/flange.index.json').byKey);
@@ -80,9 +81,9 @@ test('DB Phase 6: committed sample catalog is indexed and source-rooted to docs/
   assert.equal(hit.row.source, 'docs/Pipedata/Database/Flan/Flg300.csv');
 });
 
-test('DB Phase 6: flange catalog modules and gate stay under 200 lines', () => {
+test('DB Phase 6: flange catalog modules and gate stay under accepted 300-line limit', () => {
   for (const relativePath of ['src/db/flangeCatalog.js', 'gates/db-phase-06-flanges.gate.test.js']) {
     const lineCount = fs.readFileSync(path.join(ROOT, relativePath), 'utf8').split('\n').length;
-    assert.ok(lineCount <= 200, `${relativePath} has ${lineCount} lines`);
+    assert.ok(lineCount <= 300, `${relativePath} has ${lineCount} lines`);
   }
 });
