@@ -47,7 +47,10 @@ test('DB Phase 16: gasket inventory lookup does not fabricate dimensions', () =>
   assert.equal(result.ok, true);
   assert.equal(result.id, 'GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ');
   assert.equal(result.dataStatus, 'MISSING_DIMENSION');
-  assert.equal(result.row.dimensions, undefined);
+  for (const value of Object.values(result.row.dimensions)) {
+    assert.equal(value.value, null);
+    assert.equal(value.basis, 'UNAVAILABLE');
+  }
 });
 
 test('DB Phase 16: exact lookup surfaces index/catalog mismatch as API error', () => {
