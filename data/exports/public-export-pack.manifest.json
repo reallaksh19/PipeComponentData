@@ -34,6 +34,7 @@
     { "path": "data/audit/db-coverage-dashboard.json", "pagesPath": "data/audit/db-coverage-dashboard.json", "kind": "COVERAGE_AUDIT", "family": "ALL" },
     { "path": "data/audit/source-use-policy.json", "pagesPath": "data/audit/source-use-policy.json", "kind": "SOURCE_USE_POLICY", "family": "ALL" },
     { "path": "data/audit/release-readiness.json", "pagesPath": "data/audit/release-readiness.json", "kind": "RELEASE_READINESS", "family": "ALL" },
+    { "path": "data/audit/foundation-release-candidate.json", "pagesPath": "data/audit/foundation-release-candidate.json", "kind": "RELEASE_CANDIDATE", "family": "ALL" },
     { "path": "data/normalized/pipes.json", "pagesPath": "data/normalized/pipes.json", "kind": "NORMALIZED_DATA", "family": "PIPE" },
     { "path": "data/normalized/flanges.json", "pagesPath": "data/normalized/flanges.json", "kind": "NORMALIZED_DATA", "family": "FLANGE" },
     { "path": "data/normalized/valves.json", "pagesPath": "data/normalized/valves.json", "kind": "NORMALIZED_DATA", "family": "VALVE" },
