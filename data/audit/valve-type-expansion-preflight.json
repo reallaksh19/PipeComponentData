@@ -1,0 +1,47 @@
+{
+  "schema": "pipedata-valve-type-expansion-preflight/v1",
+  "phase": "DB_PHASE_44",
+  "status": "PREFLIGHT_READY_NOT_PROMOTED",
+  "family": "VALVE",
+  "scope": {
+    "roadmapItem": "DATA-VALVE-MORE-TYPES",
+    "promotionApplied": false,
+    "normalizedDataChanged": false,
+    "intendedNextPromotion": "source-backed valve expansion beyond current flanged RF gate-valve samples"
+  },
+  "sourceEvidence": {
+    "alreadyPromotedSourceFiles": [
+      "docs/Pipedata/Database/Vlfl/VLV1150.csv",
+      "docs/Pipedata/Database/Vlfl/VLV11500.csv"
+    ],
+    "candidateSetFilesForReview": [
+      "docs/Pipedata/Database/Vlfl/Vlfl.set",
+      "docs/Pipedata/Database/Vlfl/Vlfl1.set",
+      "docs/Pipedata/Database/Vlfl/Vlfl2.set",
+      "docs/Pipedata/Database/Vlfl/Vlfl3.set",
+      "docs/Pipedata/Database/Vlfl/Vlfl4.set",
+      "docs/Pipedata/Database/Vlfl/Vlfl5.set",
+      "docs/Pipedata/Database/Vlfl/Vlfl6.set",
+      "docs/Pipedata/Database/Vlfl/Vlfl7.set",
+      "docs/Pipedata/Database/Vlfl/Vlfl8.set"
+    ],
+    "requiresValveTypeMappingReview": true,
+    "sourceRoot": "docs/Pipedata/Database/Vlfl"
+  },
+  "currentBoundary": {
+    "normalizedValveTypesRemain": ["GATE"],
+    "normalizedEndTypesRemain": ["FLANGED"],
+    "normalizedFacingsRemain": ["RF"],
+    "normalizedClassRatingsRemain": ["150", "1500"],
+    "normalizedRowsRemain": 8,
+    "indexedRowsRemain": 8,
+    "latestPromotionPhase": "DB_PHASE_49",
+    "productionComplete": false
+  },
+  "safetyRules": {
+    "noFabricatedEngineeringValues": true,
+    "noNearestValveTypeFallback": true,
+    "unavailableFaceToFaceValuesRemainUnavailable": true,
+    "sourceProvenanceRequired": true
+  }
+}
