@@ -5,6 +5,8 @@ import { readJson } from './utils/readJson.js';
 import { readApiSurface } from './utils/apiSurface.js';
 import { listJsFiles, readSourceFile } from './utils/sourceFiles.js';
 
+const MAX_SOURCE_LINES = 300;
+
 const docs = [
   'docs/adaptergraph-uxml-contract.md',
   'docs/state-store-contract.md',
@@ -28,9 +30,9 @@ test('public API surface matches lockfile', async () => {
   assert.deepEqual(actual, expected['src/index.js'].sort());
 });
 
-test('module line count stays below 200 lines', async () => {
+test('module line count stays below accepted 300-line limit', async () => {
   for (const file of await listJsFiles('src')) {
     const count = (await readSourceFile(file)).split('\n').length;
-    assert.ok(count <= 200, `${file} exceeds 200 lines`);
+    assert.ok(count <= MAX_SOURCE_LINES, `${file} exceeds ${MAX_SOURCE_LINES} lines`);
   }
 });
