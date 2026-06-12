@@ -20,8 +20,6 @@
       </div>
     </header>
 
-    <nav class="category-tabs" id="category-tabs" aria-label="component categories"></nav>
-
     <section class="status-strip" aria-label="release and integration status">
       <strong>Release status:</strong>
       <span>Source-backed foundation release · not production-complete</span>
@@ -31,6 +29,16 @@
       <code>data/exports/integration-contract.manifest.json</code>
     </section>
 
+    <section class="dashboard" aria-labelledby="dashboard-title">
+      <div>
+        <h1 id="dashboard-title">Catalog dashboard</h1>
+        <p>Browse promoted source-backed rows, inspect missing values, and verify exact-match selection rules.</p>
+      </div>
+      <div class="dashboard-cards" id="dashboard-cards" aria-label="catalog summary cards"></div>
+    </section>
+
+    <nav class="category-tabs" id="category-tabs" aria-label="component categories"></nav>
+
     <main class="studio-grid">
       <section class="pane selector-pane" aria-labelledby="selector-title">
         <div class="pane-head">
@@ -39,7 +47,7 @@
         </div>
         <div class="pane-body">
           <div class="chips" id="quick-filters"></div>
-          <label class="field-label" for="query-box">Lookup query / alias</label>
+          <label class="field-label" for="query-box">Lookup query / table filter</label>
           <input id="query-box" class="text-input" value="gate valve 8 class 150 rf" />
           <div class="form-grid">
             <label>Component
@@ -48,9 +56,9 @@
               </select>
             </label>
             <label>Type / Subtype
-              <select id="subtype-filter"><option></option><option>GATE</option><option>WN</option><option>ELBOW90</option><option>RTJ</option><option>SHOE</option></select>
+              <select id="subtype-filter"><option></option><option>GATE</option><option>WN</option><option>SO</option><option>BLIND</option><option>ELBOW_90</option><option>TEE_STRAIGHT</option><option>CAP</option><option>RTJ</option><option>SHOE</option></select>
             </label>
-            <label>NPS<select id="nps-filter"><option></option><option>4</option><option>8</option><option>22</option></select></label>
+            <label>NPS<select id="nps-filter"><option></option><option>0+1/4</option><option>1</option><option>2</option><option>4</option><option>6</option><option>8</option><option>22</option></select></label>
             <label>Class<select id="class-filter"><option></option><option>150</option><option>300</option><option>600</option></select></label>
             <label>Schedule<select id="schedule-filter"><option></option><option>40</option><option>80</option></select></label>
             <label>Facing<select id="facing-filter"><option></option><option>RF</option><option>RTJ</option></select></label>
@@ -58,6 +66,26 @@
           </div>
           <button class="primary" id="search-button">Find exact match</button>
           <div class="result-card" id="result-card"></div>
+          <div class="family-summary" id="family-summary" aria-label="active family summary"></div>
+        </div>
+      </section>
+
+      <section class="pane browser-pane" aria-labelledby="browser-title">
+        <div class="pane-head">
+          <h2 id="browser-title">Catalog Browser</h2>
+          <p id="browser-summary">Rows available for the selected family.</p>
+        </div>
+        <div class="pane-body">
+          <div class="table-tools">
+            <span id="table-count">0 rows</span>
+            <button class="ghost" id="copy-id-button" type="button">Copy selected ID</button>
+          </div>
+          <table class="data-table catalog-table" aria-label="component catalog table">
+            <thead><tr><th>Component ID</th><th>Status</th><th>Filters</th><th>Source</th></tr></thead>
+            <tbody id="component-table-body"></tbody>
+          </table>
+          <aside class="detail-drawer" id="component-detail" aria-label="component detail drawer"></aside>
+          <aside class="provenance-panel" id="provenance-panel" aria-label="source provenance panel"></aside>
         </div>
       </section>
 
