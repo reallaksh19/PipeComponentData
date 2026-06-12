@@ -24,11 +24,12 @@ test('DB Phase 33: fixture manifest records exact lookup policy', () => {
   assert.equal(fixtures.policy.exactMatchOnly, true);
   assert.equal(fixtures.policy.noFallbackExpected, true);
   assert.equal(fixtures.cases.length >= 6, true);
+  assert.ok(fixtures.cases.every((item) => item.filters && typeof item.filters === 'object'));
 });
 
 test('DB Phase 33: exact lookup fixture matrix matches public API behavior', () => {
   for (const item of fixtures.cases) {
-    const result = lookupComponentExact(item.query, assets);
+    const result = lookupComponentExact(item.query, assets, { filters: item.filters });
     assert.equal(result.status, LOOKUP_STATUS[item.expectedStatus], item.caseId);
 
     if (item.expectedStatus === 'FOUND') {
@@ -45,7 +46,7 @@ test('DB Phase 33: exact lookup fixture matrix matches public API behavior', () 
 
 test('DB Phase 33: wrong engineering rating does not fall back to available valve', () => {
   const wrong = fixtures.cases.find((item) => item.caseId === 'wrong-rating-no-fallback');
-  const result = lookupComponentExact(wrong.query, assets);
+  const result = lookupComponentExact(wrong.query, assets, { filters: wrong.filters });
   assert.equal(result.ok, false);
   assert.equal(result.status, LOOKUP_STATUS.NO_EXACT_MATCH);
   assert.equal(result.row, null);
