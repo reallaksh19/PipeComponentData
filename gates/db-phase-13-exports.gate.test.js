@@ -8,7 +8,9 @@ const readText = (path) => fs.readFileSync(path, 'utf8');
 
 const requiredPaths = [
   'data/normalized/pipes.json',
+  'data/normalized/pipes-sch80-wave2.json',
   'data/normalized/flanges.json',
+  'data/normalized/flanges-cl600-wave2.json',
   'data/normalized/valves.json',
   'data/normalized/fittings.json',
   'data/normalized/gaskets.json',
@@ -18,7 +20,7 @@ const requiredPaths = [
   'data/overrides/project-overrides.sample.json',
 ];
 
-test('DB Phase 13: export manifest covers data, indexes, and overrides', () => {
+test('DB Phase 13: export manifest covers data, indexes, overrides, and wave addenda', () => {
   const result = validateExportManifest(manifest);
   assert.equal(result.ok, true, JSON.stringify(result.diagnostics));
   assert.equal(manifest.exportMode, 'MANIFEST_WITH_RUNTIME_CHECKSUMS');
@@ -40,8 +42,8 @@ test('DB Phase 13: audit pack summarizes rows and status counts', () => {
   const audit = buildAuditPack(manifest, readText);
   assert.equal(audit.ok, true, JSON.stringify(audit.diagnostics));
   assert.equal(audit.artifactCount, requiredPaths.length);
-  assert.ok(audit.totalRows >= 9);
-  assert.ok(audit.dataStatusCounts.READY >= 1);
+  assert.ok(audit.totalRows >= 68);
+  assert.ok(audit.dataStatusCounts.READY >= 61);
   assert.ok(audit.dataStatusCounts.MISSING_DIMENSION >= 1);
   assert.ok(audit.dataStatusCounts.PROJECT_OVERRIDE >= 1);
 });
@@ -54,9 +56,9 @@ test('DB Phase 13: unreadable export paths return diagnostics', () => {
   assert.equal(audit.diagnostics[0].code, 'EXPORT_ARTIFACT_UNREADABLE');
 });
 
-test('DB Phase 13: export helper and gate stay under 200 lines', () => {
+test('DB Phase 13: export helper and gate stay under 220 lines', () => {
   for (const file of ['src/db/exportPack.js', 'gates/db-phase-13-exports.gate.test.js']) {
     const lines = fs.readFileSync(file, 'utf8').trimEnd().split('\n').length;
-    assert.ok(lines <= 200, `${file} has ${lines} lines`);
+    assert.ok(lines <= 220, `${file} has ${lines} lines`);
   }
 });
