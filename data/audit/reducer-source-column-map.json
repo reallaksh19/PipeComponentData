@@ -1,0 +1,38 @@
+{
+  "schema": "pipedata-reducer-source-column-map/v1",
+  "phase": "DB_PHASE_54",
+  "status": "SOURCE_COLUMN_MAP_READY_NOT_PROMOTED",
+  "family": "REDUCER",
+  "scope": {
+    "roadmapItem": "DATA-REDUCER-SOURCE-MAPPING",
+    "promotionApplied": false,
+    "normalizedDataChanged": false,
+    "reason": "Reducer promotion still requires verified two-size source mapping before any normalized rows are added."
+  },
+  "canonicalIdentity": ["largeNps", "smallNps", "largeSchedule", "smallSchedule", "reducerType"],
+  "candidateSourceFamilies": [
+    { "path": "docs/Pipedata/Database/Ftbw", "status": "SOURCE_FAMILY_PRESENT", "review": "BW fitting sources may contain reducers but cannot be promoted through single-NPS fitting schema." },
+    { "path": "docs/Pipedata/Database", "status": "SEARCH_REQUIRED", "review": "Reducer-specific CSV names and two-size columns must be identified before promotion." }
+  ],
+  "requiredColumnMappingBeforePromotion": [
+    "large end NPS",
+    "small end NPS",
+    "large end schedule or thickness basis",
+    "small end schedule or thickness basis",
+    "end-to-end dimension",
+    "weight",
+    "reducer type: concentric / eccentric / swage"
+  ],
+  "blockedPromotions": [
+    "single-NPS reducer rows",
+    "reducer rows indexed as generic fittings",
+    "nearest large or small NPS fallback",
+    "weight copied from elbow/tee/cap rows"
+  ],
+  "safetyRules": {
+    "noReducerPromotionBeforeSourceColumnMap": true,
+    "noSingleNpsReducerRows": true,
+    "noNearestLargeOrSmallNpsFallback": true,
+    "sourceProvenanceRequired": true
+  }
+}
