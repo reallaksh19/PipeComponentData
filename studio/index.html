@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pipe Component Studio</title>
+  <link rel="stylesheet" href="./studio.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand" aria-label="Pipe Component Studio">
+        <span class="brand-icon">▣</span>
+        <span>Pipe Component Studio</span>
+      </div>
+      <div class="badges" aria-label="verification badges">
+        <span>DB READY</span>
+        <span>NO FABRICATION</span>
+        <span>EXACT MATCH ONLY</span>
+      </div>
+    </header>
+
+    <nav class="category-tabs" id="category-tabs" aria-label="component categories"></nav>
+
+    <main class="studio-grid">
+      <section class="pane selector-pane" aria-labelledby="selector-title">
+        <div class="pane-head">
+          <h2 id="selector-title">Component Selector</h2>
+          <p>Quick filters and controlled lookup</p>
+        </div>
+        <div class="pane-body">
+          <div class="chips" id="quick-filters"></div>
+          <label class="field-label" for="query-box">Lookup query</label>
+          <input id="query-box" class="text-input" value="gate valve 8 class 150 rf" />
+          <div class="form-grid">
+            <label>NPS<select id="nps-filter"><option>8</option><option>4</option><option>22</option></select></label>
+            <label>Class<select id="class-filter"><option>150</option><option>300</option><option>600</option></select></label>
+            <label>Family<select id="family-filter"><option>VALVE</option><option>PIPE</option><option>FLANGE</option><option>FITTING</option></select></label>
+            <label>Mode<select disabled><option>Exact alias only</option></select></label>
+          </div>
+          <button class="primary" id="search-button">Find exact match</button>
+          <div class="result-card" id="result-card"></div>
+        </div>
+      </section>
+
+      <section class="pane data-pane" aria-labelledby="data-title">
+        <div class="pane-head">
+          <h2 id="data-title">Component Data</h2>
+          <p id="source-line">Source-backed normalized row</p>
+        </div>
+        <div class="pane-body">
+          <div class="identity-grid" id="identity-grid"></div>
+          <h3>Dimensions and Weight</h3>
+          <table class="data-table">
+            <thead><tr><th>Attribute</th><th>Value</th><th>Basis</th><th>Source</th></tr></thead>
+            <tbody id="attribute-body"></tbody>
+          </table>
+          <details class="audit-box">
+            <summary>Source Audit</summary>
+            <pre id="source-audit"></pre>
+          </details>
+        </div>
+      </section>
+
+      <section class="pane preview-pane" aria-labelledby="preview-title">
+        <div class="cad-head">
+          <div><h2 id="preview-title">CAD 3D Preview</h2><p>Dimension leaders from DB values</p></div>
+          <div class="cad-buttons" id="view-buttons"></div>
+        </div>
+        <div class="cad-canvas" id="cad-canvas" role="img" aria-label="valve dimension preview"></div>
+        <div class="cad-toggles" id="cad-toggles"></div>
+      </section>
+    </main>
+
+    <footer class="verification" id="verification-footer"></footer>
+  </div>
+  <script type="module" src="./component-studio-app.js"></script>
+</body>
+</html>
