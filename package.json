@@ -4,6 +4,7 @@
   "description": "Shared piping component data and adapter APIs for UXML, CEG, Solid3D, DXF, and analysis integrations.",
   "type": "module",
   "main": "src/index.js",
+  "types": "./src/index.d.ts",
   "exports": {
     ".": "./src/index.js"
   },
@@ -41,7 +42,8 @@
     "db:gate15": "npm run db:gate14 && node --test gates/db-phase-15-index-catalog-alignment.gate.test.js",
     "db:gate16": "npm run db:gate15 && node --test gates/db-phase-16-exact-lookup-api.gate.test.js",
     "db:gate17": "npm run db:gate16 && node --test gates/db-phase-17-public-export-pack.gate.test.js",
-    "db:test": "npm run db:gate17",
+    "db:gate18": "npm run db:gate17 && node --test gates/db-phase-18-typescript-declarations.gate.test.js",
+    "db:test": "npm run db:gate18",
     "ui:smoke": "node --test gates/ui-browser-smoke.gate.test.js",
     "ui:gate": "node --test gates/ui-component-studio.gate.test.js gates/ui-browser-smoke.gate.test.js"
   },
