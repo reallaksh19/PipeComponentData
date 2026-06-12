@@ -50,11 +50,53 @@ jobs:
             npm install
           fi
 
-      - name: Run cumulative gates
-        run: npm test
+      - name: Run adapter/API Phase 0 contract gate
+        run: node --test gates/phase-00-contract.gate.test.js
 
-      - name: Run DB gates when present
+      - name: Run adapter/API Phase 1 adapter graph gate
+        run: node --test gates/phase-01-adaptergraph.gate.test.js
+
+      - name: Run adapter/API Phase 2 state gate
+        run: node --test gates/phase-02-state.gate.test.js
+
+      - name: Run adapter/API Phase 3 inputs gate
+        run: node --test gates/phase-03-inputs.gate.test.js
+
+      - name: Run adapter/API Phase 4 PipeData DB gate
+        run: node --test gates/phase-04-pipedata-db.gate.test.js
+
+      - name: Run adapter/API Phase 5 enrichment gate
+        run: node --test gates/phase-05-enrichment.gate.test.js
+
+      - name: Run adapter/API Phase 6 connectivity gate
+        run: node --test gates/phase-06-connectivity.gate.test.js
+
+      - name: Run adapter/API Phase 7 UXML roundtrip gate
+        run: node --test gates/phase-07-uxml-roundtrip.gate.test.js
+
+      - name: Run adapter/API Phase 8 CEG bridge gate
+        run: node --test gates/phase-08-ceg-bridge.gate.test.js
+
+      - name: Run adapter/API Phase 9 simplified weight gate
+        run: node --test gates/phase-09-simplified-weight.gate.test.js
+
+      - name: Run adapter/API Phase 10 Solid3D gate
+        run: node --test gates/phase-10-solid3d.gate.test.js
+
+      - name: Run adapter/API Phase 11 DXF gate
+        run: node --test gates/phase-11-dxf-sidecar.gate.test.js
+
+      - name: Run adapter/API Phase 12 UI workbench gate
+        run: node --test gates/phase-12-ui-workbench.gate.test.js
+
+      - name: Run adapter/API Phase 13 final gate
+        run: node --test gates/phase-13-full.gate.test.js
+
+      - name: Run DB gates
         run: npm run db:test --if-present
+
+      - name: Run UI gates
+        run: npm run ui:gate --if-present
 
   gate-map:
     name: Gate map report

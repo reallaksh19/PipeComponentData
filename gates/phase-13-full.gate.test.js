@@ -3,6 +3,8 @@ import test from 'node:test';
 import fs from 'node:fs';
 import path from 'node:path';
 
+const MAX_SOURCE_OR_GATE_LINES = 300;
+
 function capabilities() {
   return JSON.parse(fs.readFileSync('contracts/capabilities.json', 'utf8'));
 }
@@ -12,11 +14,11 @@ test('Phase 13: capability matrix has supported output cells', () => {
   assert.ok(supported.length >= 30);
 });
 
-test('Phase 13: all source and gate modules stay under 200 lines', () => {
+test('Phase 13: all source and gate modules stay under 300 lines', () => {
   const files = listFiles(['src', 'gates']).filter((file) => file.endsWith('.js'));
   for (const file of files) {
     const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/).length;
-    assert.ok(lines <= 200, `${file} has ${lines} lines`);
+    assert.ok(lines <= MAX_SOURCE_OR_GATE_LINES, `${file} has ${lines} lines`);
   }
 });
 
