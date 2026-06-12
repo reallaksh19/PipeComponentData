@@ -9,22 +9,24 @@ test('DB Phase 20: release readiness is foundation-ready only', () => {
   assert.equal(readiness.schema, 'pipedata-release-readiness/v1');
   assert.equal(readiness.phase, 'DB_PHASE_20');
   assert.equal(readiness.status, 'FOUNDATION_READY');
-  assert.equal(readiness.productStatus, 'SOURCE_BACKED_FOUNDATION');
+  assert.equal(readiness.releaseClass, 'SOURCE_BACKED_FOUNDATION');
   assert.equal(readiness.productionComplete, false);
-  assert.equal(readiness.policy.noFabricatedEngineeringValues, true);
-  assert.equal(readiness.policy.noEngineeringFallback, true);
-  assert.equal(readiness.policy.exactLookupOnly, true);
+  assert.equal(readiness.dataCoverageComplete, false);
+  assert.equal(readiness.safety.noFabricatedEngineeringValues, true);
+  assert.equal(readiness.safety.noEngineeringFallback, true);
+  assert.equal(readiness.safety.exactMatchOnly, true);
 });
 
 test('DB Phase 20: unresolved risks remain visible before any production claim', () => {
-  assert.ok(readiness.openRisks.includes('FULL_NORMALIZED_PRODUCTION_COVERAGE_INCOMPLETE'));
-  assert.ok(readiness.openRisks.includes('SOURCE_USE_RIGHTS_NEED_OWNER_VERIFICATION'));
-  assert.ok(readiness.openRisks.includes('GASKET_SUPPORT_OLET_REDUCER_COVERAGE_PARTIAL_OR_BLOCKED'));
+  assert.ok(readiness.openRisks.some((item) => /production coverage is incomplete/i.test(item)));
+  assert.ok(readiness.openRisks.some((item) => /source-use rights/i.test(item)));
+  assert.ok(readiness.openRisks.some((item) => /Gasket, support, olet, reducer/i.test(item)));
+  assert.equal(readiness.releaseLanguage.blocked, 'production-complete engineering catalog');
 });
 
 test('DB Phase 20: readiness evidence files exist', () => {
-  assert.equal(readiness.evidence.npmTestExpected, true);
-  assert.equal(readiness.evidence.pagesArtifactMinimal, true);
+  assert.equal(readiness.evidence.adapterGatePhase, 13);
+  assert.equal(readiness.evidence.dbGatePhase >= 21, true);
   assert.equal(readiness.evidence.uiSmokeGate, true);
   assert.equal(readiness.evidence.typescriptDeclarations, true);
   for (const key of ['publicExportPack', 'sourceUsePolicy', 'coverageDashboard', 'integrationContract']) {
