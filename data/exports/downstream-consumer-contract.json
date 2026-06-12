@@ -1,0 +1,31 @@
+{
+  "schema": "pipedata-downstream-consumer-contract/v1",
+  "phase": "DB_PHASE_34",
+  "stableApis": [
+    "lookupComponentExact",
+    "LOOKUP_STATUS"
+  ],
+  "integrationRules": {
+    "usePublicApiOnly": true,
+    "doNotCallInternalComponentSearch": true,
+    "doNotReadRawSourceTree": true,
+    "doNotInferMissingDimensions": true,
+    "respectNoExactMatch": true,
+    "respectMissingDimensionStatus": true
+  },
+  "requiredPublicArtifacts": [
+    "data/exports/public-export-pack.manifest.json",
+    "data/exports/exact-lookup-fixtures.json",
+    "data/indexes/component-search.index.json",
+    "data/search/component-aliases.json",
+    "data/normalized/pipes.json",
+    "data/normalized/flanges.json",
+    "data/normalized/valves.json",
+    "data/normalized/fittings.json",
+    "data/normalized/gaskets.json",
+    "data/normalized/supports.json"
+  ],
+  "forbiddenPaths": [
+    "docs/Pipedata/Database"
+  ]
+}

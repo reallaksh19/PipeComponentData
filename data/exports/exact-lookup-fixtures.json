@@ -1,0 +1,57 @@
+{
+  "schema": "pipedata-exact-lookup-fixtures/v1",
+  "phase": "DB_PHASE_33",
+  "policy": {
+    "exactMatchOnly": true,
+    "noFallbackExpected": true,
+    "fixturePurpose": "Stable downstream smoke fixtures for the public lookupComponentExact API."
+  },
+  "cases": [
+    {
+      "caseId": "pipe-nps2-sch40-found",
+      "query": "PIPE 2 SCH40",
+      "expectedStatus": "FOUND",
+      "expectedId": "PIPE|NPS2|SCH40",
+      "expectedFamily": "PIPE",
+      "expectedDataStatus": "READY"
+    },
+    {
+      "caseId": "flange-wn-nps4-cl300-found",
+      "query": "WN FLANGE 4 CL300",
+      "expectedStatus": "FOUND",
+      "expectedId": "FLANGE|WN|NPS4|CL300|METRIC",
+      "expectedFamily": "FLANGE",
+      "expectedDataStatus": "READY"
+    },
+    {
+      "caseId": "valve-gate-nps8-cl150-found",
+      "query": "GATE VALVE 8 150 RF",
+      "expectedStatus": "FOUND",
+      "expectedId": "VALVE|GATE|FLANGED|NPS8|CL150|RF",
+      "expectedFamily": "VALVE",
+      "expectedDataStatus": "READY"
+    },
+    {
+      "caseId": "fitting-elbow-nps4-sch40-found",
+      "query": "90 ELBOW 4 SCHEDULE 40",
+      "expectedStatus": "FOUND",
+      "expectedId": "FITTING|ELBOW_90|NPS4|SCH40|METRIC",
+      "expectedFamily": "FITTING",
+      "expectedDataStatus": "READY"
+    },
+    {
+      "caseId": "gasket-rtj-inventory-only",
+      "query": "RTJ GASKET",
+      "expectedStatus": "FOUND",
+      "expectedId": "GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ",
+      "expectedFamily": "GASKET",
+      "expectedDataStatus": "MISSING_DIMENSION"
+    },
+    {
+      "caseId": "wrong-rating-no-fallback",
+      "query": "GATE VALVE 8 300 RF",
+      "expectedStatus": "NO_EXACT_MATCH",
+      "expectedId": null
+    }
+  ]
+}
