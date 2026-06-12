@@ -4,9 +4,11 @@ import test from 'node:test';
 
 const manifest = JSON.parse(fs.readFileSync('data/audit/pipe-schedule-source-matrix.json', 'utf8'));
 const pipes = JSON.parse(fs.readFileSync('data/normalized/pipes.json', 'utf8'));
+const sch80Wave2 = JSON.parse(fs.readFileSync('data/normalized/pipes-sch80-wave2.json', 'utf8'));
 const searchIndex = JSON.parse(fs.readFileSync('data/indexes/component-search.index.json', 'utf8'));
+const allRows = [...pipes.rows, ...sch80Wave2.rows];
 
-test('DB Phase 45: pipe schedule source matrix is preflight-only', () => {
+test('DB Phase 45: pipe schedule source matrix remains governance source', () => {
   assert.equal(manifest.schema, 'pipedata-pipe-schedule-source-matrix/v1');
   assert.equal(manifest.phase, 'DB_PHASE_45');
   assert.equal(manifest.status, 'SOURCE_MATRIX_READY_NOT_BULK_PROMOTED');
@@ -32,11 +34,13 @@ test('DB Phase 45: source evidence includes bounded known values and partial row
   assert.match(pipe80, /24,600,610,30\.96,305,548\.08,442\.11/);
 });
 
-test('DB Phase 45: current normalized pipe boundary remains unchanged until promotion PR', () => {
+test('DB Phase 45: bounded SCH80 addendum is promoted without bulk schedule import', () => {
   assert.equal(pipes.rows.length, 10);
-  assert.equal(pipes.rows.filter((row) => row.componentType === 'PIPE').length, 10);
-  assert.equal(pipes.rows.find((row) => row.id === 'PIPE|NPS0+1/8|SCH40').dataStatus, 'PARTIAL');
+  assert.equal(sch80Wave2.rows.length, 3);
+  assert.equal(allRows.find((row) => row.id === 'PIPE|NPS0+1/8|SCH40').dataStatus, 'PARTIAL');
   const indexedPipeRows = searchIndex.entries.filter((entry) => entry.family === 'PIPE');
-  assert.equal(indexedPipeRows.length, 9);
+  assert.equal(indexedPipeRows.length, 12);
   assert.equal(indexedPipeRows.some((entry) => entry.id === 'PIPE|NPS10|SCH40'), false);
+  assert.equal(indexedPipeRows.some((entry) => entry.id === 'PIPE|NPS10|SCH80'), true);
+  assert.equal(allRows.some((row) => String(row.schedule) === '160'), false);
 });
