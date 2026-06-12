@@ -1,0 +1,38 @@
+{
+  "schema": "pipedata-foundation-release-candidate/v1",
+  "phase": "DB_PHASE_22",
+  "candidate": "v0.1.0-foundation-rc1",
+  "status": "FOUNDATION_RELEASE_CANDIDATE",
+  "releaseClass": "SOURCE_BACKED_FOUNDATION",
+  "productionComplete": false,
+  "tagRecommended": "v0.1.0-foundation",
+  "requiredBeforeTag": [
+    "main_ci_green",
+    "pages_deploy_green",
+    "manual_visual_inspection_complete",
+    "source_rights_review_acknowledged"
+  ],
+  "evidence": {
+    "releaseReadiness": "data/audit/release-readiness.json",
+    "sourceUsePolicy": "data/audit/source-use-policy.json",
+    "coverageDashboard": "data/audit/db-coverage-dashboard.json",
+    "publicExportPack": "data/exports/public-export-pack.manifest.json",
+    "integrationContract": "data/exports/integration-contract.manifest.json",
+    "typescriptDeclarations": "src/index.d.ts",
+    "changelog": "CHANGELOG.md",
+    "releaseChecklist": "docs/release-candidate.md"
+  },
+  "policy": {
+    "exactMatchOnly": true,
+    "noEngineeringFallback": true,
+    "noFabricatedEngineeringValues": true,
+    "missingValues": "null_or_UNAVAILABLE",
+    "rawSourceTreePublishedToPages": false,
+    "normalStudioExposesRawSourceTree": false
+  },
+  "nextAfterTag": [
+    "family_by_family_data_expansion",
+    "viewer_converter_integration_through_exact_lookup",
+    "verified_source_promotion_for_partial_families"
+  ]
+}

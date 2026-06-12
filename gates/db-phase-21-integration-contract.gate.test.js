@@ -62,6 +62,22 @@ test('DB Phase 21: partial gasket data remains unavailable, not promoted', () =>
   }
 });
 
+test('DB Phase 21: foundation release candidate pack is public and conservative', () => {
+  const rcPath = 'data/audit/foundation-release-candidate.json';
+  const rc = JSON.parse(fs.readFileSync(rcPath, 'utf8'));
+  const publicArtifactPaths = new Set(publicPack.publicArtifacts.map((artifact) => artifact.path));
+
+  assert.equal(rc.status, 'FOUNDATION_RELEASE_CANDIDATE');
+  assert.equal(rc.releaseClass, 'SOURCE_BACKED_FOUNDATION');
+  assert.equal(rc.productionComplete, false);
+  assert.equal(rc.policy.exactMatchOnly, true);
+  assert.equal(rc.policy.noEngineeringFallback, true);
+  assert.equal(rc.policy.noFabricatedEngineeringValues, true);
+  assert.ok(publicArtifactPaths.has(rcPath));
+  assert.ok(fs.existsSync('CHANGELOG.md'));
+  assert.ok(fs.existsSync('docs/release-candidate.md'));
+});
+
 test('DB Phase 21: integration gate is the db:test endpoint', () => {
   assert.equal(packageJson.scripts['db:gate21'], 'npm run db:gate20 && node --test gates/db-phase-21-integration-contract.gate.test.js');
   assert.equal(packageJson.scripts['db:test'], 'npm run db:gate21');
