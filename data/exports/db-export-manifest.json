@@ -1,0 +1,21 @@
+{
+  "schema": "pipedata-db-export-manifest/v1",
+  "phase": "DB_PHASE_13",
+  "exportMode": "MANIFEST_WITH_RUNTIME_CHECKSUMS",
+  "checksumPolicy": "COMPUTE_SHA256_AT_EXPORT_TIME",
+  "artifacts": [
+    { "path": "data/normalized/pipes.json", "kind": "NORMALIZED_DATA", "family": "PIPE" },
+    { "path": "data/normalized/flanges.json", "kind": "NORMALIZED_DATA", "family": "FLANGE" },
+    { "path": "data/normalized/valves.json", "kind": "NORMALIZED_DATA", "family": "VALVE" },
+    { "path": "data/normalized/fittings.json", "kind": "NORMALIZED_DATA", "family": "FITTING" },
+    { "path": "data/normalized/gaskets.json", "kind": "NORMALIZED_DATA", "family": "GASKET" },
+    { "path": "data/normalized/supports.json", "kind": "NORMALIZED_DATA", "family": "SUPPORT" },
+    { "path": "data/indexes/component-search.index.json", "kind": "SEARCH_INDEX", "family": "ALL" },
+    { "path": "data/indexes/override.index.json", "kind": "OVERRIDE_INDEX", "family": "ALL" },
+    { "path": "data/overrides/project-overrides.sample.json", "kind": "OVERRIDE_PACK", "family": "ALL" }
+  ],
+  "auditPack": {
+    "schema": "pipedata-db-audit-pack/v1",
+    "generation": "BUILD_FROM_MANIFEST_AT_EXPORT_TIME"
+  }
+}
