@@ -48,8 +48,24 @@ jobs:
           mkdir -p _site/studio _site/data/indexes _site/data/normalized _site/data/search
           cp -R studio/. _site/studio/
           cp data/indexes/component-search.index.json _site/data/indexes/
-          cp data/normalized/valves.json _site/data/normalized/
+          cp data/normalized/*.json _site/data/normalized/
           cp data/search/component-aliases.json _site/data/search/
+
+          BUILD_SHA="${GITHUB_SHA::12}"
+          sed -i "s|./studio.css|./studio.css?v=${BUILD_SHA}|g" _site/studio/index.html
+          sed -i "s|./component-studio-app.js|./component-studio-app.js?v=${BUILD_SHA}|g" _site/studio/index.html
+
+          test -f _site/studio/index.html
+          test -f _site/studio/component-studio-app.js
+          test -f _site/data/indexes/component-search.index.json
+          test -f _site/data/search/component-aliases.json
+          test -f _site/data/normalized/valves.json
+
+          if [ -d _site/docs/Pipedata/Database ]; then
+            echo "ERROR: Raw source database tree must not be published to Pages"
+            exit 1
+          fi
+
           cat > _site/index.html <<'HTML'
           <!doctype html>
           <html lang="en">
