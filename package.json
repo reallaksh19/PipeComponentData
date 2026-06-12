@@ -38,7 +38,8 @@
     "db:gate12": "npm run db:gate11 && node --test gates/db-phase-12-overrides.gate.test.js",
     "db:gate13": "npm run db:gate12 && node --test gates/db-phase-13-exports.gate.test.js",
     "db:gate14": "npm run db:gate13 && node --test gates/db-phase-14-coverage-dashboard.gate.test.js",
-    "db:test": "npm run db:gate14",
+    "db:gate15": "npm run db:gate14 && node --test gates/db-phase-15-index-catalog-alignment.gate.test.js",
+    "db:test": "npm run db:gate15",
     "ui:gate": "node --test gates/ui-component-studio.gate.test.js"
   },
   "engines": {
