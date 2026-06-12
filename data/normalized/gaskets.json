@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "family": "GASKET",
+    "phase": "DB_PHASE_09",
+    "sourceRoot": "docs/Pipedata/Database",
+    "generationMode": "SOURCE_INVENTORY_SELECTOR_ROWS_ONLY",
+    "sourceFolders": ["Gflt", "Grtj", "Gspr"],
+    "datasetVersion": "pipedata-db/2026.06.dbphase9",
+    "sampledRowCount": 3,
+    "notes": [
+      "Gasket family CSV sources are recorded in the raw inventory but are not promoted to numeric dimensions in this phase.",
+      "Rows stay MISSING_DIMENSION and expose no numeric dimension values until source tables are committed and parsed."
+    ]
+  },
+  "rows": [
+    {
+      "id": "GASKET|FLAT_RING|UNKNOWN|UNKNOWN|UNKNOWN",
+      "componentType": "GASKET",
+      "subtype": "FLAT_RING",
+      "nps": null,
+      "classRating": null,
+      "facing": null,
+      "standard": "SOURCE_INVENTORY_ONLY",
+      "source": "docs/Pipedata/Database/Gflt/Gflt.set",
+      "datasetVersion": "pipedata-db/2026.06.dbphase9",
+      "dataStatus": "MISSING_DIMENSION",
+      "dimensions": {
+        "innerDiaMm": { "value": null, "basis": "UNAVAILABLE", "unit": "mm" },
+        "outerDiaMm": { "value": null, "basis": "UNAVAILABLE", "unit": "mm" },
+        "thicknessMm": { "value": null, "basis": "UNAVAILABLE", "unit": "mm" }
+      },
+      "diagnostics": [{ "code": "GASKET_SOURCE_TABLE_NOT_PROMOTED", "severity": "INFO" }]
+    },
+    {
+      "id": "GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ",
+      "componentType": "GASKET",
+      "subtype": "RTJ",
+      "nps": null,
+      "classRating": null,
+      "facing": "RTJ",
+      "standard": "SOURCE_INVENTORY_ONLY",
+      "source": "docs/Pipedata/Database/Grtj/Grtj.set",
+      "datasetVersion": "pipedata-db/2026.06.dbphase9",
+      "dataStatus": "MISSING_DIMENSION",
+      "dimensions": {
+        "ringNo": { "value": null, "basis": "UNAVAILABLE" },
+        "pitchDiaMm": { "value": null, "basis": "UNAVAILABLE", "unit": "mm" }
+      },
+      "diagnostics": [{ "code": "GASKET_SOURCE_TABLE_NOT_PROMOTED", "severity": "INFO" }]
+    },
+    {
+      "id": "GASKET|SPIRAL_WOUND|UNKNOWN|UNKNOWN|UNKNOWN",
+      "componentType": "GASKET",
+      "subtype": "SPIRAL_WOUND",
+      "nps": null,
+      "classRating": null,
+      "facing": null,
+      "standard": "SOURCE_INVENTORY_ONLY",
+      "source": "docs/Pipedata/Database/Gspr/Gspr.set",
+      "datasetVersion": "pipedata-db/2026.06.dbphase9",
+      "dataStatus": "MISSING_DIMENSION",
+      "dimensions": {
+        "innerDiaMm": { "value": null, "basis": "UNAVAILABLE", "unit": "mm" },
+        "outerDiaMm": { "value": null, "basis": "UNAVAILABLE", "unit": "mm" },
+        "thicknessMm": { "value": null, "basis": "UNAVAILABLE", "unit": "mm" }
+      },
+      "diagnostics": [{ "code": "GASKET_SOURCE_TABLE_NOT_PROMOTED", "severity": "INFO" }]
+    }
+  ]
+}
