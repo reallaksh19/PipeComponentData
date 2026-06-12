@@ -101,6 +101,15 @@ jobs:
       - name: Run DB Phase 21 integration contract gate
         run: npm run db:gate21 --if-present
 
+      - name: Run DB Phase 23 source expansion ledger gate
+        run: npm run db:gate23 --if-present
+
+      - name: Run DB Phase 24 pipe schedule expansion gate
+        run: npm run db:gate24 --if-present
+
+      - name: Run DB Phase 25 flange expansion gate
+        run: npm run db:gate25 --if-present
+
       - name: Run UI gates
         run: npm run ui:gate --if-present
 
