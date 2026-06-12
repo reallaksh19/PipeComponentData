@@ -1,0 +1,32 @@
+{
+  "schema": "pipedata-release-notes-manifest/v1",
+  "phase": "DB_PHASE_38",
+  "release": "v0.1.0-foundation",
+  "status": "FOUNDATION_NOTES_READY",
+  "summary": "Source-backed foundation release with exact lookup API, Studio shell, public export pack, and bounded sample catalogs.",
+  "includedCapabilities": [
+    "adapter-api-gates-through-phase-13",
+    "db-gates-through-phase-36",
+    "exact-public-lookup-api",
+    "typescript-declarations",
+    "public-export-pack",
+    "coverage-dashboard",
+    "source-backed-sample-pipe-flange-valve-fitting-rows",
+    "gasket-inventory-only",
+    "support-project-override-only"
+  ],
+  "limitations": [
+    "not-production-complete",
+    "full-family-coverage-incomplete",
+    "source-use-rights-owner-verification-still-required",
+    "gasket-dimensions-not-promoted",
+    "support-span-dimensions-not-promoted",
+    "reducer-olet-promotion-blocked-pending-schema-review"
+  ],
+  "safety": {
+    "noFabricatedEngineeringValues": true,
+    "noNearestEngineeringFallback": true,
+    "missingValuesRemainNullOrUnavailable": true,
+    "rawSourceTreePublishedToPages": false
+  }
+}
