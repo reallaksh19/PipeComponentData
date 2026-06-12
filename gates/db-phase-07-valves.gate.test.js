@@ -21,9 +21,10 @@ test('DB Phase 7: VLV1150 source table parses exact gate-valve dimensions', () =
 });
 
 test('DB Phase 7: VLV11500 source table parses Class 1500 gate-valve dimensions', () => {
-  const rows = parseValveTable(fs.readFileSync(SOURCE_1500, 'utf8'), { source: SOURCE_1500 });
+  const rows = parseValveTable(fs.readFileSync(SOURCE_1500, 'utf8'), { source: SOURCE_1500, classRating: '1500' });
   const gate4 = rows.find((row) => row.nps === '4');
   assert.equal(gate4.sourceRowNumber, 13);
+  assert.equal(gate4.classRating, '1500');
   assert.equal(gate4.dimensions.faceToFaceRfMm.value, 546);
   assert.equal(gate4.dimensions.faceToFaceRtjMm.value, 549);
   assert.equal(gate4.weights.rfRtjKg.value, 277);
