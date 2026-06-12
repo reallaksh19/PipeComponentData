@@ -31,6 +31,7 @@ export { toSolid3dSpecs, assertNoInvalidSpecNumbers } from './solid3d/toSolid3dS
 export { toSemanticDxf } from './dxf/toSemanticDxf.js';
 export { fromSemanticDxf } from './dxf/fromSemanticDxf.js';
 export { createWorkbenchModel } from './ui/createWorkbenchModel.js';
+export { createComponentStudioModel, COMPONENT_STUDIO_SCHEMA } from './ui/createComponentStudioModel.js';
 export {
   VALUE_BASIS,
   sourceValue,
