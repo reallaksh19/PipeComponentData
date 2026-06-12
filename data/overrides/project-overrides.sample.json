@@ -1,0 +1,26 @@
+{
+  "schema": "pipedata-project-overrides/v1",
+  "phase": "DB_PHASE_12",
+  "conflictPolicy": "REQUIRE_EXPLICIT_PROJECT_OVERRIDE",
+  "generationMode": "SAMPLE_PROJECT_OVERRIDE_POLICY",
+  "overrides": [
+    {
+      "id": "OVERRIDE|VALVE|GATE|NPS8|CL150|WEIGHT",
+      "targetId": "VALVE|GATE|FLANGED|NPS8|CL150|RF",
+      "fieldPath": "dimensions.weightKg",
+      "overrideScope": "PROJECT",
+      "sourceValue": 144,
+      "overrideValue": 150,
+      "unit": "kg",
+      "reason": "Example project-specific vendor weight override; not a master-data mutation.",
+      "conflictPolicy": "REQUIRE_EXPLICIT_PROJECT_OVERRIDE",
+      "dataStatus": "PROJECT_OVERRIDE",
+      "provenance": {
+        "standard": "PROJECT_OVERRIDE",
+        "source": "sample/project-overrides.csv",
+        "datasetVersion": "pipedata-db/phase12",
+        "dataStatus": "PROJECT_OVERRIDE"
+      }
+    }
+  ]
+}
