@@ -19,7 +19,6 @@ test('DB Phase 16: exact lookup returns normalized row and provenance for a valv
   const result = lookupComponentExact('GATE VALVE 8 150 RF', assets, {
     filters: { componentType: 'VALVE', valveType: 'GATE', nps: '8', classRating: '150', facing: 'RF' },
   });
-
   assert.equal(result.ok, true);
   assert.equal(result.status, LOOKUP_STATUS.FOUND);
   assert.equal(result.id, 'VALVE|GATE|FLANGED|NPS8|CL150|RF');
@@ -28,22 +27,25 @@ test('DB Phase 16: exact lookup returns normalized row and provenance for a valv
   assert.match(result.noFallbackPolicy, /No nearest NPS/);
 });
 
-test('DB Phase 16: exact lookup rejects wrong rating without fallback', () => {
-  const result = lookupComponentExact('GATE VALVE 8 300 RF', assets, {
-    filters: { componentType: 'VALVE', valveType: 'GATE', nps: '8', classRating: '300', facing: 'RF' },
+test('DB Phase 16: exact lookup includes wave 1 valve row and rejects wrong rating', () => {
+  const hit = lookupComponentExact('GATE VALVE 4 1500 RF', assets, {
+    filters: { componentType: 'VALVE', valveType: 'GATE', nps: '4', classRating: '1500', facing: 'RF' },
   });
-
-  assert.equal(result.ok, false);
-  assert.equal(result.status, LOOKUP_STATUS.NO_EXACT_MATCH);
-  assert.equal(result.row, null);
-  assert.equal(result.diagnostics[0].code, 'SEARCH_NO_EXACT_MATCH');
+  assert.equal(hit.status, LOOKUP_STATUS.FOUND);
+  assert.equal(hit.row.weights.rfRtjKg.value, 277);
+  const miss = lookupComponentExact('GATE VALVE 4 300 RF', assets, {
+    filters: { componentType: 'VALVE', valveType: 'GATE', nps: '4', classRating: '300', facing: 'RF' },
+  });
+  assert.equal(miss.ok, false);
+  assert.equal(miss.status, LOOKUP_STATUS.NO_EXACT_MATCH);
+  assert.equal(miss.row, null);
+  assert.equal(miss.diagnostics[0].code, 'SEARCH_NO_EXACT_MATCH');
 });
 
 test('DB Phase 16: gasket inventory lookup does not fabricate dimensions', () => {
   const result = lookupComponentExact('RTJ GASKET', assets, {
-    filters: { componentType: 'GASKET', subtype: 'RTJ' },
+    filters: { componentType: 'GASKET', subtype: 'RTJ', facing: 'RTJ' },
   });
-
   assert.equal(result.ok, true);
   assert.equal(result.id, 'GASKET|RTJ|UNKNOWN|UNKNOWN|RTJ');
   assert.equal(result.dataStatus, 'MISSING_DIMENSION');
@@ -54,12 +56,7 @@ test('DB Phase 16: gasket inventory lookup does not fabricate dimensions', () =>
 });
 
 test('DB Phase 16: exact lookup surfaces index/catalog mismatch as API error', () => {
-  const result = lookupComponentExact('GATE VALVE 8 150 RF', {
-    searchIndex,
-    aliases,
-    catalogs: {},
-  });
-
+  const result = lookupComponentExact('GATE VALVE 8 150 RF', { searchIndex, aliases, catalogs: {} });
   assert.equal(result.ok, false);
   assert.equal(result.status, LOOKUP_STATUS.CATALOG_ROW_MISSING);
   assert.equal(result.diagnostics[0].code, 'CATALOG_ROW_MISSING');
