@@ -18,7 +18,7 @@ test('DB Phase 35: Pages artifact contract records minimal public artifact polic
 
 test('DB Phase 35: Pages workflow copies required public artifact groups', () => {
   for (const policy of contract.requiredCopyPolicies) {
-    if (policy === 'studio') assert.equal(workflowContains('cp -R studio _site/studio'), true);
+    if (policy === 'studio') assert.equal(workflowContains('cp -R studio/. _site/studio/'), true);
     if (policy === 'data/indexes/component-search.index.json') assert.equal(workflowContains('component-search.index.json'), true);
     if (policy === 'data/search/component-aliases.json') assert.equal(workflowContains('component-aliases.json'), true);
     if (policy === 'data/normalized/*.json') assert.equal(workflowContains('cp data/normalized/*.json'), true);
