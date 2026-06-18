@@ -46,6 +46,7 @@ jobs:
           node --test gates/pipetools-agent-04-search.gate.test.js
           node --test gates/pipetools-agent-05-svg.gate.test.js
           node --test gates/pipetools-agent-06-dashboard.gate.test.js
+          node --test gates/pipetools-agent-07-pipe-span.gate.test.js
 
       - name: Prepare static Pages artifact
         shell: bash
@@ -73,6 +74,7 @@ jobs:
           test -f _site/pipetools/js/app.js
           test -f _site/pipetools/js/search/search.js
           test -f _site/pipetools/js/svg/inspector.js
+          test -f _site/pipetools/js/pipeSpan/calculate.js
           test -f _site/spl2-bundle/spl2_master.html
           test -f _site/data/indexes/component-search.index.json
           test -f _site/data/search/component-aliases.json
