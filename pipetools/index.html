@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PipeTools Suite</title>
+  <meta name="description" content="PipeTools Suite: PipeSpec DB, Pipe Span, and 2D Bundle Calc foundation." />
+  <link rel="stylesheet" href="./pipetools.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Engineering dashboard foundation</p>
+        <h1>PipeTools Suite</h1>
+      </div>
+      <label class="search-box">
+        <span>Search</span>
+        <input id="global-search" placeholder='GATE 8&quot; FL 300#' />
+      </label>
+      <div class="status-chips">
+        <span>mm / kg</span><span>GitHub Pages</span><span>Agent 00-03</span>
+      </div>
+    </header>
+
+    <nav class="module-tabs" id="module-tabs" aria-label="main modules"></nav>
+
+    <main class="workspace">
+      <section class="dashboard-zone" id="dashboard-zone"></section>
+      <section class="result-grid">
+        <article class="panel table-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow" id="table-kicker">Dynamic results</p>
+              <h2 id="table-title">PipeSpec DB</h2>
+            </div>
+            <span class="count" id="table-count">0 rows</span>
+          </div>
+          <div class="table-frame" id="table-frame"></div>
+        </article>
+
+        <aside class="panel inspector" id="inspector-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Inspector</p>
+              <h2 id="inspector-title">Selected Item SVG</h2>
+            </div>
+          </div>
+          <div id="inspector-body" class="inspector-body"></div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
