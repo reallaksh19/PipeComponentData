@@ -39,14 +39,19 @@ jobs:
           fi
 
       - name: Run full verification gates
-        run: npm test
+        shell: bash
+        run: |
+          npm test
+          node --test gates/pipetools-agent-00-03.gate.test.js
 
       - name: Prepare static Pages artifact
         shell: bash
         run: |
           rm -rf _site
-          mkdir -p _site/studio _site/data/indexes _site/data/normalized _site/data/search _site/data/audit _site/data/exports
+          mkdir -p _site/studio _site/pipetools _site/spl2-bundle _site/data/indexes _site/data/normalized _site/data/search _site/data/audit _site/data/exports
           cp -R studio/. _site/studio/
+          cp -R pipetools/. _site/pipetools/
+          cp -R spl2-bundle/. _site/spl2-bundle/
           cp data/indexes/component-search.index.json _site/data/indexes/
           cp data/normalized/*.json _site/data/normalized/
           cp data/search/component-aliases.json _site/data/search/
@@ -56,13 +61,19 @@ jobs:
           BUILD_SHA="${GITHUB_SHA::12}"
           sed -i "s|./studio.css|./studio.css?v=${BUILD_SHA}|g" _site/studio/index.html
           sed -i "s|./component-studio-app.js|./component-studio-app.js?v=${BUILD_SHA}|g" _site/studio/index.html
+          sed -i "s|./pipetools.css|./pipetools.css?v=${BUILD_SHA}|g" _site/pipetools/index.html
+          sed -i "s|./js/app.js|./js/app.js?v=${BUILD_SHA}|g" _site/pipetools/index.html
 
           test -f _site/studio/index.html
           test -f _site/studio/component-studio-app.js
+          test -f _site/pipetools/index.html
+          test -f _site/pipetools/js/app.js
+          test -f _site/spl2-bundle/spl2_master.html
           test -f _site/data/indexes/component-search.index.json
           test -f _site/data/search/component-aliases.json
           test -f _site/data/audit/db-coverage-dashboard.json
           test -f _site/data/audit/source-use-policy.json
+          test -f _site/data/audit/pipetools-agent-00-03-manifest.json
           test -f _site/data/exports/db-export-manifest.json
           test -f _site/data/exports/public-export-pack.manifest.json
           test -f _site/data/normalized/valves.json
@@ -78,10 +89,11 @@ jobs:
             <head>
               <meta charset="utf-8" />
               <meta name="viewport" content="width=device-width, initial-scale=1" />
-              <meta http-equiv="refresh" content="0; url=./studio/" />
-              <title>Pipe Component Studio</title>
+              <meta http-equiv="refresh" content="0; url=./pipetools/" />
+              <title>PipeTools Suite</title>
             </head>
             <body>
+              <p><a href="./pipetools/">Open PipeTools Suite</a></p>
               <p><a href="./studio/">Open Pipe Component Studio</a></p>
             </body>
           </html>

@@ -1,0 +1,51 @@
+name: PipeTools CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - 'feature/pipetools-*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify PipeTools foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Run repository and PipeTools gates
+        run: |
+          npm test
+          node --test gates/pipetools-agent-00-03.gate.test.js
+
+      - name: Verify static artifact layout
+        shell: bash
+        run: |
+          rm -rf _site
+          mkdir -p _site/pipetools _site/spl2-bundle
+          cp -R pipetools/. _site/pipetools/
+          cp -R spl2-bundle/. _site/spl2-bundle/
+          test -f _site/pipetools/index.html
+          test -f _site/pipetools/js/app.js
+          test -f _site/spl2-bundle/spl2_master.html
