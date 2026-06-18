@@ -70,8 +70,15 @@ export function calculatePipeSpan(userInput = {}, constants = PIPE_SPAN_CONSTANT
   const rounded = Object.fromEntries(Object.entries(raw).map(([key, value]) =>
     [key, typeof value === 'number' ? round(value) : value]));
   rounded.input = input;
-  rounded.formulaTrace = createPipeSpanTrace({ row, constants, weights, mi, spans: cases, indentation,
-    selectedMethodSpanM: selectedSpan, leastAllowableSpanM: leastSpan, governingSpanM: governingSpan,
-    beamMethod: input.beamMethod });
+  rounded.formulaTrace = createRoundedTrace(row, constants, rounded, input.beamMethod);
   return rounded;
+}
+
+function createRoundedTrace(row, constants, result, beamMethod) {
+  const weights = { pipeWeightNPerM: result.pipeWeightNPerM, insulationWeightNPerM: result.insulationWeightNPerM,
+    waterWeightNPerM: result.waterWeightNPerM, totalWeightNPerM: result.totalWeightNPerM };
+  const spans = Object.fromEntries(Object.entries(result).filter(([key]) => key.endsWith('M')));
+  return createPipeSpanTrace({ row, constants, weights, mi: result.momentOfInertiaCm4,
+    spans, indentation: result.indentationSpanM, selectedMethodSpanM: result.selectedMethodSpanM,
+    leastAllowableSpanM: result.leastAllowableSpanM, governingSpanM: result.governingSpanM, beamMethod });
 }
