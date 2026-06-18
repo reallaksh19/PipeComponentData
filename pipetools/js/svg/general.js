@@ -56,7 +56,9 @@ export function renderSupportGuide(row = {}) {
 export function renderLineStop(row = {}) {
   const body = path('M96 104h228', '#e5f0ff', 22, { 'stroke-linecap': 'round' }) + path('M138 156h144M210 156V86M176 104h68M134 186h152', '#7dd3fc', 5, { 'stroke-linecap': 'round' });
   return labeledPreview('Line Stop', body, row);
-}\nexport function renderFallback(row = {}) {
+}
+
+export function renderFallback(row = {}) {
   const key = row.svgKey ?? 'unresolved';
   const box = svgEl('rect', { x: 130, y: 72, width: 160, height: 96, rx: 14, fill: 'none', stroke: '#facc15', 'stroke-width': 3, 'stroke-dasharray': '7 5' });
   const mark = path('M210 96v38M210 152v4', '#facc15', 6, { 'stroke-linecap': 'round' });
