@@ -1,6 +1,7 @@
 import { COMPONENTS, VALVE_TYPES, END_TYPES, FACINGS, CLASSES, PIPE_SPAN_ROWS } from './data.js';
 import { calculatePipeSpan } from './pipeSpanCalc.js';
-import { gateValveSvg, iconSvg, pipeSpanSvg } from './svg.js';
+import { renderPipeSpecInspector } from './pipespecInspector.js';
+import { iconSvg, pipeSpanSvg } from './svg.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 const fmt = (value, suffix = '') => value == null ? '—' : `${value}${suffix}`;
@@ -91,19 +92,12 @@ function renderPipeSpecTable(state, actions) {
   document.getElementById('table-count').textContent = `${state.rows.length} rows`;
   document.getElementById('table-frame').innerHTML = `<table><thead><tr><th>Type</th><th>End</th><th>Facing</th><th>NPS / DN</th><th>Class</th><th>F2F</th><th>Height</th><th>Weight</th><th>Status</th></tr></thead><tbody>${state.rows.map((row) => rowHtml(row, state.selectedId)).join('')}</tbody></table>`;
   document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));
-  renderInspector(state.selectedRow);
+  document.getElementById('inspector-body').innerHTML = renderPipeSpecInspector(state.selectedRow);
 }
 
 function rowHtml(row, selectedId) {
   const d = row.dimensions ?? {}, w = row.weights ?? {};
   return `<tr class="${row.id === selectedId ? 'selected' : ''}" data-row-id="${esc(row.id)}"><td>${esc(row.valveType ?? row.componentType)}</td><td>${esc(row.endType)}</td><td>${esc(row.facing)}</td><td>NPS ${esc(row.nps)} / DN ${esc(row.dn)}</td><td>CL ${esc(row.classRating)}</td><td>${fmt(d.faceToFaceRfMm?.value, ' mm')}</td><td>${fmt(d.heightMm?.value, ' mm')}</td><td>${fmt(w.rfRtjKg?.value, ' kg')}</td><td class="status">${esc(row.dataStatus)}</td></tr>`;
-}
-
-function renderInspector(row) {
-  const body = document.getElementById('inspector-body');
-  if (!row) { body.innerHTML = '<p>Select a table row to preview SVG and source-backed values.</p>'; return; }
-  const d = row.dimensions ?? {}, w = row.weights ?? {};
-  body.innerHTML = `${gateValveSvg(row)}${kv('Item', `${row.valveType} Valve`)}${kv('End / Facing', `${row.endType} ${row.facing}`)}${kv('Size', `NPS ${row.nps} / DN ${row.dn}`)}${kv('Class', `CL ${row.classRating}`)}${kv('F2F RF', fmt(d.faceToFaceRfMm?.value, ' mm'))}${kv('F2F RTJ', fmt(d.faceToFaceRtjMm?.value, ' mm'))}${kv('Height', fmt(d.heightMm?.value, ' mm'))}${kv('Weight', fmt(w.rfRtjKg?.value, ' kg'))}`;
 }
 
 function renderPipeSpan(state) {
