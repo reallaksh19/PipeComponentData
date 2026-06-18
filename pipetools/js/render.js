@@ -1,0 +1,118 @@
+import { COMPONENTS, VALVE_TYPES, END_TYPES, FACINGS, CLASSES, PIPE_SPAN_ROWS } from './data.js';
+import { calculatePipeSpan } from './pipeSpanCalc.js';
+import { gateValveSvg, iconSvg, pipeSpanSvg } from './svg.js';
+
+const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+const fmt = (value, suffix = '') => value == null ? '—' : `${value}${suffix}`;
+
+export function renderTabs(state, onSelect) {
+  const host = document.getElementById('module-tabs');
+  host.innerHTML = state.modules.map((name) =>
+    `<button class="tab-btn ${name === state.activeModule ? 'active' : ''}" data-module="${esc(name)}">${esc(name)}</button>`
+  ).join('');
+  host.querySelectorAll('button').forEach((button) => button.addEventListener('click', () => onSelect(button.dataset.module)));
+}
+
+export function renderDashboards(state, actions) {
+  const host = document.getElementById('dashboard-zone');
+  if (state.activeModule === 'Pipe Span') return renderPipeSpanInputs(host, state, actions);
+  if (state.activeModule === '2D Bundle Calc') return renderBundleInfo(host);
+  const cards = COMPONENTS.map((item) => card(item.key, item.label, item.count || '', state.filters.component === item.key)).join('');
+  const valves = VALVE_TYPES.map((type) => card(type, type, '', state.filters.valveType === type)).join('');
+  host.innerHTML = `${strip('Components', cards)}${strip('Valve Type', valves)}${configStrip(state)}`;
+  host.querySelectorAll('[data-card]').forEach((button) => actions.setFilter(button.dataset.group, button.dataset.card));
+}
+
+function renderPipeSpanInputs(host, state, actions) {
+  const sizes = PIPE_SPAN_ROWS.map((row) => `<option ${row.nps === state.spanInput.nps ? 'selected' : ''}>${row.nps}</option>`).join('');
+  host.innerHTML = `<section class="strip"><div class="strip-title">Pipe Span Inputs</div><div class="input-grid">
+    <label>NPS<select id="span-nps">${sizes}</select></label>
+    <label>Service<select id="span-service"><option>VAPOUR</option><option>WATER</option></select></label>
+    <label>Insulation<select id="span-insulation"><option>BARE</option><option>INSULATED</option></select></label>
+    <label>Material<select id="span-material"><option>CS</option><option>SS</option></select></label>
+    <button class="primary" id="span-calc">Calculate Span</button>
+  </div></section>`;
+  for (const id of ['service', 'insulation', 'material']) document.getElementById(`span-${id}`).value = state.spanInput[id];
+  document.getElementById('span-calc').addEventListener('click', () => actions.updateSpanInput(readSpanInputs()));
+  host.querySelectorAll('select').forEach((select) => select.addEventListener('change', () => actions.updateSpanInput(readSpanInputs())));
+}
+
+function renderBundleInfo(host) {
+  host.innerHTML = `<section class="strip"><div class="strip-title">2D Bundle Calc</div><div>
+    <p>This tab embeds the SPL2 2D calculation bundle as a static iframe boundary.</p>
+    <p class="chip">Expected path: ../spl2-bundle/spl2_master.html</p>
+  </div></section>`;
+}
+
+function configStrip(state) {
+  const group = (label, key, list) => `<span class="segment-label">${label}</span>` + list.map((item) =>
+    `<button class="seg-btn ${state.filters[key] === item ? 'active' : ''}" data-group="${key}" data-card="${item}">${item}</button>`
+  ).join('');
+  return `<section class="strip"><div class="strip-title">Configuration</div><div class="segment-row">
+    ${group('End', 'endType', END_TYPES)}${group('Facing', 'facing', FACINGS)}${group('Class', 'classRating', CLASSES)}
+  </div></section>`;
+}
+
+function strip(title, html) {
+  return `<section class="strip"><div class="strip-title">${title}</div><div class="card-row">${html}</div></section>`;
+}
+
+function card(key, label, count, active) {
+  const group = COMPONENTS.some((item) => item.key === key) ? 'component' : 'valveType';
+  return `<button class="card-btn ${active ? 'active' : ''}" data-group="${group}" data-card="${esc(key)}">${iconSvg(key)}<strong>${esc(label)}</strong><small>${esc(count)}</small></button>`;
+}
+
+function readSpanInputs() {
+  return {
+    nps: Number(document.getElementById('span-nps').value),
+    service: document.getElementById('span-service').value,
+    insulation: document.getElementById('span-insulation').value,
+    material: document.getElementById('span-material').value,
+  };
+}
+
+export function renderMain(state, actions) {
+  if (state.activeModule === 'Pipe Span') return renderPipeSpan(state);
+  if (state.activeModule === '2D Bundle Calc') return renderBundle();
+  renderPipeSpecTable(state, actions);
+}
+
+function renderPipeSpecTable(state, actions) {
+  document.getElementById('table-title').textContent = 'PipeSpec DB';
+  document.getElementById('table-kicker').textContent = 'Dashboard-filtered component data';
+  document.getElementById('table-count').textContent = `${state.rows.length} rows`;
+  document.getElementById('table-frame').innerHTML = `<table><thead><tr><th>Type</th><th>End</th><th>Facing</th><th>NPS / DN</th><th>Class</th><th>F2F</th><th>Height</th><th>Weight</th><th>Status</th></tr></thead><tbody>${state.rows.map((row) => rowHtml(row, state.selectedId)).join('')}</tbody></table>`;
+  document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));
+  renderInspector(state.selectedRow);
+}
+
+function rowHtml(row, selectedId) {
+  const d = row.dimensions ?? {}, w = row.weights ?? {};
+  return `<tr class="${row.id === selectedId ? 'selected' : ''}" data-row-id="${esc(row.id)}"><td>${esc(row.valveType ?? row.componentType)}</td><td>${esc(row.endType)}</td><td>${esc(row.facing)}</td><td>NPS ${esc(row.nps)} / DN ${esc(row.dn)}</td><td>CL ${esc(row.classRating)}</td><td>${fmt(d.faceToFaceRfMm?.value, ' mm')}</td><td>${fmt(d.heightMm?.value, ' mm')}</td><td>${fmt(w.rfRtjKg?.value, ' kg')}</td><td class="status">${esc(row.dataStatus)}</td></tr>`;
+}
+
+function renderInspector(row) {
+  const body = document.getElementById('inspector-body');
+  if (!row) { body.innerHTML = '<p>Select a table row to preview SVG and source-backed values.</p>'; return; }
+  const d = row.dimensions ?? {}, w = row.weights ?? {};
+  body.innerHTML = `${gateValveSvg(row)}${kv('Item', `${row.valveType} Valve`)}${kv('End / Facing', `${row.endType} ${row.facing}`)}${kv('Size', `NPS ${row.nps} / DN ${row.dn}`)}${kv('Class', `CL ${row.classRating}`)}${kv('F2F RF', fmt(d.faceToFaceRfMm?.value, ' mm'))}${kv('F2F RTJ', fmt(d.faceToFaceRtjMm?.value, ' mm'))}${kv('Height', fmt(d.heightMm?.value, ' mm'))}${kv('Weight', fmt(w.rfRtjKg?.value, ' kg'))}`;
+}
+
+function renderPipeSpan(state) {
+  const result = calculatePipeSpan(state.spanInput);
+  document.getElementById('table-title').textContent = 'Pipe Span';
+  document.getElementById('table-kicker').textContent = 'Excel-derived calculation trace';
+  document.getElementById('table-count').textContent = `NPS ${state.spanInput.nps}`;
+  const rows = Object.entries(result).filter(([, v]) => typeof v !== 'object').map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join('');
+  document.getElementById('table-frame').innerHTML = `<table><thead><tr><th>Result</th><th>Value</th></tr></thead><tbody>${rows}</tbody></table>`;
+  document.getElementById('inspector-body').innerHTML = `${pipeSpanSvg(result)}${kv('Service', state.spanInput.service)}${kv('Insulation', state.spanInput.insulation)}${kv('Governing span', `${result.governingSpanM} m`)}${kv('QMS ref.', `${result.qmsReferenceM ?? '—'} m`)}`;
+}
+
+function renderBundle() {
+  document.getElementById('table-title').textContent = '2D Bundle Calc';
+  document.getElementById('table-count').textContent = 'iframe';
+  document.getElementById('table-frame').innerHTML = '<iframe class="bundle-frame" src="../spl2-bundle/spl2_master.html" title="SPL2 2D Calc Bundle"></iframe>';
+  document.getElementById('inspector-body').innerHTML = '<p>Legacy bundle is isolated. No shared state is mixed with PipeTools modules yet.</p>';
+}
+
+function kv(label, value) { return `<div class="kv"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`; }
