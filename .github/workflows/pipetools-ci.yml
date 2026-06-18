@@ -45,6 +45,7 @@ jobs:
           node --test gates/pipetools-agent-05-svg.gate.test.js
           node --test gates/pipetools-agent-06-dashboard.gate.test.js
           node --test gates/pipetools-agent-07-pipe-span.gate.test.js
+          node --test gates/pipetools-agent-08-spl2-bundle.gate.test.js
 
       - name: Verify static artifact layout
         shell: bash
@@ -59,3 +60,4 @@ jobs:
           test -f _site/pipetools/js/svg/inspector.js
           test -f _site/pipetools/js/pipeSpan/calculate.js
           test -f _site/spl2-bundle/spl2_master.html
+          test -f _site/spl2-bundle/js/spl2/spl2_master.js

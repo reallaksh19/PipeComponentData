@@ -3,21 +3,44 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SPL2 2D Calc Bundle Boundary</title>
+  <title>SPL2 2D Calc Bundle</title>
   <style>
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #07111f; color: #e5f0ff; font: 14px Inter, system-ui, sans-serif; }
-    main { max-width: 820px; border: 1px solid #263850; border-radius: 20px; padding: 28px; background: #0d1728; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
-    h1 { margin-top: 0; font-size: 24px; }
-    code { color: #7dd3fc; }
-    .warn { color: #f59e0b; }
+    :root { color-scheme: dark; --bg:#07111f; --panel:#0d1728; --line:#263850; --text:#e5f0ff; --muted:#8aa0b8; --accent:#38bdf8; --ok:#34d399; }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; background:var(--bg); color:var(--text); font:14px Inter, system-ui, sans-serif; }
+    header { padding:14px 18px; border-bottom:1px solid var(--line); background:#0b1526; display:flex; justify-content:space-between; gap:12px; }
+    main { display:grid; grid-template-columns:220px minmax(0, 1fr); min-height:calc(100vh - 54px); }
+    nav { border-right:1px solid var(--line); padding:14px; background:#091323; }
+    button { width:100%; margin:0 0 8px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--text); text-align:left; cursor:pointer; }
+    button.active { border-color:var(--accent); color:var(--accent); background:#0b2034; }
+    section { display:none; padding:18px; }
+    section.active { display:block; }
+    .grid { display:grid; grid-template-columns:minmax(280px, 420px) minmax(0, 1fr); gap:16px; }
+    .card { border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:16px; }
+    label { display:grid; gap:6px; margin-bottom:12px; color:var(--muted); }
+    input, select { width:100%; border:1px solid var(--line); border-radius:8px; background:#07111f; color:var(--text); padding:8px; }
+    .result { display:grid; grid-template-columns:1fr auto; gap:8px; padding:8px 0; border-bottom:1px dashed var(--line); }
+    .result strong { color:var(--ok); }
+    canvas { width:100%; min-height:260px; border:1px solid var(--line); border-radius:12px; background:#050b14; }
+    .note { color:var(--muted); font-size:12px; }
   </style>
 </head>
-<body>
+<body data-pipetools-legacy="spl2">
+  <header><strong>SPL2 2D Calculation Bundle</strong><span class="note">Imported static iframe boundary from Simplified_Analysis concepts</span></header>
   <main>
-    <h1>SPL2 2D Calc Bundle Boundary</h1>
-    <p>This placeholder reserves the static iframe target used by PipeTools Suite.</p>
-    <p class="warn">Full SPL2 bundle import is intentionally isolated because the upstream bundle spans multiple large static modules. It will be copied in a dedicated Agent 02 follow-up once file-size approval is confirmed for the legacy assets.</p>
-    <p>Expected route: <code>pipetools/#/bundle-2d</code> or the PipeTools tab named <code>2D Bundle Calc</code>.</p>
+    <nav>
+      <button class="active" data-tab="loop">Loop Calculations</button>
+      <button data-tab="rack">Pipe Rack Calculation</button>
+      <button data-tab="simp">Simplified Method</button>
+      <button data-tab="about">Import Notes</button>
+    </nav>
+    <div>
+      <section id="loop" class="active grid"><div class="card"><h2>Loop Calculation</h2><label>Pipe OD mm<input id="loop-od" type="number" value="219.1"></label><label>Total weight N/m<input id="loop-w" type="number" value="650"></label><label>Allowable stress MPa<input id="loop-s" type="number" value="140"></label><label>Target expansion mm<input id="loop-exp" type="number" value="35"></label><button id="loop-run">Calculate</button></div><div class="card"><canvas id="loop-canvas" width="640" height="280"></canvas><div id="loop-out"></div></div></section>
+      <section id="rack" class="grid"><div class="card"><h2>Pipe Rack Load</h2><label>Pipe count<input id="rack-count" type="number" value="6"></label><label>Average load N/m<input id="rack-load" type="number" value="750"></label><label>Span m<input id="rack-span" type="number" value="6"></label><button id="rack-run">Calculate</button></div><div class="card"><canvas id="rack-canvas" width="640" height="280"></canvas><div id="rack-out"></div></div></section>
+      <section id="simp" class="grid"><div class="card"><h2>Simplified 2D Method</h2><label>Length m<input id="simp-l" type="number" value="12"></label><label>Load N/m<input id="simp-w" type="number" value="500"></label><label>Elastic modulus GPa<input id="simp-e" type="number" value="200"></label><button id="simp-run">Calculate</button></div><div class="card"><canvas id="simp-canvas" width="640" height="280"></canvas><div id="simp-out"></div></div></section>
+      <section id="about"><div class="card"><h2>Legacy Import Boundary</h2><p>This compact SPL2 static shell preserves the tab and iframe contract while keeping new source modules below 200 lines. Full upstream legacy assets remain documented separately for approved import.</p></div></section>
+    </div>
   </main>
+  <script type="module" src="js/spl2/spl2_master.js"></script>
 </body>
 </html>
