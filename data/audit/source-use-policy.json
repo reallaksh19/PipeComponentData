@@ -1,0 +1,49 @@
+{
+  "schema": "pipedata-source-use-policy/v1",
+  "phase": "DB_PHASE_19",
+  "status": "SOURCE_RIGHTS_NEED_OWNER_VERIFICATION",
+  "purpose": "Machine-readable governance policy for source-backed PipeComponentData artifacts.",
+  "policy": {
+    "rawSourceTreePublishedToPages": false,
+    "normalStudioExposesRawSourceTree": false,
+    "sourceProvenanceRequired": true,
+    "missingValues": "null_or_UNAVAILABLE",
+    "noFabricatedEngineeringValues": true,
+    "noNearestEngineeringFallback": true,
+    "ownerApprovalRequiredForRawSourcePublication": true
+  },
+  "sourceScopes": [
+    {
+      "name": "raw-source-database-tree",
+      "path": "docs/Pipedata/Database",
+      "pagesPublished": false,
+      "normalStudioVisible": false,
+      "status": "NEEDS_OWNER_VERIFICATION_BEFORE_PUBLICATION",
+      "rule": "Do not publish the raw source database tree through GitHub Pages or normal Studio workflows."
+    },
+    {
+      "name": "public-export-pack",
+      "path": "data/exports/public-export-pack.manifest.json",
+      "pagesPublished": true,
+      "normalStudioVisible": true,
+      "status": "PUBLIC_MINIMAL_ARTIFACT_MANIFEST",
+      "rule": "Only artifacts listed in the public export pack are intended for downstream/static Studio consumption."
+    },
+    {
+      "name": "normalized-source-backed-data",
+      "path": "data/normalized",
+      "pagesPublished": true,
+      "normalStudioVisible": true,
+      "status": "SOURCE_BACKED_WITH_PROVENANCE_REQUIRED",
+      "rule": "Rows must retain provenance and unavailable source values must remain null or UNAVAILABLE."
+    }
+  ],
+  "approvalRequiredFor": [
+    "publishing docs/Pipedata/Database to GitHub Pages",
+    "exposing raw source tree paths in normal Studio workflows",
+    "adding new third-party or vendor source tables",
+    "promoting source rows without provenance",
+    "replacing null or UNAVAILABLE source values with guessed engineering values",
+    "introducing nearest-size, nearest-rating, nearest-schedule, or fuzzy engineering fallback"
+  ]
+}

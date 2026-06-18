@@ -1,0 +1,24 @@
+{
+  "schema": "pipedata-reducer-schema-readiness/v1",
+  "phase": "DB_PHASE_51",
+  "status": "SCHEMA_READY_PROMOTED",
+  "family": "REDUCER",
+  "scope": {
+    "roadmapItem": "DATA-REDUCER-SCHEMA",
+    "promotionApplied": true,
+    "normalizedDataChanged": true,
+    "reason": "Reducers now use explicit two-size identity from the schedule-80 matrix rows in Reducers80.csv."
+  },
+  "canonicalIdentity": ["largeNps", "smallNps", "largeSchedule", "smallSchedule", "reducerType"],
+  "allowedReducerTypes": ["CONCENTRIC", "ECCENTRIC", "SWAGE", "UNKNOWN"],
+  "blockedUntil": [
+    "additional reducer schedule tables remain unpromoted until explicitly reviewed",
+    "reducer subtype remains UNKNOWN unless a source file explicitly distinguishes concentric or eccentric rows"
+  ],
+  "safetyRules": {
+    "noReducerPromotionBeforeSchema": true,
+    "noSingleNpsReducerRows": true,
+    "noNearestLargeOrSmallNpsFallback": true,
+    "sourceProvenanceRequired": true
+  }
+}

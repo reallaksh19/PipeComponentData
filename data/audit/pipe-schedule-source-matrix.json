@@ -1,0 +1,39 @@
+{
+  "schema": "pipedata-pipe-schedule-source-matrix/v1",
+  "phase": "DB_PHASE_45",
+  "status": "SOURCE_MATRIX_READY_NOT_BULK_PROMOTED",
+  "family": "PIPE",
+  "scope": {
+    "roadmapItem": "DATA-PIPE-FULL-SCHEDULES",
+    "promotionApplied": false,
+    "normalizedDataChanged": false,
+    "nextAllowedPromotion": "bounded source-backed rows from PIPE40.csv and PIPE80.csv only"
+  },
+  "sourceFiles": [
+    {
+      "path": "docs/Pipedata/Database/Pipe/PIPE40.csv",
+      "schedule": "40",
+      "headerLine": 1,
+      "npsColumn": "13-NPS",
+      "candidateRows": 30,
+      "knownPartialRows": ["0+1/8", "22", "26", "28", "30"],
+      "alreadyPromotedRows": ["0+1/8", "0+1/4", "1", "2", "4", "6", "8"]
+    },
+    {
+      "path": "docs/Pipedata/Database/Pipe/PIPE80.csv",
+      "schedule": "80",
+      "headerLine": 1,
+      "npsColumn": "13-NPS",
+      "candidateRows": 24,
+      "knownPartialRows": ["0+1/8"],
+      "alreadyPromotedRows": ["2", "4", "6"]
+    }
+  ],
+  "requiredValueColumns": ["3-OD", "4-WallThk", "6-ID", "7-Wt per Unit Len"],
+  "safetyRules": {
+    "noFabricatedEngineeringValues": true,
+    "noNearestScheduleFallback": true,
+    "partialRowsRemainPartialUntilValueColumnsExist": true,
+    "sourceProvenanceRequired": true
+  }
+}

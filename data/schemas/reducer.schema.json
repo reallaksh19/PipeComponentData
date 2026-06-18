@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reallaksh19.github.io/PipeComponentData/schemas/reducer.schema.json",
+  "title": "PipeData Reducer Canonical Row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "componentType",
+    "reducerType",
+    "largeNps",
+    "smallNps",
+    "largeSchedule",
+    "smallSchedule",
+    "dataStatus",
+    "dimensions",
+    "weights",
+    "source",
+    "sourceRowNumber",
+    "provenance"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^REDUCER\\|" },
+    "componentType": { "const": "REDUCER" },
+    "reducerType": { "enum": ["CONCENTRIC", "ECCENTRIC", "SWAGE", "UNKNOWN"] },
+    "largeNps": { "type": "string" },
+    "smallNps": { "type": "string" },
+    "largeSchedule": { "type": "string" },
+    "smallSchedule": { "type": "string" },
+    "endType": { "type": ["string", "null"] },
+    "dataStatus": { "enum": ["READY", "PARTIAL", "MISSING_DIMENSION", "BLOCKED_SOURCE_MISSING"] },
+    "dimensions": { "type": "object" },
+    "weights": { "type": "object" },
+    "source": { "type": "string" },
+    "sourceRowNumber": { "type": ["integer", "null"], "minimum": 1 },
+    "provenance": { "type": "object" }
+  }
+}

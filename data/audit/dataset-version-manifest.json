@@ -1,0 +1,33 @@
+{
+  "schema": "pipedata-dataset-version-manifest/v1",
+  "phase": "DB_PHASE_32",
+  "datasetVersion": "pipedata-db/0.1.0-foundation",
+  "releaseCandidate": "v0.1.0-foundation-rc1",
+  "status": "FOUNDATION_DATASET",
+  "productionComplete": false,
+  "policy": {
+    "sourceBackedRowsOnly": true,
+    "noFabricatedEngineeringValues": true,
+    "noNearestEngineeringFallback": true,
+    "missingValues": "null_or_UNAVAILABLE",
+    "rawSourceTreePublishedToPages": false
+  },
+  "catalogs": [
+    { "family": "PIPE", "path": "data/normalized/pipes.json", "coverage": "SAMPLE_SOURCE_BACKED" },
+    { "family": "FLANGE", "path": "data/normalized/flanges.json", "coverage": "SAMPLE_SOURCE_BACKED" },
+    { "family": "VALVE", "path": "data/normalized/valves.json", "coverage": "SAMPLE_SOURCE_BACKED" },
+    { "family": "FITTING", "path": "data/normalized/fittings.json", "coverage": "SAMPLE_SOURCE_BACKED" },
+    { "family": "GASKET", "path": "data/normalized/gaskets.json", "coverage": "INVENTORY_ONLY" },
+    { "family": "SUPPORT", "path": "data/normalized/supports.json", "coverage": "PROJECT_OVERRIDE_ONLY" }
+  ],
+  "indexes": [
+    "data/indexes/component-search.index.json",
+    "data/search/component-aliases.json"
+  ],
+  "audit": [
+    "data/audit/db-coverage-dashboard.json",
+    "data/audit/source-expansion-ledger.json",
+    "data/audit/source-promotion-preflight.json",
+    "data/audit/source-use-policy.json"
+  ]
+}

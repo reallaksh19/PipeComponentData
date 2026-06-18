@@ -1,0 +1,25 @@
+10,Acetaldehyde, 20deg C (68deg F),0.295,0.788
+10,Acetic acid, 20deg C (68deg F),1.232,1.048
+10,Acetone, 20deg C (68deg F),0.41,0.79
+10,Ammonia, 20deg C (68deg F),0.265,0.829
+10,Benzene, 20deg C (68deg F),0.741,0.879
+10,Bromine, 20deg C (68deg F),0.34,3.12
+10,Calcium chloride (5% sol) , 20deg C (68deg F),1.161,1.037
+10,Carbon tetrachloride, 20deg C (68deg F),0.612,1.595
+10,Ethanol, 20deg C (68deg F),1.51,0.789
+10,Fuel oil - Medium, 20deg C (68deg F),4.12,0.854
+10,Fuel oil - Heavy, 20deg C (68deg F),157,0.908
+10,Gasoline, 20deg C (68deg F),0.406,0.719
+10,Kerosine, 20deg C (68deg F),2.4,0.804
+10,Machine oil - light, 20deg C (68deg F),47,0.9
+10,Machine oil - medium, 20deg C (68deg F),850,0.94
+10,Methyl acetate, 20deg C (68deg F),0.44,0.959
+10,Methanol, 20deg C (68deg F),0.745,0.792
+10,Methyl alcohol, 20deg C (68deg F),0.745,0.792
+10,SAE 10 Oil, 20deg C (68deg F),90,0.869
+10,SAE 30 Oil, 20deg C (68deg F),245,0.888
+10,Sea water, 10deg C (50deg F),1.346,1.028
+10,Sodium chloride (25% sol), 20deg C (68deg F),2.4,1.19
+10,Toluene, 20deg C (68deg F),0.68,0.867
+10,Trichloroethylene, 20deg C (68deg F),0.96,1.463
+10,Water, 10deg C (50deg F),1,1

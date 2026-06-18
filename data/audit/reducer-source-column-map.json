@@ -1,0 +1,38 @@
+{
+  "schema": "pipedata-reducer-source-column-map/v1",
+  "phase": "DB_PHASE_54",
+  "status": "SOURCE_COLUMN_MAP_PROMOTED",
+  "family": "REDUCER",
+  "scope": {
+    "roadmapItem": "DATA-REDUCER-SOURCE-MAPPING",
+    "promotionApplied": true,
+    "normalizedDataChanged": true,
+    "reason": "Schedule 80 reducer rows are now promoted from explicit row and column cells in Reducers80.csv."
+  },
+  "canonicalIdentity": ["largeNps", "smallNps", "largeSchedule", "smallSchedule", "reducerType"],
+  "candidateSourceFamilies": [
+    { "path": "docs/Pipedata/Database/Ftbw", "status": "SOURCE_FAMILY_PROMOTED", "review": "Schedule 80 reducer matrix rows are now normalized from explicit row and column cells." },
+    { "path": "docs/Pipedata/Database", "status": "SEARCH_COMPLETE", "review": "Reducer length H and weight KG columns are explicitly named by the paired reducer reference tables." }
+  ],
+  "requiredColumnMappingBeforePromotion": [
+    "large end NPS",
+    "small end NPS",
+    "large end schedule or thickness basis",
+    "small end schedule or thickness basis",
+    "end-to-end dimension",
+    "weight",
+    "reducer type: concentric / eccentric / swage"
+  ],
+  "blockedPromotions": [
+    "single-NPS reducer rows",
+    "reducer rows indexed as generic fittings",
+    "nearest large or small NPS fallback",
+    "weight copied from elbow/tee/cap rows"
+  ],
+  "safetyRules": {
+    "noReducerPromotionBeforeSourceColumnMap": true,
+    "noSingleNpsReducerRows": true,
+    "noNearestLargeOrSmallNpsFallback": true,
+    "sourceProvenanceRequired": true
+  }
+}

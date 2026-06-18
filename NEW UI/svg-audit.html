@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SVG Audit — PipeSpec</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #e7e5df; font-family: 'DM Sans', sans-serif; padding: 40px; }
+h1 { font-size: 18px; font-weight: 700; color: #0F172A; margin-bottom: 6px; }
+p { font-size: 12px; color: #64748B; margin-bottom: 32px; }
+.section-title { font-size: 10px; font-weight: 700; color: #64748B; letter-spacing: 0.1em; text-transform: uppercase; margin: 32px 0 12px; border-bottom: 1px solid #CBD5E1; padding-bottom: 6px; }
+.row { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 20px; }
+.card { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); overflow: hidden; flex: none; }
+.card-label { font-size: 10px; font-weight: 700; color: #64748B; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 12px 4px; border-bottom: 1px solid #F1F5F9; font-family: 'DM Mono', monospace; }
+</style>
+</head>
+<body>
+<h1>PipeSpec — SVG Drawing Audit</h1>
+<p>One sample per component type / subtype. Hover not required — all drawings rendered at load time.</p>
+<div id="root"></div>
+
+<script>
+// ── Sample rows ─────────────────────────────────────────────────────────
+const SAMPLES = {
+  VALVE_NPS4_CL150:  {id:'VALVE|GATE|FLANGED|NPS4|CL150|RF',componentType:'VALVE',valveType:'GATE',endType:'FLANGED',nps:'4',dn:100,classRating:'150',facing:'RF',standard:'ASME B16.10',faceToFaceRfMm:229,faceToFaceRtjMm:242,heightMm:590,handwheelDiaMm:250,rfRtjKg:52,buttWeldKg:44},
+  VALVE_NPS4_CL1500: {id:'VALVE|GATE|FLANGED|NPS4|CL1500|RF',componentType:'VALVE',valveType:'GATE',endType:'FLANGED',nps:'4',dn:100,classRating:'1500',facing:'RF',standard:'ASME B16.10',faceToFaceRfMm:546,faceToFaceRtjMm:549,heightMm:838,handwheelDiaMm:500,rfRtjKg:277},
+  FLANGE_WN_NPS4:    {id:'FLANGE|WN|NPS4|CL150',componentType:'FLANGE',subtype:'WN',nps:'4',dn:100,classRating:'150',standard:'ASME B16.5',flangeOdMm:230,flangeThicknessMm:22.3,rfDiaMm:157.2,rfHeightMm:2,pcdMm:190.5,boltCount:8,boltSizeMm:16,weightKg:6.8,weldDiaMm:114.3,wnLengthMm:75},
+  FLANGE_SO_NPS4:    {id:'FLANGE|SO|NPS4|CL150',componentType:'FLANGE',subtype:'SO',nps:'4',dn:100,classRating:'150',standard:'ASME B16.5',flangeOdMm:230,flangeThicknessMm:22.3,rfDiaMm:157.2,rfHeightMm:2,pcdMm:190.5,boltCount:8,boltSizeMm:16,weightKg:5.9,weldDiaMm:114.3,soBoreMm:116.8},
+  FLANGE_BL_NPS4:    {id:'FLANGE|BLIND|NPS4|CL150',componentType:'FLANGE',subtype:'BLIND',nps:'4',dn:100,classRating:'150',standard:'ASME B16.5',flangeOdMm:230,flangeThicknessMm:22.3,rfDiaMm:157.2,rfHeightMm:2,pcdMm:190.5,boltCount:8,boltSizeMm:16,weightKg:7.7,blindThickMm:22.3},
+  FLANGE_WN_NPS6_CL300:{id:'FLANGE|WN|NPS6|CL300',componentType:'FLANGE',subtype:'WN',nps:'6',dn:150,classRating:'300',standard:'ASME B16.5',flangeOdMm:320,flangeThicknessMm:35,rfDiaMm:215.9,rfHeightMm:2,pcdMm:269.9,boltCount:12,boltSizeMm:20,weightKg:19.1,weldDiaMm:168.3,wnLengthMm:97},
+  PIPE_NPS4_SCH40:   {id:'PIPE|NPS4|SCH40',componentType:'PIPE',nps:'4',dn:100,schedule:'40',odMm:114.3,wallMm:6.02,idMm:102.26,weightKgPerM:16.08,standard:'ASME B36.10M'},
+  PIPE_NPS4_SCH80:   {id:'PIPE|NPS4|SCH80',componentType:'PIPE',nps:'4',dn:100,schedule:'80',odMm:114.3,wallMm:8.56,idMm:97.18,weightKgPerM:22.32,standard:'ASME B36.10M'},
+  PIPE_NPS2_SCH40:   {id:'PIPE|NPS2|SCH40',componentType:'PIPE',nps:'2',dn:50,schedule:'40',odMm:60.3,wallMm:3.91,idMm:52.48,weightKgPerM:5.44,standard:'ASME B36.10M'},
+  EL90_NPS4_SCH40:   {id:'FITTING|ELBOW_90|NPS4|SCH40',componentType:'FITTING',subtype:'ELBOW_90',nps:'4',dn:100,schedule:'40',standard:'ASME B16.9',odMm:114.3,ctrToEndMm:152,devLenMm:238.76,weightKg:3.9},
+  EL90_NPS2_SCH80:   {id:'FITTING|ELBOW_90|NPS2|SCH80',componentType:'FITTING',subtype:'ELBOW_90',nps:'2',dn:50,schedule:'80',standard:'ASME B16.9',odMm:60.325,ctrToEndMm:76,devLenMm:119.38,weightKg:0.94},
+  EL45_NPS4_SCH40:   {id:'FITTING|ELBOW_45|NPS4|SCH40',componentType:'FITTING',subtype:'ELBOW_45',nps:'4',dn:100,schedule:'40',standard:'ASME B16.9',odMm:114.3,ctrToEndMm:64,devLenMm:119.07,weightKg:1.95},
+  EL45_NPS6_SCH40:   {id:'FITTING|ELBOW_45|NPS6|SCH40',componentType:'FITTING',subtype:'ELBOW_45',nps:'6',dn:150,schedule:'40',standard:'ASME B16.9',odMm:168.275,ctrToEndMm:95,devLenMm:180.17,weightKg:5.1},
+  TEE_NPS4_SCH40:    {id:'FITTING|TEE|NPS4|SCH40',componentType:'FITTING',subtype:'TEE_STRAIGHT',nps:'4',dn:100,schedule:'40',standard:'ASME B16.9',odMm:114,ctrToEndMm:105,weightKg:6},
+  TEE_NPS6_SCH40:    {id:'FITTING|TEE|NPS6|SCH40',componentType:'FITTING',subtype:'TEE_STRAIGHT',nps:'6',dn:150,schedule:'40',standard:'ASME B16.9',odMm:168,ctrToEndMm:143,weightKg:16.48},
+  CAP_NPS4_SCH40:    {id:'FITTING|CAP|NPS4|SCH40',componentType:'FITTING',subtype:'CAP',nps:'4',dn:100,schedule:'40',standard:'ASME B16.9',odMm:114,overCapMm:64,weightKg:1.6},
+  CAP_NPS6_SCH40:    {id:'FITTING|CAP|NPS6|SCH40',componentType:'FITTING',subtype:'CAP',nps:'6',dn:150,schedule:'40',standard:'ASME B16.9',odMm:168,overCapMm:89,weightKg:3.6},
+  GASKET_FLAT:       {id:'GASKET|FLAT_RING|UNKNOWN',componentType:'GASKET',subtype:'FLAT_RING',standard:'ASME B16.20',outerDiaMm:null,innerDiaMm:null,thicknessMm:null},
+};
+
+// ── SVG builder (plain JS, no React) ───────────────────────────────────
+function buildSVG(row) {
+  const W = 390, H = 262;
+  const uid = ('v'+row.id).replace(/[^a-zA-Z0-9]/g,'').slice(0,18);
+  const AID='ar'+uid, HID='ht'+uid;
+  const BF='#EFF6FF', BF2='#DBEAFE', BD='#1E293B', DC='#2563EB', CLC='#94A3B8';
+  const MF="'DM Mono',monospace";
+  const fv=(v,u='')=>{if(v==null)return'—';const s=typeof v==='number'?(v%1===0?String(v):v.toFixed(v<10?2:1)):String(v);return u?`${s} ${u}`:s;};
+
+  const defs=`<defs>
+    <marker id="${AID}" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0,0 7,3 0,6" fill="${DC}"/></marker>
+    <marker id="${AID}s" markerWidth="7" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse"><polygon points="0,0 7,3 0,6" fill="${DC}"/></marker>
+    <pattern id="${HID}" x="0" y="0" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#7BA7CC" stroke-width="1.2"/></pattern>
+  </defs>`;
+
+  const bg=`<rect x="0" y="0" width="${W}" height="${H}" fill="#F8FAFC"/>`;
+  const border=`<rect x="0" y="0" width="${W}" height="${H}" fill="none" stroke="#E2E8F0" stroke-width="1"/>`;
+  const title=(t)=>`<rect x="0" y="${H-20}" width="${W}" height="20" fill="#F1F5F9"/><line x1="0" y1="${H-20}" x2="${W}" y2="${H-20}" stroke="#E2E8F0" stroke-width="0.8"/><text x="${W/2}" y="${H-7}" text-anchor="middle" fill="#64748B" font-size="7.5" font-family="${MF}">${t}</text>`;
+  const cline=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${CLC}" stroke-width="0.7" stroke-dasharray="9,3,2,3"/>`;
+  const hf=(d)=>`<path d="${d}" fill="url(#${HID})" stroke="none" opacity="0.78"/>`;
+  const HD=(x1,x2,y,lbl,above)=>`<line x1="${x1}" y1="${y+3}" x2="${x1}" y2="${y-3}" stroke="${DC}" stroke-width="0.8"/>
+    <line x1="${x2}" y1="${y+3}" x2="${x2}" y2="${y-3}" stroke="${DC}" stroke-width="0.8"/>
+    ${Math.abs(x2-x1)>18?`<line x1="${x1+5}" y1="${y}" x2="${x2-5}" y2="${y}" stroke="${DC}" stroke-width="0.8" marker-start="url(#${AID}s)" marker-end="url(#${AID})"/>`:''}
+    <text x="${(x1+x2)/2}" y="${y+(above?-4:12)}" text-anchor="middle" fill="${DC}" font-size="8.5" font-family="${MF}" font-weight="600">${lbl}</text>`;
+  const VD=(x,y1,y2,lbl,rs)=>{const ox=x+(rs?11:-11),my=(y1+y2)/2;return`<line x1="${x+3}" y1="${y1}" x2="${x-3}" y2="${y1}" stroke="${DC}" stroke-width="0.8"/>
+    <line x1="${x+3}" y1="${y2}" x2="${x-3}" y2="${y2}" stroke="${DC}" stroke-width="0.8"/>
+    ${Math.abs(y2-y1)>18?`<line x1="${x}" y1="${y1+5}" x2="${x}" y2="${y2-5}" stroke="${DC}" stroke-width="0.8" marker-start="url(#${AID}s)" marker-end="url(#${AID})"/>`:''}
+    <text x="${ox}" y="${my+3}" text-anchor="middle" fill="${DC}" font-size="8.5" font-family="${MF}" font-weight="600" transform="rotate(-90,${ox},${my+3})">${lbl}</text>`;};
+  const LD=(x,y,lbl,dx,dy)=>{const ex=x+dx,ey=y+dy,r=dx>0;return`<circle cx="${x}" cy="${y}" r="2.5" fill="${DC}"/>
+    <polyline points="${x},${y} ${ex},${ey} ${ex+(r?18:-18)},${ey}" stroke="${DC}" stroke-width="0.8" fill="none"/>
+    <text x="${ex+(r?22:-22)}" y="${ey+3.5}" text-anchor="${r?'start':'end'}" fill="${DC}" font-size="8.5" font-family="${MF}" font-weight="600">${lbl}</text>`;};
+
+  let inner = '';
+
+  // ── VALVE ──
+  if (row.componentType==='VALVE') {
+    const F2F=row.faceToFaceRfMm||280,TotH=row.heightMm||600,HWD=row.handwheelDiaMm||300,DN=row.dn||50;
+    const scW=(W-90)/(F2F*1.22),scH=(H-52)/(TotH*1.08),sc=Math.min(scW,scH,0.65);
+    const f2fPx=F2F*sc,hPx=TotH*sc,hwPx=HWD*sc,dnPx=Math.max(11,DN*sc*0.55);
+    const flW=f2fPx*0.17,flH=dnPx*2.8,bodyW=f2fPx*0.38,bodyH=dnPx*3.0;
+    const bonH=hPx*0.20,bonW=bodyW*0.50,stH=hPx*0.32,stW=Math.max(4,dnPx*0.22),rfB=Math.max(2.5,dnPx*0.14);
+    const ox=W/2,oy=20+hPx*0.72,lx=ox-f2fPx/2,rx=ox+f2fPx/2;
+    const bodyT=oy-bodyH/2,bodyB=oy+bodyH/2,bonT=bodyT-bonH,stemT=bonT-stH,hwCy=stemT-hwPx/2;
+    const lFP=`M${lx+flW},${oy-dnPx} L${lx+flW},${oy-flH} L${lx},${oy-flH} L${lx},${oy+flH} L${lx+flW},${oy+flH} L${lx+flW},${oy+dnPx} Z`;
+    const rFP=`M${rx-flW},${oy-dnPx} L${rx-flW},${oy-flH} L${rx},${oy-flH} L${rx},${oy+flH} L${rx-flW},${oy+flH} L${rx-flW},${oy+dnPx} Z`;
+    const bTap=bodyW*0.07;
+    const bP=`M${ox-bodyW/2+bTap},${bodyT} L${ox-bodyW/2},${bodyT+bodyH*0.22} L${ox-bodyW/2},${bodyB-bodyH*0.22} L${ox-bodyW/2+bTap},${bodyB} L${ox+bodyW/2-bTap},${bodyB} L${ox+bodyW/2},${bodyB-bodyH*0.22} L${ox+bodyW/2},${bodyT+bodyH*0.22} L${ox+bodyW/2-bTap},${bodyT} Z`;
+    const bnP=`M${ox-bonW/2},${bodyT} L${ox-bonW/2*0.7},${bonT} L${ox+bonW/2*0.7},${bonT} L${ox+bonW/2},${bodyT} Z`;
+    const gW=dnPx*1.6,gH=bodyH*0.72;
+    const gP=`M${ox-gW/2},${bodyT+4} L${ox+gW/2},${bodyT+4} L${ox+gW*0.65/2},${bodyT+gH} L${ox-gW*0.65/2},${bodyT+gH} Z`;
+    const lRF=`M${lx-rfB},${oy-dnPx*1.1} L${lx},${oy-dnPx*1.1} L${lx},${oy+dnPx*1.1} L${lx-rfB},${oy+dnPx*1.1} Z`;
+    const rRF=`M${rx},${oy-dnPx*1.1} L${rx+rfB},${oy-dnPx*1.1} L${rx+rfB},${oy+dnPx*1.1} L${rx},${oy+dnPx*1.1} Z`;
+    const bhr=Math.max(1.8,flH*0.07);
+    const spokes=[0,1,2,3].map(i=>{const a=i*Math.PI/2;return`<line x1="${ox+Math.cos(a)*hwPx*0.08}" y1="${hwCy+Math.sin(a)*hwPx*0.08}" x2="${ox+Math.cos(a)*hwPx/2}" y2="${hwCy+Math.sin(a)*hwPx/2}" stroke="${BD}" stroke-width="1.1"/>`;}).join('');
+    inner = `
+      ${cline(lx-rfB-10,oy,rx+rfB+30,oy)} ${cline(ox,hwCy-hwPx/2-6,ox,bodyB+14)}
+      <line x1="${lx-rfB-10}" y1="${oy-dnPx}" x2="${lx-rfB}" y2="${oy-dnPx}" stroke="${BD}" stroke-width="1.1"/>
+      <line x1="${lx-rfB-10}" y1="${oy+dnPx}" x2="${lx-rfB}" y2="${oy+dnPx}" stroke="${BD}" stroke-width="1.1"/>
+      <line x1="${rx+rfB}" y1="${oy-dnPx}" x2="${rx+rfB+10}" y2="${oy-dnPx}" stroke="${BD}" stroke-width="1.1"/>
+      <line x1="${rx+rfB}" y1="${oy+dnPx}" x2="${rx+rfB+10}" y2="${oy+dnPx}" stroke="${BD}" stroke-width="1.1"/>
+      <path d="${bP}" fill="${BF}" stroke="${BD}" stroke-width="1.4" stroke-linejoin="round"/> ${hf(bP)}
+      <path d="${gP}" fill="${BF2}" stroke="${BD}" stroke-width="0.9"/> ${hf(gP)}
+      <line x1="${ox-bodyW/2+bTap}" y1="${oy-dnPx}" x2="${ox-dnPx*0.5}" y2="${oy-dnPx}" stroke="${BD}" stroke-width="0.7" stroke-dasharray="4,2"/>
+      <line x1="${ox+dnPx*0.5}" y1="${oy-dnPx}" x2="${ox+bodyW/2-bTap}" y2="${oy-dnPx}" stroke="${BD}" stroke-width="0.7" stroke-dasharray="4,2"/>
+      <line x1="${ox-bodyW/2+bTap}" y1="${oy+dnPx}" x2="${ox-dnPx*0.5}" y2="${oy+dnPx}" stroke="${BD}" stroke-width="0.7" stroke-dasharray="4,2"/>
+      <line x1="${ox+dnPx*0.5}" y1="${oy+dnPx}" x2="${ox+bodyW/2-bTap}" y2="${oy+dnPx}" stroke="${BD}" stroke-width="0.7" stroke-dasharray="4,2"/>
+      <path d="${bnP}" fill="${BF}" stroke="${BD}" stroke-width="1.3" stroke-linejoin="round"/> ${hf(bnP)}
+      <rect x="${ox-stW*1.3}" y="${bonT-stW*1.2}" width="${stW*2.6}" height="${stW*1.2}" fill="#94A3B8" stroke="${BD}" stroke-width="0.9"/>
+      <rect x="${ox-stW/2}" y="${stemT}" width="${stW}" height="${bonT-stemT}" fill="${BF}" stroke="${BD}" stroke-width="1"/>
+      <rect x="${ox-stW*1.8}" y="${stemT}" width="${stW*3.6}" height="${stW*1.8}" fill="${BF}" stroke="${BD}" stroke-width="1"/>
+      <circle cx="${ox}" cy="${hwCy}" r="${hwPx/2}" fill="none" stroke="${BD}" stroke-width="1.6"/>
+      <circle cx="${ox}" cy="${hwCy}" r="${hwPx*0.07}" fill="${BF}" stroke="${BD}" stroke-width="1"/>
+      ${spokes}
+      <path d="${lFP}" fill="${BF}" stroke="${BD}" stroke-width="1.3"/> ${hf(lFP)}
+      <path d="${lRF}" fill="${BF2}" stroke="${BD}" stroke-width="1"/>
+      <circle cx="${lx+flW/2}" cy="${oy-flH*0.35}" r="${bhr}" fill="white" stroke="${BD}" stroke-width="0.8"/>
+      <circle cx="${lx+flW/2}" cy="${oy+flH*0.35}" r="${bhr}" fill="white" stroke="${BD}" stroke-width="0.8"/>
+      <path d="${rFP}" fill="${BF}" stroke="${BD}" stroke-width="1.3"/> ${hf(rFP)}
+      <path d="${rRF}" fill="${BF2}" stroke="${BD}" stroke-width="1"/>
+      <circle cx="${rx-flW/2}" cy="${oy-flH*0.35}" r="${bhr}" fill="white" stroke="${BD}" stroke-width="0.8"/>
+      <circle cx="${rx-flW/2}" cy="${oy+flH*0.35}" r="${bhr}" fill="white" stroke="${BD}" stroke-width="0.8"/>
+      ${HD(lx-rfB,rx+rfB,bodyB+20,`F2F: ${fv(row.faceToFaceRfMm,'mm')}`,false)}
+      ${VD(rx+rfB+28,hwCy-hwPx/2,bodyB,`H: ${fv(row.heightMm,'mm')}`,true)}
+      ${HD(ox-hwPx/2,ox+hwPx/2,hwCy-hwPx/2-8,`Ø${fv(row.handwheelDiaMm)} mm`,true)}
+      ${LD(rx,oy-flH*0.5,`${fv(row.rfRtjKg,'kg')}`,16,-16)}
+      <text x="${ox}" y="${bodyB-6}" text-anchor="middle" fill="#475569" font-size="8" font-family="${MF}">NPS ${row.nps} · CL${row.classRating} · ${row.facing}</text>
+      ${title(`GATE VALVE · NPS ${row.nps} (DN ${row.dn}) · ${row.classRating}# · ${row.standard}`)}`;
+  }
+
+  // ── FLANGE ──
+  if (row.componentType==='FLANGE') {
+    const OD=row.flangeOdMm||200,TH=row.flangeThicknessMm||25,RFD=row.rfDiaMm||92,RFH_=row.rfHeightMm||2;
+    const PCD=row.pcdMm||127,BC=row.boltCount||8,BSZ=row.boltSizeMm||16;
+    const isWN=row.subtype==='WN',isSO=row.subtype==='SO',isBL=row.subtype==='BLIND';
+    const BORE=row.weldDiaMm||OD*0.55,WNL=row.wnLengthMm||0;
+    const sc=Math.min(88/(OD/2),3.5);
+    const Rpx=OD/2*sc,Tpx=TH*sc,rfdPx=RFD/2*sc,borePx=BORE/2*sc;
+    const rfhPx=Math.max(3.5,RFH_*sc*2.5),pcdPx=PCD/2*sc,bsr=Math.max(2.2,BSZ/2*sc*0.5);
+    const wnlPx=WNL*sc,lCX=96,rCX=280,midY=H/2-10;
+    const faceX=lCX+Tpx/2,backX=lCX-Tpx/2;
+    const buildHalf=(ys)=>{
+      const topY=midY-ys*Rpx,rfY=midY-ys*rfdPx,boreY=midY-ys*borePx;
+      if(isWN){const hubY=midY-ys*borePx*1.3;return`M${backX},${midY} L${backX},${topY} L${faceX},${topY} L${faceX},${rfY} L${faceX+rfhPx},${rfY} L${faceX+rfhPx},${boreY} L${faceX},${boreY} L${backX},${hubY} L${backX-wnlPx},${boreY} L${backX-wnlPx},${midY} Z`;}
+      if(isSO){return`M${backX},${midY} L${backX},${topY} L${faceX},${topY} L${faceX},${rfY} L${faceX+rfhPx},${rfY} L${faceX+rfhPx},${boreY} L${faceX},${boreY} L${backX},${boreY} L${backX},${midY} Z`;}
+      return`M${backX},${midY} L${backX},${topY} L${faceX},${topY} L${faceX},${rfY} L${faceX+rfhPx},${rfY} L${faceX+rfhPx},${midY} Z`;
+    };
+    const upP=buildHalf(1),dnP=buildHalf(-1);
+    const nB=Math.min(BC,16);
+    const bolts=Array.from({length:nB},(_,i)=>{const a=(i/nB)*Math.PI*2-Math.PI/2;return`<circle cx="${rCX+Math.cos(a)*pcdPx}" cy="${midY+Math.sin(a)*pcdPx}" r="${bsr}" fill="white" stroke="${BD}" stroke-width="1.1"/>`;}).join('');
+    inner = `
+      <line x1="${W/2}" y1="14" x2="${W/2}" y2="${H-22}" stroke="#E2E8F0" stroke-width="0.8" stroke-dasharray="4,3"/>
+      <text x="${lCX}" y="14" text-anchor="middle" fill="#94A3B8" font-size="7.5" font-family="${MF}">CROSS-SECTION</text>
+      <text x="${rCX}" y="14" text-anchor="middle" fill="#94A3B8" font-size="7.5" font-family="${MF}">FACE VIEW</text>
+      ${cline(backX-wnlPx-8,midY,faceX+rfhPx+10,midY)}
+      ${cline(rCX-Rpx-8,midY,rCX+Rpx+8,midY)} ${cline(rCX,midY-Rpx-8,rCX,midY+Rpx+8)}
+      <path d="${upP}" fill="${BF}" stroke="${BD}" stroke-width="1.3" stroke-linejoin="round"/> ${hf(upP)}
+      <path d="${dnP}" fill="${BF}" stroke="${BD}" stroke-width="1.3" stroke-linejoin="round"/> ${hf(dnP)}
+      <circle cx="${rCX}" cy="${midY}" r="${Rpx}" fill="${BF}" stroke="${BD}" stroke-width="1.4"/>
+      <circle cx="${rCX}" cy="${midY}" r="${Rpx}" fill="url(#${HID})" stroke="none" opacity="0.7"/>
+      <circle cx="${rCX}" cy="${midY}" r="${pcdPx}" fill="none" stroke="#94A3B8" stroke-width="0.8" stroke-dasharray="5,3"/>
+      ${bolts}
+      <circle cx="${rCX}" cy="${midY}" r="${rfdPx}" fill="none" stroke="${BD}" stroke-width="0.9" stroke-dasharray="3,2"/>
+      ${!isBL?`<circle cx="${rCX}" cy="${midY}" r="${borePx}" fill="white" stroke="${BD}" stroke-width="1.1"/>`:''}
+      ${HD(rCX-Rpx,rCX+Rpx,midY+Rpx+16,`Ø${fv(OD,'mm')} OD`,false)}
+      ${VD(backX-(isWN?wnlPx:0)-14,midY-Rpx*0.7,midY+Rpx*0.7,`T: ${fv(TH,'mm')}`,false)}
+      ${isWN&&wnlPx>5?VD(backX-wnlPx-14,midY-borePx*0.6,midY+borePx*0.6,`L: ${fv(WNL,'mm')}`,false):''}
+      <text x="${rCX}" y="${midY-pcdPx-6}" text-anchor="middle" fill="${DC}" font-size="8" font-family="${MF}">PCD Ø${fv(PCD)} mm</text>
+      ${LD(rCX+rfdPx,midY-rfdPx*0.5,`RF Ø${fv(RFD)} mm`,20,-18)}
+      ${LD(rCX-Rpx,midY+2,`${fv(row.weightKg,'kg')}`,-20,0)}
+      ${title(`${row.subtype} FLANGE · NPS ${row.nps} (DN ${row.dn}) · CL${row.classRating} · ${row.standard}`)}`;
+  }
+
+  // ── PIPE ──
+  if (row.componentType==='PIPE') {
+    const OD=row.odMm,ID=row.idMm,WALL=row.wallMm;
+    const sc=OD?Math.min(72/(OD/2),4.0):3.0;
+    const Rpx=(OD||60)/2*sc,ripx=(ID||48)/2*sc;
+    const lCX=85,midY=H/2-8,rLeft=148,rRight=358,rLen=rRight-rLeft;
+    inner = `
+      <line x1="134" y1="14" x2="134" y2="${H-22}" stroke="#E2E8F0" stroke-width="0.8" stroke-dasharray="4,3"/>
+      <text x="${lCX}" y="14" text-anchor="middle" fill="#94A3B8" font-size="7.5" font-family="${MF}">END VIEW</text>
+      <text x="${(rLeft+rRight)/2}" y="14" text-anchor="middle" fill="#94A3B8" font-size="7.5" font-family="${MF}">LONGITUDINAL SECTION</text>
+      ${cline(lCX-Rpx-8,midY,lCX+Rpx+8,midY)} ${cline(lCX,midY-Rpx-8,lCX,midY+Rpx+8)}
+      ${cline(rLeft-8,midY,rRight+8,midY)}
+      <circle cx="${lCX}" cy="${midY}" r="${Rpx}" fill="${BF}" stroke="${BD}" stroke-width="1.5"/>
+      <circle cx="${lCX}" cy="${midY}" r="${Rpx}" fill="url(#${HID})" stroke="none" opacity="0.75"/>
+      <circle cx="${lCX}" cy="${midY}" r="${ripx}" fill="#F8FAFC" stroke="${BD}" stroke-width="1.2"/>
+      <rect x="${rLeft}" y="${midY-Rpx}" width="${rLen}" height="${Rpx*2}" fill="${BF}" stroke="${BD}" stroke-width="1.4"/>
+      ${hf(`M${rLeft},${midY-Rpx} h${rLen*0.18} v${Rpx-ripx} h${-rLen*0.18} Z`)}
+      ${hf(`M${rLeft},${midY+ripx} h${rLen*0.18} v${Rpx-ripx} h${-rLen*0.18} Z`)}
+      <line x1="${rLeft}" y1="${midY-ripx}" x2="${rRight}" y2="${midY-ripx}" stroke="${BD}" stroke-width="0.9" stroke-dasharray="5,3"/>
+      <line x1="${rLeft}" y1="${midY+ripx}" x2="${rRight}" y2="${midY+ripx}" stroke="${BD}" stroke-width="0.9" stroke-dasharray="5,3"/>
+      <line x1="${rLeft}" y1="${midY-Rpx}" x2="${rLeft}" y2="${midY+Rpx}" stroke="${BD}" stroke-width="2"/>
+      ${HD(lCX-Rpx,lCX+Rpx,midY+Rpx+16,`Ø${fv(OD,'mm')} OD`,false)}
+      ${OD&&ID?HD(lCX-ripx,lCX+ripx,midY-ripx-10,`Ø${fv(ID,'mm')} bore`,true):''}
+      ${OD&&WALL?LD(lCX+Math.cos(Math.PI/4)*(Rpx+ripx)/2,midY-Math.sin(Math.PI/4)*(Rpx+ripx)/2,`t= ${fv(WALL,'mm')}`,14,-10):''}
+      ${VD(rLeft-14,midY-Rpx,midY+Rpx,`Ø${fv(OD,'mm')}`,false)}
+      ${OD&&WALL?VD(rRight+14,midY-Rpx,midY-ripx,`t=${fv(WALL,'mm')}`,true):''}
+      ${LD((rLeft+rRight)/2,midY-Rpx,`${fv(row.weightKgPerM,'kg/m')}`,0,-22)}
+      <text x="${(rLeft+rRight)/2}" y="${midY+Rpx+16}" text-anchor="middle" fill="#64748B" font-size="8" font-family="${MF}">SCH ${row.schedule}</text>
+      ${title(`PIPE · NPS ${row.nps} (DN ${row.dn}) · SCH ${row.schedule} · ${row.standard}`)}`;
+  }
+
+  // ── FITTINGS ──
+  if (row.componentType==='FITTING') {
+    const OD=row.odMm||60,CTE=row.ctrToEndMm||76,sub=row.subtype,R=OD/2;
+
+    if (sub==='ELBOW_90') {
+      const LR=R*3.0,sc=Math.min((W-80)/((LR+R)*2.2),(H-52)/((LR+R)*2.2),1.8);
+      const Rs=R*sc,LRs=LR*sc,armLen=Rs*2.2;
+      const outerR=LRs+Rs,innerR=Math.max(1,LRs-Rs);
+      const oTs=Math.sqrt(Math.max(0,outerR*outerR-Rs*Rs));
+      const iTs=Math.sqrt(Math.max(0,innerR*innerR-Rs*Rs));
+      const bcx=W/2-Rs*0.3,bcy=H*0.58;
+      const ep=[`M${bcx-oTs-armLen},${bcy-Rs}`,`L${bcx-oTs},${bcy-Rs}`,`A${outerR},${outerR},0,0,1,${bcx+Rs},${bcy-oTs}`,`L${bcx+Rs},${bcy-oTs-armLen}`,`L${bcx-Rs},${bcy-oTs-armLen}`,`L${bcx-Rs},${bcy-iTs}`,`A${innerR},${innerR},0,0,0,${bcx-iTs},${bcy+Rs}`,`L${bcx-iTs-armLen},${bcy+Rs}`,`Z`].join(' ');
+      const clP=`M${bcx-LRs-armLen-5},${bcy} L${bcx},${bcy} A${LRs},${LRs},0,0,1,${bcx},${bcy-LRs} L${bcx},${bcy-LRs-armLen-5}`;
+      inner=`<path d="${clP}" fill="none" stroke="${CLC}" stroke-width="0.8" stroke-dasharray="9,3,2,3"/>
+        <path d="${ep}" fill="${BF}" stroke="${BD}" stroke-width="1.4" stroke-linejoin="round"/> ${hf(ep)}
+        ${HD(bcx-LRs-armLen,bcx,bcy+Rs+18,`A: ${fv(CTE,'mm')}`,false)}
+        ${VD(bcx+Rs+20,bcy-LRs-armLen,bcy,`B: ${fv(CTE,'mm')}`,true)}
+        ${LD(bcx-oTs-armLen/2,bcy-Rs,`Ø${fv(OD,'mm')} OD`,0,-22)}
+        ${LD(bcx+Rs,bcy-oTs-armLen/2,`${fv(row.weightKg,'kg')}`,12,-12)}
+        ${row.devLenMm?`<text x="20" y="${H-24}" fill="#64748B" font-size="8" font-family="${MF}">Dev.L: ${fv(row.devLenMm,'mm')}</text>`:''}
+        ${title(`90° L.R. ELBOW · NPS ${row.nps} (DN ${row.dn}) · SCH ${row.schedule} · ${row.standard}`)}`;
+    }
+
+    if (sub==='ELBOW_45') {
+      const sc=1.5,Rs=R*sc,armLen=Rs*2.2;
+      const C45=Math.SQRT2/2,S45=Math.SQRT2/2;
+      const cx45=W/2-Rs*0.3,cy45=H*0.56;
+      const outFarCx=cx45+C45*armLen,outFarCy=cy45-S45*armLen;
+      const oFarX=outFarCx-S45*Rs,oFarY=outFarCy-C45*Rs;
+      const iFarX=outFarCx+S45*Rs,iFarY=outFarCy+C45*Rs;
+      const cpOx=cx45+Rs*0.3,cpOy=cy45-Rs*2.0,cpIx=cx45+Rs*0.5,cpIy=cy45+Rs*0.5;
+      const p45=[`M${cx45-armLen},${cy45-Rs}`,`L${cx45},${cy45-Rs}`,`Q${cpOx},${cpOy} ${cx45-S45*Rs},${cy45-C45*Rs}`,`L${oFarX},${oFarY}`,`L${iFarX},${iFarY}`,`L${cx45+S45*Rs},${cy45+C45*Rs}`,`Q${cpIx},${cpIy} ${cx45},${cy45+Rs}`,`L${cx45-armLen},${cy45+Rs}`,`Z`].join(' ');
+      const cl45=`M${cx45-armLen-5},${cy45} L${cx45},${cy45} Q${cx45+Rs*0.4},${cy45-Rs*0.4} ${cx45+C45*(armLen+5)},${cy45-S45*(armLen+5)}`;
+      inner=`<path d="${cl45}" fill="none" stroke="${CLC}" stroke-width="0.8" stroke-dasharray="9,3,2,3"/>
+        <path d="${p45}" fill="${BF}" stroke="${BD}" stroke-width="1.4" stroke-linejoin="round"/> ${hf(p45)}
+        ${HD(cx45-armLen,cx45,cy45+Rs+18,`A: ${fv(CTE,'mm')}`,false)}
+        ${LD(cx45+C45*armLen/2,cy45-S45*armLen/2-Rs,`B: ${fv(CTE,'mm')}`,16,-14)}
+        ${LD(cx45-armLen/2,cy45-Rs,`Ø${fv(OD,'mm')}`,0,-22)}
+        ${row.devLenMm?`<text x="20" y="${H-24}" fill="#64748B" font-size="8" font-family="${MF}">Dev.L: ${fv(row.devLenMm,'mm')}</text>`:''}
+        ${title(`45° ELBOW · NPS ${row.nps} (DN ${row.dn}) · SCH ${row.schedule} · ${row.standard}`)}`;
+    }
+
+    if (sub==='TEE_STRAIGHT') {
+      const sc=1.4,Rs=R*sc,armLen=Rs*2.2,brLen=Rs*2.0;
+      const tcx=W/2,tcy=H*0.54,fr=Rs*0.32;
+      const tP=`M${tcx-armLen},${tcy-Rs} L${tcx-Rs},${tcy-Rs} L${tcx-Rs},${tcy-brLen} L${tcx+Rs},${tcy-brLen} L${tcx+Rs},${tcy-Rs} L${tcx+armLen},${tcy-Rs} L${tcx+armLen},${tcy+Rs} L${tcx-armLen},${tcy+Rs} Z`;
+      inner=`${cline(tcx-armLen-8,tcy,tcx+armLen+8,tcy)} ${cline(tcx,tcy-brLen-8,tcx,tcy+Rs+8)}
+        <path d="${tP}" fill="${BF}" stroke="${BD}" stroke-width="1.4" stroke-linejoin="miter"/> ${hf(tP)}
+        <path d="M${tcx-Rs},${tcy-Rs+fr} A${fr},${fr},0,0,1,${tcx-Rs+fr},${tcy-Rs}" fill="none" stroke="${BD}" stroke-width="0.9"/>
+        <path d="M${tcx+Rs-fr},${tcy-Rs} A${fr},${fr},0,0,1,${tcx+Rs},${tcy-Rs+fr}" fill="none" stroke="${BD}" stroke-width="0.9"/>
+        ${HD(tcx-armLen,tcx+armLen,tcy+Rs+18,`Run: ${fv(CTE?CTE*2:null,'mm')}`,false)}
+        ${HD(tcx-armLen,tcx,tcy-Rs-10,`A: ${fv(CTE,'mm')}`,true)}
+        ${HD(tcx,tcx+armLen,tcy-Rs-10,`A: ${fv(CTE,'mm')}`,true)}
+        ${VD(tcx+Rs+18,tcy-brLen,tcy,`B: ${fv(CTE,'mm')}`,true)}
+        ${LD(tcx+armLen/2,tcy-Rs,`Ø${fv(OD,'mm')}`,8,-18)}
+        ${LD(tcx+armLen,tcy,`${fv(row.weightKg,'kg')}`,12,-10)}
+        ${title(`STRAIGHT TEE · NPS ${row.nps} (DN ${row.dn}) · SCH ${row.schedule} · ${row.standard}`)}`;
+    }
+
+    if (sub==='CAP') {
+      const oc=row.overCapMm||50,sc=Math.min((W-120)/(oc+R*2.5),(H-64)/(R*2.8),2.5);
+      const Rs=R*sc,ocPx=oc*sc,dRx=Rs*0.7;
+      const cx2=W*0.43,cy2=H/2-8,capX=cx2-ocPx/2;
+      const cP=`M${capX},${cy2-Rs} L${capX+ocPx},${cy2-Rs} A${dRx},${Rs},0,0,1,${capX+ocPx},${cy2+Rs} L${capX},${cy2+Rs} Z`;
+      inner=`${cline(capX-12,cy2,capX+ocPx+dRx+10,cy2)}
+        <path d="${cP}" fill="${BF}" stroke="${BD}" stroke-width="1.4" stroke-linejoin="round"/> ${hf(cP)}
+        <line x1="${capX}" y1="${cy2-Rs*0.82}" x2="${capX+ocPx-dRx*0.35}" y2="${cy2-Rs*0.82}" stroke="${BD}" stroke-width="0.85" stroke-dasharray="4,2"/>
+        <line x1="${capX}" y1="${cy2+Rs*0.82}" x2="${capX+ocPx-dRx*0.35}" y2="${cy2+Rs*0.82}" stroke="${BD}" stroke-width="0.85" stroke-dasharray="4,2"/>
+        ${hf(`M${capX},${cy2-Rs} h${Rs*0.13} v${Rs-Rs*0.82} h${-Rs*0.13} Z`)}
+        ${hf(`M${capX},${cy2+Rs*0.82} h${Rs*0.13} v${Rs-Rs*0.82} h${-Rs*0.13} Z`)}
+        ${HD(capX,capX+ocPx+dRx*0.88,cy2+Rs+18,`L: ${fv(oc,'mm')}`,false)}
+        ${VD(capX-18,cy2-Rs,cy2+Rs,`Ø${fv(OD,'mm')}`,false)}
+        ${LD(capX+ocPx*0.55,cy2-Rs,`${fv(row.weightKg,'kg')}`,10,-20)}
+        ${title(`CAP · NPS ${row.nps} (DN ${row.dn}) · SCH ${row.schedule} · ${row.standard}`)}`;
+    }
+  }
+
+  // ── GASKET ──
+  if (row.componentType==='GASKET') {
+    const subLabel={FLAT_RING:'FLAT RING',RTJ:'RTJ',SPIRAL_WOUND:'SPIRAL WOUND'}[row.subtype]||row.subtype;
+    inner=`<circle cx="${W/2}" cy="${H/2-14}" r="60" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="8,5"/>
+      <circle cx="${W/2}" cy="${H/2-14}" r="38" fill="white" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="8,5"/>
+      <text x="${W/2}" y="${H/2-9}" text-anchor="middle" fill="#94A3B8" font-size="9" font-family="${MF}">dimensions pending source promotion</text>
+      ${title(`${subLabel} GASKET · ${row.standard} · MISSING DATA`)}`;
+  }
+
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${defs}${bg}${border}${inner}</svg>`;
+}
+
+// ── Render audit page ─────────────────────────────────────────────────
+const root = document.getElementById('root');
+
+const sections = [
+  { label: 'Valves', items: [
+    { label: 'GATE · NPS 4 · CL150 · RF', row: SAMPLES.VALVE_NPS4_CL150 },
+    { label: 'GATE · NPS 4 · CL1500 · RF', row: SAMPLES.VALVE_NPS4_CL1500 },
+  ]},
+  { label: 'Flanges', items: [
+    { label: 'WN · NPS 4 · CL150', row: SAMPLES.FLANGE_WN_NPS4 },
+    { label: 'SO · NPS 4 · CL150', row: SAMPLES.FLANGE_SO_NPS4 },
+    { label: 'BLIND · NPS 4 · CL150', row: SAMPLES.FLANGE_BL_NPS4 },
+    { label: 'WN · NPS 6 · CL300', row: SAMPLES.FLANGE_WN_NPS6_CL300 },
+  ]},
+  { label: 'Pipes', items: [
+    { label: 'NPS 2 · SCH40', row: SAMPLES.PIPE_NPS2_SCH40 },
+    { label: 'NPS 4 · SCH40', row: SAMPLES.PIPE_NPS4_SCH40 },
+    { label: 'NPS 4 · SCH80', row: SAMPLES.PIPE_NPS4_SCH80 },
+  ]},
+  { label: 'Fittings — 90° Elbow', items: [
+    { label: 'ELBOW_90 · NPS 4 · SCH40', row: SAMPLES.EL90_NPS4_SCH40 },
+    { label: 'ELBOW_90 · NPS 2 · SCH80', row: SAMPLES.EL90_NPS2_SCH80 },
+  ]},
+  { label: 'Fittings — 45° Elbow', items: [
+    { label: 'ELBOW_45 · NPS 4 · SCH40', row: SAMPLES.EL45_NPS4_SCH40 },
+    { label: 'ELBOW_45 · NPS 6 · SCH40', row: SAMPLES.EL45_NPS6_SCH40 },
+  ]},
+  { label: 'Fittings — Tee', items: [
+    { label: 'TEE · NPS 4 · SCH40', row: SAMPLES.TEE_NPS4_SCH40 },
+    { label: 'TEE · NPS 6 · SCH40', row: SAMPLES.TEE_NPS6_SCH40 },
+  ]},
+  { label: 'Fittings — Cap', items: [
+    { label: 'CAP · NPS 4 · SCH40', row: SAMPLES.CAP_NPS4_SCH40 },
+    { label: 'CAP · NPS 6 · SCH40', row: SAMPLES.CAP_NPS6_SCH40 },
+  ]},
+  { label: 'Gaskets', items: [
+    { label: 'FLAT RING · MISSING DIM', row: SAMPLES.GASKET_FLAT },
+  ]},
+];
+
+sections.forEach(sec => {
+  const secEl = document.createElement('div');
+  secEl.innerHTML = `<div class="section-title">${sec.label}</div>`;
+  const row = document.createElement('div');
+  row.className = 'row';
+  sec.items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<div class="card-label">${item.label}</div>${buildSVG(item.row)}`;
+    row.appendChild(card);
+  });
+  secEl.appendChild(row);
+  root.appendChild(secEl);
+});
+</script>
+</body>
+</html>

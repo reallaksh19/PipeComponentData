@@ -1,0 +1,16 @@
+Handwheel Diameter and Height are not standardised and may vary.
+
+The following sizes and larger are shown gear operated. 
+#150 18NB(450-DN)
+#300 10NB(250-DN)
+#600 10NB(250-DN)
+#900 10NB(250-DN)
+#1500 8NB(200-DN)
+#2500 6NB(150-DN)
+
+Depending on opening time criteria gear operation may be replaced with electric or pneumatic actuator.
+
+
+
+
+

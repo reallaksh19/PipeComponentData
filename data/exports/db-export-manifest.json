@@ -1,0 +1,162 @@
+{
+  "schema": "pipedata-db-export-manifest/v1",
+  "phase": "DB_PHASE_13",
+  "exportMode": "MANIFEST_WITH_RUNTIME_CHECKSUMS",
+  "checksumPolicy": "COMPUTE_SHA256_AT_EXPORT_TIME",
+  "artifacts": [
+    {
+      "path": "data/normalized/pipes.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "PIPE"
+    },
+    {
+      "path": "data/normalized/pipes-sch80-wave2.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "PIPE"
+    },
+    {
+      "path": "data/normalized/pipes-sch80-wave3.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "PIPE"
+    },
+    {
+      "path": "data/normalized/pipes-sch80-wave4.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "PIPE"
+    },
+    {
+      "path": "data/normalized/pipes-expanded.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "PIPE"
+    },
+    {
+      "path": "data/normalized/flanges.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "FLANGE"
+    },
+    {
+      "path": "data/normalized/flanges-cl600-wave2.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "FLANGE"
+    },
+    {
+      "path": "data/normalized/flanges-cl600-wave3.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "FLANGE"
+    },
+    {
+      "path": "data/normalized/flanges-expanded.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "FLANGE"
+    },
+    {
+      "path": "data/normalized/valves.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "VALVE"
+    },
+    {
+      "path": "data/normalized/valves-expanded.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "VALVE"
+    },
+    {
+      "path": "data/normalized/fittings.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "FITTING"
+    },
+    {
+      "path": "data/normalized/gaskets.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "GASKET"
+    },
+    {
+      "path": "data/normalized/supports.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "SUPPORT"
+    },
+    {
+      "path": "data/indexes/component-search.index.json",
+      "kind": "SEARCH_INDEX",
+      "family": "ALL"
+    },
+    {
+      "path": "data/indexes/override.index.json",
+      "kind": "OVERRIDE_INDEX",
+      "family": "ALL"
+    },
+    {
+      "path": "data/overrides/project-overrides.sample.json",
+      "kind": "OVERRIDE_PACK",
+      "family": "ALL"
+    },
+    {
+      "path": "data/normalized/reducers-sch80-wave1.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "REDUCER"
+    },
+    {
+      "path": "data/normalized/reducers-sch80-wave2.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "REDUCER"
+    },
+    {
+      "path": "data/normalized/reducers-expanded.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "REDUCER"
+    },
+    {
+      "path": "data/normalized/flanges-cl400-expanded.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "FLANGE"
+    },
+    {
+      "path": "data/normalized/flanges-cl900-expanded.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "FLANGE"
+    },
+    {
+      "path": "data/normalized/flanges-cl1500-expanded.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "FLANGE"
+    },
+    {
+      "path": "data/normalized/flanges-cl2500-expanded.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "FLANGE"
+    },
+    {
+      "path": "data/normalized/valves-globe-expanded.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "VALVE"
+    },
+    {
+      "path": "data/normalized/valves-control-expanded.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "VALVE"
+    },
+    {
+      "path": "data/normalized/olets-weldolet.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "OLET"
+    },
+    {
+      "path": "data/normalized/olets-sockolet.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "OLET"
+    },
+    {
+      "path": "data/normalized/olets-thredolet.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "OLET"
+    },
+    {
+      "path": "data/normalized/olets-elbolet.json",
+      "kind": "NORMALIZED_DATA",
+      "family": "OLET"
+    }
+  ],
+  "auditPack": {
+    "schema": "pipedata-db-audit-pack/v1",
+    "generation": "BUILD_FROM_MANIFEST_AT_EXPORT_TIME"
+  }
+}

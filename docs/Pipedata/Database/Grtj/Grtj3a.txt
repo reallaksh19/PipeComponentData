@@ -1,0 +1,10 @@
+						
+
+	Tolerances in inches
+	Width of ring +0.008,-0.000"
+	Width of end flat +0.006,-0.000"
+	Hole size +/- 0.020"
+	Height of ring +0.008,-0.000"
+	OD of ring +0.000,-0.006"
+	OD of end flat +/- 0.002"
+	Angle +/- 1/4 deg

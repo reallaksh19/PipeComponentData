@@ -1,0 +1,10 @@
+						
+
+	Tolerances in millimeters
+	Width of ring +0.20,-0 mm
+	Width of end flat +0.15,-0 mm
+	Height of chamfer +0,-0.8 mm
+	Height of ring +0.20,-0 mm
+	OD of ring +0.50,-0 mm
+	Corner radius on ring +/- 0.50 mm
+	Angle +/- 1/2 deg

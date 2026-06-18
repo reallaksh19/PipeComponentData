@@ -1,0 +1,40 @@
+{
+  "schema": "pipedata-consumer-compatibility-matrix/v1",
+  "phase": "DB_PHASE_39",
+  "status": "FOUNDATION_COMPATIBILITY_DECLARED",
+  "package": {
+    "name": "pipe-component-data",
+    "moduleType": "esm",
+    "nodeMinimum": "20",
+    "packageVersion": "0.1.0",
+    "types": "./src/index.d.ts"
+  },
+  "supportedConsumers": [
+    {
+      "consumer": "Studio Pages UI",
+      "integration": "static-json-assets",
+      "status": "SUPPORTED_FOUNDATION"
+    },
+    {
+      "consumer": "GLB-PCF-2.5-Editor",
+      "integration": "planned-via-lookupComponentExact",
+      "status": "READY_FOR_INTEGRATION_PR"
+    },
+    {
+      "consumer": "3D_Viewer",
+      "integration": "planned-via-lookupComponentExact",
+      "status": "READY_FOR_INTEGRATION_PR"
+    }
+  ],
+  "publicApi": [
+    "lookupComponentExact",
+    "LOOKUP_STATUS"
+  ],
+  "rules": {
+    "publicApiOnly": true,
+    "doNotUseInternalSearchHelpers": true,
+    "doNotReadRawSourceTree": true,
+    "honorNoExactMatch": true,
+    "honorMissingDimension": true
+  }
+}

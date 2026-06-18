@@ -1,0 +1,4100 @@
+{
+  "schema": "pipedata-normalized-reducers/v1",
+  "summary": {
+    "family": "REDUCER",
+    "sourceRoot": "docs/Pipedata/Database/Ftbw",
+    "sourceFolder": "Database/Ftbw",
+    "sourceFileCount": 2,
+    "sourceRowCount": 25,
+    "sampledRowCount": 97,
+    "sourceStandard": "ASME B16.9",
+    "datasetVersion": "pipedata-db/2026.06.dbphase68",
+    "generationMode": "SOURCE_BACKED_WAVE_2_EXPANSION",
+    "sourceAvailability": "Schedule 80 reducer rows promoted from all valid matrix cells in Reducers80.csv. reducerType (CONCENTRIC/ECCENTRIC) cross-referenced from FTBW7.csv and FTBW9.csv size matrices.",
+    "expansionPack": "DB_PHASE_68_REDUCER_SCH80_WAVE2_PROMOTION",
+    "wave2AddedRows": 97,
+    "conCount": 48,
+    "eccCount": 49
+  },
+  "sourceFiles": {
+    "docs/Pipedata/Database/Ftbw/Reducers80.csv": 25,
+    "docs/Pipedata/Database/Ftbw/FTBW7.csv": 38,
+    "docs/Pipedata/Database/Ftbw/FTBW9.csv": 38
+  },
+  "rows": [
+    {
+      "id": "REDUCER|CONCENTRIC|NPS0+3/4|NPS0+3/8|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "0+3/4",
+      "smallNps": "0+3/8",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 6,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 27,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 38,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=0+3/4,col=0+3/8,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.1,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=0+3/4,col=0+3/8,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 6,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS0+3/4|NPS0+3/8|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "0+3/4",
+      "smallNps": "0+3/8",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 6,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 27,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 38,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=0+3/4,col=0+3/8,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.1,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=0+3/4,col=0+3/8,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 6,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS1|NPS0+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "1",
+      "smallNps": "0+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 7,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 33,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 51,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1,col=0+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.16,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1,col=0+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 7,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS1|NPS0+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "1",
+      "smallNps": "0+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 7,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 33,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 51,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1,col=0+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.16,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1,col=0+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 7,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS1+1/4|NPS0+3/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "1+1/4",
+      "smallNps": "0+3/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 8,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 42,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 51,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/4,col=0+3/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.23,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/4,col=0+3/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 8,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS1+1/4|NPS0+3/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "1+1/4",
+      "smallNps": "0+3/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 8,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 42,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 51,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/4,col=0+3/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.23,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/4,col=0+3/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 8,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS1+1/4|NPS1|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "1+1/4",
+      "smallNps": "1",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 8,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 42,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 51,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/4,col=1,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.23,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/4,col=1,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 8,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS1+1/4|NPS1|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "1+1/4",
+      "smallNps": "1",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 8,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 42,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 51,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/4,col=1,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.23,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/4,col=1,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 8,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS1+1/2|NPS0+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "1+1/2",
+      "smallNps": "0+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 9,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 48,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 64,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/2,col=0+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.35,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/2,col=0+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 9,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS1+1/2|NPS0+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "1+1/2",
+      "smallNps": "0+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 9,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 48,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 64,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/2,col=0+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.35,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/2,col=0+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 9,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS1+1/2|NPS0+3/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "1+1/2",
+      "smallNps": "0+3/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 9,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 48,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 64,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/2,col=0+3/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.35,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/2,col=0+3/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 9,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS1+1/2|NPS0+3/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "1+1/2",
+      "smallNps": "0+3/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 9,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 48,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 64,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/2,col=0+3/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.35,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/2,col=0+3/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 9,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS1+1/2|NPS1|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "1+1/2",
+      "smallNps": "1",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 9,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 48,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 64,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/2,col=1,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.35,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/2,col=1,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 9,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS1+1/2|NPS1|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "1+1/2",
+      "smallNps": "1",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 9,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 48,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 64,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/2,col=1,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.35,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/2,col=1,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 9,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS2|NPS0+3/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "2",
+      "smallNps": "0+3/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 10,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 60,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 76,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2,col=0+3/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.57,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2,col=0+3/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 10,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS2|NPS0+3/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "2",
+      "smallNps": "0+3/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 10,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 60,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 76,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2,col=0+3/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.57,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2,col=0+3/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 10,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS2|NPS1|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "2",
+      "smallNps": "1",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 10,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 60,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 76,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2,col=1,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.57,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2,col=1,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 10,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS2|NPS1|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "2",
+      "smallNps": "1",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 10,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 60,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 76,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2,col=1,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.57,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2,col=1,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 10,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS2|NPS1+1/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "2",
+      "smallNps": "1+1/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 10,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 60,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 76,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2,col=1+1/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.57,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2,col=1+1/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 10,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS2|NPS1+1/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "2",
+      "smallNps": "1+1/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 10,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 60,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 76,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2,col=1+1/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.57,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2,col=1+1/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 10,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS2+1/2|NPS1|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "2+1/2",
+      "smallNps": "1",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 11,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 73,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2+1/2,col=1,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.01,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2+1/2,col=1,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 11,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS2+1/2|NPS1|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "2+1/2",
+      "smallNps": "1",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 11,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 73,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2+1/2,col=1,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.01,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2+1/2,col=1,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 11,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS2+1/2|NPS1+1/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "2+1/2",
+      "smallNps": "1+1/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 11,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 73,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2+1/2,col=1+1/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.01,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2+1/2,col=1+1/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 11,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS2+1/2|NPS1+1/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "2+1/2",
+      "smallNps": "1+1/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 11,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 73,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2+1/2,col=1+1/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.01,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2+1/2,col=1+1/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 11,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS2+1/2|NPS1+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "2+1/2",
+      "smallNps": "1+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 11,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 73,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2+1/2,col=1+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.01,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2+1/2,col=1+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 11,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS2+1/2|NPS1+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "2+1/2",
+      "smallNps": "1+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 11,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 73,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2+1/2,col=1+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.01,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2+1/2,col=1+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 11,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS3|NPS1+1/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "3",
+      "smallNps": "1+1/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 12,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3,col=1+1/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.36,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3,col=1+1/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 12,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS3|NPS1+1/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "3",
+      "smallNps": "1+1/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 12,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3,col=1+1/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.36,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3,col=1+1/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 12,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS3|NPS1+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "3",
+      "smallNps": "1+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 12,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3,col=1+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.36,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3,col=1+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 12,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS3|NPS1+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "3",
+      "smallNps": "1+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 12,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3,col=1+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.36,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3,col=1+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 12,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS3|NPS2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "3",
+      "smallNps": "2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 12,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3,col=2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.36,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3,col=2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 12,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS3|NPS2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "3",
+      "smallNps": "2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 12,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3,col=2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.36,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3,col=2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 12,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS3|NPS2+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "3",
+      "smallNps": "2+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 12,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3,col=2+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.36,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3,col=2+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 12,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS3|NPS2+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "3",
+      "smallNps": "2+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 12,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3,col=2+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.36,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3,col=2+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 12,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS3+1/2|NPS1+1/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "3+1/2",
+      "smallNps": "1+1/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 13,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3+1/2,col=1+1/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.89,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3+1/2,col=1+1/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 13,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS3+1/2|NPS1+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "3+1/2",
+      "smallNps": "1+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 13,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3+1/2,col=1+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.89,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3+1/2,col=1+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 13,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS3+1/2|NPS1+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "3+1/2",
+      "smallNps": "1+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 13,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3+1/2,col=1+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.89,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3+1/2,col=1+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 13,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS3+1/2|NPS2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "3+1/2",
+      "smallNps": "2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 13,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3+1/2,col=2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.89,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3+1/2,col=2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 13,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS3+1/2|NPS2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "3+1/2",
+      "smallNps": "2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 13,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3+1/2,col=2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.89,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3+1/2,col=2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 13,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS3+1/2|NPS2+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "3+1/2",
+      "smallNps": "2+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 13,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3+1/2,col=2+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.89,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3+1/2,col=2+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 13,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS3+1/2|NPS2+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "3+1/2",
+      "smallNps": "2+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 13,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3+1/2,col=2+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.89,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3+1/2,col=2+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 13,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS3+1/2|NPS3|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "3+1/2",
+      "smallNps": "3",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 13,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3+1/2,col=3,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.89,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3+1/2,col=3,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 13,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS3+1/2|NPS3|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "3+1/2",
+      "smallNps": "3",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 13,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=3+1/2,col=3,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.89,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=3+1/2,col=3,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 13,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS4|NPS1+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "4",
+      "smallNps": "1+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 14,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 114,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=4,col=1+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 2.27,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=4,col=1+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 14,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS4|NPS1+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "4",
+      "smallNps": "1+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 14,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 114,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=4,col=1+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 2.27,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=4,col=1+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 14,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS4|NPS2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "4",
+      "smallNps": "2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 14,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 114,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=4,col=2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 2.27,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=4,col=2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 14,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS4|NPS2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "4",
+      "smallNps": "2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 14,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 114,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=4,col=2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 2.27,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=4,col=2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 14,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS4|NPS2+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "4",
+      "smallNps": "2+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 14,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 114,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=4,col=2+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 2.27,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=4,col=2+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 14,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS4|NPS2+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "4",
+      "smallNps": "2+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 14,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 114,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=4,col=2+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 2.27,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=4,col=2+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 14,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS4|NPS3|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "4",
+      "smallNps": "3",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 14,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 114,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=4,col=3,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 2.27,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=4,col=3,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 14,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS4|NPS3|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "4",
+      "smallNps": "3",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 14,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 114,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=4,col=3,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 2.27,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=4,col=3,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 14,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS4|NPS3+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "4",
+      "smallNps": "3+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 14,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 114,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=4,col=3+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 2.27,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=4,col=3+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 14,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS4|NPS3+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "4",
+      "smallNps": "3+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 14,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 114,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 102,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=4,col=3+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 2.27,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=4,col=3+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 14,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS5|NPS2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "5",
+      "smallNps": "2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 15,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 141,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 127,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=5,col=2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 3.93,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=5,col=2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 15,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS5|NPS2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "5",
+      "smallNps": "2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 15,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 141,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 127,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=5,col=2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 3.93,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=5,col=2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 15,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS5|NPS2+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "5",
+      "smallNps": "2+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 15,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 141,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 127,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=5,col=2+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 3.93,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=5,col=2+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 15,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS5|NPS2+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "5",
+      "smallNps": "2+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 15,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 141,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 127,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=5,col=2+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 3.93,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=5,col=2+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 15,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS5|NPS3|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "5",
+      "smallNps": "3",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 15,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 141,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 127,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=5,col=3,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 3.93,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=5,col=3,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 15,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS5|NPS3|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "5",
+      "smallNps": "3",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 15,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 141,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 127,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=5,col=3,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 3.93,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=5,col=3,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 15,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS5|NPS3+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "5",
+      "smallNps": "3+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 15,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 141,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 127,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=5,col=3+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 3.93,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=5,col=3+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 15,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS5|NPS3+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "5",
+      "smallNps": "3+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 15,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 141,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 127,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=5,col=3+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 3.93,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=5,col=3+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 15,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS5|NPS4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "5",
+      "smallNps": "4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 15,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 141,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 127,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=5,col=4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 3.93,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=5,col=4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 15,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS5|NPS4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "5",
+      "smallNps": "4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 15,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 141,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 127,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=5,col=4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 3.93,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=5,col=4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 15,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS6|NPS2+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "6",
+      "smallNps": "2+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 16,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 168,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 140,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=6,col=2+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 5.95,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=6,col=2+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 16,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS6|NPS2+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "6",
+      "smallNps": "2+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 16,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 168,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 140,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=6,col=2+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 5.95,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=6,col=2+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 16,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS6|NPS3|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "6",
+      "smallNps": "3",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 16,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 168,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 140,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=6,col=3,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 5.95,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=6,col=3,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 16,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS6|NPS3|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "6",
+      "smallNps": "3",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 16,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 168,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 140,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=6,col=3,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 5.95,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=6,col=3,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 16,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS6|NPS3+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "6",
+      "smallNps": "3+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 16,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 168,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 140,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=6,col=3+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 5.95,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=6,col=3+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 16,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS6|NPS3+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "6",
+      "smallNps": "3+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 16,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 168,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 140,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=6,col=3+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 5.95,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=6,col=3+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 16,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS6|NPS4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "6",
+      "smallNps": "4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 16,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 168,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 140,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=6,col=4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 5.95,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=6,col=4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 16,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS6|NPS4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "6",
+      "smallNps": "4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 16,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 168,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 140,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=6,col=4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 5.95,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=6,col=4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 16,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS6|NPS5|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "6",
+      "smallNps": "5",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 16,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 168,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 140,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=6,col=5,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 5.95,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=6,col=5,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 16,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS6|NPS5|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "6",
+      "smallNps": "5",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 16,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 168,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 140,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=6,col=5,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 5.95,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=6,col=5,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 16,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS8|NPS3+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "8",
+      "smallNps": "3+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 17,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 219,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 152,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=8,col=3+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 9.86,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=8,col=3+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 17,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS8|NPS3+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "8",
+      "smallNps": "3+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 17,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 219,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 152,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=8,col=3+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 9.86,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=8,col=3+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 17,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS8|NPS4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "8",
+      "smallNps": "4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 17,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 219,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 152,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=8,col=4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 9.86,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=8,col=4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 17,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS8|NPS4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "8",
+      "smallNps": "4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 17,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 219,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 152,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=8,col=4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 9.86,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=8,col=4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 17,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS8|NPS5|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "8",
+      "smallNps": "5",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 17,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 219,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 152,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=8,col=5,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 9.86,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=8,col=5,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 17,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS8|NPS5|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "8",
+      "smallNps": "5",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 17,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 219,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 152,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=8,col=5,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 9.86,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=8,col=5,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 17,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS8|NPS6|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "8",
+      "smallNps": "6",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 17,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 219,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 152,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=8,col=6,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 9.86,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=8,col=6,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 17,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS8|NPS6|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "8",
+      "smallNps": "6",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 17,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 219,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 152,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=8,col=6,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 9.86,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=8,col=6,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 17,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS10|NPS4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "10",
+      "smallNps": "4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 18,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 273,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 178,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=10,col=4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 17,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=10,col=4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 18,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS10|NPS4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "10",
+      "smallNps": "4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 18,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 273,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 178,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=10,col=4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 17,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=10,col=4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 18,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS10|NPS5|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "10",
+      "smallNps": "5",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 18,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 273,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 178,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=10,col=5,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 17,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=10,col=5,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 18,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS10|NPS5|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "10",
+      "smallNps": "5",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 18,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 273,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 178,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=10,col=5,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 17,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=10,col=5,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 18,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS10|NPS6|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "10",
+      "smallNps": "6",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 18,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 273,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 178,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=10,col=6,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 17,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=10,col=6,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 18,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS10|NPS6|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "10",
+      "smallNps": "6",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 18,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 273,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 178,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=10,col=6,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 17,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=10,col=6,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 18,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS10|NPS8|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "10",
+      "smallNps": "8",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 18,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 273,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 178,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=10,col=8,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 17,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=10,col=8,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 18,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS10|NPS8|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "10",
+      "smallNps": "8",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 18,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 273,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 178,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=10,col=8,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 17,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=10,col=8,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 18,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS12|NPS5|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "12",
+      "smallNps": "5",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 19,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 324,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 203,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=12,col=5,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 26.8,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=12,col=5,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 19,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS12|NPS5|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "12",
+      "smallNps": "5",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 19,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 324,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 203,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=12,col=5,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 26.8,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=12,col=5,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 19,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS12|NPS6|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "12",
+      "smallNps": "6",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 19,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 324,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 203,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=12,col=6,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 26.8,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=12,col=6,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 19,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS12|NPS6|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "12",
+      "smallNps": "6",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 19,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 324,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 203,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=12,col=6,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 26.8,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=12,col=6,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 19,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS12|NPS8|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "12",
+      "smallNps": "8",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 19,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 324,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 203,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=12,col=8,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 26.8,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=12,col=8,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 19,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS12|NPS8|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "12",
+      "smallNps": "8",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 19,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 324,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 203,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=12,col=8,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 26.8,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=12,col=8,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 19,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|CONCENTRIC|NPS12|NPS10|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "CONCENTRIC",
+      "largeNps": "12",
+      "smallNps": "10",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 19,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 324,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 203,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=12,col=10,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 26.8,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=12,col=10,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 19,
+        "notes": "Schedule 80 concentric reducer from explicit row/column matrix cell."
+      }
+    },
+    {
+      "id": "REDUCER|ECCENTRIC|NPS12|NPS10|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "ECCENTRIC",
+      "largeNps": "12",
+      "smallNps": "10",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 19,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 324,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 203,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=12,col=10,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 26.8,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=12,col=10,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase68",
+        "dataStatus": "READY",
+        "sourceRow": 19,
+        "notes": "Schedule 80 eccentric reducer from explicit row/column matrix cell."
+      }
+    }
+  ]
+}

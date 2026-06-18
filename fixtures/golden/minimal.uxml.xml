@@ -1,0 +1,6 @@
+<UXML schemaVersion="uxml-topology-v1" profile="UXML-TOPOLOGY-FULL">
+  <Header projectId="PRJ" modelId="M1" createdBy="test" createdAt="2026-01-01T00:00:00.000Z" purpose="phase3" notes="A&amp;B" />
+  <Components>
+    <Component id="P1" type="PIPE" normalizedType="PIPE" name="Pipe &amp; One" />
+  </Components>
+</UXML>

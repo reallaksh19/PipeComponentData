@@ -1,0 +1,31 @@
+{
+  "schema": "pipedata-pages-artifact-contract/v1",
+  "phase": "DB_PHASE_35",
+  "publishRoot": "_site",
+  "requiredCopyPolicies": [
+    "studio",
+    "data/indexes/component-search.index.json",
+    "data/search/component-aliases.json",
+    "data/normalized/*.json",
+    "data/exports/*.json",
+    "data/audit/*.json"
+  ],
+  "requiredPublishedArtifacts": [
+    "studio/index.html",
+    "studio/component-studio-app.js",
+    "data/indexes/component-search.index.json",
+    "data/search/component-aliases.json",
+    "data/exports/public-export-pack.manifest.json",
+    "data/exports/exact-lookup-fixtures.json",
+    "data/exports/downstream-consumer-contract.json",
+    "data/audit/dataset-version-manifest.json",
+    "data/audit/db-coverage-dashboard.json",
+    "data/audit/source-use-policy.json"
+  ],
+  "forbiddenPublishedPaths": [
+    "docs/Pipedata/Database"
+  ],
+  "cachePolicy": {
+    "cacheBustStudioCssAndJs": true
+  }
+}

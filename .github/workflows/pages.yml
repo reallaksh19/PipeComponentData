@@ -1,0 +1,109 @@
+name: Deploy Studio to GitHub Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Studio artifact
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Run full verification gates
+        run: npm test
+
+      - name: Prepare static Pages artifact
+        shell: bash
+        run: |
+          rm -rf _site
+          mkdir -p _site/studio _site/data/indexes _site/data/normalized _site/data/search _site/data/audit _site/data/exports
+          cp -R studio/. _site/studio/
+          cp data/indexes/component-search.index.json _site/data/indexes/
+          cp data/normalized/*.json _site/data/normalized/
+          cp data/search/component-aliases.json _site/data/search/
+          cp data/audit/*.json _site/data/audit/
+          cp data/exports/*.json _site/data/exports/
+
+          BUILD_SHA="${GITHUB_SHA::12}"
+          sed -i "s|./studio.css|./studio.css?v=${BUILD_SHA}|g" _site/studio/index.html
+          sed -i "s|./component-studio-app.js|./component-studio-app.js?v=${BUILD_SHA}|g" _site/studio/index.html
+
+          test -f _site/studio/index.html
+          test -f _site/studio/component-studio-app.js
+          test -f _site/data/indexes/component-search.index.json
+          test -f _site/data/search/component-aliases.json
+          test -f _site/data/audit/db-coverage-dashboard.json
+          test -f _site/data/audit/source-use-policy.json
+          test -f _site/data/exports/db-export-manifest.json
+          test -f _site/data/exports/public-export-pack.manifest.json
+          test -f _site/data/normalized/valves.json
+
+          if [ -d _site/docs/Pipedata/Database ]; then
+            echo "ERROR: Raw source database tree must not be published to Pages"
+            exit 1
+          fi
+
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              <meta http-equiv="refresh" content="0; url=./studio/" />
+              <title>Pipe Component Studio</title>
+            </head>
+            <body>
+              <p><a href="./studio/">Open Pipe Component Studio</a></p>
+            </body>
+          </html>
+          HTML
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy Studio
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

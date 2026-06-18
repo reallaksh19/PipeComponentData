@@ -1,0 +1,15 @@
+9,2,3,4,5,6,7,8,9
+NB inch,NB mm,F to F,Base to CL,Removal Dist,Sched,Screne Mesh,Wt Kg,Basket removal distance
+1+1/2,40,N/A,N/A,N/A,N/A,N/A,N/A,Basket removal distance
+2,50,127,320,175,STD,3mm,10,Basket removal distance
+3,80,172,405,215,STD,3mm,19,Basket removal distance
+4,100,210,470,245,STD,3mm,31,Basket removal distance
+6,150,286,605,300,STD,3mm,58,Basket removal distance
+8,200,356,730,355,STD,3mm,96,Basket removal distance
+10,250,432,850,410,STD,3mm,151,Basket removal distance
+12,300,508,980,465,STD,3mm,213,Basket removal distance
+14,350,559,1075,505,STD,3mm,294,Basket removal distance
+16,400,610,1160,540,STD,3mm,383,Basket removal distance
+18,450,686,1220,520,STD,3mm,490,Basket removal distance
+20,500,762,1320,625,STD,3mm,590,Basket removal distance
+24,600,864,1520,630,STD,3mm,840,Basket removal distance

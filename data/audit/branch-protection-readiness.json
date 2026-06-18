@@ -1,0 +1,30 @@
+{
+  "schema": "pipedata-branch-protection-readiness/v1",
+  "phase": "DB_PHASE_37",
+  "status": "POLICY_READY_FOR_OWNER_REVIEW",
+  "purpose": "Document recommended repository protection settings for the foundation release stream.",
+  "recommendedSettings": {
+    "protectMain": true,
+    "requirePullRequest": true,
+    "requireCiGreenBeforeMerge": true,
+    "requireNode20AndNode22Gates": true,
+    "requirePagesDeployAfterMerge": true,
+    "allowDirectMainPushes": false,
+    "requireLinearHistory": false
+  },
+  "requiredChecks": [
+    "Node 20.x gates",
+    "Node 22.x gates"
+  ],
+  "releasePolicy": {
+    "tagOnlyFromMain": true,
+    "tagOnlyAfterCiGreen": true,
+    "tagOnlyAfterPagesGreen": true,
+    "foundationReleaseOnly": true,
+    "productionComplete": false
+  },
+  "notes": [
+    "This artifact is advisory until the repository owner enables branch protection in GitHub settings.",
+    "No engineering data is changed by this policy artifact."
+  ]
+}

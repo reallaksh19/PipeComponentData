@@ -1,0 +1,5 @@
+1. Temperatures up to 750 deg F
+2. Insulation density = 9 lbs/ft3
+3. Empty = line is carrying gas, air etc. 
+4. Full = line is carrying water.
+5. Corrosion allowance 1/16th inch

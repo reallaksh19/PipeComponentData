@@ -1,0 +1,25 @@
+{
+  "schema": "pipedata-pipe-sch80-wave2-promotion-readiness/v1",
+  "phase": "DB_PHASE_52",
+  "status": "READY_FOR_BOUNDED_PROMOTION_NOT_APPLIED",
+  "family": "PIPE",
+  "scope": {
+    "roadmapItem": "DATA-PIPE-FULL-SCHEDULES",
+    "promotionApplied": false,
+    "normalizedDataChanged": false,
+    "sourceFile": "docs/Pipedata/Database/Pipe/PIPE80.csv",
+    "nextAllowedPromotion": "bounded SCH80 rows for NPS 8, 10, and 12 only"
+  },
+  "candidateRows": [
+    { "nps": "8", "dn": 200, "sourceRowNumber": 17, "odMm": 219.1, "wallMm": 12.7, "idMm": 193.7, "weightKgPerM": 64.64 },
+    { "nps": "10", "dn": 250, "sourceRowNumber": 18, "odMm": 273, "wallMm": 15.09, "idMm": 242.82, "weightKgPerM": 95.98 },
+    { "nps": "12", "dn": 300, "sourceRowNumber": 19, "odMm": 323.8, "wallMm": 17.48, "idMm": 288.84, "weightKgPerM": 132.05 }
+  ],
+  "requiredColumns": ["3-OD", "4-WallThk", "6-ID", "7-Wt per Unit Len", "13-NPS"],
+  "safetyRules": {
+    "noFabricatedEngineeringValues": true,
+    "noNearestScheduleFallback": true,
+    "noBulkPromotion": true,
+    "sourceProvenanceRequired": true
+  }
+}

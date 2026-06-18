@@ -1,0 +1,276 @@
+{
+  "schema": "pipedata-normalized-reducers/v1",
+  "summary": {
+    "family": "REDUCER",
+    "sourceRoot": "docs/Pipedata/Database/Ftbw",
+    "sourceFolder": "Database/Ftbw",
+    "sourceFileCount": 1,
+    "sourceRowCount": 25,
+    "sourceReadyRows": 6,
+    "sourcePartialRows": 0,
+    "sampledRowCount": 6,
+    "sourceStandard": "ASME B16.9",
+    "datasetVersion": "pipedata-db/2026.06.dbphase64",
+    "generationMode": "SOURCE_BACKED_WAVE_1_EXPANSION",
+    "sourceAvailability": "Schedule 80 reducer rows are promoted only from explicit row/column matrix cells in Reducers80.csv.",
+    "expansionPack": "DB_PHASE_64_REDUCER_SCH80_WAVE1_PROMOTION",
+    "wave1AddedRows": 6
+  },
+  "sourceFiles": {
+    "docs/Pipedata/Database/Ftbw/Reducers80.csv": 25
+  },
+  "rows": [
+    {
+      "id": "REDUCER|UNKNOWN|NPS0+3/4|NPS0+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "UNKNOWN",
+      "largeNps": "0+3/4",
+      "smallNps": "0+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 6,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 27,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 38,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=0+3/4,col=0+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.1,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=0+3/4,col=0+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase64",
+        "dataStatus": "READY",
+        "sourceRow": 6,
+        "notes": "Schedule 80 reducer matrix cell from explicit row/column intersection."
+      }
+    },
+    {
+      "id": "REDUCER|UNKNOWN|NPS1|NPS0+3/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "UNKNOWN",
+      "largeNps": "1",
+      "smallNps": "0+3/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 7,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 33,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 51,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1,col=0+3/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.16,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1,col=0+3/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase64",
+        "dataStatus": "READY",
+        "sourceRow": 7,
+        "notes": "Schedule 80 reducer matrix cell from explicit row/column intersection."
+      }
+    },
+    {
+      "id": "REDUCER|UNKNOWN|NPS1+1/4|NPS0+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "UNKNOWN",
+      "largeNps": "1+1/4",
+      "smallNps": "0+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 8,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 42,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 51,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/4,col=0+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.23,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/4,col=0+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase64",
+        "dataStatus": "READY",
+        "sourceRow": 8,
+        "notes": "Schedule 80 reducer matrix cell from explicit row/column intersection."
+      }
+    },
+    {
+      "id": "REDUCER|UNKNOWN|NPS1+1/2|NPS1+1/4|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "UNKNOWN",
+      "largeNps": "1+1/2",
+      "smallNps": "1+1/4",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 9,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 48,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 64,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=1+1/2,col=1+1/4,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.35,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=1+1/2,col=1+1/4,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase64",
+        "dataStatus": "READY",
+        "sourceRow": 9,
+        "notes": "Schedule 80 reducer matrix cell from explicit row/column intersection."
+      }
+    },
+    {
+      "id": "REDUCER|UNKNOWN|NPS2|NPS1+1/2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "UNKNOWN",
+      "largeNps": "2",
+      "smallNps": "1+1/2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 10,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 60,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 76,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2,col=1+1/2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 0.57,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2,col=1+1/2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase64",
+        "dataStatus": "READY",
+        "sourceRow": 10,
+        "notes": "Schedule 80 reducer matrix cell from explicit row/column intersection."
+      }
+    },
+    {
+      "id": "REDUCER|UNKNOWN|NPS2+1/2|NPS2|SCH80",
+      "componentType": "REDUCER",
+      "reducerType": "UNKNOWN",
+      "largeNps": "2+1/2",
+      "smallNps": "2",
+      "largeSchedule": "80",
+      "smallSchedule": "80",
+      "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+      "sourceRowNumber": 11,
+      "dataStatus": "READY",
+      "dimensions": {
+        "largeEndOdMm": {
+          "value": 73,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "od"
+        },
+        "overallLengthMm": {
+          "value": 89,
+          "unit": "mm",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Length H [row=2+1/2,col=2,left-half]"
+        }
+      },
+      "weights": {
+        "weightKg": {
+          "value": 1.01,
+          "unit": "kg",
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Approximate Weight KG [row=2+1/2,col=2,right-half]"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.9",
+        "source": "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase64",
+        "dataStatus": "READY",
+        "sourceRow": 11,
+        "notes": "Schedule 80 reducer matrix cell from explicit row/column intersection."
+      }
+    }
+  ]
+}

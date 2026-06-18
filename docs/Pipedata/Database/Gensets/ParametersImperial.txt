@@ -1,0 +1,8 @@
+1. Limited by a deflection 3/8inch 
+2. Limited by a stress of 1.4 Tonf/in2
+3. Temperatures up to 750 deg F
+4. Young's modulus = 13169 Tonf/in2 (Carbon Steel)
+5. Insulation density = 9 lbs/ft3
+6. Empty = line is carrying gas, air etc.
+7. Full = line is carrying water.
+8. Corrosion allowance 1/16th inch

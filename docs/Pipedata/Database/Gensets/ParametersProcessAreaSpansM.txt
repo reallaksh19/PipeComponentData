@@ -1,0 +1,5 @@
+1. Temperatures up to 400 deg C
+2. Insulation density = 145 kg/m3
+3. Empty = line is carrying gas, air etc. 
+4. Full = line is carrying water.
+5. Corrosion allowance 1.5mm
