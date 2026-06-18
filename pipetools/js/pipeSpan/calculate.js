@@ -2,7 +2,10 @@ import {
   DEFAULT_PIPE_SPAN_INPUT, PIPE_SPAN_CONSTANTS, PIPE_SPAN_ROWS, QMS_REFERENCE,
 } from './catalog.js';
 import { activeWeightBreakdown, momentOfInertiaCm4 } from './weights.js';
-import { bearingWidthMm, indentationSpanM, spanCases } from './spans.js';
+import {
+  bearingWidthMm, governingSpanM, indentationSpanM, leastAllowableSpanM,
+  selectedMethodSpanM, spanCases,
+} from './spans.js';
 import { createPipeSpanTrace } from './trace.js';
 
 const round = (value, digits = 3) => Number(value.toFixed(digits));
@@ -11,14 +14,25 @@ export function listPipeSpanRows() {
   return PIPE_SPAN_ROWS;
 }
 
+export function getPipeSpanSchedules(nps) {
+  return PIPE_SPAN_ROWS.filter((row) => Number(row.nps) === Number(nps)).map((row) => row.schedule);
+}
+
+export function normalizePipeSpanInput(userInput = {}) {
+  const input = { ...DEFAULT_PIPE_SPAN_INPUT, ...userInput };
+  const schedules = getPipeSpanSchedules(input.nps);
+  if (!schedules.length) throw new Error(`Pipe span row not available for NPS ${input.nps}`);
+  const schedule = schedules.includes(input.schedule) ? input.schedule : schedules[0];
+  return { ...input, schedule };
+}
+
 export function getPipeSpanRow(nps, schedule = null) {
   const sizeMatches = PIPE_SPAN_ROWS.filter((row) => Number(row.nps) === Number(nps));
   if (!sizeMatches.length) throw new Error(`Pipe span row not available for NPS ${nps}`);
-  return schedule ? sizeMatches.find((row) => row.schedule === schedule) ?? sizeMatches[0] : sizeMatches[0];
-}
-
-export function getPipeSpanSchedules(nps) {
-  return PIPE_SPAN_ROWS.filter((row) => Number(row.nps) === Number(nps)).map((row) => row.schedule);
+  if (!schedule) return sizeMatches[0];
+  const match = sizeMatches.find((row) => row.schedule === schedule);
+  if (!match) throw new Error(`Schedule ${schedule} not available for NPS ${nps}`);
+  return match;
 }
 
 function qmsKey(input, rack = false) {
@@ -37,30 +51,27 @@ export function qmsReference(input) {
 }
 
 export function calculatePipeSpan(userInput = {}, constants = PIPE_SPAN_CONSTANTS) {
-  const input = { ...DEFAULT_PIPE_SPAN_INPUT, ...userInput };
+  const input = normalizePipeSpanInput(userInput);
   const row = getPipeSpanRow(input.nps, input.schedule);
   const weights = activeWeightBreakdown(row, input, constants);
   const mi = momentOfInertiaCm4(row);
   const indentation = indentationSpanM(row, weights.totalWeightNPerM, constants);
   const cases = spanCases(row, weights.totalWeightNPerM, constants, mi);
-  const governing = governingByMethod(cases, indentation, input.beamMethod);
+  const selectedSpan = selectedMethodSpanM(cases, input.beamMethod);
+  const leastSpan = leastAllowableSpanM(cases, indentation);
+  const governingSpan = governingSpanM(cases, indentation, input.beamMethod);
   const qms = qmsReference(input);
   const raw = { row, ...weights, bearingWidthMm: bearingWidthMm(row, constants), momentOfInertiaCm4: mi,
-    indentationSpanM: indentation, ...cases, governingSpanM: governing,
+    indentationSpanM: indentation, ...cases, selectedMethodSpanM: selectedSpan,
+    leastAllowableSpanM: leastSpan, governingSpanM: governingSpan,
     qmsReferenceM: qms.selectedMm ? qms.selectedMm / 1000 : null,
     qmsSupportStandardM: qms.supportStandardMm ? qms.supportStandardMm / 1000 : null,
     qmsRackSpanM: qms.rackSpanMm ? qms.rackSpanMm / 1000 : null };
   const rounded = Object.fromEntries(Object.entries(raw).map(([key, value]) =>
     [key, typeof value === 'number' ? round(value) : value]));
   rounded.input = input;
-  rounded.formulaTrace = createPipeSpanTrace({ row, constants, weights, mi, spans: cases, indentation, governing });
+  rounded.formulaTrace = createPipeSpanTrace({ row, constants, weights, mi, spans: cases, indentation,
+    selectedMethodSpanM: selectedSpan, leastAllowableSpanM: leastSpan, governingSpanM: governingSpan,
+    beamMethod: input.beamMethod });
   return rounded;
-}
-
-function governingByMethod(cases, indentation, method = 'CONTINUOUS') {
-  if (method === 'SIMPLY') return Math.min(cases.simplyDeflectionM, cases.simplyStressM);
-  if (method === 'AVERAGE') return Math.min(cases.averageDeflectionM, cases.averageStressM);
-  if (method === 'FIXED') return Math.min(cases.fixedDeflectionM, cases.fixedStressM);
-  if (method === 'LEAST_ALL') return Math.min(indentation, ...Object.values(cases));
-  return Math.min(cases.continuousDeflectionM, cases.continuousStressM);
 }
