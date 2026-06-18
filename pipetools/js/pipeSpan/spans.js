@@ -1,5 +1,12 @@
 const pow = Math.pow;
 
+const METHOD_KEYS = Object.freeze({
+  SIMPLY: ['simplyDeflectionM', 'simplyStressM'],
+  CONTINUOUS: ['continuousDeflectionM', 'continuousStressM'],
+  FIXED: ['fixedDeflectionM', 'fixedStressM'],
+  AVERAGE: ['averageDeflectionM', 'averageStressM'],
+});
+
 export function bearingWidthMm(row, constants) {
   return constants.bearingBaseMmFor42In * row.odMm / constants.bearingBaseOdMm;
 }
@@ -33,6 +40,15 @@ export function spanCases(row, weightNPerM, constants, momentOfInertiaCm4) {
   };
 }
 
-export function governingSpanM(cases, indentation) {
-  return Math.min(indentation, ...Object.values(cases).filter((value) => Number.isFinite(value)));
+export function selectedMethodSpanM(cases, method = 'CONTINUOUS') {
+  const keys = METHOD_KEYS[method] ?? METHOD_KEYS.CONTINUOUS;
+  return Math.min(...keys.map((key) => cases[key]).filter(Number.isFinite));
+}
+
+export function leastAllowableSpanM(cases, indentation) {
+  return Math.min(indentation, ...Object.values(cases).filter(Number.isFinite));
+}
+
+export function governingSpanM(cases, indentation, method = 'CONTINUOUS') {
+  return Math.min(indentation, selectedMethodSpanM(cases, method));
 }
