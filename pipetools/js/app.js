@@ -1,5 +1,6 @@
 import { MODULES, DEFAULT_SPAN_INPUT } from './data.js';
 import { renderDashboards, renderMain, renderTabs } from './render.js';
+import { applySearchToRows } from './search/search.js';
 
 const DATA_ROOT = '..';
 const state = {
@@ -7,6 +8,7 @@ const state = {
   activeModule: 'PipeSpec DB',
   filters: { component: 'VALVE', valveType: 'GATE', endType: 'FLANGED', facing: 'RF', classRating: '150' },
   spanInput: { ...DEFAULT_SPAN_INPUT },
+  search: null,
   allRows: [],
   rows: [],
   selectedId: null,
@@ -22,6 +24,7 @@ const actions = {
   },
   setFilter(key, value) {
     state.filters[key] = value;
+    state.search = null;
     if (key === 'component' && value !== 'VALVE') state.filters.valveType = '';
     if (key === 'endType' && value !== 'FLANGED') state.filters.facing = '';
     state.selectedId = null;
@@ -68,36 +71,32 @@ function applyFilters() {
     if (filters.nps && row.nps !== String(filters.nps)) return false;
     return true;
   });
-  state.selectedRow = state.rows.find((row) => row.id === state.selectedId) ?? state.rows[0] ?? null;
-  state.selectedId = state.selectedRow?.id ?? null;
+  setDefaultSelection();
 }
 
 function bindSearch() {
   const input = document.getElementById('global-search');
   input.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter') return;
-    const parsed = parseSearch(input.value);
+    const query = input.value;
+    const searchResult = applySearchToRows(query, state.allRows);
     state.activeModule = 'PipeSpec DB';
-    state.filters = { ...state.filters, ...parsed };
-    applyFilters();
+    state.filters = { ...state.filters, ...toDashboardFilters(searchResult.parsed.filters) };
+    state.search = { query, chips: searchResult.chips, matchType: searchResult.results[0]?.matchType ?? 'none' };
+    state.rows = searchResult.rows;
+    setDefaultSelection();
     render();
   });
 }
 
-function parseSearch(query) {
-  const q = query.toUpperCase().replace(/["#]/g, ' ').replace(/-/g, ' ');
-  const next = { component: 'VALVE' };
-  if (q.includes('GATE')) next.valveType = 'GATE';
-  if (q.includes('GLOBE')) next.valveType = 'GLOBE';
-  if (q.includes('CHECK')) next.valveType = 'CHECK';
-  if (/\b(FL|FLG|FLANGED)\b/.test(q)) next.endType = 'FLANGED';
-  if (/\b(BW|BUTT\s*WELD)\b/.test(q)) next.endType = 'BUTT-WELD';
-  for (const facing of ['RF', 'RTJ', 'FF']) if (q.includes(facing)) next.facing = facing;
-  const classMatch = q.match(/\b(150|300|600|900|1500)\b/);
-  if (classMatch) next.classRating = classMatch[1];
-  const sizeMatch = q.match(/\b(?:NPS\s*)?(\d+(?:\.\d+)?)\b/);
-  if (sizeMatch && !['150', '300', '600', '900', '1500'].includes(sizeMatch[1])) next.nps = sizeMatch[1];
-  return next;
+function toDashboardFilters(filters) {
+  const allowed = ['component', 'valveType', 'endType', 'facing', 'classRating', 'nps'];
+  return Object.fromEntries(Object.entries(filters).filter(([key]) => allowed.includes(key)));
+}
+
+function setDefaultSelection() {
+  state.selectedRow = state.rows.find((row) => row.id === state.selectedId) ?? state.rows[0] ?? null;
+  state.selectedId = state.selectedRow?.id ?? null;
 }
 
 function render() {

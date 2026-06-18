@@ -19,7 +19,7 @@ export function renderDashboards(state, actions) {
   if (state.activeModule === '2D Bundle Calc') return renderBundleInfo(host);
   const cards = COMPONENTS.map((item) => card(item.key, item.label, item.count || '', state.filters.component === item.key)).join('');
   const valves = VALVE_TYPES.map((type) => card(type, type, '', state.filters.valveType === type)).join('');
-  host.innerHTML = `${strip('Components', cards)}${strip('Valve Type', valves)}${configStrip(state)}`;
+  host.innerHTML = `${searchStrip(state)}${strip('Components', cards)}${strip('Valve Type', valves)}${configStrip(state)}`;
   host.querySelectorAll('[data-card]').forEach((button) => actions.setFilter(button.dataset.group, button.dataset.card));
 }
 
@@ -41,6 +41,14 @@ function renderBundleInfo(host) {
   host.innerHTML = `<section class="strip"><div class="strip-title">2D Bundle Calc</div><div>
     <p>This tab embeds the SPL2 2D calculation bundle as a static iframe boundary.</p>
     <p class="chip">Expected path: ../spl2-bundle/spl2_master.html</p>
+  </div></section>`;
+}
+
+function searchStrip(state) {
+  if (!state.search) return '';
+  const chips = state.search.chips.map((chip) => `<span class="chip">${esc(chip.label)}: ${esc(chip.value)}</span>`).join('');
+  return `<section class="strip"><div class="strip-title">Search</div><div class="segment-row">
+    <span class="chip">${esc(state.search.query)}</span>${chips}<span class="chip">${esc(state.search.matchType)}</span>
   </div></section>`;
 }
 
@@ -79,7 +87,7 @@ export function renderMain(state, actions) {
 
 function renderPipeSpecTable(state, actions) {
   document.getElementById('table-title').textContent = 'PipeSpec DB';
-  document.getElementById('table-kicker').textContent = 'Dashboard-filtered component data';
+  document.getElementById('table-kicker').textContent = state.search ? 'Search-ranked component data' : 'Dashboard-filtered component data';
   document.getElementById('table-count').textContent = `${state.rows.length} rows`;
   document.getElementById('table-frame').innerHTML = `<table><thead><tr><th>Type</th><th>End</th><th>Facing</th><th>NPS / DN</th><th>Class</th><th>F2F</th><th>Height</th><th>Weight</th><th>Status</th></tr></thead><tbody>${state.rows.map((row) => rowHtml(row, state.selectedId)).join('')}</tbody></table>`;
   document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));

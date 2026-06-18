@@ -43,6 +43,7 @@ jobs:
         run: |
           npm test
           node --test gates/pipetools-agent-00-03.gate.test.js
+          node --test gates/pipetools-agent-04-search.gate.test.js
 
       - name: Prepare static Pages artifact
         shell: bash
@@ -68,6 +69,7 @@ jobs:
           test -f _site/studio/component-studio-app.js
           test -f _site/pipetools/index.html
           test -f _site/pipetools/js/app.js
+          test -f _site/pipetools/js/search/search.js
           test -f _site/spl2-bundle/spl2_master.html
           test -f _site/data/indexes/component-search.index.json
           test -f _site/data/search/component-aliases.json

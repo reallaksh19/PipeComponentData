@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - 'feature/pipetools-*'
+      - 'agent04/**'
   workflow_dispatch:
 
 permissions:
@@ -38,6 +39,7 @@ jobs:
         run: |
           npm test
           node --test gates/pipetools-agent-00-03.gate.test.js
+          node --test gates/pipetools-agent-04-search.gate.test.js
 
       - name: Verify static artifact layout
         shell: bash
