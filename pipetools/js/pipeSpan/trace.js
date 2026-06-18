@@ -8,7 +8,14 @@ function mapInputs(inputs) {
   return Object.fromEntries(Object.entries(inputs).map(([key, value]) => [key, roundInput(value)]));
 }
 
-export function createPipeSpanTrace({ row, constants, weights, mi, spans, indentation, governing }) {
+function selectedFormula(method) {
+  const label = method === 'SIMPLY' ? 'simply' : method === 'FIXED' ? 'fixed' : method === 'AVERAGE' ? 'average' : 'continuous';
+  return `MIN(${label}DeflectionM, ${label}StressM)`;
+}
+
+export function createPipeSpanTrace(context) {
+  const { row, constants, weights, mi, spans, indentation } = context;
+  const { selectedMethodSpanM, leastAllowableSpanM, governingSpanM, beamMethod } = context;
   return [
     traceStep('pipe-weight', 'Empty pipe weight', 'π/4 × (OD²-ID²) × ρsteel × g', {
       odMm: row.odMm, idMm: row.odMm - 2 * row.thicknessMm, thicknessMm: row.thicknessMm,
@@ -29,8 +36,14 @@ export function createPipeSpanTrace({ row, constants, weights, mi, spans, indent
       youngsModulusNmm2: constants.youngsModulusNmm2, miCm4: mi, deflectionMm: constants.allowableDeflectionMm,
       weightNPerM: weights.totalWeightNPerM,
     }, spans.continuousDeflectionM, 'm'),
-    traceStep('governing', 'Governing span', 'MIN(indentation, all calculated span cases)', {
+    traceStep('selected-method', 'Selected method span', selectedFormula(beamMethod), {
+      beamMethod,
+    }, selectedMethodSpanM, 'm'),
+    traceStep('least-allowable', 'Least of all calculated spans', 'MIN(indentationSpanM, all method stress/deflection spans)', {
       indentationSpanM: indentation,
-    }, governing, 'm'),
+    }, leastAllowableSpanM, 'm'),
+    traceStep('governing', 'Governing span', 'MIN(selectedMethodSpanM, indentationSpanM)', {
+      selectedMethodSpanM, indentationSpanM: indentation,
+    }, governingSpanM, 'm'),
   ];
 }
