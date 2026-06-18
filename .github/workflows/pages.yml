@@ -44,6 +44,8 @@ jobs:
           npm test
           node --test gates/pipetools-agent-00-03.gate.test.js
           node --test gates/pipetools-agent-04-search.gate.test.js
+          node --test gates/pipetools-agent-05-svg.gate.test.js
+          node --test gates/pipetools-agent-06-dashboard.gate.test.js
 
       - name: Prepare static Pages artifact
         shell: bash
@@ -70,12 +72,14 @@ jobs:
           test -f _site/pipetools/index.html
           test -f _site/pipetools/js/app.js
           test -f _site/pipetools/js/search/search.js
+          test -f _site/pipetools/js/svg/inspector.js
           test -f _site/spl2-bundle/spl2_master.html
           test -f _site/data/indexes/component-search.index.json
           test -f _site/data/search/component-aliases.json
           test -f _site/data/audit/db-coverage-dashboard.json
           test -f _site/data/audit/source-use-policy.json
           test -f _site/data/audit/pipetools-agent-00-03-manifest.json
+          test -f _site/data/audit/pipetools-agent-05-wave-2-manifest.json
           test -f _site/data/exports/db-export-manifest.json
           test -f _site/data/exports/public-export-pack.manifest.json
           test -f _site/data/normalized/valves.json
@@ -116,8 +120,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy Pages artifact
         id: deployment
         uses: actions/deploy-pages@v4

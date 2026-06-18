@@ -1,12 +1,18 @@
-import { MODULES, DEFAULT_SPAN_INPUT } from './data.js';
+import { DEFAULT_SPAN_INPUT, MODULES } from './data.js';
+import { filterPipeSpecRows } from './pipespecFilters.js';
+import { applySearchResultToState, runPipeSpecSearch } from './pipespecAdapters.js';
+import { actionFromFilterKey, createInitialPipeSpecState, reducePipeSpecState } from './pipespecState.js';
 import { renderDashboards, renderMain, renderTabs } from './render.js';
-import { applySearchToRows } from './search/search.js';
 
 const DATA_ROOT = '..';
+let pipeSpecState = createInitialPipeSpecState({
+  filters: { component: 'VALVE', subtype: 'GATE', endType: 'FLANGED', facing: 'RF', classRating: '150' },
+});
+
 const state = {
   modules: MODULES,
   activeModule: 'PipeSpec DB',
-  filters: { component: 'VALVE', valveType: 'GATE', endType: 'FLANGED', facing: 'RF', classRating: '150' },
+  filters: {},
   spanInput: { ...DEFAULT_SPAN_INPUT },
   search: null,
   allRows: [],
@@ -18,22 +24,19 @@ const state = {
 const actions = {
   setModule(name) {
     state.activeModule = name;
-    state.selectedId = null;
-    state.selectedRow = null;
+    pipeSpecState = reducePipeSpecState(pipeSpecState, { type: 'SELECT_ROW', value: null });
+    syncStateFromPipeSpec();
     render();
   },
   setFilter(key, value) {
-    state.filters[key] = value;
+    pipeSpecState = reducePipeSpecState(pipeSpecState, actionFromFilterKey(key, value));
     state.search = null;
-    if (key === 'component' && value !== 'VALVE') state.filters.valveType = '';
-    if (key === 'endType' && value !== 'FLANGED') state.filters.facing = '';
-    state.selectedId = null;
     applyFilters();
     render();
   },
   selectRow(id) {
-    state.selectedId = id;
-    state.selectedRow = state.rows.find((row) => row.id === id) ?? null;
+    pipeSpecState = reducePipeSpecState(pipeSpecState, { type: 'SELECT_ROW', value: id });
+    syncStateFromPipeSpec();
     render();
   },
   updateSpanInput(next) {
@@ -61,42 +64,36 @@ async function loadValveRows() {
 }
 
 function applyFilters() {
-  const filters = state.filters;
-  state.rows = state.allRows.filter((row) => {
-    if (filters.component && row.componentType !== filters.component) return false;
-    if (filters.valveType && row.valveType !== filters.valveType) return false;
-    if (filters.endType && row.endType !== filters.endType) return false;
-    if (filters.facing && row.facing !== filters.facing) return false;
-    if (filters.classRating && row.classRating !== filters.classRating) return false;
-    if (filters.nps && row.nps !== String(filters.nps)) return false;
-    return true;
-  });
-  setDefaultSelection();
+  const visible = filterPipeSpecRows(state.allRows, pipeSpecState.filters);
+  pipeSpecState = reducePipeSpecState(pipeSpecState, { type: 'ROWS_CHANGED', rows: visible });
+  if (!pipeSpecState.selectedRowId && visible[0]) {
+    pipeSpecState = reducePipeSpecState(pipeSpecState, { type: 'SELECT_ROW', value: visible[0].id });
+  }
+  state.rows = visible;
+  syncStateFromPipeSpec();
+}
+
+function syncStateFromPipeSpec() {
+  state.filters = { ...pipeSpecState.filters, valveType: pipeSpecState.filters.subtype };
+  state.search = pipeSpecState.searchQuery ? {
+    query: pipeSpecState.searchQuery,
+    chips: pipeSpecState.searchChips,
+    matchType: pipeSpecState.matchType ?? 'none',
+  } : state.search;
+  state.selectedId = pipeSpecState.selectedRowId;
+  state.selectedRow = state.rows.find((row) => row.id === state.selectedId) ?? null;
 }
 
 function bindSearch() {
   const input = document.getElementById('global-search');
   input.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter') return;
-    const query = input.value;
-    const searchResult = applySearchToRows(query, state.allRows);
+    const searchResult = runPipeSpecSearch(input.value, state.allRows);
     state.activeModule = 'PipeSpec DB';
-    state.filters = { ...state.filters, ...toDashboardFilters(searchResult.parsed.filters) };
-    state.search = { query, chips: searchResult.chips, matchType: searchResult.results[0]?.matchType ?? 'none' };
-    state.rows = searchResult.rows;
-    setDefaultSelection();
+    pipeSpecState = applySearchResultToState(pipeSpecState, searchResult);
+    applyFilters();
     render();
   });
-}
-
-function toDashboardFilters(filters) {
-  const allowed = ['component', 'valveType', 'endType', 'facing', 'classRating', 'nps'];
-  return Object.fromEntries(Object.entries(filters).filter(([key]) => allowed.includes(key)));
-}
-
-function setDefaultSelection() {
-  state.selectedRow = state.rows.find((row) => row.id === state.selectedId) ?? state.rows[0] ?? null;
-  state.selectedId = state.selectedRow?.id ?? null;
 }
 
 function render() {
