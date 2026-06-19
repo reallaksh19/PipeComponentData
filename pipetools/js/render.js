@@ -1,17 +1,21 @@
-import { COMPONENTS, VALVE_TYPES, END_TYPES, FACINGS, CLASSES } from './data.js';
+import { COMPONENTS, DISABLED_MODULES, VALVE_TYPES, END_TYPES, FACINGS, CLASSES } from './data.js';
 import { renderPipeSpecInspector } from './pipespecInspector.js';
 import { iconSvg, pipeSpanSvg } from './svg.js';
 import { renderPipeSpanInputs, renderPipeSpanMain } from './pipeSpan/ui.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 const fmt = (value, suffix = '') => value == null ? '—' : `${value}${suffix}`;
+const disabledModules = new Set(DISABLED_MODULES);
 
 export function renderTabs(state, onSelect) {
   const host = document.getElementById('module-tabs');
-  host.innerHTML = state.modules.map((name) =>
-    `<button class="tab-btn ${name === state.activeModule ? 'active' : ''}" data-module="${esc(name)}">${esc(name)}</button>`
-  ).join('');
-  host.querySelectorAll('button').forEach((button) => button.addEventListener('click', () => onSelect(button.dataset.module)));
+  host.innerHTML = state.modules.map((name) => {
+    const disabled = disabledModules.has(name);
+    const active = !disabled && name === state.activeModule;
+    const attrs = disabled ? 'disabled aria-disabled="true" title="Coming soon" tabindex="-1"' : '';
+    return `<button class="tab-btn ${active ? 'active' : ''} ${disabled ? 'disabled' : ''}" data-module="${esc(name)}" ${attrs}>${esc(name)}</button>`;
+  }).join('');
+  host.querySelectorAll('button:not(:disabled)').forEach((button) => button.addEventListener('click', () => onSelect(button.dataset.module)));
 }
 
 export function renderDashboards(state, actions) {
