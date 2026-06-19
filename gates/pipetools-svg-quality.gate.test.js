@@ -10,7 +10,7 @@ import {
   PIPE_SPEC_SVG_SUPPORTED_TYPES,
   toPipeSpecSvgRow,
 } from '../pipetools/js/svg/pipeSpecSvgAdapter.js';
-import { PIPE_SPEC_SVG_FIXTURES } from '../pipetools/js/svg/pipeSpecSvgFixtures.js';
+import { PIPE_SPEC_SVG_FIXTURE_CATALOG } from '../pipetools/js/svg/pipeSpecSvgFixtureCatalog.js';
 
 const require = createRequire(import.meta.url);
 const PipeSpecSVG = require('../pipetools/vendor/pipespec-svg/svg-engine.js');
@@ -20,6 +20,7 @@ const supported = [
   { componentType: 'VALVE', valveType: 'GATE', nps: '2', classRating: '150', facing: 'RF' },
   { componentType: 'VALVE', valveType: 'GLOBE', nps: '2', classRating: '150', facing: 'RF' },
   { componentType: 'VALVE', valveType: 'BALL', nps: '2', classRating: '150', facing: 'RF' },
+  { componentType: 'VALVE', valveType: 'CHECK', nps: '2', classRating: '150', facing: 'RF' },
   { componentType: 'VALVE', valveType: 'SWING_CHECK', nps: '2', classRating: '150', facing: 'RF' },
   { componentType: 'VALVE', valveType: 'WAFER_CHECK', endType: 'WAFER', nps: '2', classRating: '150', facing: 'NA' },
   { componentType: 'VALVE', valveType: 'BUTTERFLY_WAFER', endType: 'WAFER', nps: '2', classRating: '150', facing: 'NA' },
@@ -77,8 +78,8 @@ test('supported type registry matches DB2 first-pass component audit', () => {
 });
 
 test('visual fixture catalog covers every supported SVG subtype and blocks pending shapes', () => {
-  assert.ok(PIPE_SPEC_SVG_FIXTURES.length >= 28, 'fixture catalog should cover DB2 visual audit scope');
-  for (const fixture of PIPE_SPEC_SVG_FIXTURES) {
+  assert.ok(PIPE_SPEC_SVG_FIXTURE_CATALOG.length >= 29, 'fixture catalog should cover DB2 visual audit scope');
+  for (const fixture of PIPE_SPEC_SVG_FIXTURE_CATALOG) {
     const audit = getPipeSpecSvgAudit(fixture.row);
     assert.equal(audit.status, fixture.expected.status, `${fixture.id} status should match catalog`);
     assert.equal(audit.renderable, fixture.expected.renderable, `${fixture.id} renderability should match catalog`);
@@ -87,7 +88,7 @@ test('visual fixture catalog covers every supported SVG subtype and blocks pendi
 });
 
 test('renderable visual fixtures produce real SVG, never unknown fallback text', () => {
-  for (const fixture of PIPE_SPEC_SVG_FIXTURES.filter((item) => item.expected.renderable)) {
+  for (const fixture of PIPE_SPEC_SVG_FIXTURE_CATALOG.filter((item) => item.expected.renderable)) {
     const normalized = toPipeSpecSvgRow(fixture.row);
     const svg = PipeSpecSVG.buildSVGString(normalized, { width: 390, height: 262 });
     assert.match(svg, /<svg\b/i, `${fixture.id} should produce SVG markup`);
