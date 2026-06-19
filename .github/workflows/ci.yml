@@ -5,7 +5,9 @@ on:
   push:
     branches:
       - main
+      - DB2
       - db-core-development
+      - 'agent*'
       - 'phase-*'
       - 'db-*'
       - 'foundation-*'
@@ -13,6 +15,7 @@ on:
   pull_request:
     branches:
       - main
+      - DB2
       - db-core-development
 
 permissions:
@@ -195,6 +198,8 @@ jobs:
         run: node --test gates/db-phase-60-blocked-families-after-wave3.gate.test.js
       - name: Run UI gates
         run: npm run ui:gate --if-present
+      - name: Run PipeTools SVG quality gate
+        run: node --test gates/pipetools-svg-quality.gate.test.js
 
   gate-map:
     name: Gate map report
