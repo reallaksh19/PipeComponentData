@@ -51,6 +51,7 @@ jobs:
           node --test gates/pipetools-agent-09-data-loading.gate.test.js
           node --test gates/pipetools-agent-11-ui-svg-scope.gate.test.js
           node --test gates/pipetools-agent-12-pipe-span-parity.gate.test.js
+          node --test gates/pipetools-agent-13-pipe-span-detail.gate.test.js
 
       - name: Prepare static Pages artifact
         shell: bash
@@ -71,18 +72,21 @@ jobs:
           sed -i "s|./component-studio-app.js|./component-studio-app.js?v=${BUILD_SHA}|g" _site/studio/index.html
           sed -i "s|./pipetools.css|./pipetools.css?v=${BUILD_SHA}|g" _site/pipetools/index.html
           sed -i "s|./pipetools-overrides.css|./pipetools-overrides.css?v=${BUILD_SHA}|g" _site/pipetools/index.html
+          sed -i "s|./pipeSpanDetail.css|./pipeSpanDetail.css?v=${BUILD_SHA}|g" _site/pipetools/index.html
           sed -i "s|./js/app.js|./js/app.js?v=${BUILD_SHA}|g" _site/pipetools/index.html
           sed -i "s|./js/uiScopePatch.js|./js/uiScopePatch.js?v=${BUILD_SHA}|g" _site/pipetools/index.html
 
           test -f _site/studio/index.html
           test -f _site/studio/component-studio-app.js
           test -f _site/pipetools/index.html
+          test -f _site/pipetools/pipeSpanDetail.css
           test -f _site/pipetools/js/app.js
           test -f _site/pipetools/js/uiScopePatch.js
           test -f _site/pipetools/js/search/search.js
           test -f _site/pipetools/js/svg/inspector.js
           test -f _site/pipetools/js/svg/auditGeneral.js
           test -f _site/pipetools/js/pipeSpan/calculate.js
+          test -f _site/pipetools/js/pipeSpan/detailedTable.js
           test -f _site/spl2-bundle/spl2_master.html
           test -f _site/spl2-bundle/js/spl2/spl2_master.js
           test -f _site/data/indexes/component-search.index.json
