@@ -55,8 +55,8 @@
         "../data/normalized/valves-control-expanded.json",
         "../data/normalized/valves.json"
       ],
-      "rowCount": 321,
-      "sourceRowCount": 321,
+      "rowCount": 410,
+      "sourceRowCount": 410,
       "sourceFileCount": 21,
       "keyFields": ["componentType", "valveType", "endType", "nps", "classRating", "facing"],
       "searchFields": ["id", "valveType", "nps", "dn", "classRating", "facing", "standard", "source", "dataStatus"],
