@@ -1,5 +1,6 @@
 import { COMPONENTS, DISABLED_MODULES } from './data.js';
 import { renderPipeSpecInspector } from './pipespecInspector.js';
+import { bindPipeSpecDetailActions } from './pipespecDetailActions.js';
 import { iconSvg, pipeSpanSvg } from './svg.js';
 import { mountPipeSpecSvg } from './svg/pipeSpecSvgEngine.js';
 import { renderPipeSpanInputs, renderPipeSpanMain } from './pipeSpan/ui.js';
@@ -93,6 +94,7 @@ function renderPipeSpecTable(state, actions) {
   document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));
   document.getElementById('inspector-body').innerHTML = renderPipeSpecInspector(state.selectedRow);
   mountInspectorSvg(state.selectedRow);
+  bindPipeSpecDetailActions(state.selectedRow);
 }
 
 function mountInspectorSvg(row) {
