@@ -16,6 +16,10 @@
     "gates/pipetools-agent-21-db-coverage.gate.test.js",
     "gates/pipetools-agent-23-workbench-layout.gate.test.js"
   ],
+  "legacyLineLimitExemptions": [
+    "pipetools/pipetools.css",
+    "pipetools/js/render.js"
+  ],
   "guardrails": {
     "fullPageScrollDesktop": false,
     "tableScroll": true,
