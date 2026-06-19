@@ -87,6 +87,14 @@ test('dashboard render binds events without invoking filters during render', () 
   assert.doesNotMatch(text, /forEach\(\(button\) => actions\.setFilter/);
 });
 
+test('app render path is re-entry guarded', () => {
+  const text = fs.readFileSync('pipetools/js/app.js', 'utf8');
+  assert.match(text, /const renderGuard/);
+  assert.match(text, /function requestRender\(\)/);
+  assert.match(text, /if \(renderGuard\.active\)/);
+  assert.match(text, /queueMicrotask\(requestRender\)/);
+});
+
 test('CI workflows preserve cumulative PipeTools gates', () => {
   for (const file of ['.github/workflows/pipetools-ci.yml', '.github/workflows/pages.yml']) {
     const text = fs.readFileSync(file, 'utf8');
