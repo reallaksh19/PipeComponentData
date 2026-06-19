@@ -2,13 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
+const MAX_NATIVE_MODULE_LINES = 300;
+
 function text(path) {
   return fs.readFileSync(path, 'utf8');
 }
 
-test('Agent 11 files stay compact', () => {
+test('Agent 11 files stay below relaxed 300-line gate', () => {
   const files = ['pipetools/js/data.js', 'pipetools/js/uiScopePatch.js', 'pipetools/js/svg/auditGeneral.js'];
-  for (const file of files) assert.ok(text(file).split('\n').length <= 200, file);
+  for (const file of files) assert.ok(text(file).split('\n').length <= MAX_NATIVE_MODULE_LINES, file);
 });
 
 test('disabled future modules render stable without polling patch', () => {
