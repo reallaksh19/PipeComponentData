@@ -10,9 +10,11 @@ test('Agent 12 keeps pipe span modules compact', () => {
   assert.ok(lines('pipetools/js/svg/pipeSpan.js') < 200, 'pipe span svg module must stay under 200 lines');
 });
 
-test('Pipe Span uses CRF-style misc-calc layout sections', () => {
+test('Pipe Span uses CRF-style misc-calc layout sections without calculator rail', () => {
   const ui = read('pipetools/js/pipeSpan/ui.js');
-  assert.match(ui, /pipe-span-rail/);
+  assert.match(ui, /no-calculator-rail/);
+  assert.doesNotMatch(ui, /<aside class="pipe-span-rail"/);
+  assert.doesNotMatch(ui, /Pipe Shell Indentation/);
   assert.match(ui, /Unit Mode/);
   assert.match(ui, /Engineering Sketch/);
   assert.match(ui, /Formula Console/);
@@ -25,9 +27,11 @@ test('Pipe Span renders method comparison and source-parity sketch', () => {
   assert.match(ui, /Continuous span/);
   assert.match(ui, /Simply supported span/);
   assert.match(ui, /Indentation span/);
+  assert.match(ui, /Ref\. span/);
   assert.match(svg, /Pipe Span Engineering Sketch/);
   assert.match(svg, /Governing span/);
-  assert.match(svg, /QMS ref/);
+  assert.match(svg, /Ref\./);
+  assert.doesNotMatch(svg, /QMS ref/);
   assert.match(svg, /Wall/);
   assert.match(svg, /Load/);
 });
@@ -40,6 +44,7 @@ test('renderMain passes actions to Pipe Span main view', () => {
 test('Pipe Span parity styles are present', () => {
   const css = read('pipetools/pipetools-overrides.css');
   assert.match(css, /\.pipe-span-shell/);
+  assert.match(css, /\.no-calculator-rail/);
   assert.match(css, /\.pipe-span-sketch/);
   assert.match(css, /\.pipe-span-console/);
 });
