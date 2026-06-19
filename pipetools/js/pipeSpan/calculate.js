@@ -1,5 +1,6 @@
 import {
-  DEFAULT_PIPE_SPAN_INPUT, PIPE_SPAN_CONSTANTS, PIPE_SPAN_ROWS, QMS_REFERENCE,
+  DEFAULT_PIPE_SPAN_INPUT, FEED_REFERENCE_SPAN_M, PIPE_SPAN_CONSTANT_FIELDS,
+  PIPE_SPAN_CONSTANTS, PIPE_SPAN_ROWS, QMS_REFERENCE,
 } from './catalog.js';
 import { activeWeightBreakdown, momentOfInertiaCm4 } from './weights.js';
 import {
@@ -8,7 +9,8 @@ import {
 } from './spans.js';
 import { createPipeSpanTrace } from './trace.js';
 
-const round = (value, digits = 3) => Number(value.toFixed(digits));
+const round = (value, digits = 3) => Number.isFinite(value) ? Number(value.toFixed(digits)) : value;
+const pct = (num, den) => Number.isFinite(num) && Number.isFinite(den) && den ? round(num / den * 100, 0) : null;
 
 export function listPipeSpanRows() {
   return PIPE_SPAN_ROWS;
@@ -18,12 +20,23 @@ export function getPipeSpanSchedules(nps) {
   return PIPE_SPAN_ROWS.filter((row) => Number(row.nps) === Number(nps)).map((row) => row.schedule);
 }
 
+export function pipeSpanConstantsFromInput(input = {}, base = PIPE_SPAN_CONSTANTS) {
+  const merged = { ...base };
+  PIPE_SPAN_CONSTANT_FIELDS.forEach(({ key }) => {
+    const value = input[key];
+    const numeric = value === '' || value == null ? NaN : Number(value);
+    merged[key] = Number.isFinite(numeric) ? numeric : base[key];
+  });
+  return merged;
+}
+
 export function normalizePipeSpanInput(userInput = {}) {
   const input = { ...DEFAULT_PIPE_SPAN_INPUT, ...userInput };
   const schedules = getPipeSpanSchedules(input.nps);
   if (!schedules.length) throw new Error(`Pipe span row not available for NPS ${input.nps}`);
   const schedule = schedules.includes(input.schedule) ? input.schedule : schedules[0];
-  return { ...input, schedule };
+  const constants = pipeSpanConstantsFromInput(input);
+  return { ...input, ...constants, nps: Number(input.nps), schedule, showDetailed: Boolean(input.showDetailed) };
 }
 
 export function getPipeSpanRow(nps, schedule = null) {
@@ -50,8 +63,9 @@ export function qmsReference(input) {
   return { supportStandardMm, rackSpanMm, selectedMm: rackSpanMm ?? supportStandardMm };
 }
 
-export function calculatePipeSpan(userInput = {}, constants = PIPE_SPAN_CONSTANTS) {
+export function calculatePipeSpan(userInput = {}, baseConstants = PIPE_SPAN_CONSTANTS) {
   const input = normalizePipeSpanInput(userInput);
+  const constants = pipeSpanConstantsFromInput(input, baseConstants);
   const row = getPipeSpanRow(input.nps, input.schedule);
   const weights = activeWeightBreakdown(row, input, constants);
   const mi = momentOfInertiaCm4(row);
@@ -61,7 +75,7 @@ export function calculatePipeSpan(userInput = {}, constants = PIPE_SPAN_CONSTANT
   const leastSpan = leastAllowableSpanM(cases, indentation);
   const governingSpan = governingSpanM(cases, indentation, input.beamMethod);
   const qms = qmsReference(input);
-  const raw = { row, ...weights, bearingWidthMm: bearingWidthMm(row, constants), momentOfInertiaCm4: mi,
+  const raw = { row, constants, ...weights, bearingWidthMm: bearingWidthMm(row, constants), momentOfInertiaCm4: mi,
     indentationSpanM: indentation, ...cases, selectedMethodSpanM: selectedSpan,
     leastAllowableSpanM: leastSpan, governingSpanM: governingSpan,
     qmsReferenceM: qms.selectedMm ? qms.selectedMm / 1000 : null,
@@ -72,6 +86,32 @@ export function calculatePipeSpan(userInput = {}, constants = PIPE_SPAN_CONSTANT
   rounded.input = input;
   rounded.formulaTrace = createRoundedTrace(row, constants, rounded, input.beamMethod);
   return rounded;
+}
+
+export function calculatePipeSpanDetailRows(userInput = {}) {
+  const input = normalizePipeSpanInput(userInput);
+  const constants = pipeSpanConstantsFromInput(input);
+  const scheduleRows = PIPE_SPAN_ROWS.filter((row) => row.schedule === input.schedule);
+  return scheduleRows.map((row) => {
+    const r = calculatePipeSpan({ ...input, nps: row.nps, schedule: row.schedule }, constants);
+    const feedM = FEED_REFERENCE_SPAN_M[row.nps] ?? null;
+    const bsContinuous = Math.min(r.continuousDeflectionM, r.continuousStressM);
+    return { pipeSize: row.nps, pipeOdMm: row.odMm, schedule: row.schedule, thicknessMm: row.thicknessMm,
+      insulationMm: row.insulationMm, pipeWeightNPerM: r.pipeWeightNPerM,
+      insulationWeightNPerM: r.insulationWeightNPerM, waterWeightNPerM: r.waterWeightNPerM,
+      bearingWidthMm: r.bearingWidthMm, momentOfInertiaCm4: r.momentOfInertiaCm4,
+      indentationSpanM: r.indentationSpanM, simplyDeflectionM: r.simplyDeflectionM, simplyStressM: r.simplyStressM,
+      bsContinuousDeflectionM: r.continuousDeflectionM, bsContinuousStressM: r.continuousStressM,
+      civilContinuousDeflectionM: r.civilContinuousDeflectionM, civilContinuousStressM: r.civilContinuousStressM,
+      civilFixedDeflectionM: r.fixedDeflectionM, civilFixedStressM: r.fixedStressM,
+      kellogDeflectionM: r.kellogDeflectionM, kellogStressM: r.kellogStressM,
+      lcPengDeflectionM: r.averageDeflectionM, lcPengStressM: r.averageStressM,
+      leastOfAllM: r.leastAllowableSpanM, feedSpanM: feedM,
+      qmsSpanM: r.qmsSupportStandardM, qmsRackSpanM: r.qmsRackSpanM,
+      qmsVsLeastPct: pct(r.qmsSupportStandardM, r.leastAllowableSpanM),
+      feedVsLeastPct: pct(feedM, r.leastAllowableSpanM),
+      feedVsBsContBeamPct: pct(feedM, bsContinuous) };
+  });
 }
 
 function createRoundedTrace(row, constants, result, beamMethod) {

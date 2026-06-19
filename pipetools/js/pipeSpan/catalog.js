@@ -16,6 +16,17 @@ export const PIPE_SPAN_CONSTANTS = Object.freeze({
   bearingBaseOdMm: 1067,
 });
 
+export const PIPE_SPAN_CONSTANT_FIELDS = Object.freeze([
+  { key: 'insulationDensityKgM3', label: 'Insulation Density', unit: 'Kg/m^3', step: 1 },
+  { key: 'waterDensityKgM3', label: 'Water Density', unit: 'Kg/m^3', step: 1 },
+  { key: 'youngsModulusNmm2', label: "Young's Modules (E)", unit: 'N/mm^2', step: 1000 },
+  { key: 'allowableDeflectionMm', label: 'Allowable Deflection', unit: 'mm', step: 1 },
+  { key: 'allowableStressNmm2', label: 'Allowable Bending Stress', unit: 'N/mm^2', step: 1 },
+  { key: 'bearingLengthMm', label: 'Bearing Length (d)', unit: 'mm', step: 1 },
+  { key: 'bearingBaseMmFor42In', label: 'Bearing Width (b)', unit: 'mm', step: 0.1 },
+  { key: 'allowableIndentationStressNmm2', label: 'S=0.67 Sh', unit: 'N/mm^2', step: 1 },
+]);
+
 const row = (nps, odMm, schedule, thicknessMm, insulationMm) => ({ nps, odMm, schedule, thicknessMm, insulationMm });
 
 export const PIPE_SPAN_ROWS = Object.freeze([
@@ -45,6 +56,8 @@ export const PIPE_SPAN_ROWS = Object.freeze([
   row(24, 609.6, '10S', 6.35, 140),
 ]);
 
+export const FEED_REFERENCE_SPAN_M = Object.freeze({ 0.75: 4.5, 1: 5, 1.5: 6, 2: 6.5, 2.5: 7.5, 3: 8 });
+
 const qms = (nps, values) => ({ nps, ...values });
 
 export const QMS_REFERENCE = Object.freeze({
@@ -71,12 +84,11 @@ export const QMS_REFERENCE = Object.freeze({
 });
 
 export const DEFAULT_PIPE_SPAN_INPUT = Object.freeze({
-  nps: 8,
-  schedule: 'Sch 40',
-  service: 'VAPOUR',
-  insulation: 'BARE',
-  material: 'CS',
-  beamMethod: 'CONTINUOUS',
+  nps: 8, schedule: 'Sch 40', service: 'VAPOUR', insulation: 'BARE', material: 'CS',
+  beamMethod: 'CONTINUOUS', showDetailed: false,
+  insulationDensityKgM3: 150, waterDensityKgM3: 1000, youngsModulusNmm2: 210000,
+  allowableDeflectionMm: 10, allowableStressNmm2: 40, bearingLengthMm: 100,
+  bearingBaseMmFor42In: 16.5, allowableIndentationStressNmm2: 67,
 });
 
 export const PIPE_SPAN_VALIDATION_CASES = Object.freeze([

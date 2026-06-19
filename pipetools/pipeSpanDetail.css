@@ -1,0 +1,63 @@
+.pipe-span-inputs input {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 7px;
+}
+
+.pipe-span-inputs small {
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.pipe-span-detail-head {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.icon-btn {
+  border: 1px solid #93c5fd;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1e3a8a;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 7px 11px;
+}
+
+.icon-btn[aria-pressed="true"] {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.pipe-span-detail-card {
+  max-width: calc(100vw - 680px);
+}
+
+.pipe-span-detail-head span {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.pipe-span-detail-scroll {
+  overflow: auto;
+}
+
+.pipe-span-detail-table {
+  min-width: 2700px;
+}
+
+.pipe-span-detail-table th,
+.pipe-span-detail-table td {
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.pipe-span-detail-table th {
+  line-height: 1.25;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}

@@ -28,16 +28,21 @@ export function stressSpanM(factor, row, weightNPerM, constants, momentOfInertia
 }
 
 export function spanCases(row, weightNPerM, constants, momentOfInertiaCm4) {
-  return {
-    simplyDeflectionM: deflectionSpanM(76.8, row, weightNPerM, constants, momentOfInertiaCm4),
-    simplyStressM: stressSpanM(160, row, weightNPerM, constants, momentOfInertiaCm4),
-    continuousDeflectionM: deflectionSpanM(384, row, weightNPerM, constants, momentOfInertiaCm4),
-    continuousStressM: stressSpanM(240, row, weightNPerM, constants, momentOfInertiaCm4),
-    fixedDeflectionM: deflectionSpanM(384, row, weightNPerM, constants, momentOfInertiaCm4),
-    fixedStressM: stressSpanM(240, row, weightNPerM, constants, momentOfInertiaCm4),
-    averageDeflectionM: deflectionSpanM(128, row, weightNPerM, constants, momentOfInertiaCm4),
-    averageStressM: stressSpanM(200, row, weightNPerM, constants, momentOfInertiaCm4),
-  };
+  const simplyDeflectionM = deflectionSpanM(76.8, row, weightNPerM, constants, momentOfInertiaCm4);
+  const simplyStressM = stressSpanM(160, row, weightNPerM, constants, momentOfInertiaCm4);
+  const continuousDeflectionM = deflectionSpanM(384, row, weightNPerM, constants, momentOfInertiaCm4);
+  const continuousStressM = stressSpanM(240, row, weightNPerM, constants, momentOfInertiaCm4);
+  const civilContinuousDeflectionM = deflectionSpanM(192, row, weightNPerM, constants, momentOfInertiaCm4);
+  const civilContinuousStressM = stressSpanM(160, row, weightNPerM, constants, momentOfInertiaCm4);
+  const fixedDeflectionM = deflectionSpanM(384, row, weightNPerM, constants, momentOfInertiaCm4);
+  const fixedStressM = stressSpanM(240, row, weightNPerM, constants, momentOfInertiaCm4);
+  const kellogDeflectionM = deflectionSpanM(100, row, weightNPerM, constants, momentOfInertiaCm4);
+  const kellogStressM = stressSpanM(200, row, weightNPerM, constants, momentOfInertiaCm4);
+  const averageDeflectionM = deflectionSpanM(128, row, weightNPerM, constants, momentOfInertiaCm4);
+  const averageStressM = stressSpanM(200, row, weightNPerM, constants, momentOfInertiaCm4);
+  return { simplyDeflectionM, simplyStressM, continuousDeflectionM, continuousStressM,
+    civilContinuousDeflectionM, civilContinuousStressM, fixedDeflectionM, fixedStressM,
+    kellogDeflectionM, kellogStressM, averageDeflectionM, averageStressM };
 }
 
 export function selectedMethodSpanM(cases, method = 'CONTINUOUS') {
