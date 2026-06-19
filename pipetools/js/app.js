@@ -1,12 +1,14 @@
-import { DEFAULT_SPAN_INPUT, MODULES } from './data.js';
+import { DEFAULT_SPAN_INPUT, DISABLED_MODULES, MODULES } from './data.js';
 import { loadComponentRows } from './loaders/componentLoader.js';
 import { filterPipeSpecRows } from './pipespecFilters.js';
 import { applySearchResultToState, runPipeSpecSearch } from './pipespecAdapters.js';
 import { actionFromFilterKey, createInitialPipeSpecState, reducePipeSpecState } from './pipespecState.js';
 import { renderDashboards, renderMain, renderTabs } from './render.js';
+import { updateUiScope } from './uiScopePatch.js';
 
 const DATA_ROOT = '..';
 const renderGuard = { active: false, queued: false, burst: 0 };
+const disabledModules = new Set(DISABLED_MODULES);
 let pipeSpecState = createInitialPipeSpecState({
   filters: { component: 'VALVE', subtype: 'GATE', endType: 'FLANGED', facing: 'RF', classRating: '150' },
 });
@@ -25,7 +27,7 @@ const state = {
 
 const actions = {
   setModule(name) {
-    if (!name || state.activeModule === name) return;
+    if (!name || disabledModules.has(name) || state.activeModule === name) return;
     state.activeModule = name;
     pipeSpecState = reducePipeSpecState(pipeSpecState, { type: 'SELECT_ROW', value: null });
     syncStateFromPipeSpec();
@@ -118,6 +120,7 @@ function render() {
     renderTabs(state, actions.setModule);
     renderDashboards(state, actions);
     renderMain(state, actions);
+    updateUiScope();
   } catch (error) {
     showFatal(error);
   } finally {
