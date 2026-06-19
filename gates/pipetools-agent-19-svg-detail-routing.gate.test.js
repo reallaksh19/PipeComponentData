@@ -47,21 +47,22 @@ test('nested normalized rows map to PipeSpecSVG schema', () => {
   assert.equal(svgRow.weightKg, 1.95);
 });
 
-test('supported detail panel uses source SVG host instead of legacy registry fallback', () => {
+test('supported rows route to centre source SVG host instead of inspector fallback', () => {
   const html = renderPipeSpecInspector(nestedElbow45);
-  assert.match(html, /data-pipespec-svg-host="true"/);
-  assert.match(html, /svg-loading/);
+  assert.doesNotMatch(html, /data-pipespec-svg-host|data-pipespec-source-svg-host|svg-loading/);
   assert.match(html, /FITTING \/ ELBOW_45/);
-  assert.doesNotMatch(inspectorSource, /resolveInspectorSvg|renderSvgPreview/);
+  assert.doesNotMatch(inspectorSource, /resolveInspectorSvg|renderSvgPreview|svgPanel/);
+  assert.match(renderSource, /data-pipespec-source-svg-host="true"/);
   assert.match(renderSource, /mountPipeSpecSvg/);
-  assert.match(renderSource, /mountInspectorSvg/);
+  assert.match(renderSource, /renderSourceSvgPanel/);
 });
 
-test('unsupported detail panel is explicit and does not fallback to wrong SVG', () => {
+test('unsupported rows are handled by centre canvas without wrong SVG fallback', () => {
   const html = renderPipeSpecInspector({ id: 'SUPPORT|GUIDE|1', componentType: 'SUPPORT', supportKind: 'GUIDE' });
-  assert.match(html, /SVG not available/);
-  assert.doesNotMatch(html, /data-pipespec-svg-host/);
+  assert.doesNotMatch(html, /SVG not available|data-pipespec-svg-host|data-pipespec-source-svg-host/);
   assert.equal(hasPipeSpecSvgSupport({ componentType: 'SUPPORT', supportKind: 'GUIDE' }), false);
+  assert.match(renderSource, /hasPipeSpecSvgSupport/);
+  assert.match(renderSource, /clearSourceSvgPanel\(`SVG not available/);
 });
 
 test('adapter explicitly preserves 45-degree elbow routing', () => {
