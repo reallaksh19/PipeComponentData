@@ -1,0 +1,36 @@
+{
+  "wave": "Agent 05 / Wave 2",
+  "branch": "agent05/wave-2-svg-library",
+  "scope": "SVG library, registry, variant resolution, safe inspector preview",
+  "lineLimit": 200,
+  "requiredGates": [
+    "node --test gates/pipetools-agent-04-search.gate.test.js",
+    "node --test gates/pipetools-agent-05-svg.gate.test.js"
+  ],
+  "publicApis": [
+    "iconSvg",
+    "listIconKeys",
+    "getSvgRenderer",
+    "hasSvgRenderer",
+    "listSvgKeys",
+    "resolveSvgKey",
+    "renderSvgPreview",
+    "gateValveSvg",
+    "pipeSpanSvg"
+  ],
+  "requiredSvgKeys": [
+    "VALVE_GATE_FLANGED_RF",
+    "VALVE_GATE_FLANGED_RTJ",
+    "VALVE_GATE_BUTT_WELD_NA",
+    "VALVE_GLOBE_FLANGED_RF",
+    "VALVE_CHECK_FLANGED_RF",
+    "FLANGE_WN_RF",
+    "FLANGE_WN_RTJ",
+    "FLANGE_BLIND_RF",
+    "FITTING_ELBOW_90_LR",
+    "FITTING_TEE_EQUAL",
+    "PIPE_STRAIGHT",
+    "SUPPORT_GUIDE",
+    "SUPPORT_LINE_STOP"
+  ]
+}

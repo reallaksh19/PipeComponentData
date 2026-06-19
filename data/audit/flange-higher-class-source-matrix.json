@@ -1,0 +1,28 @@
+{
+  "schema": "pipedata-flange-higher-class-source-matrix/v1",
+  "phase": "DB_PHASE_46",
+  "status": "SOURCE_MATRIX_READY_NOT_BULK_PROMOTED",
+  "family": "FLANGE",
+  "scope": {
+    "roadmapItem": "DATA-FLANGE-MORE-CLASSES",
+    "promotionApplied": false,
+    "normalizedDataChanged": false,
+    "nextAllowedPromotion": "bounded WN/SO/BLIND rows from one approved class file at a time"
+  },
+  "alreadyPromotedClasses": ["150", "300"],
+  "candidateClassFiles": [
+    { "classRating": "400", "path": "docs/Pipedata/Database/Flan/Flg400.csv", "status": "REVIEW_REQUIRED" },
+    { "classRating": "600", "path": "docs/Pipedata/Database/Flan/Flg600.csv", "status": "READY_FOR_BOUNDED_PROMOTION" },
+    { "classRating": "900", "path": "docs/Pipedata/Database/Flan/Flg900.csv", "status": "REVIEW_REQUIRED" },
+    { "classRating": "1500", "path": "docs/Pipedata/Database/Flan/Flg1500.csv", "status": "REVIEW_REQUIRED" },
+    { "classRating": "2500", "path": "docs/Pipedata/Database/Flan/Flg2500.csv", "status": "REVIEW_REQUIRED" }
+  ],
+  "requiredValueColumns": ["od", "thickness", "hub-x", "SO Bore", "pcd", "no of bolts", "wn kg", "so kg", "bld kg"],
+  "boundedSampleNps": ["2", "4", "6"],
+  "safetyRules": {
+    "noFabricatedEngineeringValues": true,
+    "noNearestClassFallback": true,
+    "blindFlangeUnavailableFieldsRemainUnavailable": true,
+    "sourceProvenanceRequired": true
+  }
+}

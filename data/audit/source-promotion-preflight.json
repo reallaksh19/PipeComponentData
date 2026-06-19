@@ -1,0 +1,64 @@
+{
+  "schema": "pipedata-source-promotion-preflight/v1",
+  "phase": "DB_PHASE_31",
+  "policy": {
+    "sourceBackedPromotionOnly": true,
+    "noFabricatedEngineeringValues": true,
+    "noNearestEngineeringFallback": true,
+    "missingValues": "null_or_UNAVAILABLE",
+    "purpose": "Decide whether remaining unpromoted families can move from inventory/config coverage to source-backed normalized engineering rows."
+  },
+  "families": {
+    "REDUCER": {
+      "phase": "DB_PHASE_29",
+      "decision": "PROMOTED_FROM_SOURCE_MATRIX",
+      "promoteRows": true,
+      "normalizedDatasetPresent": true,
+      "sourceEvidence": [
+        "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "data/normalized/reducers-sch80-wave1.json"
+      ],
+      "reason": "Schedule 80 reducer rows are promoted from explicit row/column matrix cells with named length H and weight KG columns."
+    },
+    "OLET": {
+      "phase": "DB_PHASE_29",
+      "decision": "SCHEMA_PROMOTED_READY_FOR_ROWS",
+      "promoteRows": true,
+      "normalizedDatasetPresent": true,
+      "sourceEvidence": [
+        "data/raw-manifest/folder-family-map.json#Wbol",
+        "data/raw-manifest/folder-family-map.json#Wbpi",
+        "data/normalized/olets-weldolet.json",
+        "data/normalized/olets-sockolet.json",
+        "data/normalized/olets-thredolet.json",
+        "data/normalized/olets-elbolet.json"
+      ],
+      "reason": "Olet schema promoted and olet rows normalized for Weldolet, Sockolet, Thredolet and Elbolet."
+    },
+    "GASKET": {
+      "phase": "DB_PHASE_30",
+      "decision": "KEEP_INVENTORY_ONLY",
+      "promoteRows": false,
+      "normalizedDatasetPresent": true,
+      "sourceEvidence": [
+        "data/normalized/gaskets.json",
+        "docs/Pipedata/Database/Gflt/Gflt.set",
+        "docs/Pipedata/Database/Grtj/Grtj.set",
+        "docs/Pipedata/Database/Gspr/Gspr.set"
+      ],
+      "reason": "Current gasket rows are selector/inventory rows only. Numeric gasket dimensions must remain null/UNAVAILABLE until parseable dimension source tables are verified."
+    },
+    "SUPPORT": {
+      "phase": "DB_PHASE_31",
+      "decision": "KEEP_PROJECT_OVERRIDE",
+      "promoteRows": false,
+      "normalizedDatasetPresent": true,
+      "sourceEvidence": [
+        "data/normalized/supports.json",
+        "docs/Pipedata/Database/Span",
+        "docs/Pipedata/Database/Gpas"
+      ],
+      "reason": "Support rows currently represent project/default rules and selector availability. Committed Span/Gpas inventory contains config/sketch sources, not approved numeric support/span source tables."
+    }
+  }
+}

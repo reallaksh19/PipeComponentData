@@ -1,0 +1,4 @@
+ASME B36.10 published table
+units,metric,imperial
+nps,od_mm,wall_mm,weight_kg_m,weight_water_kg_m
+4,114.3,6.02,16.07,24.28

@@ -1,0 +1,179 @@
+{
+  "schema": "pipedata-source-expansion-ledger/v1",
+  "phase": "DB_PHASE_28",
+  "policy": {
+    "sourceBackedPromotionOnly": true,
+    "noFabricatedEngineeringValues": true,
+    "noNearestEngineeringFallback": true,
+    "missingValues": "null_or_UNAVAILABLE",
+    "productionCompleteRequiresFullCoverageEvidence": true
+  },
+  "allowedStatuses": [
+    "READY_FOR_PROMOTION",
+    "PARTIAL_SOURCE",
+    "BLOCKED_SOURCE_MISSING",
+    "SKETCH_ONLY",
+    "MANUAL_REVIEW"
+  ],
+  "families": {
+    "PIPE": {
+      "status": "READY_FOR_PROMOTION",
+      "candidate": true,
+      "promotionPhase": "DB_PHASE_24",
+      "latestPromotionPhase": "DB_PHASE_85",
+      "sourceEvidence": [
+        "docs/Pipedata/Database/Pipe/PIPE40.csv",
+        "docs/Pipedata/Database/Pipe/PIPE80.csv",
+        "data/normalized/pipes.json",
+        "data/normalized/pipes-sch80-wave2.json",
+        "data/normalized/pipes-sch80-wave4.json",
+        "data/normalized/pipes-expanded.json",
+        "docs/Pipedata/Database/Pipe/pipestd.csv",
+        "docs/Pipedata/Database/Pipe/PIPE5.csv",
+        "docs/Pipedata/Database/Pipe/pipe5s.csv",
+        "docs/Pipedata/Database/Pipe/PIPE10.csv",
+        "docs/Pipedata/Database/Pipe/PIPE10S.csv",
+        "docs/Pipedata/Database/Pipe/PIPE20.csv",
+        "docs/Pipedata/Database/Pipe/PIPE30.csv",
+        "docs/Pipedata/Database/Pipe/PIPE40S.csv",
+        "docs/Pipedata/Database/Pipe/PIPE60.csv",
+        "docs/Pipedata/Database/Pipe/PIPE80S.csv",
+        "docs/Pipedata/Database/Pipe/PIPE100.csv",
+        "docs/Pipedata/Database/Pipe/Pipe120.csv",
+        "docs/Pipedata/Database/Pipe/Pipe140.csv",
+        "docs/Pipedata/Database/Pipe/Pipe160.csv",
+        "docs/Pipedata/Database/Pipe/PIPEXS.csv",
+        "docs/Pipedata/Database/Pipe/PIPEXXS.csv"
+      ],
+      "coverageIntent": "Promoted bounded Schedule 40/80 source-backed samples while full schedule coverage remains partial.",
+      "productionComplete": false
+    },
+    "FLANGE": {
+      "status": "READY_FOR_PROMOTION",
+      "candidate": true,
+      "promotionPhase": "DB_PHASE_25",
+      "latestPromotionPhase": "DB_PHASE_80",
+      "sourceEvidence": [
+        "docs/Pipedata/Database/Flan/Flg150.csv",
+        "docs/Pipedata/Database/Flan/Flg300.csv",
+        "docs/Pipedata/Database/Flan/Flg600.csv",
+        "data/normalized/flanges.json",
+        "data/normalized/flanges-cl600-wave2.json",
+        "docs/Pipedata/Database/Flan/Flg400.csv",
+        "data/normalized/flanges-cl400-expanded.json",
+        "docs/Pipedata/Database/Flan/Flg900.csv",
+        "data/normalized/flanges-cl900-expanded.json",
+        "docs/Pipedata/Database/Flan/Flg1500.csv",
+        "data/normalized/flanges-cl1500-expanded.json",
+        "docs/Pipedata/Database/Flan/Flg2500.csv",
+        "data/normalized/flanges-cl2500-expanded.json"
+      ],
+      "coverageIntent": "Promoted WN/SO/BLIND Class 150/300/600 sample rows from committed Flan source rows.",
+      "productionComplete": false
+    },
+    "VALVE": {
+      "status": "READY_FOR_PROMOTION",
+      "candidate": true,
+      "promotionPhase": "DB_PHASE_26",
+      "latestPromotionPhase": "DB_PHASE_84",
+      "sourceEvidence": [
+        "docs/Pipedata/Database/Vlfl/VLV1150.csv",
+        "docs/Pipedata/Database/Vlfl/VLV11500.csv",
+        "data/normalized/valves.json",
+        "data/normalized/valves-globe-expanded.json",
+        "data/normalized/valves-control-expanded.json",
+        "docs/Pipedata/Database/Vlfl/VLV2150.csv",
+        "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "docs/Pipedata/Database/Vlfl/VLV2300.csv",
+        "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "docs/Pipedata/Database/Vlfl/VLV2400.csv",
+        "docs/Pipedata/Database/Vlfl/VLV4400.csv",
+        "docs/Pipedata/Database/Vlfl/VLV2600.csv",
+        "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "docs/Pipedata/Database/Vlfl/VLV2900.csv",
+        "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "docs/Pipedata/Database/Vlfl/VLV21500.csv",
+        "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "docs/Pipedata/Database/Vlfl/VLV22500.csv",
+        "docs/Pipedata/Database/Vlfl/VLV42500.csv"
+      ],
+      "coverageIntent": "Promote bounded Class 150 and Class 1500 RF gate-valve samples from committed VLV1 source rows.",
+      "productionComplete": false
+    },
+    "FITTING": {
+      "status": "READY_FOR_PROMOTION",
+      "candidate": true,
+      "promotionPhase": "DB_PHASE_27",
+      "latestPromotionPhase": "DB_PHASE_87",
+      "sourceEvidence": [
+        "docs/Pipedata/Database/Ftbw/90Elbow40.csv",
+        "docs/Pipedata/Database/Ftbw/90Elbow80.csv",
+        "docs/Pipedata/Database/Ftbw/45Elbow40.csv",
+        "docs/Pipedata/Database/Ftbw/StraightTee40.csv",
+        "docs/Pipedata/Database/Ftbw/Cap40.csv",
+        "data/normalized/fittings.json"
+      ],
+      "coverageIntent": "Promote bounded BW elbow/tee/cap samples from committed source rows; reducer remains schema-blocked.",
+      "productionComplete": false
+    },
+    "GASKET": {
+      "status": "BLOCKED_SOURCE_MISSING",
+      "candidate": false,
+      "sourceEvidence": [
+        "data/normalized/gaskets.json"
+      ],
+      "coverageIntent": "Do not promote gasket dimensions until committed dimension tables are verified.",
+      "productionComplete": false
+    },
+    "SUPPORT": {
+      "status": "MANUAL_REVIEW",
+      "candidate": false,
+      "sourceEvidence": [
+        "data/normalized/supports.json"
+      ],
+      "coverageIntent": "Project defaults remain overrides; support/span source promotion needs separate review.",
+      "productionComplete": false
+    },
+    "OLET": {
+      "status": "READY_FOR_PROMOTION",
+      "candidate": true,
+      "promotionPhase": "DB_PHASE_78",
+      "latestPromotionPhase": "DB_PHASE_79",
+      "sourceEvidence": [
+        "data/normalized/olets-weldolet.json",
+        "data/normalized/olets-sockolet.json",
+        "data/normalized/olets-thredolet.json",
+        "data/normalized/olets-elbolet.json",
+        "docs/Pipedata/Database/Wbol/WOLSTD.csv",
+        "docs/Pipedata/Database/Wbol/WOLXS.csv",
+        "docs/Pipedata/Database/Wbol/WOL160.csv",
+        "docs/Pipedata/Database/Wbol/WOLXXS.csv",
+        "docs/Pipedata/Database/Wbol/SOL3000.csv",
+        "docs/Pipedata/Database/Wbol/SOL6000.csv",
+        "docs/Pipedata/Database/Wbol/TOL3000.csv",
+        "docs/Pipedata/Database/Wbol/TOL6000.csv",
+        "docs/Pipedata/Database/Wbol/EOL3000.csv"
+      ],
+      "coverageIntent": "Promoted Weldolet, Sockolet, Thredolet and Elbolet rows across all standard schedules and pressure classes.",
+      "productionComplete": false
+    },
+    "REDUCER": {
+      "status": "READY_FOR_PROMOTION",
+      "candidate": true,
+      "promotionPhase": "DB_PHASE_64",
+      "latestPromotionPhase": "DB_PHASE_86",
+      "sourceEvidence": [
+        "docs/Pipedata/Database/Ftbw/Reducers80.csv",
+        "data/normalized/reducers-sch80-wave1.json",
+        "data/normalized/reducers-sch80-wave2.json",
+        "data/normalized/reducers-expanded.json",
+        "docs/Pipedata/Database/Ftbw/Reducers40.csv",
+        "docs/Pipedata/Database/Ftbw/ReducersSTD.csv",
+        "docs/Pipedata/Database/Ftbw/ReducersXS.csv",
+        "docs/Pipedata/Database/Ftbw/ReducersXXS.csv"
+      ],
+      "coverageIntent": "Promoted Schedule 80 reducer rows (CONCENTRIC and ECCENTRIC types) from all valid matrix cells in Reducers80.csv; other schedules remain unpromoted.",
+      "productionComplete": false
+    }
+  }
+}

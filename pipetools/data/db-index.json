@@ -1,0 +1,280 @@
+{
+  "schema": "pipetools-db-index/v1",
+  "generatedBy": "Wave 13A Agent 16 DB index import",
+  "policy": {
+    "loadOrder": "Load this index first, then lazy-load repositoryPath only when the family is selected.",
+    "rawSourcePolicy": "Do not publish docs/Pipedata/Database raw DB tree to Pages; publish normalized DBs only.",
+    "svgPolicy": "svgSupported is an advertised routing flag only; actual SVG rendering is handled by the later PipeSpecSVG adapter wave."
+  },
+  "families": [
+    {
+      "family": "PIPE",
+      "label": "Pipe",
+      "componentType": "PIPE",
+      "subtypes": [
+        "PIPE"
+      ],
+      "standard": "PROJECT_PIPE_TABLE",
+      "repositoryPath": "data/normalized/pipes.json",
+      "runtimeUrl": "../data/normalized/pipes.json",
+      "rowCount": 489,
+      "sourceRowCount": 489,
+      "sourceFileCount": 18,
+      "keyFields": [
+        "componentType",
+        "nps",
+        "dn",
+        "schedule"
+      ],
+      "searchFields": [
+        "id",
+        "nps",
+        "dn",
+        "schedule",
+        "standard",
+        "source",
+        "dataStatus"
+      ],
+      "availableFilters": [
+        "componentType",
+        "nps",
+        "dn",
+        "schedule",
+        "dataStatus",
+        "materialFamily"
+      ],
+      "svgSupported": true,
+      "notes": [
+        "Source-backed sampled rows from pipe schedule DB; full source count is retained for audit."
+      ]
+    },
+    {
+      "family": "VALVE",
+      "label": "Valve",
+      "componentType": "VALVE",
+      "subtypes": [
+        "GATE",
+        "GLOBE",
+        "CONTROL",
+        "SWING_CHECK",
+        "WAFER_CHECK",
+        "BUTTERFLY_WAFER"
+      ],
+      "standard": "ASME B16.10",
+      "repositoryPath": "data/normalized/valves.json",
+      "runtimeUrl": "../data/normalized/valves.json",
+      "rowCount": 599,
+      "sourceRowCount": 50,
+      "sourceFileCount": 2,
+      "keyFields": [
+        "componentType",
+        "valveType",
+        "endType",
+        "nps",
+        "classRating",
+        "facing"
+      ],
+      "searchFields": [
+        "id",
+        "valveType",
+        "nps",
+        "dn",
+        "classRating",
+        "facing",
+        "standard",
+        "source",
+        "dataStatus"
+      ],
+      "availableFilters": [
+        "componentType",
+        "valveType",
+        "endType",
+        "facing",
+        "classRating",
+        "nps",
+        "dn",
+        "dataStatus"
+      ],
+      "svgSupported": true,
+      "notes": [
+        "Gate valve source rows are currently promoted; other valve type dashboard values remain indexed for planned source expansion."
+      ]
+    },
+    {
+      "family": "FLANGE",
+      "label": "Flange",
+      "componentType": "FLANGE",
+      "subtypes": [
+        "WN",
+        "SO",
+        "BLIND"
+      ],
+      "standard": "ASME B16.5",
+      "repositoryPath": "data/normalized/flanges.json",
+      "runtimeUrl": "../data/normalized/flanges.json",
+      "rowCount": 276,
+      "sourceRowCount": 161,
+      "sourceFileCount": 7,
+      "keyFields": [
+        "componentType",
+        "subtype",
+        "nps",
+        "classRating",
+        "unitSystem"
+      ],
+      "searchFields": [
+        "id",
+        "subtype",
+        "nps",
+        "dn",
+        "classRating",
+        "standard",
+        "source",
+        "dataStatus"
+      ],
+      "availableFilters": [
+        "componentType",
+        "subtype",
+        "classRating",
+        "nps",
+        "dn",
+        "unitSystem",
+        "dataStatus"
+      ],
+      "svgSupported": true,
+      "notes": [
+        "Metric flange source rows are exploded into WN, SO, and BLIND normalized rows."
+      ]
+    },
+    {
+      "family": "FITTING",
+      "label": "Fitting",
+      "componentType": "FITTING",
+      "subtypes": [
+        "ELBOW_90",
+        "ELBOW_45",
+        "TEE_STRAIGHT",
+        "TEE_REDUCING",
+        "CAP"
+      ],
+      "standard": "ASME B16.9",
+      "repositoryPath": "data/normalized/fittings.json",
+      "runtimeUrl": "../data/normalized/fittings.json",
+      "rowCount": 3898,
+      "sourceRowCount": 15,
+      "sourceFileCount": 5,
+      "keyFields": [
+        "componentType",
+        "subtype",
+        "nps",
+        "schedule",
+        "unitSystem"
+      ],
+      "searchFields": [
+        "id",
+        "subtype",
+        "nps",
+        "dn",
+        "schedule",
+        "standard",
+        "source",
+        "dataStatus"
+      ],
+      "availableFilters": [
+        "componentType",
+        "subtype",
+        "schedule",
+        "nps",
+        "dn",
+        "unitSystem",
+        "dataStatus"
+      ],
+      "svgSupported": true,
+      "notes": [
+        "Includes 45-degree elbow routing explicitly so it cannot fall through to the 90-degree elbow path."
+      ]
+    },
+    {
+      "family": "GASKET",
+      "label": "Gasket",
+      "componentType": "GASKET",
+      "subtypes": [
+        "FLAT_RING",
+        "RTJ",
+        "SPIRAL_WOUND"
+      ],
+      "standard": "SOURCE_INVENTORY_ONLY",
+      "repositoryPath": "data/normalized/gaskets.json",
+      "runtimeUrl": "../data/normalized/gaskets.json",
+      "rowCount": 3,
+      "sourceRowCount": 3,
+      "sourceFileCount": 3,
+      "keyFields": [
+        "componentType",
+        "subtype",
+        "nps",
+        "classRating",
+        "facing"
+      ],
+      "searchFields": [
+        "id",
+        "subtype",
+        "nps",
+        "classRating",
+        "facing",
+        "standard",
+        "source",
+        "dataStatus"
+      ],
+      "availableFilters": [
+        "componentType",
+        "subtype",
+        "facing",
+        "classRating",
+        "nps",
+        "dataStatus"
+      ],
+      "svgSupported": true,
+      "notes": [
+        "Inventory selector rows only; numeric dimensions remain unavailable until promoted."
+      ]
+    },
+    {
+      "family": "SUPPORT",
+      "label": "Support",
+      "componentType": "SUPPORT",
+      "subtypes": [
+        "SHOE",
+        "GUIDE"
+      ],
+      "standard": "PROJECT_SUPPORT_DEFAULTS",
+      "repositoryPath": "data/normalized/supports.json",
+      "runtimeUrl": "../data/normalized/supports.json",
+      "rowCount": 2,
+      "sourceRowCount": 2,
+      "sourceFileCount": 2,
+      "keyFields": [
+        "componentFamily",
+        "supportKind"
+      ],
+      "searchFields": [
+        "id",
+        "supportKind",
+        "attachmentRule",
+        "standard",
+        "source",
+        "dataStatus"
+      ],
+      "availableFilters": [
+        "componentFamily",
+        "supportKind",
+        "attachmentRule",
+        "dataStatus"
+      ],
+      "svgSupported": false,
+      "notes": [
+        "Support rows are indexed for dashboard visibility; SVG support is deferred."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body { font-family: 'DM Sans', system-ui, -apple-system, sans-serif; background: #F1F5F9; color: #0F172A; -webkit-font-smoothing: antialiased; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    select, input, button { font-family: 'DM Sans', system-ui, sans-serif; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes fadeUp { from { transform: translateY(6px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  </style>
+</helmet>
+
+<div style="display: flex; height: 100vh; overflow: hidden; background: #F1F5F9;">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside style="width: 220px; min-width: 220px; background: #0F172A; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; overflow-x: hidden; flex-shrink: 0;">
+
+    <!-- Logo -->
+    <div style="padding: 18px 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 34px; height: 34px; background: #2563EB; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <svg width="19" height="19" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="8" width="16" height="4" rx="2" fill="white"/>
+            <circle cx="6.5" cy="10" r="2.5" fill="#1D4ED8"/>
+            <circle cx="13.5" cy="10" r="2.5" fill="#1D4ED8"/>
+            <rect x="5.5" y="3" width="2" height="4.5" rx="1" fill="white" opacity="0.7"/>
+            <rect x="12.5" y="12.5" width="2" height="4.5" rx="1" fill="white" opacity="0.7"/>
+          </svg>
+        </div>
+        <div>
+          <div style="color: #F8FAFC; font-size: 14px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2;">PipeSpec</div>
+          <div style="color: #475569; font-size: 11px; line-height: 1.3; font-weight: 400;">Component Database</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <nav style="flex: 1; padding: 10px 8px; overflow-y: auto;">
+
+      <!-- Dashboard -->
+      <div onClick="{{ navDashboard }}" style="display: flex; align-items: center; gap: 9px; padding: 7px 9px; border-radius: 7px; cursor: pointer; margin-bottom: 2px; background: {{ dashBg }}; border-left: 2px solid {{ dashBorder }};" style-hover="background: #1E293B !important;">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style="flex-shrink: 0;">
+          <rect x="1" y="1" width="6" height="6" rx="1.5" fill="{{ dashIconFill }}"/>
+          <rect x="9" y="1" width="6" height="6" rx="1.5" fill="{{ dashIconFill }}" opacity="0.5"/>
+          <rect x="1" y="9" width="6" height="6" rx="1.5" fill="{{ dashIconFill }}" opacity="0.5"/>
+          <rect x="9" y="9" width="6" height="6" rx="1.5" fill="{{ dashIconFill }}" opacity="0.5"/>
+        </svg>
+        <span style="font-size: 13px; font-weight: {{ dashFontWeight }}; color: {{ dashText }}; flex: 1;">Dashboard</span>
+      </div>
+
+      <!-- Section label -->
+      <div style="padding: 10px 9px 5px; display: flex; align-items: center; gap: 6px;">
+        <span style="font-size: 10px; font-weight: 600; color: #334155; letter-spacing: 0.07em; text-transform: uppercase;">Components</span>
+        <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.05);"></div>
+      </div>
+
+      <!-- Family items -->
+      <sc-for list="{{ navFamilies }}" as="fam">
+        <div onClick="{{ fam.onClick }}" style="display: flex; align-items: center; gap: 8px; padding: 7px 9px; border-radius: 7px; cursor: pointer; margin-bottom: 2px; background: {{ fam.bg }}; border-left: 2px solid {{ fam.border }};" style-hover="background: #1E293B !important;">
+          <div style="width: 26px; height: 26px; border-radius: 7px; background: {{ fam.iconBg }}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span style="font-size: 10px; font-weight: 700; color: {{ fam.iconColor }}; font-family: 'DM Mono', monospace;">{{ fam.abbr }}</span>
+          </div>
+          <span style="font-size: 13px; font-weight: {{ fam.fw }}; color: {{ fam.text }}; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ fam.label }}</span>
+          <span style="font-size: 11px; font-family: 'DM Mono', monospace; color: {{ fam.countColor }}; min-width: 16px; text-align: right;">{{ fam.count }}</span>
+        </div>
+      </sc-for>
+    </nav>
+
+    <!-- Version -->
+    <div style="padding: 10px 14px 14px; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;">
+      <div style="font-size: 10px; color: #334155; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px;">Dataset</div>
+      <div style="font-size: 11px; color: #475569; font-family: 'DM Mono', monospace;">pipedata-db/2026.06</div>
+      <div style="font-size: 10px; color: #334155; margin-top: 5px; line-height: 1.4;">Phase DB-56 · ASME standards</div>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN AREA ═══ -->
+  <div style="flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden;">
+
+    <!-- Top bar -->
+    <header style="height: 52px; background: white; border-bottom: 1px solid #E2E8F0; display: flex; align-items: center; padding: 0 20px; gap: 12px; flex-shrink: 0;">
+      <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
+        <span style="font-size: 14px; font-weight: 700; color: #0F172A; white-space: nowrap; letter-spacing: -0.01em;">{{ breadcrumb }}</span>
+        <sc-if value="{{ showRowCount }}" hint-placeholder-val="{{ false }}">
+          <span style="color: #CBD5E1;">·</span>
+          <span style="font-size: 13px; color: #94A3B8;">{{ rowCount }} rows</span>
+        </sc-if>
+      </div>
+      <!-- Search -->
+      <div style="position: relative; width: 256px; flex-shrink: 0;">
+        <svg style="position: absolute; left: 9px; top: 50%; transform: translateY(-50%); pointer-events: none;" width="13" height="13" viewBox="0 0 14 14" fill="none">
+          <circle cx="6" cy="6" r="4.5" stroke="#94A3B8" stroke-width="1.4"/>
+          <path d="M9.5 9.5 L12.5 12.5" stroke="#94A3B8" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <input value="{{ search }}" onInput="{{ onSearch }}" placeholder="Search ID, type, NPS…" style="width: 100%; padding: 7px 10px 7px 27px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 13px; background: #F8FAFC; color: #0F172A; outline: none;" />
+      </div>
+      <!-- Standard badge -->
+      <sc-if value="{{ showStdBadge }}" hint-placeholder-val="{{ false }}">
+        <div style="background: {{ stdBadgeBg }}; color: {{ stdBadgeColor }}; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 100px; white-space: nowrap; letter-spacing: 0.02em; font-family: 'DM Mono', monospace;">{{ stdBadgeLabel }}</div>
+      </sc-if>
+    </header>
+
+    <!-- Scrollable content -->
+    <main style="flex: 1; overflow-y: auto; padding: 20px;">
+
+      <!-- ─── DASHBOARD ─── -->
+      <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <!-- Hero -->
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 22px; gap: 16px;">
+            <div>
+              <h1 style="font-size: 21px; font-weight: 700; color: #0F172A; letter-spacing: -0.02em; margin-bottom: 5px; text-wrap: pretty;">Pipe Component Database</h1>
+              <p style="font-size: 13px; color: #64748B; line-height: 1.5;">ASME-standard pipe components · normalized from source CSVs · dataset pipedata-db/2026.06</p>
+            </div>
+            <div style="display: flex; gap: 10px; flex-shrink: 0;">
+              <div style="background: white; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px 18px; text-align: center; min-width: 72px;">
+                <div style="font-size: 26px; font-weight: 700; color: #0F172A; font-family: 'DM Mono', monospace; letter-spacing: -0.03em; line-height: 1;">{{ totalCount }}</div>
+                <div style="font-size: 11px; color: #64748B; margin-top: 3px; font-weight: 500;">Total</div>
+              </div>
+              <div style="background: white; border: 1px solid #DCFCE7; border-radius: 10px; padding: 12px 18px; text-align: center; min-width: 72px;">
+                <div style="font-size: 26px; font-weight: 700; color: #166534; font-family: 'DM Mono', monospace; letter-spacing: -0.03em; line-height: 1;">{{ readyCount }}</div>
+                <div style="font-size: 11px; color: #16A34A; margin-top: 3px; font-weight: 600;">Ready</div>
+              </div>
+              <div style="background: white; border: 1px solid #FEF9C3; border-radius: 10px; padding: 12px 18px; text-align: center; min-width: 72px;">
+                <div style="font-size: 26px; font-weight: 700; color: #854D0E; font-family: 'DM Mono', monospace; letter-spacing: -0.03em; line-height: 1;">{{ partialCount }}</div>
+                <div style="font-size: 11px; color: #D97706; margin-top: 3px; font-weight: 600;">Partial</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Family cards -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px;">
+            <sc-for list="{{ summaryCards }}" as="card" hint-placeholder-count="6">
+              <div onClick="{{ card.onClick }}" style="background: white; border: 1px solid #E2E8F0; border-radius: 12px; padding: 18px 18px 16px; cursor: pointer; position: relative; overflow: hidden; transition: box-shadow 0.15s;" style-hover="box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important; border-color: {{ card.color }} !important;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                  <div style="width: 38px; height: 38px; background: {{ card.iconBg }}; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 11px; font-weight: 800; color: {{ card.color }}; font-family: 'DM Mono', monospace;">{{ card.abbr }}</span>
+                  </div>
+                  <span style="font-size: 11px; color: #94A3B8; font-family: 'DM Mono', monospace; font-weight: 500;">{{ card.standard }}</span>
+                </div>
+                <div style="font-size: 30px; font-weight: 700; color: #0F172A; font-family: 'DM Mono', monospace; letter-spacing: -0.03em; line-height: 1; margin-bottom: 2px;">{{ card.total }}</div>
+                <div style="font-size: 14px; font-weight: 600; color: #0F172A; margin-bottom: 13px;">{{ card.label }}</div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="flex: 1; height: 3px; background: #F1F5F9; border-radius: 2px; overflow: hidden;">
+                    <div style="height: 100%; width: {{ card.pctStr }}; background: {{ card.color }}; border-radius: 2px;"></div>
+                  </div>
+                  <span style="font-size: 11px; color: #94A3B8; white-space: nowrap; font-weight: 500;">{{ card.pct }}% ready</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <!-- Info note -->
+          <div style="background: white; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 10px;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: #2563EB; flex-shrink: 0;"></div>
+            <span style="font-size: 12px; color: #64748B; line-height: 1.5;">Source-backed data normalized from ASME B16.5 / B16.9 / B16.10 / B36.10M source CSVs. Null values denote <code style="font-family: 'DM Mono', monospace; background: #F1F5F9; padding: 1px 5px; border-radius: 3px; font-size: 11px;">UNAVAILABLE</code> in source — never coerced to zero. Click any card to browse.</span>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ─── FAMILY TABLE VIEW ─── -->
+      <sc-if value="{{ isFamily }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <!-- Filter bar -->
+          <div style="background: white; border: 1px solid #E2E8F0; border-radius: 10px; padding: 9px 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <span style="font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.07em; flex-shrink: 0;">Filter</span>
+            <div style="width: 1px; height: 16px; background: #E2E8F0; flex-shrink: 0;"></div>
+
+            <sc-if value="{{ hasNpsFilter }}" hint-placeholder-val="{{ false }}">
+              <select onChange="{{ onFilterNps }}" value="{{ filterNpsVal }}" style="padding: 5px 10px; border: 1px solid #E2E8F0; border-radius: 7px; font-size: 12px; color: #0F172A; background: white; cursor: pointer; outline: none;">
+                <sc-for list="{{ npsOpts }}" as="o"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+              </select>
+            </sc-if>
+            <sc-if value="{{ hasClassFilter }}" hint-placeholder-val="{{ false }}">
+              <select onChange="{{ onFilterClass }}" value="{{ filterClassVal }}" style="padding: 5px 10px; border: 1px solid #E2E8F0; border-radius: 7px; font-size: 12px; color: #0F172A; background: white; cursor: pointer; outline: none;">
+                <sc-for list="{{ classOpts }}" as="o"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+              </select>
+            </sc-if>
+            <sc-if value="{{ hasSchFilter }}" hint-placeholder-val="{{ false }}">
+              <select onChange="{{ onFilterSch }}" value="{{ filterSchVal }}" style="padding: 5px 10px; border: 1px solid #E2E8F0; border-radius: 7px; font-size: 12px; color: #0F172A; background: white; cursor: pointer; outline: none;">
+                <sc-for list="{{ schOpts }}" as="o"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+              </select>
+            </sc-if>
+            <sc-if value="{{ hasSubFilter }}" hint-placeholder-val="{{ false }}">
+              <select onChange="{{ onFilterSub }}" value="{{ filterSubVal }}" style="padding: 5px 10px; border: 1px solid #E2E8F0; border-radius: 7px; font-size: 12px; color: #0F172A; background: white; cursor: pointer; outline: none;">
+                <sc-for list="{{ subOpts }}" as="o"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+              </select>
+            </sc-if>
+            <select onChange="{{ onFilterStatus }}" value="{{ filterStatusVal }}" style="padding: 5px 10px; border: 1px solid #E2E8F0; border-radius: 7px; font-size: 12px; color: #0F172A; background: white; cursor: pointer; outline: none;">
+              <sc-for list="{{ statusOpts }}" as="o"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+            </select>
+
+            <sc-if value="{{ hasFilter }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ clearFilters }}" style="font-size: 12px; color: #2563EB; background: none; border: none; cursor: pointer; padding: 4px 6px; border-radius: 4px; font-weight: 500; margin-left: 2px;" style-hover="background: #EFF6FF !important;">Clear</button>
+            </sc-if>
+          </div>
+
+          <!-- Table -->
+          <div style="background: white; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden;">
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <thead>
+                  <tr style="background: #F8FAFC; border-bottom: 2px solid #E2E8F0;">
+                    <sc-for list="{{ tHeaders }}" as="h">
+                      <th style="padding: 9px 14px; text-align: left; font-size: 10.5px; font-weight: 700; color: #64748B; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap;">{{ h.label }}</th>
+                    </sc-for>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ tRows }}" as="row" hint-placeholder-count="5">
+                    <tr onClick="{{ row.onClick }}" style="border-bottom: 1px solid #F8FAFC; cursor: pointer; background: {{ row.bg }};" style-hover="background: #F0F9FF !important;">
+                      <sc-for list="{{ row.cells }}" as="cell">
+                        <td style="padding: 9px 14px; white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">
+                          <span style="display: {{ cell.bDisp }}; background: {{ cell.bBg }}; color: {{ cell.bText }}; padding: 2px 8px; border-radius: 100px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">{{ cell.val }}</span>
+                          <span style="display: {{ cell.tDisp }}; color: {{ cell.tColor }}; font-family: {{ cell.tFont }};">{{ cell.val }}</span>
+                        </td>
+                      </sc-for>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Empty state -->
+            <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="padding: 52px 24px; text-align: center;">
+                <div style="width: 40px; height: 40px; background: #F1F5F9; border-radius: 10px; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center;">
+                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6" stroke="#94A3B8" stroke-width="1.5"/><path d="M13.5 13.5 L17 17" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                <div style="font-size: 14px; font-weight: 600; color: #64748B; margin-bottom: 4px;">No components found</div>
+                <div style="font-size: 13px; color: #94A3B8;">Try adjusting your search or filters</div>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- Footer note -->
+          <div style="margin-top: 10px; display: flex; align-items: center; gap: 6px; padding: 0 2px;">
+            <div style="width: 5px; height: 5px; background: #DCFCE7; border-radius: 50%; border: 1.5px solid #16A34A; flex-shrink: 0;"></div>
+            <span style="font-size: 11px; color: #94A3B8;">Null values (—) indicate UNAVAILABLE in source · never coerced to zero · click any row for full spec</span>
+          </div>
+        </div>
+      </sc-if>
+
+    </main>
+  </div>
+
+  <!-- ═══ DETAIL DRAWER ═══ -->
+  <sc-if value="{{ hasDetail }}" hint-placeholder-val="{{ false }}">
+    <aside style="width: 390px; min-width: 390px; height: 100vh; background: white; border-left: 1px solid #E2E8F0; display: flex; flex-direction: column; overflow: hidden; animation: slideIn 0.18s ease-out; flex-shrink: 0;">
+
+      <!-- Drawer header -->
+      <div style="padding: 14px 16px; border-bottom: 1px solid #F1F5F9; flex-shrink: 0; background: #FAFAFA;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <span style="background: {{ dBadgeBg }}; color: {{ dBadgeText }}; padding: 3px 9px; border-radius: 100px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">{{ dStatus }}</span>
+          <button onClick="{{ closeDetail }}" style="width: 26px; height: 26px; border: 1px solid #E2E8F0; border-radius: 6px; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #64748B; font-size: 16px; line-height: 1; padding: 0;" style-hover="background: #F1F5F9 !important;">×</button>
+        </div>
+        <div style="font-size: 11px; color: #475569; font-family: 'DM Mono', monospace; word-break: break-all; line-height: 1.6;">{{ dId }}</div>
+      </div>
+
+      <!-- Canvas visualization -->
+      <div style="flex-shrink: 0; background: #FAFAFA; border-bottom: 1px solid #F1F5F9; overflow: hidden;">
+        {{ detailCanvas }}
+      </div>
+
+      <!-- Drawer body -->
+      <div style="flex: 1; overflow-y: auto; padding: 14px 16px;">
+        <sc-for list="{{ dSections }}" as="sec">
+          <div style="margin-bottom: 20px;">
+            <div style="font-size: 10px; font-weight: 700; color: #94A3B8; letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #F1F5F9;">{{ sec.title }}</div>
+            <sc-for list="{{ sec.fields }}" as="f">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; border-bottom: 1px solid #F8FAFC; gap: 12px;">
+                <span style="font-size: 12px; color: #64748B; flex-shrink: 0;">{{ f.label }}</span>
+                <span style="font-size: 12px; font-weight: 500; color: {{ f.vc }}; font-family: {{ f.ff }}; text-align: right;">{{ f.disp }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </aside>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 820},
+  &quot;defaultView&quot;: {
+    &quot;editor&quot;: &quot;enum&quot;,
+    &quot;options&quot;: [&quot;DASHBOARD&quot;,&quot;VALVE&quot;,&quot;FLANGE&quot;,&quot;PIPE&quot;,&quot;FITTING&quot;,&quot;GASKET&quot;],
+    &quot;default&quot;: &quot;DASHBOARD&quot;,
+    &quot;tsType&quot;: &quot;string&quot;
+  }
+}">
+class Component extends DCLogic {
+
+  // ── Embedded normalized data ────────────────────────────────────────────
+  static V = [
+    {id:'VALVE|GATE|FLANGED|NPS2|CL150|RF',componentType:'VALVE',valveType:'GATE',endType:'FLANGED',nps:'2',dn:50,classRating:'150',facing:'RF',standard:'ASME B16.10',dataStatus:'READY',faceToFaceRfMm:178,faceToFaceRtjMm:191,buttWeldMm:216,heightMm:409,handwheelDiaMm:200,rtjAddLenMm:13,gapMm:4,rfRtjKg:18,buttWeldKg:15},
+    {id:'VALVE|GATE|FLANGED|NPS4|CL150|RF',componentType:'VALVE',valveType:'GATE',endType:'FLANGED',nps:'4',dn:100,classRating:'150',facing:'RF',standard:'ASME B16.10',dataStatus:'READY',faceToFaceRfMm:229,faceToFaceRtjMm:242,buttWeldMm:305,heightMm:590,handwheelDiaMm:250,rtjAddLenMm:13,gapMm:4,rfRtjKg:52,buttWeldKg:44},
+    {id:'VALVE|GATE|FLANGED|NPS6|CL150|RF',componentType:'VALVE',valveType:'GATE',endType:'FLANGED',nps:'6',dn:150,classRating:'150',facing:'RF',standard:'ASME B16.10',dataStatus:'READY',faceToFaceRfMm:267,faceToFaceRtjMm:280,buttWeldMm:403,heightMm:767,handwheelDiaMm:300,rtjAddLenMm:13,gapMm:4,rfRtjKg:88,buttWeldKg:74},
+    {id:'VALVE|GATE|FLANGED|NPS8|CL150|RF',componentType:'VALVE',valveType:'GATE',endType:'FLANGED',nps:'8',dn:200,classRating:'150',facing:'RF',standard:'ASME B16.10',dataStatus:'READY',faceToFaceRfMm:292,faceToFaceRtjMm:305,buttWeldMm:419,heightMm:960,handwheelDiaMm:350,rtjAddLenMm:13,gapMm:4,rfRtjKg:144,buttWeldKg:122},
+    {id:'VALVE|GATE|FLANGED|NPS22|CL150|RF',componentType:'VALVE',valveType:'GATE',endType:'FLANGED',nps:'22',dn:550,classRating:'150',facing:'RF',standard:'ASME B16.10',dataStatus:'PARTIAL',faceToFaceRfMm:null,faceToFaceRtjMm:null,buttWeldMm:762,heightMm:2400,handwheelDiaMm:720,rtjAddLenMm:13,gapMm:3,rfRtjKg:1250,buttWeldKg:1000},
+    {id:'VALVE|GATE|FLANGED|NPS2|CL1500|RF',componentType:'VALVE',valveType:'GATE',endType:'FLANGED',nps:'2',dn:50,classRating:'1500',facing:'RF',standard:'ASME B16.10',dataStatus:'READY',faceToFaceRfMm:368,faceToFaceRtjMm:371,buttWeldMm:368,heightMm:559,handwheelDiaMm:250,rtjAddLenMm:3,gapMm:3,rfRtjKg:82,buttWeldKg:69},
+    {id:'VALVE|GATE|FLANGED|NPS4|CL1500|RF',componentType:'VALVE',valveType:'GATE',endType:'FLANGED',nps:'4',dn:100,classRating:'1500',facing:'RF',standard:'ASME B16.10',dataStatus:'READY',faceToFaceRfMm:546,faceToFaceRtjMm:549,buttWeldMm:546,heightMm:838,handwheelDiaMm:500,rtjAddLenMm:3,gapMm:3,rfRtjKg:277,buttWeldKg:235},
+    {id:'VALVE|GATE|FLANGED|NPS6|CL1500|RF',componentType:'VALVE',valveType:'GATE',endType:'FLANGED',nps:'6',dn:150,classRating:'1500',facing:'RF',standard:'ASME B16.10',dataStatus:'READY',faceToFaceRfMm:705,faceToFaceRtjMm:711,buttWeldMm:705,heightMm:1397,handwheelDiaMm:600,rtjAddLenMm:6,gapMm:3,rfRtjKg:640,buttWeldKg:544},
+  ];
+
+  static FL = [
+    {id:'FLANGE|WN|NPS2|CL300|METRIC',componentType:'FLANGE',subtype:'WN',nps:'2',dn:50,classRating:'300',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:165,flangeThicknessMm:20.7,rfDiaMm:92.1,rfHeightMm:2,rtjRfDiaMm:108,pcdMm:127,boltCount:8,boltSizeMm:16,weightKg:4.1,hubXMm:84,weldDiaMm:60.3,wnLengthMm:68,soBoreMm:null,blindThickMm:null},
+    {id:'FLANGE|SO|NPS2|CL300|METRIC',componentType:'FLANGE',subtype:'SO',nps:'2',dn:50,classRating:'300',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:165,flangeThicknessMm:20.7,rfDiaMm:92.1,rfHeightMm:2,rtjRfDiaMm:108,pcdMm:127,boltCount:8,boltSizeMm:16,weightKg:3.2,hubXMm:84,weldDiaMm:60.3,wnLengthMm:null,soBoreMm:61.9,blindThickMm:null},
+    {id:'FLANGE|BLIND|NPS2|CL300|METRIC',componentType:'FLANGE',subtype:'BLIND',nps:'2',dn:50,classRating:'300',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:165,flangeThicknessMm:20.7,rfDiaMm:92.1,rfHeightMm:2,rtjRfDiaMm:108,pcdMm:127,boltCount:8,boltSizeMm:16,weightKg:3.7,hubXMm:null,weldDiaMm:null,wnLengthMm:null,soBoreMm:null,blindThickMm:20.7},
+    {id:'FLANGE|WN|NPS4|CL300|METRIC',componentType:'FLANGE',subtype:'WN',nps:'4',dn:100,classRating:'300',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:255,flangeThicknessMm:30.2,rfDiaMm:157.2,rfHeightMm:2,rtjRfDiaMm:175,pcdMm:200,boltCount:8,boltSizeMm:20,weightKg:11.4,hubXMm:146,weldDiaMm:114.3,wnLengthMm:84,soBoreMm:null,blindThickMm:null},
+    {id:'FLANGE|SO|NPS4|CL300|METRIC',componentType:'FLANGE',subtype:'SO',nps:'4',dn:100,classRating:'300',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:255,flangeThicknessMm:30.2,rfDiaMm:157.2,rfHeightMm:2,rtjRfDiaMm:175,pcdMm:200,boltCount:8,boltSizeMm:20,weightKg:10,hubXMm:146,weldDiaMm:114.3,wnLengthMm:null,soBoreMm:116.8,blindThickMm:null},
+    {id:'FLANGE|BLIND|NPS4|CL300|METRIC',componentType:'FLANGE',subtype:'BLIND',nps:'4',dn:100,classRating:'300',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:255,flangeThicknessMm:30.2,rfDiaMm:157.2,rfHeightMm:2,rtjRfDiaMm:175,pcdMm:200,boltCount:8,boltSizeMm:20,weightKg:12.3,hubXMm:null,weldDiaMm:null,wnLengthMm:null,soBoreMm:null,blindThickMm:30.2},
+    {id:'FLANGE|WN|NPS6|CL300|METRIC',componentType:'FLANGE',subtype:'WN',nps:'6',dn:150,classRating:'300',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:320,flangeThicknessMm:35,rfDiaMm:215.9,rfHeightMm:2,rtjRfDiaMm:241,pcdMm:269.9,boltCount:12,boltSizeMm:20,weightKg:19.1,hubXMm:206,weldDiaMm:168.3,wnLengthMm:97,soBoreMm:null,blindThickMm:null},
+    {id:'FLANGE|SO|NPS6|CL300|METRIC',componentType:'FLANGE',subtype:'SO',nps:'6',dn:150,classRating:'300',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:320,flangeThicknessMm:35,rfDiaMm:215.9,rfHeightMm:2,rtjRfDiaMm:241,pcdMm:269.9,boltCount:12,boltSizeMm:20,weightKg:17.7,hubXMm:206,weldDiaMm:168.3,wnLengthMm:null,soBoreMm:170.7,blindThickMm:null},
+    {id:'FLANGE|BLIND|NPS6|CL300|METRIC',componentType:'FLANGE',subtype:'BLIND',nps:'6',dn:150,classRating:'300',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:320,flangeThicknessMm:35,rfDiaMm:215.9,rfHeightMm:2,rtjRfDiaMm:241,pcdMm:269.9,boltCount:12,boltSizeMm:20,weightKg:22.7,hubXMm:null,weldDiaMm:null,wnLengthMm:null,soBoreMm:null,blindThickMm:35},
+    {id:'FLANGE|WN|NPS2|CL150|METRIC',componentType:'FLANGE',subtype:'WN',nps:'2',dn:50,classRating:'150',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:150,flangeThicknessMm:17.5,rfDiaMm:92.1,rfHeightMm:2,rtjRfDiaMm:102,pcdMm:120.7,boltCount:4,boltSizeMm:16,weightKg:2.7,hubXMm:78,weldDiaMm:60.3,wnLengthMm:62,soBoreMm:null,blindThickMm:null},
+    {id:'FLANGE|SO|NPS2|CL150|METRIC',componentType:'FLANGE',subtype:'SO',nps:'2',dn:50,classRating:'150',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:150,flangeThicknessMm:17.5,rfDiaMm:92.1,rfHeightMm:2,rtjRfDiaMm:102,pcdMm:120.7,boltCount:4,boltSizeMm:16,weightKg:2.3,hubXMm:78,weldDiaMm:60.3,wnLengthMm:null,soBoreMm:61.9,blindThickMm:null},
+    {id:'FLANGE|BLIND|NPS2|CL150|METRIC',componentType:'FLANGE',subtype:'BLIND',nps:'2',dn:50,classRating:'150',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:150,flangeThicknessMm:17.5,rfDiaMm:92.1,rfHeightMm:2,rtjRfDiaMm:102,pcdMm:120.7,boltCount:4,boltSizeMm:16,weightKg:2.3,hubXMm:null,weldDiaMm:null,wnLengthMm:null,soBoreMm:null,blindThickMm:17.5},
+    {id:'FLANGE|WN|NPS4|CL150|METRIC',componentType:'FLANGE',subtype:'WN',nps:'4',dn:100,classRating:'150',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:230,flangeThicknessMm:22.3,rfDiaMm:157.2,rfHeightMm:2,rtjRfDiaMm:171,pcdMm:190.5,boltCount:8,boltSizeMm:16,weightKg:6.8,hubXMm:135,weldDiaMm:114.3,wnLengthMm:75,soBoreMm:null,blindThickMm:null},
+    {id:'FLANGE|SO|NPS4|CL150|METRIC',componentType:'FLANGE',subtype:'SO',nps:'4',dn:100,classRating:'150',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:230,flangeThicknessMm:22.3,rfDiaMm:157.2,rfHeightMm:2,rtjRfDiaMm:171,pcdMm:190.5,boltCount:8,boltSizeMm:16,weightKg:5.9,hubXMm:135,weldDiaMm:114.3,wnLengthMm:null,soBoreMm:116.8,blindThickMm:null},
+    {id:'FLANGE|BLIND|NPS4|CL150|METRIC',componentType:'FLANGE',subtype:'BLIND',nps:'4',dn:100,classRating:'150',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:230,flangeThicknessMm:22.3,rfDiaMm:157.2,rfHeightMm:2,rtjRfDiaMm:171,pcdMm:190.5,boltCount:8,boltSizeMm:16,weightKg:7.7,hubXMm:null,weldDiaMm:null,wnLengthMm:null,soBoreMm:null,blindThickMm:22.3},
+    {id:'FLANGE|WN|NPS6|CL150|METRIC',componentType:'FLANGE',subtype:'WN',nps:'6',dn:150,classRating:'150',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:280,flangeThicknessMm:23.9,rfDiaMm:215.9,rfHeightMm:2,rtjRfDiaMm:219,pcdMm:241.3,boltCount:8,boltSizeMm:20,weightKg:10.9,hubXMm:192,weldDiaMm:168.3,wnLengthMm:87,soBoreMm:null,blindThickMm:null},
+    {id:'FLANGE|SO|NPS6|CL150|METRIC',componentType:'FLANGE',subtype:'SO',nps:'6',dn:150,classRating:'150',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:280,flangeThicknessMm:23.9,rfDiaMm:215.9,rfHeightMm:2,rtjRfDiaMm:219,pcdMm:241.3,boltCount:8,boltSizeMm:20,weightKg:8.6,hubXMm:192,weldDiaMm:168.3,wnLengthMm:null,soBoreMm:170.7,blindThickMm:null},
+    {id:'FLANGE|BLIND|NPS6|CL150|METRIC',componentType:'FLANGE',subtype:'BLIND',nps:'6',dn:150,classRating:'150',standard:'ASME B16.5',dataStatus:'READY',flangeOdMm:280,flangeThicknessMm:23.9,rfDiaMm:215.9,rfHeightMm:2,rtjRfDiaMm:219,pcdMm:241.3,boltCount:8,boltSizeMm:20,weightKg:11.8,hubXMm:null,weldDiaMm:null,wnLengthMm:null,soBoreMm:null,blindThickMm:23.9},
+  ];
+
+  static PI = [
+    {id:'PIPE|NPS0+1/8|SCH40',componentType:'PIPE',nps:'0+1/8',dn:6,schedule:'40',odMm:null,wallMm:null,idMm:null,weightKgPerM:null,standard:'PROJECT_PIPE_TABLE',dataStatus:'PARTIAL'},
+    {id:'PIPE|NPS0+1/4|SCH40',componentType:'PIPE',nps:'0+1/4',dn:8,schedule:'40',odMm:13.7,wallMm:2.24,idMm:9.22,weightKgPerM:0.63,standard:'PROJECT_PIPE_TABLE',dataStatus:'READY'},
+    {id:'PIPE|NPS1|SCH40',componentType:'PIPE',nps:'1',dn:25,schedule:'40',odMm:33.4,wallMm:3.38,idMm:26.64,weightKgPerM:2.5,standard:'PROJECT_PIPE_TABLE',dataStatus:'READY'},
+    {id:'PIPE|NPS2|SCH40',componentType:'PIPE',nps:'2',dn:50,schedule:'40',odMm:60.3,wallMm:3.91,idMm:52.48,weightKgPerM:5.44,standard:'PROJECT_PIPE_TABLE',dataStatus:'READY'},
+    {id:'PIPE|NPS4|SCH40',componentType:'PIPE',nps:'4',dn:100,schedule:'40',odMm:114.3,wallMm:6.02,idMm:102.26,weightKgPerM:16.08,standard:'PROJECT_PIPE_TABLE',dataStatus:'READY'},
+    {id:'PIPE|NPS6|SCH40',componentType:'PIPE',nps:'6',dn:150,schedule:'40',odMm:168.3,wallMm:7.11,idMm:154.08,weightKgPerM:28.26,standard:'PROJECT_PIPE_TABLE',dataStatus:'READY'},
+    {id:'PIPE|NPS8|SCH40',componentType:'PIPE',nps:'8',dn:200,schedule:'40',odMm:219.1,wallMm:8.18,idMm:202.74,weightKgPerM:42.55,standard:'PROJECT_PIPE_TABLE',dataStatus:'READY'},
+    {id:'PIPE|NPS2|SCH80',componentType:'PIPE',nps:'2',dn:50,schedule:'80',odMm:60.3,wallMm:5.54,idMm:49.22,weightKgPerM:7.48,standard:'PROJECT_PIPE_TABLE',dataStatus:'READY'},
+    {id:'PIPE|NPS4|SCH80',componentType:'PIPE',nps:'4',dn:100,schedule:'80',odMm:114.3,wallMm:8.56,idMm:97.18,weightKgPerM:22.32,standard:'PROJECT_PIPE_TABLE',dataStatus:'READY'},
+    {id:'PIPE|NPS6|SCH80',componentType:'PIPE',nps:'6',dn:150,schedule:'80',odMm:168.3,wallMm:10.97,idMm:146.36,weightKgPerM:42.56,standard:'PROJECT_PIPE_TABLE',dataStatus:'READY'},
+  ];
+
+  static FT = [
+    {id:'FITTING|ELBOW_90|NPS2|SCH40|METRIC',componentType:'FITTING',subtype:'ELBOW_90',nps:'2',dn:50,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:60.325,ctrToEndMm:76,devLenMm:119.38,overCapMm:null,weightKg:0.65},
+    {id:'FITTING|ELBOW_90|NPS4|SCH40|METRIC',componentType:'FITTING',subtype:'ELBOW_90',nps:'4',dn:100,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:114.3,ctrToEndMm:152,devLenMm:238.76,overCapMm:null,weightKg:3.9},
+    {id:'FITTING|ELBOW_90|NPS6|SCH40|METRIC',componentType:'FITTING',subtype:'ELBOW_90',nps:'6',dn:150,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:168.275,ctrToEndMm:229,devLenMm:359.71,overCapMm:null,weightKg:10.2},
+    {id:'FITTING|TEE_STRAIGHT|NPS2|SCH40|METRIC',componentType:'FITTING',subtype:'TEE_STRAIGHT',nps:'2',dn:50,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:60,ctrToEndMm:64,devLenMm:null,overCapMm:null,weightKg:1.88},
+    {id:'FITTING|TEE_STRAIGHT|NPS4|SCH40|METRIC',componentType:'FITTING',subtype:'TEE_STRAIGHT',nps:'4',dn:100,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:114,ctrToEndMm:105,devLenMm:null,overCapMm:null,weightKg:6},
+    {id:'FITTING|TEE_STRAIGHT|NPS6|SCH40|METRIC',componentType:'FITTING',subtype:'TEE_STRAIGHT',nps:'6',dn:150,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:168,ctrToEndMm:143,devLenMm:null,overCapMm:null,weightKg:16.48},
+    {id:'FITTING|CAP|NPS2|SCH40|METRIC',componentType:'FITTING',subtype:'CAP',nps:'2',dn:50,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:60,ctrToEndMm:null,devLenMm:null,overCapMm:38,weightKg:0.3},
+    {id:'FITTING|CAP|NPS4|SCH40|METRIC',componentType:'FITTING',subtype:'CAP',nps:'4',dn:100,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:114,ctrToEndMm:null,devLenMm:null,overCapMm:64,weightKg:1.6},
+    {id:'FITTING|CAP|NPS6|SCH40|METRIC',componentType:'FITTING',subtype:'CAP',nps:'6',dn:150,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:168,ctrToEndMm:null,devLenMm:null,overCapMm:89,weightKg:3.6},
+    {id:'FITTING|ELBOW_45|NPS2|SCH40|METRIC',componentType:'FITTING',subtype:'ELBOW_45',nps:'2',dn:50,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:60.325,ctrToEndMm:35,devLenMm:59.85,overCapMm:null,weightKg:0.32},
+    {id:'FITTING|ELBOW_45|NPS4|SCH40|METRIC',componentType:'FITTING',subtype:'ELBOW_45',nps:'4',dn:100,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:114.3,ctrToEndMm:64,devLenMm:119.07,overCapMm:null,weightKg:1.95},
+    {id:'FITTING|ELBOW_45|NPS6|SCH40|METRIC',componentType:'FITTING',subtype:'ELBOW_45',nps:'6',dn:150,schedule:'40',standard:'ASME B16.9',dataStatus:'READY',odMm:168.275,ctrToEndMm:95,devLenMm:180.17,overCapMm:null,weightKg:5.1},
+    {id:'FITTING|ELBOW_90|NPS2|SCH80|METRIC',componentType:'FITTING',subtype:'ELBOW_90',nps:'2',dn:50,schedule:'80',standard:'ASME B16.9',dataStatus:'READY',odMm:60.325,ctrToEndMm:76,devLenMm:119.38,overCapMm:null,weightKg:0.94},
+    {id:'FITTING|ELBOW_90|NPS4|SCH80|METRIC',componentType:'FITTING',subtype:'ELBOW_90',nps:'4',dn:100,schedule:'80',standard:'ASME B16.9',dataStatus:'READY',odMm:114.3,ctrToEndMm:152,devLenMm:238.76,overCapMm:null,weightKg:5.4},
+    {id:'FITTING|ELBOW_90|NPS6|SCH80|METRIC',componentType:'FITTING',subtype:'ELBOW_90',nps:'6',dn:150,schedule:'80',standard:'ASME B16.9',dataStatus:'READY',odMm:168.275,ctrToEndMm:229,devLenMm:359.71,overCapMm:null,weightKg:15.35},
+  ];
+
+  static GK = [
+    {id:'GASKET|FLAT_RING|UNKNOWN',componentType:'GASKET',subtype:'FLAT_RING',nps:null,classRating:null,facing:null,standard:'ASME B16.20',dataStatus:'MISSING_DIMENSION',innerDiaMm:null,outerDiaMm:null,thicknessMm:null},
+    {id:'GASKET|RTJ|UNKNOWN',componentType:'GASKET',subtype:'RTJ',nps:null,classRating:null,facing:'RTJ',standard:'ASME B16.20',dataStatus:'MISSING_DIMENSION',innerDiaMm:null,outerDiaMm:null,thicknessMm:null},
+    {id:'GASKET|SPIRAL_WOUND|UNKNOWN',componentType:'GASKET',subtype:'SPIRAL_WOUND',nps:null,classRating:null,facing:null,standard:'ASME B16.20',dataStatus:'MISSING_DIMENSION',innerDiaMm:null,outerDiaMm:null,thicknessMm:null},
+  ];
+
+  static FAMS = [
+    {id:'VALVE',  label:'Valves',   abbr:'VL', standard:'ASME B16.10', color:'#2563EB', bg:'#EFF6FF'},
+    {id:'FLANGE', label:'Flanges',  abbr:'FL', standard:'ASME B16.5',  color:'#7C3AED', bg:'#F5F3FF'},
+    {id:'PIPE',   label:'Pipes',    abbr:'PI', standard:'ASME B36.10M',color:'#059669', bg:'#F0FDF4'},
+    {id:'FITTING',label:'Fittings', abbr:'FT', standard:'ASME B16.9',  color:'#D97706', bg:'#FFFBEB'},
+    {id:'GASKET', label:'Gaskets',  abbr:'GK', standard:'ASME B16.20', color:'#DC2626', bg:'#FEF2F2'},
+    {id:'SUPPORT',label:'Supports', abbr:'SP', standard:'—',           color:'#64748B', bg:'#F8FAFC'},
+  ];
+
+  state = {
+    fam: 'DASHBOARD',
+    search: '',
+    fNps: 'all', fClass: 'all', fSch: 'all', fSub: 'all', fStatus: 'all',
+    selId: null,
+  };
+
+  rows(fam) {
+    return {VALVE:Component.V,FLANGE:Component.FL,PIPE:Component.PI,FITTING:Component.FT,GASKET:Component.GK,SUPPORT:[]}[fam] || [];
+  }
+
+  badge(status) {
+    if (status === 'READY')   return {bg:'#DCFCE7', text:'#166534', label:'READY'};
+    if (status === 'PARTIAL') return {bg:'#FEF9C3', text:'#854D0E', label:'PARTIAL'};
+    return                           {bg:'#FEE2E2', text:'#991B1B', label:'MISSING'};
+  }
+
+  fmt(v) {
+    if (v == null) return null;
+    if (typeof v === 'number') return Number.isInteger(v) ? String(v) : v.toFixed(v < 10 ? 3 : v < 100 ? 2 : 1);
+    return String(v);
+  }
+
+  cell(val, {mono=false, unit='', badge=false}={}) {
+    const ff = mono ? "'DM Mono', monospace" : "'DM Sans', system-ui, sans-serif";
+    if (badge) {
+      const b = this.badge(val);
+      return {val:b.label, bDisp:'inline-block', tDisp:'none', bBg:b.bg, bText:b.text, tColor:'', tFont:ff};
+    }
+    const fv = this.fmt(val);
+    const disp = fv == null ? '—' : unit ? `${fv} ${unit}` : fv;
+    return {val:disp, bDisp:'none', tDisp:'inline', bBg:'', bText:'', tColor:fv==null?'#94A3B8':'#1E293B', tFont:ff};
+  }
+
+  tableCfg(fam) {
+    const c = (v,o) => this.cell(v,o);
+    return {
+      VALVE: {
+        h:['Type','End','NPS / DN','Class','Facing','F2F RF','F2F RTJ','Height','Weight RF/RTJ','Status'],
+        r: r => [c(r.valveType),c(r.endType),c(`NPS ${r.nps} · DN ${r.dn}`,{mono:true}),c(`CL ${r.classRating}`,{mono:true}),c(r.facing),c(r.faceToFaceRfMm,{mono:true,unit:'mm'}),c(r.faceToFaceRtjMm,{mono:true,unit:'mm'}),c(r.heightMm,{mono:true,unit:'mm'}),c(r.rfRtjKg,{mono:true,unit:'kg'}),c(r.dataStatus,{badge:true})],
+      },
+      FLANGE: {
+        h:['Subtype','NPS / DN','Class','Flange OD','Thickness','PCD','Bolts','Bolt Ø','Weight','Status'],
+        r: r => [c(r.subtype),c(`NPS ${r.nps} · DN ${r.dn}`,{mono:true}),c(`CL ${r.classRating}`,{mono:true}),c(r.flangeOdMm,{mono:true,unit:'mm'}),c(r.flangeThicknessMm,{mono:true,unit:'mm'}),c(r.pcdMm,{mono:true,unit:'mm'}),c(r.boltCount,{mono:true}),c(r.boltSizeMm,{mono:true,unit:'mm'}),c(r.weightKg,{mono:true,unit:'kg'}),c(r.dataStatus,{badge:true})],
+      },
+      PIPE: {
+        h:['NPS / DN','Schedule','OD','Wall','Bore (ID)','Weight / m','Status'],
+        r: r => [c(`NPS ${r.nps} · DN ${r.dn}`,{mono:true}),c(`SCH ${r.schedule}`,{mono:true}),c(r.odMm,{mono:true,unit:'mm'}),c(r.wallMm,{mono:true,unit:'mm'}),c(r.idMm,{mono:true,unit:'mm'}),c(r.weightKgPerM,{mono:true,unit:'kg/m'}),c(r.dataStatus,{badge:true})],
+      },
+      FITTING: {
+        h:['Subtype','NPS / DN','Schedule','OD','Ctr-to-End','Dev. Length','Weight','Status'],
+        r: r => [c(r.subtype),c(`NPS ${r.nps} · DN ${r.dn}`,{mono:true}),c(`SCH ${r.schedule}`,{mono:true}),c(r.odMm,{mono:true,unit:'mm'}),c(r.ctrToEndMm!=null?r.ctrToEndMm:r.overCapMm,{mono:true,unit:'mm'}),c(r.devLenMm,{mono:true,unit:'mm'}),c(r.weightKg,{mono:true,unit:'kg'}),c(r.dataStatus,{badge:true})],
+      },
+      GASKET: {
+        h:['Subtype','NPS','Class','Facing','Inner Ø','Outer Ø','Thickness','Status'],
+        r: r => [c(r.subtype),c(r.nps||'—'),c(r.classRating||'—'),c(r.facing||'—'),c(r.innerDiaMm,{mono:true,unit:'mm'}),c(r.outerDiaMm,{mono:true,unit:'mm'}),c(r.thicknessMm,{mono:true,unit:'mm'}),c(r.dataStatus,{badge:true})],
+      },
+      SUPPORT: {h:['ID','Status'], r: r => [c(r.id,{mono:true}),c(r.dataStatus,{badge:true})]},
+    }[fam] || {h:[], r:()=>[]};
+  }
+
+  buildCanvas(row) {
+    if (!row) return null;
+    const e = React.createElement;
+    const W = 390, H = 262;
+    const uid = ('v'+row.id).replace(/[^a-zA-Z0-9]/g,'').slice(0,18);
+    const AID='ar'+uid, HID='ht'+uid;
+    const BF='#EFF6FF', BF2='#DBEAFE', BD='#1E293B', DC='#2563EB', CLC='#94A3B8';
+    const MF="'DM Mono',monospace";
+
+    const fv = (v,u='') => { if(v==null)return'—'; const s=typeof v==='number'?(v%1===0?String(v):v.toFixed(v<10?2:1)):String(v); return u?`${s} ${u}`:s; };
+
+    const DEFS = e('defs',{key:'df'},
+      e('marker',{key:'me',id:AID,markerWidth:7,markerHeight:6,refX:6,refY:3,orient:'auto'},
+        e('polygon',{points:'0,0 7,3 0,6',fill:DC})
+      ),
+      e('marker',{key:'ms',id:AID+'s',markerWidth:7,markerHeight:6,refX:1,refY:3,orient:'auto-start-reverse'},
+        e('polygon',{points:'0,0 7,3 0,6',fill:DC})
+      ),
+      e('pattern',{key:'hp',id:HID,x:0,y:0,width:5,height:5,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},
+        e('line',{x1:0,y1:0,x2:0,y2:5,stroke:'#7BA7CC',strokeWidth:1.2})
+      )
+    );
+    const BG = e('rect',{key:'bg',x:0,y:0,width:W,height:H,fill:'#F8FAFC'});
+    const BORDER = e('rect',{key:'br',x:0,y:0,width:W,height:H,fill:'none',stroke:'#E2E8F0',strokeWidth:1});
+    const TTITLE = (t) => [
+      e('rect',{key:'tb',x:0,y:H-20,width:W,height:20,fill:'#F1F5F9'}),
+      e('line',{key:'tl',x1:0,y1:H-20,x2:W,y2:H-20,stroke:'#E2E8F0',strokeWidth:0.8}),
+      e('text',{key:'tt',x:W/2,y:H-7,textAnchor:'middle',fill:'#64748B',fontSize:7.5,fontFamily:MF},t)
+    ];
+    const CLL = (x1,y1,x2,y2,k) => e('line',{key:k||'cl',x1,y1,x2,y2,stroke:CLC,strokeWidth:0.7,strokeDasharray:'9,3,2,3'});
+    const HF = (d,k) => e('path',{key:k||'hf',d,fill:`url(#${HID})`,stroke:'none',opacity:0.78});
+    const ae=`url(#${AID})`, as=`url(#${AID}s)`;
+    const HD=(x1,x2,y,lbl,above,k)=>e('g',{key:k||'hd'},
+      e('line',{x1,y1:y+3,x2:x1,y2:y-3,stroke:DC,strokeWidth:0.8}),
+      e('line',{x1:x2,y1:y+3,x2,y2:y-3,stroke:DC,strokeWidth:0.8}),
+      Math.abs(x2-x1)>18?e('line',{x1:x1+5,y1:y,x2:x2-5,y2:y,stroke:DC,strokeWidth:0.8,markerStart:as,markerEnd:ae}):null,
+      e('text',{x:(x1+x2)/2,y:y+(above?-4:12),textAnchor:'middle',fill:DC,fontSize:8.5,fontFamily:MF,fontWeight:'600'},lbl)
+    );
+    const VD=(x,y1,y2,lbl,rs,k)=>{
+      const ox=x+(rs?11:-11),my=(y1+y2)/2;
+      return e('g',{key:k||'vd'},
+        e('line',{x1:x+3,y1,x2:x-3,y2:y1,stroke:DC,strokeWidth:0.8}),
+        e('line',{x1:x+3,y1:y2,x2:x-3,y2,stroke:DC,strokeWidth:0.8}),
+        Math.abs(y2-y1)>18?e('line',{x1:x,y1:y1+5,x2:x,y2:y2-5,stroke:DC,strokeWidth:0.8,markerStart:as,markerEnd:ae}):null,
+        e('text',{x:ox,y:my+3,textAnchor:'middle',fill:DC,fontSize:8.5,fontFamily:MF,fontWeight:'600',transform:`rotate(-90,${ox},${my+3})`},lbl)
+      );
+    };
+    const LD=(x,y,lbl,dx,dy,k)=>{
+      const ex=x+dx,ey=y+dy,r=dx>0;
+      return e('g',{key:k||'ld'},
+        e('circle',{cx:x,cy:y,r:2.5,fill:DC}),
+        e('polyline',{points:`${x},${y} ${ex},${ey} ${ex+(r?18:-18)},${ey}`,stroke:DC,strokeWidth:0.8,fill:'none'}),
+        e('text',{x:ex+(r?22:-22),y:ey+3.5,textAnchor:r?'start':'end',fill:DC,fontSize:8.5,fontFamily:MF,fontWeight:'600'},lbl)
+      );
+    };
+
+    // ── GATE VALVE ──────────────────────────────────────────────────────
+    if (row.componentType === 'VALVE') {
+      const F2F=row.faceToFaceRfMm||280, TotH=row.heightMm||600, HWD=row.handwheelDiaMm||300, DN=row.dn||50;
+      const scW=(W-90)/(F2F*1.22), scH=(H-52)/(TotH*1.08);
+      const sc=Math.min(scW,scH,0.65);
+      const f2fPx=F2F*sc, hPx=TotH*sc, hwPx=HWD*sc;
+      const dnPx=Math.max(11,DN*sc*0.55);
+      const flW=f2fPx*0.17, flH=dnPx*2.8, bodyW=f2fPx*0.38, bodyH=dnPx*3.0;
+      const bonH=hPx*0.20, bonW=bodyW*0.50, stH=hPx*0.32, stW=Math.max(4,dnPx*0.22);
+      const rfB=Math.max(2.5,dnPx*0.14);
+      const ox=W/2, oy=20+hPx*0.72;
+      const lx=ox-f2fPx/2, rx=ox+f2fPx/2;
+      const bodyT=oy-bodyH/2, bodyB=oy+bodyH/2;
+      const bonT=bodyT-bonH, stemT=bonT-stH, hwCy=stemT-hwPx/2;
+      const lFlP=`M${lx+flW},${oy-dnPx} L${lx+flW},${oy-flH} L${lx},${oy-flH} L${lx},${oy+flH} L${lx+flW},${oy+flH} L${lx+flW},${oy+dnPx} Z`;
+      const rFlP=`M${rx-flW},${oy-dnPx} L${rx-flW},${oy-flH} L${rx},${oy-flH} L${rx},${oy+flH} L${rx-flW},${oy+flH} L${rx-flW},${oy+dnPx} Z`;
+      const bTap=bodyW*0.07;
+      const bodyP=`M${ox-bodyW/2+bTap},${bodyT} L${ox-bodyW/2},${bodyT+bodyH*0.22} L${ox-bodyW/2},${bodyB-bodyH*0.22} L${ox-bodyW/2+bTap},${bodyB} L${ox+bodyW/2-bTap},${bodyB} L${ox+bodyW/2},${bodyB-bodyH*0.22} L${ox+bodyW/2},${bodyT+bodyH*0.22} L${ox+bodyW/2-bTap},${bodyT} Z`;
+      const bonP=`M${ox-bonW/2},${bodyT} L${ox-bonW/2*0.7},${bonT} L${ox+bonW/2*0.7},${bonT} L${ox+bonW/2},${bodyT} Z`;
+      const gW=dnPx*1.6, gH=bodyH*0.72;
+      const gateP=`M${ox-gW/2},${bodyT+4} L${ox+gW/2},${bodyT+4} L${ox+gW*0.65/2},${bodyT+gH} L${ox-gW*0.65/2},${bodyT+gH} Z`;
+      const lRF=`M${lx-rfB},${oy-dnPx*1.1} L${lx},${oy-dnPx*1.1} L${lx},${oy+dnPx*1.1} L${lx-rfB},${oy+dnPx*1.1} Z`;
+      const rRF=`M${rx},${oy-dnPx*1.1} L${rx+rfB},${oy-dnPx*1.1} L${rx+rfB},${oy+dnPx*1.1} L${rx},${oy+dnPx*1.1} Z`;
+      const bhr=Math.max(1.8,flH*0.07);
+      return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},
+        DEFS,BG,BORDER,
+        CLL(lx-rfB-10,oy,rx+rfB+30,oy,'clh'), CLL(ox,hwCy-hwPx/2-6,ox,bodyB+14,'clv'),
+        e('line',{key:'plo',x1:lx-rfB-10,y1:oy-dnPx,x2:lx-rfB,y2:oy-dnPx,stroke:BD,strokeWidth:1.1}),
+        e('line',{key:'pli',x1:lx-rfB-10,y1:oy+dnPx,x2:lx-rfB,y2:oy+dnPx,stroke:BD,strokeWidth:1.1}),
+        e('line',{key:'pro',x1:rx+rfB,y1:oy-dnPx,x2:rx+rfB+10,y2:oy-dnPx,stroke:BD,strokeWidth:1.1}),
+        e('line',{key:'pri',x1:rx+rfB,y1:oy+dnPx,x2:rx+rfB+10,y2:oy+dnPx,stroke:BD,strokeWidth:1.1}),
+        e('path',{key:'bd',d:bodyP,fill:BF,stroke:BD,strokeWidth:1.4,strokeLinejoin:'round'}), HF(bodyP,'bdht'),
+        e('path',{key:'gate',d:gateP,fill:BF2,stroke:BD,strokeWidth:0.9}), HF(gateP,'ght'),
+        e('line',{key:'bh1',x1:ox-bodyW/2+bTap,y1:oy-dnPx,x2:ox-dnPx*0.5,y2:oy-dnPx,stroke:BD,strokeWidth:0.7,strokeDasharray:'4,2'}),
+        e('line',{key:'bh2',x1:ox+dnPx*0.5,y1:oy-dnPx,x2:ox+bodyW/2-bTap,y2:oy-dnPx,stroke:BD,strokeWidth:0.7,strokeDasharray:'4,2'}),
+        e('line',{key:'bh3',x1:ox-bodyW/2+bTap,y1:oy+dnPx,x2:ox-dnPx*0.5,y2:oy+dnPx,stroke:BD,strokeWidth:0.7,strokeDasharray:'4,2'}),
+        e('line',{key:'bh4',x1:ox+dnPx*0.5,y1:oy+dnPx,x2:ox+bodyW/2-bTap,y2:oy+dnPx,stroke:BD,strokeWidth:0.7,strokeDasharray:'4,2'}),
+        e('path',{key:'bn',d:bonP,fill:BF,stroke:BD,strokeWidth:1.3,strokeLinejoin:'round'}), HF(bonP,'bnh'),
+        e('rect',{key:'pk',x:ox-stW*1.3,y:bonT-stW*1.2,width:stW*2.6,height:stW*1.2,fill:'#94A3B8',stroke:BD,strokeWidth:0.9}),
+        e('rect',{key:'st',x:ox-stW/2,y:stemT,width:stW,height:bonT-stemT,fill:BF,stroke:BD,strokeWidth:1}),
+        e('rect',{key:'yk',x:ox-stW*1.8,y:stemT,width:stW*3.6,height:stW*1.8,fill:BF,stroke:BD,strokeWidth:1}),
+        e('circle',{key:'hw',cx:ox,cy:hwCy,r:hwPx/2,fill:'none',stroke:BD,strokeWidth:1.6}),
+        e('circle',{key:'hwh',cx:ox,cy:hwCy,r:hwPx*0.07,fill:BF,stroke:BD,strokeWidth:1}),
+        ...[0,1,2,3].map(i=>{const a=i*Math.PI/2;return e('line',{key:`sp${i}`,x1:ox+Math.cos(a)*hwPx*0.08,y1:hwCy+Math.sin(a)*hwPx*0.08,x2:ox+Math.cos(a)*hwPx/2,y2:hwCy+Math.sin(a)*hwPx/2,stroke:BD,strokeWidth:1.1});}),
+        e('path',{key:'lf',d:lFlP,fill:BF,stroke:BD,strokeWidth:1.3}), HF(lFlP,'lfh'),
+        e('path',{key:'lrf',d:lRF,fill:BF2,stroke:BD,strokeWidth:1}),
+        e('circle',{key:'lbh0',cx:lx+flW/2,cy:oy-flH*0.35,r:bhr,fill:'white',stroke:BD,strokeWidth:0.8}),
+        e('circle',{key:'lbh1',cx:lx+flW/2,cy:oy+flH*0.35,r:bhr,fill:'white',stroke:BD,strokeWidth:0.8}),
+        e('path',{key:'rf',d:rFlP,fill:BF,stroke:BD,strokeWidth:1.3}), HF(rFlP,'rfh'),
+        e('path',{key:'rrf',d:rRF,fill:BF2,stroke:BD,strokeWidth:1}),
+        e('circle',{key:'rbh0',cx:rx-flW/2,cy:oy-flH*0.35,r:bhr,fill:'white',stroke:BD,strokeWidth:0.8}),
+        e('circle',{key:'rbh1',cx:rx-flW/2,cy:oy+flH*0.35,r:bhr,fill:'white',stroke:BD,strokeWidth:0.8}),
+        HD(lx-rfB,rx+rfB,bodyB+20,`F2F: ${fv(row.faceToFaceRfMm,'mm')}`,false,'hdf2f'),
+        VD(rx+rfB+28,hwCy-hwPx/2,bodyB,`H: ${fv(row.heightMm,'mm')}`,true,'vdh'),
+        HD(ox-hwPx/2,ox+hwPx/2,hwCy-hwPx/2-8,`Ø${fv(row.handwheelDiaMm)} mm`,true,'hdhw'),
+        LD(rx,oy-flH*0.5,`${fv(row.rfRtjKg,'kg')}`,16,-16,'ldwt'),
+        e('text',{key:'cl0',x:ox,y:bodyB-6,textAnchor:'middle',fill:'#475569',fontSize:8,fontFamily:MF},`NPS ${row.nps} · CL${row.classRating} · ${row.facing}`),
+        ...TTITLE(`GATE VALVE · NPS ${row.nps} (DN ${row.dn}) · ${row.classRating}# · ${row.standard}`)
+      );
+    }
+
+    // ── FLANGE  cross-section (left) + face view (right) ───────────────
+    if (row.componentType === 'FLANGE') {
+      const OD=row.flangeOdMm||200, TH=row.flangeThicknessMm||25;
+      const RFD=row.rfDiaMm||92, RFH_=row.rfHeightMm||2;
+      const PCD=row.pcdMm||127, BC=row.boltCount||8, BSZ=row.boltSizeMm||16;
+      const isWN=row.subtype==='WN', isSO=row.subtype==='SO', isBL=row.subtype==='BLIND';
+      const BORE=row.weldDiaMm||OD*0.55, WNL=row.wnLengthMm||0;
+      const sc=Math.min(88/(OD/2),3.5);
+      const Rpx=OD/2*sc, Tpx=TH*sc, rfdPx=RFD/2*sc, borePx=BORE/2*sc;
+      const rfhPx=Math.max(3.5,RFH_*sc*2.5), pcdPx=PCD/2*sc, bsr=Math.max(2.2,BSZ/2*sc*0.5);
+      const wnlPx=WNL*sc;
+      const lCX=96, rCX=280, midY=H/2-10;
+      const faceX=lCX+Tpx/2, backX=lCX-Tpx/2;
+      const buildHalf=(ys)=>{
+        const topY=midY-ys*Rpx, rfY=midY-ys*rfdPx, boreY=midY-ys*borePx;
+        if(isWN){const hubY=midY-ys*borePx*1.3; return `M${backX},${midY} L${backX},${topY} L${faceX},${topY} L${faceX},${rfY} L${faceX+rfhPx},${rfY} L${faceX+rfhPx},${boreY} L${faceX},${boreY} L${backX},${hubY} L${backX-wnlPx},${boreY} L${backX-wnlPx},${midY} Z`;}
+        if(isSO){return `M${backX},${midY} L${backX},${topY} L${faceX},${topY} L${faceX},${rfY} L${faceX+rfhPx},${rfY} L${faceX+rfhPx},${boreY} L${faceX},${boreY} L${backX},${boreY} L${backX},${midY} Z`;}
+        return `M${backX},${midY} L${backX},${topY} L${faceX},${topY} L${faceX},${rfY} L${faceX+rfhPx},${rfY} L${faceX+rfhPx},${midY} Z`;
+      };
+      const upP=buildHalf(1), dnP=buildHalf(-1);
+      const nB=Math.min(BC,16);
+      const boltPts=Array.from({length:nB},(_,i)=>{const a=(i/nB)*Math.PI*2-Math.PI/2; return {cx:rCX+Math.cos(a)*pcdPx,cy:midY+Math.sin(a)*pcdPx};});
+      return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},
+        DEFS,BG,BORDER,
+        e('line',{key:'div',x1:W/2,y1:14,x2:W/2,y2:H-22,stroke:'#E2E8F0',strokeWidth:0.8,strokeDasharray:'4,3'}),
+        e('text',{key:'ll',x:lCX,y:14,textAnchor:'middle',fill:'#94A3B8',fontSize:7.5,fontFamily:MF},'CROSS-SECTION'),
+        e('text',{key:'rl',x:rCX,y:14,textAnchor:'middle',fill:'#94A3B8',fontSize:7.5,fontFamily:MF},'FACE VIEW'),
+        CLL(backX-wnlPx-8,midY,faceX+rfhPx+10,midY,'clcs'),
+        CLL(rCX-Rpx-8,midY,rCX+Rpx+8,midY,'clfvh'), CLL(rCX,midY-Rpx-8,rCX,midY+Rpx+8,'clfvv'),
+        e('path',{key:'cup',d:upP,fill:BF,stroke:BD,strokeWidth:1.3,strokeLinejoin:'round'}), HF(upP,'cuph'),
+        e('path',{key:'cdn',d:dnP,fill:BF,stroke:BD,strokeWidth:1.3,strokeLinejoin:'round'}), HF(dnP,'cdnh'),
+        e('circle',{key:'fvod',cx:rCX,cy:midY,r:Rpx,fill:BF,stroke:BD,strokeWidth:1.4}),
+        e('circle',{key:'fvht',cx:rCX,cy:midY,r:Rpx,fill:`url(#${HID})`,stroke:'none',opacity:0.7}),
+        e('circle',{key:'fvpcd',cx:rCX,cy:midY,r:pcdPx,fill:'none',stroke:'#94A3B8',strokeWidth:0.8,strokeDasharray:'5,3'}),
+        ...boltPts.map((b,i)=>e('circle',{key:`bh${i}`,cx:b.cx,cy:b.cy,r:bsr,fill:'white',stroke:BD,strokeWidth:1.1})),
+        e('circle',{key:'fvrf',cx:rCX,cy:midY,r:rfdPx,fill:'none',stroke:BD,strokeWidth:0.9,strokeDasharray:'3,2'}),
+        !isBL?e('circle',{key:'fvbore',cx:rCX,cy:midY,r:borePx,fill:'white',stroke:BD,strokeWidth:1.1}):null,
+        HD(rCX-Rpx,rCX+Rpx,midY+Rpx+16,`Ø${fv(OD,'mm')} OD`,false,'hdod'),
+        VD(backX-(isWN?wnlPx:0)-14,midY-Rpx*0.7,midY+Rpx*0.7,`T: ${fv(TH,'mm')}`,false,'vdth'),
+        isWN&&wnlPx>5?VD(backX-wnlPx-14,midY-borePx*0.6,midY+borePx*0.6,`L: ${fv(WNL,'mm')}`,false,'vdwn'):null,
+        e('text',{key:'pcdlbl',x:rCX,y:midY-pcdPx-6,textAnchor:'middle',fill:DC,fontSize:8,fontFamily:MF},`PCD Ø${fv(PCD)} mm`),
+        LD(rCX+rfdPx*0.72,midY-rfdPx*0.72,`RF Ø${fv(RFD)} mm`,-22,-14,'ldrf'),
+        LD(rCX-Rpx,midY+2,`${fv(row.weightKg,'kg')}`,-22,0,'ldwt'),
+        ...TTITLE(`${row.subtype} FLANGE · NPS ${row.nps} (DN ${row.dn}) · CL${row.classRating} · ${row.standard}`)
+      );
+    }
+
+    // ── PIPE  end view (left) + longitudinal section (right) ────────────
+    if (row.componentType === 'PIPE') {
+      const OD=row.odMm, ID=row.idMm, WALL=row.wallMm;
+      const sc=OD?Math.min(72/(OD/2),4.0):3.0;
+      const Rpx=(OD||60)/2*sc, ripx=(ID||48)/2*sc;
+      const lCX=85, midY=H/2-8, rLeft=148, rRight=358;
+      const rLen=rRight-rLeft;
+      return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},
+        DEFS,BG,BORDER,
+        e('line',{key:'div',x1:134,y1:14,x2:134,y2:H-22,stroke:'#E2E8F0',strokeWidth:0.8,strokeDasharray:'4,3'}),
+        e('text',{key:'ll',x:lCX,y:14,textAnchor:'middle',fill:'#94A3B8',fontSize:7.5,fontFamily:MF},'END VIEW'),
+        e('text',{key:'rl',x:(rLeft+rRight)/2,y:14,textAnchor:'middle',fill:'#94A3B8',fontSize:7.5,fontFamily:MF},'LONGITUDINAL SECTION'),
+        CLL(lCX-Rpx-8,midY,lCX+Rpx+8,midY,'clhev'), CLL(lCX,midY-Rpx-8,lCX,midY+Rpx+8,'clvev'),
+        CLL(rLeft-8,midY,rRight+8,midY,'clhls'),
+        e('circle',{key:'evod',cx:lCX,cy:midY,r:Rpx,fill:BF,stroke:BD,strokeWidth:1.5}),
+        e('circle',{key:'evht',cx:lCX,cy:midY,r:Rpx,fill:`url(#${HID})`,stroke:'none',opacity:0.75}),
+        e('circle',{key:'evid',cx:lCX,cy:midY,r:ripx,fill:'#F8FAFC',stroke:BD,strokeWidth:1.2}),
+        e('rect',{key:'lsod',x:rLeft,y:midY-Rpx,width:rLen,height:Rpx*2,fill:BF,stroke:BD,strokeWidth:1.4}),
+        HF(`M${rLeft},${midY-Rpx} h${rLen*0.18} v${Rpx-ripx} h${-rLen*0.18} Z`,'lshtu'),
+        HF(`M${rLeft},${midY+ripx} h${rLen*0.18} v${Rpx-ripx} h${-rLen*0.18} Z`,'lshtl'),
+        e('line',{key:'lsidT',x1:rLeft,y1:midY-ripx,x2:rRight,y2:midY-ripx,stroke:BD,strokeWidth:0.9,strokeDasharray:'5,3'}),
+        e('line',{key:'lsidB',x1:rLeft,y1:midY+ripx,x2:rRight,y2:midY+ripx,stroke:BD,strokeWidth:0.9,strokeDasharray:'5,3'}),
+        e('line',{key:'lsend',x1:rLeft,y1:midY-Rpx,x2:rLeft,y2:midY+Rpx,stroke:BD,strokeWidth:2}),
+        HD(lCX-Rpx,lCX+Rpx,midY+Rpx+16,`Ø${fv(OD,'mm')} OD`,false,'hdod'),
+        OD&&ID?HD(lCX-ripx,lCX+ripx,midY-ripx-10,`Ø${fv(ID,'mm')} bore`,true,'hdid'):null,
+        OD&&WALL?LD(lCX+Math.cos(Math.PI/4)*(Rpx+ripx)/2,midY-Math.sin(Math.PI/4)*(Rpx+ripx)/2,`t= ${fv(WALL,'mm')}`,14,-10,'ldwall'):null,
+        VD(rLeft-14,midY-Rpx,midY+Rpx,`Ø${fv(OD,'mm')}`,false,'vdod'),
+        OD&&WALL?VD(rRight+14,midY-Rpx,midY-ripx,`t=${fv(WALL,'mm')}`,true,'vdwall'):null,
+        LD((rLeft+rRight)/2,midY-Rpx,`${fv(row.weightKgPerM,'kg/m')}`,0,-22,'ldwt'),
+        e('text',{key:'schlbl',x:(rLeft+rRight)/2,y:midY+Rpx+16,textAnchor:'middle',fill:'#64748B',fontSize:8,fontFamily:MF},`SCH ${row.schedule}`),
+        ...TTITLE(`PIPE · NPS ${row.nps} (DN ${row.dn}) · SCH ${row.schedule} · ${row.standard}`)
+      );
+    }
+
+    // ── FITTINGS ────────────────────────────────────────────────────────
+    if (row.componentType === 'FITTING') {
+      const OD=row.odMm||60, CTE=row.ctrToEndMm||76, sub=row.subtype;
+      const R=OD/2;
+
+      // 90° LONG-RADIUS ELBOW — mathematically correct dual-arc approach
+      // Both wall arcs share center at (bcx-LRs, bcy-LRs):
+      //   outer arc R = LRs-Rs  (convex outside of bend)
+      //   inner arc R = LRs+Rs  (concave inside of bend)
+      //   both swept CW (sweep-flag=1, large-arc=0)
+      if (sub==='ELBOW_90') {
+        const LR = CTE;            // For a 90° LR elbow, LR = CTE
+        const r  = OD / 2;
+        const stub = r * 0.55;     // small visual arm stub beyond tangent
+        const span = LR + r + stub;
+        const sc = Math.min((W - 80) / span, (H - 80) / span, 1.6);
+        const LRs = LR * sc, Rs = r * sc, aLs = stub * sc;
+        const outerArcR = LRs - Rs, innerArcR = LRs + Rs;
+
+        // Place bend centre so arm1 (horizontal, going left) and arm2 (vertical, going up) both fit
+        const bcx = 22 + LRs + Rs + aLs;
+        const bcyBase = H - 22 - 22 - Rs;
+        // Shift down if vertical arm would clip top margin
+        const topY = bcyBase - LRs - Rs - aLs;
+        const bcy = topY < 18 ? bcyBase + (18 - topY) : bcyBase;
+
+        // Closed elbow body path
+        const ePath = [
+          `M${bcx-LRs-aLs},${bcy-Rs}`,               // arm1 top-left
+          `L${bcx-LRs},${bcy-Rs}`,                    // → outer-arc start
+          `A${outerArcR},${outerArcR} 0 0,1 ${bcx-Rs},${bcy-LRs}`, // outer arc CW
+          `L${bcx-Rs},${bcy-LRs-aLs}`,                // arm2 outer → top
+          `L${bcx+Rs},${bcy-LRs-aLs}`,                // arm2 end face
+          `L${bcx+Rs},${bcy-LRs}`,                    // → inner-arc start
+          `A${innerArcR},${innerArcR} 0 0,1 ${bcx-LRs},${bcy+Rs}`, // inner arc CW
+          `L${bcx-LRs-aLs},${bcy+Rs}`,                // arm1 bottom
+          `Z`
+        ].join(' ');
+
+        // Pipe-centerline arc (dashed)
+        const clPath = `M${bcx-LRs-aLs-6},${bcy} L${bcx-LRs},${bcy} A${LRs},${LRs} 0 0,1 ${bcx},${bcy-LRs} L${bcx},${bcy-LRs-aLs-6}`;
+
+        // Bore hidden lines inside each arm
+        const riPx = (row.idMm ? row.idMm/2 : r*0.85) * sc;
+        return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},
+          DEFS,BG,BORDER,
+          e('path',{key:'cl',d:clPath,fill:'none',stroke:CLC,strokeWidth:0.8,strokeDasharray:'9,3,2,3'}),
+          e('path',{key:'body',d:ePath,fill:BF,stroke:BD,strokeWidth:1.4,strokeLinejoin:'round'}),
+          HF(ePath,'bht'),
+          e('line',{key:'b1',x1:bcx-LRs-aLs,y1:bcy-riPx,x2:bcx-LRs,y2:bcy-riPx,stroke:BD,strokeWidth:0.75,strokeDasharray:'4,2'}),
+          e('line',{key:'b2',x1:bcx-LRs-aLs,y1:bcy+riPx,x2:bcx-LRs,y2:bcy+riPx,stroke:BD,strokeWidth:0.75,strokeDasharray:'4,2'}),
+          e('line',{key:'b3',x1:bcx-riPx,y1:bcy-LRs-aLs,x2:bcx-riPx,y2:bcy-LRs,stroke:BD,strokeWidth:0.75,strokeDasharray:'4,2'}),
+          e('line',{key:'b4',x1:bcx+riPx,y1:bcy-LRs-aLs,x2:bcx+riPx,y2:bcy-LRs,stroke:BD,strokeWidth:0.75,strokeDasharray:'4,2'}),
+          HD(bcx-LRs-aLs, bcx, bcy+Rs+20, `A: ${fv(CTE,'mm')}`, false, 'hdA'),
+          VD(bcx+Rs+20, bcy-LRs-aLs, bcy, `B: ${fv(CTE,'mm')}`, true, 'vdB'),
+          LD(bcx-LRs-aLs*0.5, bcy-Rs, `Ø${fv(OD,'mm')} OD`, 4, -22, 'ldod'),
+          row.weightKg ? LD(bcx+Rs, bcy-LRs-aLs*0.5, `${fv(row.weightKg,'kg')}`, 8, -8, 'ldwt') : null,
+          row.devLenMm ? e('text',{key:'dl',x:W/2,y:H-26,textAnchor:'middle',fill:'#64748B',fontSize:8,fontFamily:MF},`Dev.L: ${fv(row.devLenMm,'mm')}`) : null,
+          ...TTITLE(`90° L.R. ELBOW · NPS ${row.nps} (DN ${row.dn}) · SCH ${row.schedule} · ${row.standard}`)
+        );
+      }
+
+      // 45° ELBOW — correct quadratic-bezier geometry
+      // Virtual corner (ccx,ccy) = intersection of arm centrelines.
+      // Arm1 goes LEFT (−x), Arm2 goes upper-right at 45° (+x,−y in screen).
+      // Outer-bend Q control point derived from tangency conditions:
+      //   qo = (ccx + r*(1−√2), ccy − r)  ≈ (ccx−0.414r, ccy−r)
+      // Inner-bend Q control point:
+      //   qi = (ccx + r*(√2−1), ccy + r)  ≈ (ccx+0.414r, ccy+r)
+      if (sub==='ELBOW_45') {
+        const r = OD / 2, SQ2 = Math.SQRT2;
+        const stub = r * 0.5;
+        // Scale to fit canvas: horizontal span = CTE + arm2_x + r; vertical span = arm2_y + 2r
+        const sc = Math.min(
+          (W - 90) / (CTE + (CTE + r) / SQ2 + r),
+          (H - 70) / ((CTE + r) / SQ2 + r * 2.2),
+          1.5
+        );
+        const rPx = r * sc, ctePx = CTE * sc, stubPx = stub * sc;
+
+        // Place virtual corner: arm1 end-face at left margin, arm2 top within canvas
+        const ccx = 22 + ctePx + stubPx;
+        const ccyMin = 18 + (ctePx + rPx) / SQ2 + 16; // ensure arm2 top clears header
+        const ccyMax = H - 22 - 22 - rPx;
+        const ccy = Math.max(ccyMin, ccyMax);
+
+        // Bezier control points (exact tangency at both arm walls)
+        const qox = ccx + rPx * (1 - SQ2);   // ≈ ccx − 0.414·rPx
+        const qoy = ccy - rPx;
+        const qix = ccx + rPx * (SQ2 - 1);   // ≈ ccx + 0.414·rPx
+        const qiy = ccy + rPx;
+
+        // Arm2 end-face corners (perpendicular to arm2 direction)
+        const efox = ccx + (ctePx - rPx) / SQ2;
+        const efoy = ccy - (ctePx + rPx) / SQ2;
+        const efix = ccx + (ctePx + rPx) / SQ2;
+        const efiy = ccy - (ctePx - rPx) / SQ2;
+
+        const p45 = [
+          `M${ccx - ctePx - stubPx},${ccy - rPx}`,          // arm1 end outer
+          `L${ccx},${ccy - rPx}`,                            // arm1 outer wall
+          `Q${qox},${qoy} ${ccx - rPx/SQ2},${ccy - rPx/SQ2}`, // outer bend
+          `L${efox},${efoy}`,                                 // arm2 outer wall
+          `L${efix},${efiy}`,                                 // arm2 end face
+          `L${ccx + rPx/SQ2},${ccy + rPx/SQ2}`,              // arm2 inner wall
+          `Q${qix},${qiy} ${ccx},${ccy + rPx}`,              // inner bend
+          `L${ccx - ctePx - stubPx},${ccy + rPx}`,           // arm1 inner wall
+          `Z`
+        ].join(' ');
+
+        // Centerlines
+        const cl1 = `M${ccx-ctePx-stubPx-6},${ccy} L${ccx+4},${ccy}`;
+        const cl2 = `M${ccx},${ccy} L${ccx+(ctePx+stubPx+6)/SQ2},${ccy-(ctePx+stubPx+6)/SQ2}`;
+
+        // Midpoints of arm2 walls (for dim leader B)
+        const a2midx = (ccx - rPx/SQ2 + efox) / 2;
+        const a2midy = (ccy - rPx/SQ2 + efoy) / 2;
+
+        return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},
+          DEFS,BG,BORDER,
+          e('path',{key:'cl1',d:cl1,fill:'none',stroke:CLC,strokeWidth:0.8,strokeDasharray:'9,3,2,3'}),
+          e('path',{key:'cl2',d:cl2,fill:'none',stroke:CLC,strokeWidth:0.8,strokeDasharray:'9,3,2,3'}),
+          e('path',{key:'e45',d:p45,fill:BF,stroke:BD,strokeWidth:1.4,strokeLinejoin:'round'}),
+          HF(p45,'e45h'),
+          HD(ccx-ctePx-stubPx, ccx, ccy+rPx+20, `A: ${fv(CTE,'mm')}`, false, 'hdA'),
+          LD(a2midx, a2midy, `B: ${fv(CTE,'mm')}`, 18, -14, 'ldB'),
+          LD(ccx-ctePx*0.5, ccy-rPx, `Ø${fv(OD,'mm')} OD`, 0, -22, 'ldod'),
+          row.weightKg ? LD(ccx+rPx/SQ2*0.5, ccy+rPx/SQ2*0.5, `${fv(row.weightKg,'kg')}`, 16, 4, 'ldwt') : null,
+          row.devLenMm ? e('text',{key:'dl',x:20,y:H-26,fill:'#64748B',fontSize:8,fontFamily:MF},`Dev.L: ${fv(row.devLenMm,'mm')}`) : null,
+          ...TTITLE(`45° ELBOW · NPS ${row.nps} (DN ${row.dn}) · SCH ${row.schedule} · ${row.standard}`)
+        );
+      }
+
+      // STRAIGHT TEE
+      if (sub==='TEE_STRAIGHT') {
+        const sc=1.4, Rs=R*sc, armLen=Rs*2.2, brLen=Rs*2.0;
+        const tcx=W/2, tcy=H*0.54, fr=Rs*0.32;
+        const tP=`M${tcx-armLen},${tcy-Rs} L${tcx-Rs},${tcy-Rs} L${tcx-Rs},${tcy-brLen} L${tcx+Rs},${tcy-brLen} L${tcx+Rs},${tcy-Rs} L${tcx+armLen},${tcy-Rs} L${tcx+armLen},${tcy+Rs} L${tcx-armLen},${tcy+Rs} Z`;
+        return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},
+          DEFS,BG,BORDER,
+          CLL(tcx-armLen-8,tcy,tcx+armLen+8,tcy,'tclh'), CLL(tcx,tcy-brLen-8,tcx,tcy+Rs+8,'tclv'),
+          e('path',{key:'tee',d:tP,fill:BF,stroke:BD,strokeWidth:1.4,strokeLinejoin:'miter'}),
+          HF(tP,'teeht'),
+          e('path',{key:'fl1',d:`M${tcx-Rs},${tcy-Rs+fr} A${fr},${fr},0,0,1,${tcx-Rs+fr},${tcy-Rs}`,fill:'none',stroke:BD,strokeWidth:0.9}),
+          e('path',{key:'fl2',d:`M${tcx+Rs-fr},${tcy-Rs} A${fr},${fr},0,0,1,${tcx+Rs},${tcy-Rs+fr}`,fill:'none',stroke:BD,strokeWidth:0.9}),
+          HD(tcx-armLen,tcx+armLen,tcy+Rs+18,`Run: ${fv(CTE?CTE*2:null,'mm')}`,false,'hdrun'),
+          HD(tcx-armLen,tcx,tcy-Rs-10,`A: ${fv(CTE,'mm')}`,true,'hdA'),
+          HD(tcx,tcx+armLen,tcy-Rs-10,`A: ${fv(CTE,'mm')}`,true,'hdB'),
+          VD(tcx+Rs+18,tcy-brLen,tcy,`B: ${fv(CTE,'mm')}`,true,'vdB'),
+          LD(tcx+armLen/2,tcy-Rs,`Ø${fv(OD,'mm')}`,8,-18,'ldod'),
+          LD(tcx+armLen,tcy,`${fv(row.weightKg,'kg')}`,12,-10,'ldwt'),
+          ...TTITLE(`STRAIGHT TEE · NPS ${row.nps} (DN ${row.dn}) · SCH ${row.schedule} · ${row.standard}`)
+        );
+      }
+
+      // CAP
+      if (sub==='CAP') {
+        const oc=row.overCapMm||50;
+        const sc=Math.min((W-120)/(oc+R*2.5),(H-64)/(R*2.8),2.5);
+        const Rs=R*sc, ocPx=oc*sc, dRx=Rs*0.7;
+        const cx2=W*0.43, cy2=H/2-8, capX=cx2-ocPx/2;
+        const capP=`M${capX},${cy2-Rs} L${capX+ocPx},${cy2-Rs} A${dRx},${Rs},0,0,1,${capX+ocPx},${cy2+Rs} L${capX},${cy2+Rs} Z`;
+        return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},
+          DEFS,BG,BORDER,
+          CLL(capX-12,cy2,capX+ocPx+dRx+10,cy2,'capCL'),
+          e('path',{key:'cap',d:capP,fill:BF,stroke:BD,strokeWidth:1.4,strokeLinejoin:'round'}),
+          HF(capP,'caph'),
+          e('line',{key:'bT',x1:capX,y1:cy2-Rs*0.82,x2:capX+ocPx-dRx*0.35,y2:cy2-Rs*0.82,stroke:BD,strokeWidth:0.85,strokeDasharray:'4,2'}),
+          e('line',{key:'bB',x1:capX,y1:cy2+Rs*0.82,x2:capX+ocPx-dRx*0.35,y2:cy2+Rs*0.82,stroke:BD,strokeWidth:0.85,strokeDasharray:'4,2'}),
+          e('rect',{key:'wu',x:capX,y:cy2-Rs,width:Rs*0.13,height:Rs-Rs*0.82,fill:`url(#${HID})`,stroke:'none',opacity:0.85}),
+          e('rect',{key:'wl',x:capX,y:cy2+Rs*0.82,width:Rs*0.13,height:Rs-Rs*0.82,fill:`url(#${HID})`,stroke:'none',opacity:0.85}),
+          HD(capX,capX+ocPx+dRx*0.88,cy2+Rs+18,`L: ${fv(oc,'mm')}`,false,'hdL'),
+          VD(capX-18,cy2-Rs,cy2+Rs,`Ø${fv(OD,'mm')}`,false,'vdod'),
+          LD(capX+ocPx*0.55,cy2-Rs,`${fv(row.weightKg,'kg')}`,10,-20,'ldwt'),
+          ...TTITLE(`CAP · NPS ${row.nps} (DN ${row.dn}) · SCH ${row.schedule} · ${row.standard}`)
+        );
+      }
+
+      return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},
+        DEFS,BG,BORDER,
+        e('text',{key:'unk',x:W/2,y:H/2,textAnchor:'middle',fill:CLC,fontSize:12,fontFamily:MF},`${sub} · NPS ${row.nps}`),
+        ...TTITLE(`${sub} · NPS ${row.nps} · ${row.standard}`)
+      );
+    }
+
+    // ── GASKET ────────────────────────────────────────────────────────
+    if (row.componentType === 'GASKET') {
+      const outer=row.outerDiaMm, inner=row.innerDiaMm, thk=row.thicknessMm;
+      const subLabel={FLAT_RING:'FLAT RING',RTJ:'RTJ',SPIRAL_WOUND:'SPIRAL WOUND'}[row.subtype]||row.subtype;
+      if (!outer) {
+        return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},
+          DEFS,BG,BORDER,
+          e('circle',{key:'od',cx:W/2,cy:H/2-14,r:60,fill:'#F1F5F9',stroke:'#CBD5E1',strokeWidth:1.5,strokeDasharray:'8,5'}),
+          e('circle',{key:'id',cx:W/2,cy:H/2-14,r:38,fill:'white',stroke:'#CBD5E1',strokeWidth:1.5,strokeDasharray:'8,5'}),
+          e('text',{key:'p',x:W/2,y:H/2-9,textAnchor:'middle',fill:'#94A3B8',fontSize:9,fontFamily:MF},'dimensions pending source promotion'),
+          ...TTITLE(`${subLabel} GASKET · ${row.standard} · MISSING DATA`)
+        );
+      }
+      const sc=Math.min(76/(outer/2),3.5);
+      const Rpx=outer/2*sc, rpx=inner/2*sc;
+      const gx=W/2-22, gy=H/2-12, secX=gx+Rpx+32, thkPx=thk?Math.max(4,thk*sc*2.5):8;
+      const isSpiral=row.subtype==='SPIRAL_WOUND';
+      return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},
+        DEFS,BG,BORDER,
+        e('line',{key:'div',x1:W/2,y1:14,x2:W/2,y2:H-22,stroke:'#E2E8F0',strokeWidth:0.8,strokeDasharray:'4,3'}),
+        e('text',{key:'ll',x:gx,y:14,textAnchor:'middle',fill:'#94A3B8',fontSize:7.5,fontFamily:MF},'FACE VIEW'),
+        e('text',{key:'rl',x:secX,y:14,textAnchor:'middle',fill:'#94A3B8',fontSize:7.5,fontFamily:MF},'SECTION'),
+        CLL(gx-Rpx-8,gy,gx+Rpx+8,gy,'clhfv'), CLL(gx,gy-Rpx-8,gx,gy+Rpx+8,'clvfv'),
+        e('circle',{key:'fvod',cx:gx,cy:gy,r:Rpx,fill:BF,stroke:BD,strokeWidth:1.4}),
+        e('circle',{key:'fvht',cx:gx,cy:gy,r:Rpx,fill:`url(#${HID})`,stroke:'none',opacity:0.7}),
+        e('circle',{key:'fvid',cx:gx,cy:gy,r:rpx,fill:'white',stroke:BD,strokeWidth:1.2}),
+        isSpiral?Array.from({length:4},(_,i)=>e('circle',{key:`sw${i}`,cx:gx,cy:gy,r:rpx+(Rpx-rpx)*(i+1)/5,fill:'none',stroke:'#93C5FD',strokeWidth:0.6})):null,
+        e('rect',{key:'cso',x:secX-thkPx/2,y:gy-Rpx,width:thkPx,height:Rpx*2,fill:BF,stroke:BD,strokeWidth:1.3}),
+        HF(`M${secX-thkPx/2},${gy-Rpx} h${thkPx} v${Rpx*2} h${-thkPx} Z`,'csh'),
+        e('rect',{key:'csi',x:secX-thkPx/2,y:gy-rpx,width:thkPx,height:rpx*2,fill:'white',stroke:BD,strokeWidth:1}),
+        HD(gx-Rpx,gx+Rpx,gy+Rpx+16,`Ø${fv(outer,'mm')} OD`,false,'hdod'),
+        HD(gx-rpx,gx+rpx,gy-rpx-10,`Ø${fv(inner,'mm')} ID`,true,'hdid'),
+        VD(secX+thkPx/2+14,gy-Rpx,gy+Rpx,`Ø${fv(outer,'mm')}`,true,'vdod'),
+        thk?HD(secX-thkPx/2,secX+thkPx/2,gy+Rpx+16,`T: ${fv(thk,'mm')}`,false,'hdthk'):null,
+        ...TTITLE(`${subLabel} GASKET · ${row.standard}`)
+      );
+    }
+
+    return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},
+      DEFS,BG,BORDER,
+      e('text',{key:'na',x:W/2,y:H/2,textAnchor:'middle',fill:CLC,fontSize:12,fontFamily:MF},'No preview available')
+    );
+  }
+
+  detailSecs(row) {
+    if (!row) return [];
+    const mf = (label, val, {unit='',mono=false}={}) => {
+      const fv = this.fmt(val);
+      const disp = fv==null ? '—' : unit ? `${fv} ${unit}` : fv;
+      return {label, disp, vc: fv==null?'#94A3B8':'#0F172A', ff: mono?"'DM Mono', monospace":"'DM Sans', sans-serif"};
+    };
+    const prov = {title:'Provenance', fields:[mf('Standard',row.standard), mf('Data Status',row.dataStatus), mf('Dataset','pipedata-db/2026.06',{mono:true})]};
+    if (row.componentType==='VALVE') return [
+      {title:'Keys', fields:[mf('Valve Type',row.valveType),mf('End Type',row.endType),mf('NPS',`NPS ${row.nps}`,{mono:true}),mf('DN',`DN ${row.dn}`,{mono:true}),mf('Class Rating',`CL ${row.classRating}`,{mono:true}),mf('Facing',row.facing)]},
+      {title:'Dimensions', fields:[mf('F2F RF',row.faceToFaceRfMm,{unit:'mm',mono:true}),mf('F2F RTJ',row.faceToFaceRtjMm,{unit:'mm',mono:true}),mf('Butt-Weld Length',row.buttWeldMm,{unit:'mm',mono:true}),mf('Height (HW)',row.heightMm,{unit:'mm',mono:true}),mf('Handwheel Dia.',row.handwheelDiaMm,{unit:'mm',mono:true}),mf('RTJ Add Length',row.rtjAddLenMm,{unit:'mm',mono:true}),mf('Gap',row.gapMm,{unit:'mm',mono:true})]},
+      {title:'Weights', fields:[mf('RF / RTJ',row.rfRtjKg,{unit:'kg',mono:true}),mf('Butt-Weld',row.buttWeldKg,{unit:'kg',mono:true})]},
+      prov,
+    ];
+    if (row.componentType==='FLANGE') return [
+      {title:'Keys', fields:[mf('Subtype',row.subtype),mf('NPS',`NPS ${row.nps}`,{mono:true}),mf('DN',`DN ${row.dn}`,{mono:true}),mf('Class Rating',`CL ${row.classRating}`,{mono:true})]},
+      {title:'Geometry', fields:[mf('Flange OD',row.flangeOdMm,{unit:'mm',mono:true}),mf('Thickness',row.flangeThicknessMm,{unit:'mm',mono:true}),mf('RF Diameter',row.rfDiaMm,{unit:'mm',mono:true}),mf('RF Height',row.rfHeightMm,{unit:'mm',mono:true}),mf('RTJ RF Dia.',row.rtjRfDiaMm,{unit:'mm',mono:true}),mf('PCD',row.pcdMm,{unit:'mm',mono:true})]},
+      {title:'Bolting', fields:[mf('Bolt Count',row.boltCount,{mono:true}),mf('ISO Bolt Size',row.boltSizeMm,{unit:'mm',mono:true})]},
+      {title:'Hub / Weld', fields:[mf('Hub Ext. X',row.hubXMm,{unit:'mm',mono:true}),mf('Weld Dia.',row.weldDiaMm,{unit:'mm',mono:true}),...(row.subtype==='WN'?[mf('WN Length',row.wnLengthMm,{unit:'mm',mono:true})]:[]),...(row.subtype==='SO'?[mf('SO Bore',row.soBoreMm,{unit:'mm',mono:true})]:[]),...(row.subtype==='BLIND'?[mf('Blind Thickness',row.blindThickMm,{unit:'mm',mono:true})]:[]),mf('Weight',row.weightKg,{unit:'kg',mono:true})]},
+      prov,
+    ];
+    if (row.componentType==='PIPE') return [
+      {title:'Keys', fields:[mf('NPS',`NPS ${row.nps}`,{mono:true}),mf('DN',`DN ${row.dn}`,{mono:true}),mf('Schedule',`SCH ${row.schedule}`,{mono:true})]},
+      {title:'Dimensions', fields:[mf('Outer Dia. (OD)',row.odMm,{unit:'mm',mono:true}),mf('Wall Thickness',row.wallMm,{unit:'mm',mono:true}),mf('Inner Dia. (ID)',row.idMm,{unit:'mm',mono:true}),mf('Half OD',row.odMm!=null?row.odMm/2:null,{unit:'mm',mono:true})]},
+      {title:'Weight', fields:[mf('Empty (per metre)',row.weightKgPerM,{unit:'kg/m',mono:true})]},
+      prov,
+    ];
+    if (row.componentType==='FITTING') return [
+      {title:'Keys', fields:[mf('Subtype',row.subtype),mf('NPS',`NPS ${row.nps}`,{mono:true}),mf('DN',`DN ${row.dn}`,{mono:true}),mf('Schedule',`SCH ${row.schedule}`,{mono:true})]},
+      {title:'Dimensions', fields:[mf('OD',row.odMm,{unit:'mm',mono:true}),mf('Center-to-End',row.ctrToEndMm,{unit:'mm',mono:true}),mf('Developed Length',row.devLenMm,{unit:'mm',mono:true}),...(row.overCapMm!=null?[mf('Over Cap',row.overCapMm,{unit:'mm',mono:true})]:[]),mf('Weight',row.weightKg,{unit:'kg',mono:true})]},
+      prov,
+    ];
+    if (row.componentType==='GASKET') return [
+      {title:'Keys', fields:[mf('Subtype',row.subtype),mf('NPS',row.nps),mf('Class',row.classRating),mf('Facing',row.facing)]},
+      {title:'Dimensions', fields:[mf('Inner Dia.',row.innerDiaMm,{unit:'mm',mono:true}),mf('Outer Dia.',row.outerDiaMm,{unit:'mm',mono:true}),mf('Thickness',row.thicknessMm,{unit:'mm',mono:true})]},
+      prov,
+    ];
+    return [prov];
+  }
+
+  filtered() {
+    const {fam, search, fNps, fClass, fSch, fSub, fStatus} = this.state;
+    if (fam === 'DASHBOARD') return [];
+    let rows = this.rows(fam);
+    if (search) {
+      const q = search.toLowerCase();
+      rows = rows.filter(r => r.id.toLowerCase().includes(q) || (r.subtype||'').toLowerCase().includes(q) || (r.valveType||'').toLowerCase().includes(q));
+    }
+    if (fNps !== 'all')    rows = rows.filter(r => r.nps === fNps);
+    if (fClass !== 'all')  rows = rows.filter(r => r.classRating === fClass);
+    if (fSch !== 'all')    rows = rows.filter(r => r.schedule === fSch);
+    if (fSub !== 'all')    rows = rows.filter(r => (r.subtype||r.valveType) === fSub);
+    if (fStatus !== 'all') rows = rows.filter(r => r.dataStatus === fStatus);
+    return rows;
+  }
+
+  opts(key, allRows, labelFn) {
+    const allLabels = {nps:'All Sizes',classRating:'All Classes',schedule:'All Schedules',subtype:'All Subtypes',valveType:'All Types'};
+    const vals = [...new Set(allRows.map(r => r[key]).filter(v => v != null && v !== ''))].sort();
+    return [{value:'all',label:allLabels[key]||'All'}, ...vals.map(v => ({value:v,label:labelFn?labelFn(v):String(v)}))];
+  }
+
+  renderVals() {
+    const {fam, search, fNps, fClass, fSch, fSub, fStatus, selId} = this.state;
+    const set = s => this.setState(s);
+    const allRows = fam !== 'DASHBOARD' ? this.rows(fam) : [];
+    const filteredRows = this.filtered();
+    const cfg = this.tableCfg(fam);
+    const isDash = fam === 'DASHBOARD';
+    const activeFam = Component.FAMS.find(f => f.id === fam);
+
+    // Sidebar nav
+    const navFamilies = Component.FAMS.map(f => {
+      const isActive = fam === f.id;
+      const cnt = this.rows(f.id).length;
+      return {
+        id: f.id, label: f.label, abbr: f.abbr, count: cnt,
+        bg: isActive ? '#1E293B' : 'transparent',
+        border: isActive ? f.color : 'transparent',
+        text: isActive ? '#F8FAFC' : '#94A3B8',
+        fw: isActive ? '600' : '400',
+        iconBg: isActive ? f.color : '#1A2744',
+        iconColor: isActive ? 'white' : '#475569',
+        countColor: isActive ? f.color : '#475569',
+        onClick: () => set({fam:f.id, selId:null, search:'', fNps:'all', fClass:'all', fSch:'all', fSub:'all', fStatus:'all'}),
+      };
+    });
+
+    // Dashboard
+    const isDashboard = fam === 'DASHBOARD';
+    const dashActive = fam === 'DASHBOARD';
+    const allData = Component.FAMS.flatMap(f => this.rows(f.id));
+    const totalCount = allData.length;
+    const readyCount = allData.filter(r => r.dataStatus === 'READY').length;
+    const partialCount = allData.filter(r => r.dataStatus !== 'READY').length;
+
+    const summaryCards = Component.FAMS.filter(f => f.id !== 'SUPPORT').map(f => {
+      const rs = this.rows(f.id);
+      const total = rs.length;
+      const rc = rs.filter(r => r.dataStatus === 'READY').length;
+      const pct = total > 0 ? Math.round((rc/total)*100) : 0;
+      return {
+        id:f.id, label:f.label, abbr:f.abbr, standard:f.standard,
+        total, pct, pctStr:`${pct}%`,
+        color:f.color, iconBg:f.bg,
+        onClick: () => set({fam:f.id, selId:null}),
+      };
+    });
+
+    // Table
+    const tHeaders = cfg.h.map((label, i) => ({label, key:`h${i}`}));
+    const selRow = selId ? allRows.find(r => r.id === selId) : null;
+    const tRows = filteredRows.map(r => ({
+      id: r.id,
+      bg: r.id === selId ? '#EFF6FF' : 'white',
+      onClick: () => set({selId: r.id === selId ? null : r.id}),
+      cells: cfg.r(r),
+    }));
+
+    // Filters
+    const subKey = allRows.some(r => r.subtype) ? 'subtype' : 'valveType';
+    const npsOpts    = this.opts('nps', allRows, v => `NPS ${v}`);
+    const classOpts  = this.opts('classRating', allRows, v => `CL ${v}`);
+    const schOpts    = this.opts('schedule', allRows, v => `SCH ${v}`);
+    const subOpts    = this.opts(subKey, allRows);
+    const statusOpts = [{value:'all',label:'All Status'},{value:'READY',label:'✓ Ready'},{value:'PARTIAL',label:'⚠ Partial'},{value:'MISSING_DIMENSION',label:'✗ Missing'}];
+    const hasClassFilter  = ['VALVE','FLANGE'].includes(fam);
+    const hasSchFilter    = ['PIPE','FITTING'].includes(fam);
+    const hasSubFilter    = ['FLANGE','FITTING','GASKET'].includes(fam);
+    const hasNpsFilter    = !['DASHBOARD','SUPPORT','GASKET'].includes(fam);
+    const hasFilter       = fNps!=='all'||fClass!=='all'||fSch!=='all'||fSub!=='all'||fStatus!=='all'||search!=='';
+
+    // Detail
+    const dSections = this.detailSecs(selRow);
+    const db = selRow ? this.badge(selRow.dataStatus) : {bg:'#F1F5F9',text:'#64748B',label:''};
+
+    return {
+      // Sidebar
+      navFamilies,
+      navDashboard: () => set({fam:'DASHBOARD', selId:null}),
+      dashBg:     dashActive ? '#1E293B' : 'transparent',
+      dashBorder: dashActive ? '#2563EB' : 'transparent',
+      dashText:   dashActive ? '#F8FAFC' : '#94A3B8',
+      dashFontWeight: dashActive ? '600' : '400',
+      dashIconFill: dashActive ? 'white' : '#475569',
+
+      // Topbar
+      breadcrumb: isDashboard ? 'Dashboard' : (activeFam?.label || fam),
+      showRowCount: !isDashboard,
+      rowCount: filteredRows.length,
+      search,
+      onSearch: e => set({search:e.target.value, selId:null}),
+      showStdBadge: !isDashboard && !!activeFam,
+      stdBadgeBg:    activeFam?.bg    || '#F1F5F9',
+      stdBadgeColor: activeFam?.color || '#64748B',
+      stdBadgeLabel: activeFam?.standard || '',
+
+      // Dashboard
+      isDashboard, isFamily: !isDashboard,
+      totalCount, readyCount, partialCount,
+      summaryCards,
+
+      // Table
+      tHeaders, tRows,
+      isEmpty: !isDashboard && filteredRows.length === 0,
+
+      // Filters
+      npsOpts, classOpts, schOpts, subOpts, statusOpts,
+      hasNpsFilter, hasClassFilter, hasSchFilter, hasSubFilter, hasFilter,
+      filterNpsVal:fNps, filterClassVal:fClass, filterSchVal:fSch, filterSubVal:fSub, filterStatusVal:fStatus,
+      onFilterNps:    e => set({fNps:e.target.value, selId:null}),
+      onFilterClass:  e => set({fClass:e.target.value, selId:null}),
+      onFilterSch:    e => set({fSch:e.target.value, selId:null}),
+      onFilterSub:    e => set({fSub:e.target.value, selId:null}),
+      onFilterStatus: e => set({fStatus:e.target.value, selId:null}),
+      clearFilters: () => set({fNps:'all',fClass:'all',fSch:'all',fSub:'all',fStatus:'all',search:'',selId:null}),
+
+      // Detail drawer
+      detailCanvas: this.buildCanvas(selRow),
+      hasDetail: !!selRow,
+      closeDetail: () => set({selId:null}),
+      dId: selRow?.id || '',
+      dStatus: db.label,
+      dBadgeBg: db.bg,
+      dBadgeText: db.text,
+      dSections,
+    };
+  }
+}
+</script>
+</body>
+</html>

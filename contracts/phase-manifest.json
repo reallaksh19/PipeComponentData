@@ -1,0 +1,6 @@
+{
+  "phase0": "contracts",
+  "phase1": "adaptergraph",
+  "phase2": "state-store",
+  "phase3": "csv-raw-uxml-inputs"
+}

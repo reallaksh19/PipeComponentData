@@ -1,0 +1,31 @@
+{
+  "schema": "pipetools-agent-foundation/v1",
+  "branch": "feature/pipetools-agent-00-03-foundation",
+  "agents": ["Agent 00", "Agent 01", "Agent 02", "Agent 03"],
+  "maxNewModuleLines": 200,
+  "vendorSourceLineLimitExemptions": [
+    "spl2-bundle/spl2_master.html",
+    "pipetools/vendor/pipespec-svg/svg-engine.js"
+  ],
+  "pagesArtifact": {
+    "sourceRoot": "pipetools",
+    "publishPath": "_site/pipetools",
+    "bundle2dPath": "_site/spl2-bundle/spl2_master.html"
+  },
+  "modules": [
+    "PipeSpec DB",
+    "Pipe Span",
+    "2D Bundle Calc",
+    "Pipe Spacing",
+    "Section Designer",
+    "Reports",
+    "Settings"
+  ],
+  "pipeSpanExcelSource": "Pipe Span Check-FINAL.xlsx",
+  "pipeSpanValidation": {
+    "nps": 8,
+    "schedule": "Sch 40",
+    "vapourBareSimplyDeflectionM": 10.3915,
+    "waterInsulatedSimplyDeflectionM": 8.5245
+  }
+}

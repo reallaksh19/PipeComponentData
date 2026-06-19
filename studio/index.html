@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pipe Component Studio - Engineering Database</title>
+  <meta name="description" content="Pipe Component Studio: source-backed piping engineering data with exact-match lookup, schematic preview, and full data provenance." />
+  <link rel="stylesheet" href="./studio.css?v=ui-repair-1" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-left">
+        <p class="eyebrow">Source-backed engineering database</p>
+        <h1 class="topbar-title">Pipe Component Studio</h1>
+        <p class="topbar-sub">Exact-match lookup only. No nearest-size, schedule, class, family, or subtype fallback.</p>
+      </div>
+      <div class="topbar-right">
+        <details class="status-strip" id="release-details">
+          <summary>Release status <span>foundation, raw source hidden</span></summary>
+          <div class="status-content" id="status-strip">
+            <strong>Release status:</strong>
+            <span>Source-backed foundation release - not production-complete</span>
+            <span>Integration contract: stable exact lookup API</span>
+            <span>Raw source tree hidden from normal Studio and Pages</span>
+            <code>data/audit/release-readiness.json</code>
+            <code>data/exports/integration-contract.manifest.json</code>
+          </div>
+        </details>
+        <details class="dashboard" id="catalog-dashboard" aria-labelledby="dashboard-title">
+          <summary>
+            <span id="dashboard-title">Catalog dashboard</span>
+            <small>Counts, gaps, and release posture</small>
+          </summary>
+          <div class="dashboard-dropdown-wrap">
+            <p>Browse promoted source-backed rows, inspect missing values, and verify exact-match selection rules.</p>
+            <div class="dashboard-cards" id="dashboard-cards" aria-label="catalog summary cards"></div>
+          </div>
+        </details>
+      </div>
+    </header>
+
+    <nav class="category-tabs" id="category-tabs" aria-label="component categories"></nav>
+
+    <section class="search-bar-wrapper" aria-label="exact lookup">
+      <div class="search-bar">
+        <label class="sr-only" for="query-box">Lookup query</label>
+        <input id="query-box" class="text-input" value="gate valve 8 class 150 rf" placeholder="Search components, for example: gate valve 8 class 150 rf" />
+        <button class="primary" id="search-button" type="button">Find Exact Match</button>
+      </div>
+      <div class="chips" id="quick-filters"></div>
+    </section>
+
+    <main class="studio-workspace">
+      <section class="pane selector-pane" aria-labelledby="selector-title">
+        <div class="pane-head">
+          <p class="eyebrow">Smart selector</p>
+          <h2 id="selector-title">Component Selector</h2>
+          <p>Options narrow from the indexed component hierarchy. Empty or wrong filters do not fall back.</p>
+        </div>
+        <div class="pane-body">
+          <div class="form-grid" id="selector-controls">
+            <div class="filter-group" id="component-field">
+              <label class="filter-label" for="component-filter">Component</label>
+              <select id="component-filter"></select>
+            </div>
+            <div class="filter-group" id="subtype-field">
+              <label class="filter-label" for="subtype-filter"><span id="subtype-label">Type / Subtype</span></label>
+              <select id="subtype-filter"></select>
+            </div>
+            <div class="filter-group" id="nps-field">
+              <label class="filter-label" for="nps-filter">NPS</label>
+              <select id="nps-filter"></select>
+            </div>
+            <div class="filter-group" id="class-field">
+              <label class="filter-label" for="class-filter">Class / Rating</label>
+              <select id="class-filter"></select>
+            </div>
+            <div class="filter-group" id="schedule-field">
+              <label class="filter-label" for="schedule-filter">Schedule</label>
+              <select id="schedule-filter"></select>
+            </div>
+            <div class="filter-group" id="facing-field">
+              <label class="filter-label" for="facing-filter">Facing</label>
+              <select id="facing-filter"></select>
+            </div>
+            <div class="filter-group mode-group">
+              <label class="filter-label">Mode</label>
+              <select disabled><option>Exact alias only</option></select>
+            </div>
+          </div>
+          <p class="selector-hint" id="selector-hint">For valves, the type list contains valve types only. For flanges, the type list contains flange subtypes only.</p>
+        </div>
+      </section>
+
+      <section class="pane preview-pane" aria-labelledby="preview-title">
+        <div class="cad-head">
+          <div class="cad-title">
+            <p class="eyebrow">Graphics workspace</p>
+            <h2 id="preview-title">Graphics and Component Data Canvas</h2>
+            <p>Component data is displayed inside the canvas from normalized source-backed rows.</p>
+          </div>
+          <div class="cad-buttons" id="view-buttons"></div>
+        </div>
+        <div class="canvas-shell">
+          <div class="cad-canvas" id="cad-canvas" role="img" aria-label="component dimension preview"></div>
+          <aside class="canvas-data" id="canvas-data" aria-label="component data inside canvas">
+            <div class="result-card" id="result-card"></div>
+            <p class="source-line" id="source-line">Source-backed normalized row</p>
+            <div class="identity-grid" id="identity-grid"></div>
+            <h3>Dimensions and Weight</h3>
+            <table class="data-table attribute-table">
+              <thead><tr><th>Attribute</th><th>Value</th><th>Basis</th><th>Source column</th></tr></thead>
+              <tbody id="attribute-body"></tbody>
+            </table>
+            <aside class="detail-drawer" id="component-detail" aria-label="component detail drawer"></aside>
+            <aside class="provenance-panel" id="provenance-panel" aria-label="source provenance panel"></aside>
+            <details class="audit-box" id="audit-box">
+              <summary>Source Audit</summary>
+              <pre id="source-audit">Open Source Audit only when raw provenance is needed.</pre>
+            </details>
+          </aside>
+        </div>
+        <div class="cad-toggles" id="cad-toggles"></div>
+      </section>
+    </main>
+
+    <section class="catalog-browser-dashboard" aria-labelledby="browser-title">
+      <div class="browser-head">
+        <div>
+          <p class="eyebrow">Bottom dashboard</p>
+          <h2 id="browser-title">Catalog Browser</h2>
+          <p id="browser-summary">Dashboard-style row browser for the active indexed family.</p>
+        </div>
+        <div class="table-tools">
+          <span id="table-count">0 rows</span>
+          <button class="ghost" id="copy-id-button" type="button">Copy selected ID</button>
+        </div>
+      </div>
+      <div class="browser-metrics" id="browser-metrics"></div>
+      <div class="family-summary" id="family-summary" aria-label="active family summary"></div>
+      <div class="table-frame">
+        <table class="data-table catalog-table" aria-label="component catalog table">
+          <thead><tr><th>Component ID</th><th>Status</th><th>Filters</th><th>Source</th></tr></thead>
+          <tbody id="component-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="verification" id="verification-footer"></footer>
+  </div>
+
+  <script type="module" src="./component-studio-app.js?v=ui-repair-1"></script>
+</body>
+</html>

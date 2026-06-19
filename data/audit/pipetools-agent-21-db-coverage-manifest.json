@@ -1,0 +1,22 @@
+{
+  "agent": "Agent 21",
+  "wave": "13F",
+  "title": "DB index coverage browser",
+  "sourceIndex": "pipetools/data/db-index.json",
+  "runtimeRowsIndexed": 56,
+  "sourceRowsInventoried": 720,
+  "pendingRowsToPromote": 664,
+  "sourceFileCount": 37,
+  "familiesIndexed": ["PIPE", "VALVE", "FLANGE", "FITTING", "GASKET", "SUPPORT"],
+  "newFiles": [
+    "pipetools/js/db/dbCoverage.js",
+    "pipetools/dbCoverage.css",
+    "gates/pipetools-agent-21-db-coverage.gate.test.js",
+    "docs/pipetools/WAVE_13F_DB_INDEX_COVERAGE.md"
+  ],
+  "policy": {
+    "rawDbTreePublished": false,
+    "sourceRowsRemainAuditOnlyUntilPromoted": true,
+    "coveragePanelIsDerivedFromDbIndex": true
+  }
+}

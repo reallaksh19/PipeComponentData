@@ -1,0 +1,157 @@
+const SUPPORTED = new Set(['PIPE', 'VALVE', 'FLANGE', 'FITTING', 'GASKET']);
+const FITTINGS = new Set(['ELBOW_90', 'ELBOW_45', 'TEE_STRAIGHT', 'CAP']);
+const FLANGES = new Set(['WN', 'SO', 'BLIND']);
+const GASKETS = new Set(['FLAT_RING', 'RTJ', 'SPIRAL_WOUND']);
+
+function raw(row, ...paths) {
+  for (const path of paths) {
+    let value = row;
+    for (const part of String(path).split('.')) value = value?.[part];
+    if (value && typeof value === 'object' && 'value' in value) value = value.value;
+    if (value !== '' && value != null) return value;
+  }
+  return null;
+}
+
+function n(row, ...paths) {
+  const value = raw(row, ...paths);
+  if (value === '' || value == null) return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function textValue(value, fallback = '') {
+  return value == null || value === '' ? fallback : String(value);
+}
+
+function txt(row, fallback, ...paths) {
+  return textValue(raw(row, ...paths), fallback);
+}
+
+function upper(row, fallback, ...paths) {
+  return txt(row, fallback, ...paths).toUpperCase();
+}
+
+function rating(value) {
+  return textValue(value).replace(/^CL\s*/i, '');
+}
+
+function subtype(row, fallback = '') {
+  return upper(row, fallback, 'subtype', 'type', 'fittingType', 'flangeType', 'gasketType');
+}
+
+function common(row) {
+  return {
+    id: txt(row, '', 'id'),
+    nps: txt(row, '', 'nps'),
+    dn: n(row, 'dn'),
+    standard: txt(row, '', 'standard'),
+    dataStatus: txt(row, '', 'dataStatus'),
+    source: txt(row, '', 'source'),
+  };
+}
+
+function pipe(row) {
+  return {
+    ...common(row),
+    componentType: 'PIPE',
+    schedule: txt(row, '', 'schedule').replace(/^Sch\s*/i, ''),
+    odMm: n(row, 'odMm', 'dimensions.odMm'),
+    idMm: n(row, 'idMm', 'dimensions.idMm'),
+    wallMm: n(row, 'wallMm', 'dimensions.wallMm'),
+    weightKgPerM: n(row, 'weightKgPerM', 'weights.weightKgPerM', 'weights.emptyPipeKgPerM', 'weights.pipeKgPerM'),
+  };
+}
+
+function valve(row) {
+  return {
+    ...common(row),
+    componentType: 'VALVE',
+    valveType: upper(row, 'GATE', 'valveType', 'subtype', 'type'),
+    endType: upper(row, 'FLANGED', 'endType', 'endConnection'),
+    classRating: rating(raw(row, 'classRating')),
+    facing: upper(row, 'RF', 'facing'),
+    faceToFaceRfMm: n(row, 'faceToFaceRfMm', 'faceToFaceMm', 'dimensions.faceToFaceRfMm', 'dimensions.faceToFaceMm'),
+    heightMm: n(row, 'heightMm', 'dimensions.heightMm'),
+    handwheelDiaMm: n(row, 'handwheelDiaMm', 'dimensions.handwheelDiaMm'),
+    rfRtjKg: n(row, 'rfRtjKg', 'weightKg', 'weights.rfRtjKg', 'weights.weightKg'),
+  };
+}
+
+function flange(row) {
+  const type = upper(row, 'WN', 'subtype', 'flangeType', 'type');
+  return {
+    ...common(row),
+    componentType: 'FLANGE',
+    subtype: FLANGES.has(type) ? type : 'WN',
+    classRating: rating(raw(row, 'classRating')),
+    flangeOdMm: n(row, 'flangeOdMm', 'dimensions.flangeOdMm', 'dimensions.outerDiaMm'),
+    flangeThicknessMm: n(row, 'flangeThicknessMm', 'dimensions.flangeThicknessMm'),
+    rfDiaMm: n(row, 'rfDiaMm', 'dimensions.rfDiaMm'),
+    rfHeightMm: n(row, 'rfHeightMm', 'dimensions.rfHeightMm'),
+    pcdMm: n(row, 'pcdMm', 'dimensions.pcdMm'),
+    boltCount: n(row, 'boltCount', 'bolting.boltCount'),
+    boltSizeMm: n(row, 'boltSizeMm', 'isoBoltSizeMm', 'bolting.boltSizeMm'),
+    weightKg: n(row, 'weightKg', 'weights.weightKg'),
+    weldDiaMm: n(row, 'weldDiaMm', 'dimensions.weldDiaMm'),
+    wnLengthMm: n(row, 'wnLengthMm', 'dimensions.wnLengthMm'),
+    soBoreMm: n(row, 'soBoreMm', 'dimensions.soBoreMm'),
+    blindThickMm: n(row, 'blindThickMm', 'blindThicknessMm', 'dimensions.blindThickMm', 'dimensions.blindThicknessMm'),
+  };
+}
+
+function fitting(row) {
+  const type = subtype(row);
+  return {
+    ...common(row),
+    componentType: 'FITTING',
+    subtype: FITTINGS.has(type) ? type : 'UNKNOWN_FITTING',
+    schedule: txt(row, '', 'schedule').replace(/^Sch\s*/i, ''),
+    odMm: n(row, 'odMm', 'dimensions.odMm'),
+    ctrToEndMm: n(row, 'ctrToEndMm', 'centerToEndMm', 'dimensions.centerToEndMm'),
+    devLenMm: n(row, 'devLenMm', 'developedLengthMm', 'dimensions.developedLengthMm'),
+    overCapMm: n(row, 'overCapMm', 'overallCapMm', 'dimensions.overCapMm', 'dimensions.overallCapMm'),
+    weightKg: n(row, 'weightKg', 'weights.weightKg'),
+  };
+}
+
+function gasket(row) {
+  const type = subtype(row);
+  return {
+    ...common(row),
+    componentType: 'GASKET',
+    subtype: GASKETS.has(type) ? type : 'UNKNOWN_GASKET',
+    classRating: rating(raw(row, 'classRating')),
+    facing: upper(row, 'RF', 'facing'),
+    outerDiaMm: n(row, 'outerDiaMm', 'dimensions.outerDiaMm'),
+    innerDiaMm: n(row, 'innerDiaMm', 'dimensions.innerDiaMm'),
+    thicknessMm: n(row, 'thicknessMm', 'dimensions.thicknessMm'),
+  };
+}
+
+export function hasPipeSpecSvgSupport(row = {}) {
+  const ct = upper(row, '', 'componentType', 'family', 'component');
+  if (!SUPPORTED.has(ct)) return false;
+  if (ct === 'FITTING') return FITTINGS.has(subtype(row));
+  if (ct === 'FLANGE') return FLANGES.has(upper(row, 'WN', 'subtype', 'flangeType', 'type'));
+  if (ct === 'GASKET') return GASKETS.has(subtype(row));
+  if (ct === 'VALVE') return upper(row, 'GATE', 'valveType', 'subtype', 'type') === 'GATE';
+  return true;
+}
+
+export function toPipeSpecSvgRow(row = {}) {
+  const ct = upper(row, '', 'componentType', 'family', 'component');
+  if (ct === 'PIPE') return pipe(row);
+  if (ct === 'VALVE') return valve(row);
+  if (ct === 'FLANGE') return flange(row);
+  if (ct === 'FITTING') return fitting(row);
+  if (ct === 'GASKET') return gasket(row);
+  return { ...common(row), componentType: 'UNKNOWN', supported: false };
+}
+
+export const PIPE_SPEC_SVG_SUPPORTED_TYPES = Object.freeze({
+  componentTypes: [...SUPPORTED],
+  fittings: [...FITTINGS],
+  flanges: [...FLANGES],
+  gaskets: [...GASKETS],
+});

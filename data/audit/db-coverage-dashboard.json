@@ -1,0 +1,426 @@
+{
+  "schema": "pipedata-db-coverage-dashboard/v1",
+  "phase": "DB_PHASE_14",
+  "generatedFrom": {
+    "exportManifestSchema": "pipedata-db-export-manifest/v1",
+    "searchIndexSchema": "pipedata-component-search-index/v1"
+  },
+  "policy": {
+    "noFabrication": true,
+    "noEngineeringFallback": true,
+    "missingValuesRemainNull": true,
+    "purpose": "Coverage visibility only; no engineering values are promoted by this dashboard."
+  },
+  "summary": {
+    "familyCount": 8,
+    "indexedEntryCount": 10567,
+    "normalizedRowCount": 11097,
+    "indexedResolvedRowCount": 10567,
+    "missingCatalogRows": 0,
+    "readyRows": 9171,
+    "partialRows": 1921,
+    "missingDimensionRows": 3,
+    "projectOverrideRows": 2,
+    "unavailableFieldCount": 7125,
+    "statusCounts": {
+      "READY": 9171,
+      "PARTIAL": 1921,
+      "MISSING_DIMENSION": 3,
+      "PROJECT_OVERRIDE": 2
+    },
+    "coverageStatusCounts": {
+      "PARTIAL": 13,
+      "PARTIAL_SAMPLE": 8,
+      "MISSING_DIMENSION": 1,
+      "PROJECT_OVERRIDE": 1,
+      "READY": 7
+    },
+    "unsupportedOrConfigOnlyFamilyCount": 2
+  },
+  "families": {
+    "PIPE": {
+      "family": "PIPE",
+      "path": [
+        "data/normalized/pipes.json",
+        "data/normalized/pipes-sch80-wave2.json",
+        "data/normalized/pipes-sch80-wave3.json",
+        "data/normalized/pipes-sch80-wave4.json",
+        "data/normalized/pipes-expanded.json"
+      ],
+      "schema": "pipedata-normalized-pipes/v1",
+      "generationMode": "SOURCE_BACKED_PROMOTION+SOURCE_BACKED_WAVE_2_EXPANSION+SOURCE_BACKED_WAVE_3_EXPANSION+SOURCE_BACKED_WAVE_4_EXPANSION+SOURCE_BACKED_MULTI_SCHEDULE_EXPANSION",
+      "coverageStatus": "PARTIAL",
+      "unsupportedOrConfigOnly": false,
+      "indexedRows": 933,
+      "indexedResolvedRows": 933,
+      "missingCatalogRows": 0,
+      "normalizedRows": 933,
+      "statusCounts": {
+        "READY": 729,
+        "PARTIAL": 204
+      },
+      "readyRows": 729,
+      "partialRows": 204,
+      "missingDimensionRows": 0,
+      "projectOverrideRows": 0,
+      "unavailableFieldCount": 1248,
+      "nullValueCount": 0,
+      "sourceCoverage": {
+        "sourceFileCount": 37,
+        "sourceRowCount": 1030,
+        "sourceReadyRows": 471,
+        "sourcePartialRows": 108,
+        "sampledRowCount": 933,
+        "explodedRowCount": null,
+        "sourceFolders": [
+          "Database/Pipe"
+        ],
+        "sourceRoots": [],
+        "generationMode": "SOURCE_BACKED_PROMOTION+SOURCE_BACKED_WAVE_2_EXPANSION+SOURCE_BACKED_WAVE_3_EXPANSION+SOURCE_BACKED_WAVE_4_EXPANSION+SOURCE_BACKED_MULTI_SCHEDULE_EXPANSION",
+        "sourceAvailability": {
+          "groups": 0,
+          "csvFiles": 0,
+          "dxfFiles": 0,
+          "setFiles": 0,
+          "fileCount": 0
+        }
+      },
+      "gaps": []
+    },
+    "FLANGE": {
+      "family": "FLANGE",
+      "path": [
+        "data/normalized/flanges.json",
+        "data/normalized/flanges-cl600-wave2.json",
+        "data/normalized/flanges-cl600-wave3.json",
+        "data/normalized/flanges-expanded.json",
+        "data/normalized/flanges-cl400-expanded.json",
+        "data/normalized/flanges-cl900-expanded.json",
+        "data/normalized/flanges-cl1500-expanded.json",
+        "data/normalized/flanges-cl2500-expanded.json"
+      ],
+      "schema": "pipedata-normalized-flanges/v1",
+      "generationMode": "SOURCE_BACKED_PROMOTION+SOURCE_BACKED_WAVE_2_EXPANSION+SOURCE_BACKED_WAVE_3_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION",
+      "coverageStatus": "PARTIAL",
+      "unsupportedOrConfigOnly": false,
+      "indexedRows": 533,
+      "indexedResolvedRows": 533,
+      "missingCatalogRows": 0,
+      "normalizedRows": 683,
+      "statusCounts": {
+        "READY": 625,
+        "PARTIAL": 58
+      },
+      "readyRows": 625,
+      "partialRows": 58,
+      "missingDimensionRows": 0,
+      "projectOverrideRows": 0,
+      "unavailableFieldCount": 1378,
+      "nullValueCount": 0,
+      "sourceCoverage": {
+        "sourceFileCount": 20,
+        "sourceRowCount": 460,
+        "sourceReadyRows": null,
+        "sourcePartialRows": null,
+        "sampledRowCount": 683,
+        "explodedRowCount": 729,
+        "sourceFolders": [],
+        "sourceRoots": [
+          "docs/Pipedata/Database/Flan"
+        ],
+        "generationMode": "SOURCE_BACKED_PROMOTION+SOURCE_BACKED_WAVE_2_EXPANSION+SOURCE_BACKED_WAVE_3_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION",
+        "sourceAvailability": {
+          "groups": 0,
+          "csvFiles": 0,
+          "dxfFiles": 0,
+          "setFiles": 0,
+          "fileCount": 0
+        }
+      },
+      "gaps": []
+    },
+    "VALVE": {
+      "family": "VALVE",
+      "path": [
+        "data/normalized/valves.json",
+        "data/normalized/valves-expanded.json",
+        "data/normalized/valves-globe-expanded.json",
+        "data/normalized/valves-control-expanded.json",
+        "data/normalized/valves-swingcheck-expanded.json",
+        "data/normalized/valves-wafer-expanded.json"
+      ],
+      "schema": "pipedata-normalized-valves/v1",
+      "generationMode": "SOURCE_BACKED_PROMOTION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION",
+      "coverageStatus": "PARTIAL",
+      "unsupportedOrConfigOnly": false,
+      "indexedRows": 898,
+      "indexedResolvedRows": 898,
+      "missingCatalogRows": 0,
+      "normalizedRows": 1275,
+      "statusCounts": {
+        "READY": 671,
+        "PARTIAL": 604
+      },
+      "readyRows": 671,
+      "partialRows": 604,
+      "missingDimensionRows": 0,
+      "projectOverrideRows": 0,
+      "unavailableFieldCount": 2255,
+      "nullValueCount": 2255,
+      "sourceCoverage": {
+        "sourceFileCount": 75,
+        "sourceRowCount": 697,
+        "sourceReadyRows": null,
+        "sourcePartialRows": null,
+        "sampledRowCount": 1275,
+        "explodedRowCount": null,
+        "sourceFolders": [],
+        "sourceRoots": [
+          "docs/Pipedata/Database/Vlfl"
+        ],
+        "generationMode": "SOURCE_BACKED_PROMOTION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION+SOURCE_BACKED_EXPANSION",
+        "sourceAvailability": {
+          "groups": 0,
+          "csvFiles": 0,
+          "dxfFiles": 0,
+          "setFiles": 0,
+          "fileCount": 0
+        }
+      },
+      "gaps": []
+    },
+    "FITTING": {
+      "family": "FITTING",
+      "path": "data/normalized/fittings.json",
+      "schema": "pipedata-normalized-fittings/v1",
+      "generationMode": "SOURCE_BACKED_PROMOTION",
+      "coverageStatus": "PARTIAL",
+      "unsupportedOrConfigOnly": false,
+      "indexedRows": 3898,
+      "indexedResolvedRows": 3898,
+      "missingCatalogRows": 0,
+      "normalizedRows": 3898,
+      "statusCounts": {
+        "READY": 3196,
+        "PARTIAL": 702
+      },
+      "readyRows": 3196,
+      "partialRows": 702,
+      "missingDimensionRows": 0,
+      "projectOverrideRows": 0,
+      "unavailableFieldCount": 1167,
+      "nullValueCount": 1167,
+      "sourceCoverage": {
+        "sourceFileCount": 89,
+        "sourceRowCount": null,
+        "sourceReadyRows": null,
+        "sourcePartialRows": null,
+        "sampledRowCount": 3898,
+        "explodedRowCount": null,
+        "sourceFolders": [],
+        "sourceRoots": [
+          "docs/Pipedata/Database/Ftbw"
+        ],
+        "generationMode": "SOURCE_BACKED_PROMOTION",
+        "sourceAvailability": {
+          "groups": 0,
+          "csvFiles": 0,
+          "dxfFiles": 0,
+          "setFiles": 0,
+          "fileCount": 0
+        }
+      },
+      "gaps": []
+    },
+    "GASKET": {
+      "family": "GASKET",
+      "path": "data/normalized/gaskets.json",
+      "schema": "pipedata-normalized-gaskets/v1",
+      "generationMode": "SOURCE_INVENTORY_SELECTOR_ROWS_ONLY",
+      "coverageStatus": "MISSING_DIMENSION",
+      "unsupportedOrConfigOnly": true,
+      "indexedRows": 1,
+      "indexedResolvedRows": 1,
+      "missingCatalogRows": 0,
+      "normalizedRows": 3,
+      "statusCounts": {
+        "MISSING_DIMENSION": 3
+      },
+      "readyRows": 0,
+      "partialRows": 0,
+      "missingDimensionRows": 3,
+      "projectOverrideRows": 0,
+      "unavailableFieldCount": 8,
+      "nullValueCount": 8,
+      "sourceCoverage": {
+        "sourceFileCount": 0,
+        "sourceRowCount": null,
+        "sourceReadyRows": null,
+        "sourcePartialRows": null,
+        "sampledRowCount": 3,
+        "explodedRowCount": null,
+        "sourceFolders": [
+          "Gflt",
+          "Grtj",
+          "Gspr"
+        ],
+        "sourceRoots": [
+          "docs/Pipedata/Database"
+        ],
+        "generationMode": "SOURCE_INVENTORY_SELECTOR_ROWS_ONLY",
+        "sourceAvailability": {
+          "groups": 0,
+          "csvFiles": 0,
+          "dxfFiles": 0,
+          "setFiles": 0,
+          "fileCount": 0
+        }
+      },
+      "gaps": []
+    },
+    "SUPPORT": {
+      "family": "SUPPORT",
+      "path": "data/normalized/supports.json",
+      "schema": "pipedata-normalized-supports/v1",
+      "generationMode": "PROJECT_DEFAULT_AND_SOURCE_AVAILABILITY",
+      "coverageStatus": "PROJECT_OVERRIDE",
+      "unsupportedOrConfigOnly": true,
+      "indexedRows": 1,
+      "indexedResolvedRows": 1,
+      "missingCatalogRows": 0,
+      "normalizedRows": 2,
+      "statusCounts": {
+        "PROJECT_OVERRIDE": 2
+      },
+      "readyRows": 0,
+      "partialRows": 0,
+      "missingDimensionRows": 0,
+      "projectOverrideRows": 2,
+      "unavailableFieldCount": 2,
+      "nullValueCount": 2,
+      "sourceCoverage": {
+        "sourceFileCount": 14,
+        "sourceRowCount": null,
+        "sourceReadyRows": null,
+        "sourcePartialRows": null,
+        "sampledRowCount": null,
+        "explodedRowCount": null,
+        "sourceFolders": [],
+        "sourceRoots": [
+          "docs/Pipedata/Database/Span",
+          "docs/Pipedata/Database/Gpas"
+        ],
+        "generationMode": "PROJECT_DEFAULT_AND_SOURCE_AVAILABILITY",
+        "sourceAvailability": {
+          "groups": 2,
+          "csvFiles": 0,
+          "dxfFiles": 6,
+          "setFiles": 8,
+          "fileCount": 14
+        }
+      },
+      "gaps": []
+    },
+    "REDUCER": {
+      "family": "REDUCER",
+      "path": [
+        "data/normalized/reducers-sch80-wave1.json",
+        "data/normalized/reducers-sch80-wave2.json",
+        "data/normalized/reducers-expanded.json",
+        "data/normalized/reducers.json"
+      ],
+      "schema": "pipedata-normalized-reducers/v1",
+      "generationMode": "SOURCE_BACKED_WAVE_1_EXPANSION+SOURCE_BACKED_WAVE_2_EXPANSION+SOURCE_BACKED_MULTI_SCHEDULE_EXPANSION+SOURCE_BACKED_PROMOTION",
+      "coverageStatus": "PARTIAL",
+      "unsupportedOrConfigOnly": false,
+      "indexedRows": 4163,
+      "indexedResolvedRows": 4163,
+      "missingCatalogRows": 0,
+      "normalizedRows": 4163,
+      "statusCounts": {
+        "READY": 3819,
+        "PARTIAL": 344
+      },
+      "readyRows": 3819,
+      "partialRows": 344,
+      "missingDimensionRows": 0,
+      "projectOverrideRows": 0,
+      "unavailableFieldCount": 344,
+      "nullValueCount": 344,
+      "sourceCoverage": {
+        "sourceFileCount": 24,
+        "sourceRowCount": 1775,
+        "sourceReadyRows": 1435,
+        "sourcePartialRows": 172,
+        "sampledRowCount": 4163,
+        "explodedRowCount": null,
+        "sourceFolders": [
+          "Database/Ftbw"
+        ],
+        "sourceRoots": [
+          "docs/Pipedata/Database/Ftbw"
+        ],
+        "generationMode": "SOURCE_BACKED_WAVE_1_EXPANSION+SOURCE_BACKED_WAVE_2_EXPANSION+SOURCE_BACKED_MULTI_SCHEDULE_EXPANSION+SOURCE_BACKED_PROMOTION",
+        "sourceAvailability": {
+          "groups": 0,
+          "csvFiles": 0,
+          "dxfFiles": 0,
+          "setFiles": 0,
+          "fileCount": 0
+        }
+      },
+      "gaps": []
+    },
+    "OLET": {
+      "family": "OLET",
+      "path": [
+        "data/normalized/olets-weldolet.json",
+        "data/normalized/olets-sockolet.json",
+        "data/normalized/olets-thredolet.json",
+        "data/normalized/olets-elbolet.json"
+      ],
+      "schema": "pipedata-normalized-olets/v1",
+      "generationMode": "SOURCE_BACKED_EXPANSION",
+      "coverageStatus": "PARTIAL",
+      "unsupportedOrConfigOnly": false,
+      "indexedRows": 140,
+      "indexedResolvedRows": 140,
+      "missingCatalogRows": 0,
+      "normalizedRows": 140,
+      "statusCounts": {
+        "READY": 131,
+        "PARTIAL": 9
+      },
+      "readyRows": 131,
+      "partialRows": 9,
+      "missingDimensionRows": 0,
+      "projectOverrideRows": 0,
+      "unavailableFieldCount": 723,
+      "nullValueCount": 723,
+      "sourceCoverage": {
+        "sourceFileCount": 9,
+        "sourceRowCount": 165,
+        "sourceReadyRows": null,
+        "sourcePartialRows": null,
+        "sampledRowCount": 140,
+        "explodedRowCount": null,
+        "sourceFolders": [],
+        "sourceRoots": [
+          "docs/Pipedata/Database/Wbol"
+        ],
+        "generationMode": "SOURCE_BACKED_EXPANSION",
+        "sourceAvailability": {
+          "groups": 0,
+          "csvFiles": 0,
+          "dxfFiles": 0,
+          "setFiles": 0,
+          "fileCount": 0
+        }
+      },
+      "gaps": []
+    }
+  },
+  "gaps": [],
+  "diagnostics": [],
+  "ok": true
+}

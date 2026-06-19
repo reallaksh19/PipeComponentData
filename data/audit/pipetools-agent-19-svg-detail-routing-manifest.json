@@ -1,0 +1,35 @@
+{
+  "schema": "pipetools-agent-19-svg-detail-routing/v1",
+  "wave": "13D",
+  "agent": "Agent 19",
+  "scope": "PipeSpec detail panel uses uploaded vendor SVG engine through normalized row adapter",
+  "nativeFiles": [
+    "pipetools/js/svg/pipeSpecSvgAdapter.js",
+    "pipetools/js/svg/pipeSpecSvgEngine.js",
+    "pipetools/js/pipespecInspector.js",
+    "pipetools/js/render.js"
+  ],
+  "vendorFiles": [
+    "pipetools/vendor/pipespec-svg/svg-engine.js"
+  ],
+  "supportedRoutingSamples": [
+    "PIPE",
+    "VALVE/GATE",
+    "FLANGE/WN",
+    "FLANGE/SO",
+    "FLANGE/BLIND",
+    "FITTING/ELBOW_90",
+    "FITTING/ELBOW_45",
+    "FITTING/TEE_STRAIGHT",
+    "FITTING/CAP",
+    "GASKET/FLAT_RING",
+    "GASKET/RTJ",
+    "GASKET/SPIRAL_WOUND"
+  ],
+  "rules": [
+    "No supported row may use the legacy registry fallback in the detail panel.",
+    "Nested normalized dimensions and weights must map to the PipeSpecSVG schema.",
+    "Unsupported rows must show explicit SVG not available output."
+  ],
+  "maxNativeModuleLines": 220
+}

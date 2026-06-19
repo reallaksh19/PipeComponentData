@@ -1,0 +1,56 @@
+{
+  "expectedCounts": {
+    "csvFiles": 914,
+    "dxfFiles": 240,
+    "folders": 42,
+    "otherFiles": 36,
+    "setFiles": 227,
+    "totalFiles": 1417
+  },
+  "extensionCounts": {
+    "co1": 2,
+    "csv": 914,
+    "dxf": 240,
+    "html": 5,
+    "jbf": 1,
+    "pdp": 1,
+    "red": 9,
+    "rtf": 1,
+    "set": 227,
+    "txt": 16,
+    "xlsx": 1
+  },
+  "familyCounts": {
+    "APP_CONFIG": 29,
+    "BOLTING": 7,
+    "FITTING": 618,
+    "FLANGE": 193,
+    "FLEXIBLE": 7,
+    "GASKET": 54,
+    "LINE_BLANK": 48,
+    "OLET": 121,
+    "ORIFICE": 18,
+    "PIPE": 40,
+    "PIPE_AUX": 48,
+    "STRAINER": 44,
+    "VALVE": 190
+  },
+  "notes": [
+    "Source inventory is derived from the uploaded Pipedata.zip only.",
+    "DXF files are cataloged as SKETCH_ONLY links; geometry parsing is intentionally out of scope for DB Phase 1.",
+    ".set/.SET files are cataloged as APP_CONFIG; they are retained for later alias/vocabulary extraction.",
+    "Unsupported source extensions are counted and retained, not silently skipped."
+  ],
+  "parseStatusCounts": {
+    "APP_CONFIG": 240,
+    "RAW_TABLE": 914,
+    "SKETCH_ONLY": 240,
+    "UNSUPPORTED_SOURCE": 23
+  },
+  "schemaVersion": "pipedata-raw-inventory/v1",
+  "sourceArchive": {
+    "name": "Pipedata.zip",
+    "sha256": "c3e50452e10a05e6e84c1c089f46a9ef4b4e24a155b153036b9dcf1afeeae408",
+    "sizeBytes": 4872870
+  }
+}

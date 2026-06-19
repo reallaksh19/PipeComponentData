@@ -1,0 +1,25 @@
+{
+  "schema": "pipedata-foundation-tag-readiness/v1",
+  "phase": "DB_PHASE_36",
+  "recommendedTag": "v0.1.0-foundation",
+  "packageVersion": "0.1.0",
+  "status": "READY_TO_TAG_FOUNDATION_AFTER_MAIN_CI_GREEN",
+  "productionComplete": false,
+  "requiredEvidence": [
+    "CHANGELOG.md",
+    "docs/release-candidate.md",
+    "docs/release-readiness.md",
+    "docs/data-governance.md",
+    "data/audit/foundation-release-candidate.json",
+    "data/audit/release-readiness.json",
+    "data/audit/dataset-version-manifest.json",
+    "data/audit/pages-artifact-contract.json"
+  ],
+  "taggingRules": {
+    "tagOnlyAfterMainCiGreen": true,
+    "tagOnlyAfterPagesDeployGreen": true,
+    "doNotCallProductionComplete": true,
+    "doNotPublishRawSourceTree": true,
+    "includeKnownLimitations": true
+  }
+}

@@ -1,0 +1,6318 @@
+{
+  "schema": "pipedata-normalized-valves/v1",
+  "summary": {
+    "family": "VALVE",
+    "valveType": "CONTROL",
+    "sourceRoot": "docs/Pipedata/Database/Vlfl",
+    "sourceFileCount": 6,
+    "sampledRowCount": 90,
+    "datasetVersion": "pipedata-db/2026.06.dbphase82",
+    "generationMode": "SOURCE_BACKED_EXPANSION",
+    "expansionPack": "DB_PHASE_76_VALVE_CONTROL_EXPANSION",
+    "addedRows": 90
+  },
+  "sourceFiles": {
+    "docs/Pipedata/Database/Vlfl/VLV4150.csv": 17,
+    "docs/Pipedata/Database/Vlfl/VLV4300.csv": 17,
+    "docs/Pipedata/Database/Vlfl/VLV4600.csv": 16,
+    "docs/Pipedata/Database/Vlfl/VLV4900.csv": 14,
+    "docs/Pipedata/Database/Vlfl/VLV41500.csv": 14,
+    "docs/Pipedata/Database/Vlfl/VLV42500.csv": 12
+  },
+  "rows": [
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+1/4",
+      "dn": 8,
+      "sourceRowNumber": 3,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 3
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+1/4|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+3/8",
+      "dn": 10,
+      "sourceRowNumber": 4,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 4
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+3/8|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+1/2",
+      "dn": 15,
+      "sourceRowNumber": 5,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 3,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 5
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+1/2|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+3/4",
+      "dn": 20,
+      "sourceRowNumber": 6,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 7.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 5.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 6
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+3/4|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "1",
+      "dn": 25,
+      "sourceRowNumber": 7,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 184.15,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 196.85,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 777.875,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 288.925,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 284.1625,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 304.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 10,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 7,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 7
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "1+1/4",
+      "dn": 32,
+      "sourceRowNumber": 8,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 200.025,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 212.725,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 777.875,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 288.925,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 284.1625,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 304.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 14,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 10,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 8
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/4|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "1+1/2",
+      "dn": 40,
+      "sourceRowNumber": 9,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 222.25,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 234.95,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 898.525,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 333.375,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 284.1625,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 304.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 18,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 15,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 9
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/2|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "2",
+      "dn": 50,
+      "sourceRowNumber": 10,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 254,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 266.7,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1025.525,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 333.375,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 284.1625,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 304.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 23.6,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 18,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 10
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "2+1/2",
+      "dn": 65,
+      "sourceRowNumber": 11,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": 1025.525,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 333.375,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 284.1625,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 304.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 43,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 34,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 11
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2+1/2|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "3",
+      "dn": 80,
+      "sourceRowNumber": 12,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 298.45,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 311.15,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1066.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 333.375,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 284.1625,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 304.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 43,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 34,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 12
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "3+1/2",
+      "dn": 90,
+      "sourceRowNumber": 13,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 13
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3+1/2|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "4",
+      "dn": 100,
+      "sourceRowNumber": 14,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 352.425,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 365.125,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1244.6,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 406.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 374.65,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 356.39375,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 61.2,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 48,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 14
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS4|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "5",
+      "dn": 130,
+      "sourceRowNumber": 15,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 15
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS5|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "6",
+      "dn": 150,
+      "sourceRowNumber": 16,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 450.85,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 463.55,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1447.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 406.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 378.61875,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 357.1875,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 108.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 88,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 16
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS6|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "8",
+      "dn": 200,
+      "sourceRowNumber": 17,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 542.925,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 552.45,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1473.2,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 473.075,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 378.61875,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 357.98125,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 170.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 136,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 17
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS8|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "10",
+      "dn": 250,
+      "sourceRowNumber": 18,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 673.1,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 685.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1822.45,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 533.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 378.61875,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 357.98125,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 276.6,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 228,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 18
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS10|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "150",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "12",
+      "dn": 300,
+      "sourceRowNumber": 19,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 736.6,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 749.3,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1828.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 533.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 378.61875,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 357.98125,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 385.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 313,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4150.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 19
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS12|CL150|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+1/4",
+      "dn": 8,
+      "sourceRowNumber": 3,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 3
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+1/4|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+3/8",
+      "dn": 10,
+      "sourceRowNumber": 4,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 4
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+3/8|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+1/2",
+      "dn": 15,
+      "sourceRowNumber": 5,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 190.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": 584.1999999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 250.825,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 6.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 3.7,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 5
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+1/2|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+3/4",
+      "dn": 20,
+      "sourceRowNumber": 6,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 193.67499999999998,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 206.375,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 660.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 279.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 7.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 6
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+3/4|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1",
+      "dn": 25,
+      "sourceRowNumber": 7,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 193.67499999999998,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 209.54999999999998,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 660.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 279.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 10.9,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 7
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1+1/4",
+      "dn": 32,
+      "sourceRowNumber": 8,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 8
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/4|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1+1/2",
+      "dn": 40,
+      "sourceRowNumber": 9,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 234.95,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 247.64999999999998,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 762,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 333.375,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 26.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 23,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 9
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/2|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "2",
+      "dn": 50,
+      "sourceRowNumber": 10,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 266.7,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 282.575,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 914.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 333.375,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 30.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 24,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 10
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "2+1/2",
+      "dn": 65,
+      "sourceRowNumber": 11,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 11
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2+1/2|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "3",
+      "dn": 80,
+      "sourceRowNumber": 12,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 317.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 333.375,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 965.1999999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 381,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 63.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 52,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 12
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "3+1/2",
+      "dn": 90,
+      "sourceRowNumber": 13,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 13
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3+1/2|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "4",
+      "dn": 100,
+      "sourceRowNumber": 14,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 368.29999999999995,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 384.17499999999995,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1092.2,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 406.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 95.2,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 76,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 14
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS4|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "5",
+      "dn": 130,
+      "sourceRowNumber": 15,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 15
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS5|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "6",
+      "dn": 150,
+      "sourceRowNumber": 16,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 473.075,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 488.95,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1244.6,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 444.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 195,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 160,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 16
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS6|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "8",
+      "dn": 200,
+      "sourceRowNumber": 17,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 568.3249999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 584.1999999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1270,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 527.05,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 285.7,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 233,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 17
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS8|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "10",
+      "dn": 250,
+      "sourceRowNumber": 18,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 708.025,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 723.9,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1295.3999999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 635,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 453.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 382,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 18
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS10|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "300",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "12",
+      "dn": 300,
+      "sourceRowNumber": 19,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 806.4499999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 812.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 1625.6,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 635,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 696.6,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 596,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4300.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 19
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS12|CL300|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+1/4",
+      "dn": 8,
+      "sourceRowNumber": 3,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 3
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+1/4|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+3/8",
+      "dn": 10,
+      "sourceRowNumber": 4,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 4
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+3/8|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "0+1/2",
+      "dn": 15,
+      "sourceRowNumber": 5,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 5161.28,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 5120.9575,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 16774.16,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 7096.759999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 7116.92125,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 4334.66875,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 3,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 5
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+1/2|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "0+3/4",
+      "dn": 20,
+      "sourceRowNumber": 6,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 5241.924999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 5241.924999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 16774.16,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 7096.759999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 7137.0824999999995,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 4334.66875,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 10,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 7,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 6
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+3/4|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "1",
+      "dn": 25,
+      "sourceRowNumber": 7,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 5322.57,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 5322.57,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 16774.16,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 7096.759999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 7157.24375,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 4334.66875,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 15.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 11,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 7
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "1+1/4",
+      "dn": 32,
+      "sourceRowNumber": 8,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 6370.954999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 6370.954999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 19354.8,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 8387.08,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 7258.049999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 7741.92,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 20,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 15,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 8
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/4|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "1+1/2",
+      "dn": 40,
+      "sourceRowNumber": 9,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 6370.954999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 6370.954999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 23225.76,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 8387.08,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 7258.049999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 7741.92,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 27.2,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 21,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 9
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/2|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "2",
+      "dn": 50,
+      "sourceRowNumber": 10,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 7258.049999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 7338.695,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 23870.92,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 8387.08,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 7258.049999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 7741.92,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 43,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 35,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 10
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "2+1/2",
+      "dn": 65,
+      "sourceRowNumber": 11,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 7903.209999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 8024.1775,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 24516.079999999998,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 10322.56,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 9516.109999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 9052.401249999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 62,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 51,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 11
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2+1/2|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "3",
+      "dn": 80,
+      "sourceRowNumber": 12,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 8548.369999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 8629.015,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 27741.88,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 10322.56,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 9516.109999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 9052.401249999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 81,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 67,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 12
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "3+1/2",
+      "dn": 90,
+      "sourceRowNumber": 13,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 13
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3+1/2|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "4",
+      "dn": 100,
+      "sourceRowNumber": 14,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 9999.98,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 10080.625,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 31612.839999999997,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 12016.105,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 9516.109999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 9052.401249999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 152,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 120,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 14
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS4|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "5",
+      "dn": 130,
+      "sourceRowNumber": 15,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 15
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS5|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "6",
+      "dn": 150,
+      "sourceRowNumber": 16,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 12903.199999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 12983.845,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 41290.24,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 13548.359999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 9052.401249999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 328,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 256,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 16
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS6|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "8",
+      "dn": 200,
+      "sourceRowNumber": 17,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 15483.84,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 15564.484999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 39354.76,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 16129,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 7741.92,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 10967.72,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 566,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 462,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 17
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS8|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "600",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "10",
+      "dn": 250,
+      "sourceRowNumber": 18,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 21612.859999999997,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 21451.569999999996,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 41290.24,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 16129,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 7741.92,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 10967.72,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 852,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 698,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4600.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 18
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS10|CL600|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+1/4",
+      "dn": 8,
+      "sourceRowNumber": 3,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 3
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+1/4|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+3/8",
+      "dn": 10,
+      "sourceRowNumber": 4,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 4
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+3/8|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+1/2",
+      "dn": 15,
+      "sourceRowNumber": 5,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 5
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+1/2|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+3/4",
+      "dn": 20,
+      "sourceRowNumber": 6,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 6
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+3/4|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1",
+      "dn": 25,
+      "sourceRowNumber": 7,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 38.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 32,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 7
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1+1/4",
+      "dn": 32,
+      "sourceRowNumber": 8,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 49,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 41,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 8
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/4|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1+1/2",
+      "dn": 40,
+      "sourceRowNumber": 9,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 61.2,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 51,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 9
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/2|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "2",
+      "dn": 50,
+      "sourceRowNumber": 10,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 83.9,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 62,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 10
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "2+1/2",
+      "dn": 65,
+      "sourceRowNumber": 11,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 99,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 77,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 11
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2+1/2|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "3",
+      "dn": 80,
+      "sourceRowNumber": 12,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 11209.654999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 12177.395,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 23225.76,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 8467.725,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 7258.049999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 7741.92,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 116.1,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 92,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 12
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "3+1/2",
+      "dn": 90,
+      "sourceRowNumber": 13,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 13
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3+1/2|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "4",
+      "dn": 100,
+      "sourceRowNumber": 14,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 12983.845,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 13064.49,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 28064.46,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 10322.56,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 9516.109999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 9052.401249999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 199.5,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 152,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 14
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS4|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "5",
+      "dn": 130,
+      "sourceRowNumber": 15,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 15
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS5|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "900",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "6",
+      "dn": 150,
+      "sourceRowNumber": 16,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 18145.125,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 18225.769999999997,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 29677.36,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 10322.56,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 9596.755,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 9052.401249999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 408.2,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 308,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV4900.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 16
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS6|CL900|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+1/4",
+      "dn": 8,
+      "sourceRowNumber": 3,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 3
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+1/4|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+3/8",
+      "dn": 10,
+      "sourceRowNumber": 4,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 4
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+3/8|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+1/2",
+      "dn": 15,
+      "sourceRowNumber": 5,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 5
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+1/2|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+3/4",
+      "dn": 20,
+      "sourceRowNumber": 6,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 6
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+3/4|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1",
+      "dn": 25,
+      "sourceRowNumber": 7,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 38,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 31,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 7
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1+1/4",
+      "dn": 32,
+      "sourceRowNumber": 8,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 49,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 8
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/4|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1+1/2",
+      "dn": 40,
+      "sourceRowNumber": 9,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 61,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 53,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 9
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/2|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "2",
+      "dn": 50,
+      "sourceRowNumber": 10,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 83,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 65,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 10
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "2+1/2",
+      "dn": 65,
+      "sourceRowNumber": 11,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 125,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 11
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2+1/2|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "3",
+      "dn": 80,
+      "sourceRowNumber": 12,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 11693.525,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 11774.17,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 23225.76,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 8467.725,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 7258.049999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 0,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 167,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 125,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 12
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "3+1/2",
+      "dn": 90,
+      "sourceRowNumber": 13,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 13
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3+1/2|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "4",
+      "dn": 100,
+      "sourceRowNumber": 14,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 13467.715,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 13548.359999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 28064.46,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 10322.56,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 9516.109999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 0,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 299,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 233,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 14
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS4|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "5",
+      "dn": 130,
+      "sourceRowNumber": 15,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 15
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS5|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "1500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "6",
+      "dn": 150,
+      "sourceRowNumber": 16,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 19516.09,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 19677.38,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 29677.36,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 10322.56,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 9596.755,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 0,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 639,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 489,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV41500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 16
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS6|CL1500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+1/2",
+      "dn": 15,
+      "sourceRowNumber": 3,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 30,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 23,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 3
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+1/2|CL2500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "0+3/4",
+      "dn": 20,
+      "sourceRowNumber": 4,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 40,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 33,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 4
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS0+3/4|CL2500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1",
+      "dn": 25,
+      "sourceRowNumber": 5,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 60,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 50,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 5
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1|CL2500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1+1/4",
+      "dn": 32,
+      "sourceRowNumber": 6,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 75,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 60,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 6
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/4|CL2500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "1+1/2",
+      "dn": 40,
+      "sourceRowNumber": 7,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 90,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 70,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 7
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS1+1/2|CL2500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "2",
+      "dn": 50,
+      "sourceRowNumber": 8,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 120,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 85,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 8
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2|CL2500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "2+1/2",
+      "dn": 65,
+      "sourceRowNumber": 9,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 150,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 80,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 9
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS2+1/2|CL2500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "3",
+      "dn": 80,
+      "sourceRowNumber": 10,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 12661.265,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 12822.554999999998,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 23063.199999999997,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 8458.199999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 7258.049999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 7741.92,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 140,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 85,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 10
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3|CL2500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "3+1/2",
+      "dn": 90,
+      "sourceRowNumber": 11,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 11
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS3+1/2|CL2500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "4",
+      "dn": 100,
+      "sourceRowNumber": 12,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 14596.744999999997,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 14838.68,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 28524.199999999997,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 10322.56,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 9516.109999999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 9052.401249999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 225,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 111,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 12
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS4|CL2500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "PARTIAL",
+      "nps": "5",
+      "dn": 130,
+      "sourceRowNumber": 13,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RF Face to Face"
+        },
+        "faceToFaceRtjMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "RTJ Face to Face"
+        },
+        "heightMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Height"
+        },
+        "diaphragmDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Diaphram Diameter"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Standout"
+        },
+        "sideHandwheelDiaMm": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "Side HW Diameter"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight RF/RTJ"
+        },
+        "buttWeldKg": {
+          "value": null,
+          "basis": "UNAVAILABLE",
+          "sourceColumn": "weight BW"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "PARTIAL",
+        "sourceRowNumber": 13
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS5|CL2500|RF"
+    },
+    {
+      "componentType": "VALVE",
+      "valveType": "CONTROL",
+      "endType": "FLANGED",
+      "classRating": "2500",
+      "facing": "RF",
+      "standard": "ASME B16.10",
+      "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+      "datasetVersion": "pipedata-db/2026.06.dbphase82",
+      "dataStatus": "READY",
+      "nps": "6",
+      "dn": 150,
+      "sourceRowNumber": 14,
+      "dimensions": {
+        "faceToFaceRfMm": {
+          "value": 20806.41,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RF Face to Face",
+          "unit": "mm"
+        },
+        "faceToFaceRtjMm": {
+          "value": 21128.989999999998,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "RTJ Face to Face",
+          "unit": "mm"
+        },
+        "heightMm": {
+          "value": 30073.6,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Height",
+          "unit": "mm"
+        },
+        "diaphragmDiaMm": {
+          "value": 10312.4,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Diaphram Diameter",
+          "unit": "mm"
+        },
+        "sideHandwheelStandoutMm": {
+          "value": 9596.755,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Standout",
+          "unit": "mm"
+        },
+        "sideHandwheelDiaMm": {
+          "value": 9052.401249999999,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "Side HW Diameter",
+          "unit": "mm"
+        }
+      },
+      "weights": {
+        "rfRtjKg": {
+          "value": 770,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight RF/RTJ",
+          "unit": "kg"
+        },
+        "buttWeldKg": {
+          "value": 474,
+          "basis": "SOURCE_VALUE",
+          "sourceColumn": "weight BW",
+          "unit": "kg"
+        }
+      },
+      "provenance": {
+        "standard": "ASME B16.10",
+        "source": "docs/Pipedata/Database/Vlfl/VLV42500.csv",
+        "datasetVersion": "pipedata-db/2026.06.dbphase82",
+        "dataStatus": "READY",
+        "sourceRowNumber": 14
+      },
+      "id": "VALVE|CONTROL|FLANGED|NPS6|CL2500|RF"
+    }
+  ]
+}

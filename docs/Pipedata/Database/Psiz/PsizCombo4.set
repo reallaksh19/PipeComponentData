@@ -1,0 +1,236 @@
+
+ 'Stus''''''''''''''''''''''''''''''
+
+        MainSize = 16
+        ASMEClass$ = "300#"
+        Face$ = "RF"
+        Sch$ = "STD"
+        SmallSize = 6
+        Rating$ = "3000#"
+        APIRatingIndex% = 1
+        DinClass$ = "40"
+        Table$ = "D"
+        ValveClass$ = "800#"
+        PipeNominalBore$ = "6"
+        PipeWallThk$ = "7.11"
+
+
+        For x = 1 To 8
+
+            ActiveTab$ = "Stus" & Trim$(Str$(x))
+            SaveSettings()
+
+        Next
+
+        ActiveTab$ = "Stus1"
+        SaveActiveSubSector()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        If Mid$(ActiveTab$, 1, 4) = "Stus" Then
+
+
+            ActivitySpec$ = "ASTM A 6/A 6M - 07"
+            ActivitySpecLong$ = ActivitySpec$ & " - " & "2007"
+            ActivityTitle$ = ActivitySpec$ & " USA Structural Steel Sections"
+
+
+            TabArray(1) = "Stus1"
+            TabArray(2) = "Stus2"
+            TabArray(3) = "Stus3"
+            TabArray(4) = "Stus4"
+            TabArray(5) = "Stus5"
+            TabArray(6) = "Stus6"
+            TabArray(7) = "Stus7"
+            TabArray(8) = "Stus8"
+
+
+
+            TitleArray(1) = "W - Paralel Flange Beams"
+            TitleArray(2) = "HP - H Shape Cross Section"
+            TitleArray(3) = "S - Taper Flange Beams"
+            TitleArray(4) = "Channels"
+            TitleArray(5) = "Angles - Equal and Unequal"
+            TitleArray(6) = "Square Tubing"
+            TitleArray(7) = "Rectangular Tubing"
+            TitleArray(8) = "Pipe"
+
+
+            TitleArrayQty = 8
+
+
+            frmPipedata.Combo1_Tab1.Text = TitleArray(1)
+            frmPipedata.Combo1_Tab2.Text = TitleArray(2)
+            frmPipedata.Combo1_Tab3.Text = TitleArray(3)
+            frmPipedata.Combo1_Tab4.Text = TitleArray(4)
+            frmPipedata.Combo1_Tab5.Text = TitleArray(5)
+            frmPipedata.Combo1_Tab6.Text = TitleArray(6)
+            frmPipedata.Combo1_Tab7.Text = TitleArray(7)
+            frmPipedata.Combo1_Tab8.Text = TitleArray(8)
+
+
+            frmPipedata.Combo1_Tab1.Visible = True
+            frmPipedata.Combo1_Tab2.Visible = True
+            frmPipedata.Combo1_Tab3.Visible = False
+            frmPipedata.Combo1_Tab4.Visible = False
+            frmPipedata.Combo1_Tab5.Visible = False
+            frmPipedata.Combo1_Tab6.Visible = False
+            frmPipedata.Combo1_Tab7.Visible = False
+            frmPipedata.Combo1_Tab8.Visible = False
+            frmPipedata.Combo1_Tab9.Visible = False
+            frmPipedata.Combo1_Tab10.Visible = False
+
+            frmPipedata.Combo1_Tab11.Visible = False
+            frmPipedata.Combo1_Tab12.Visible = False
+            frmPipedata.Combo1_Tab13.Visible = False
+            frmPipedata.Combo1_Tab14.Visible = False
+            frmPipedata.Combo1_Tab15.Visible = False
+            frmPipedata.Combo1_Tab16.Visible = False
+            frmPipedata.Combo1_Tab17.Visible = False
+            frmPipedata.Combo1_Tab18.Visible = False
+            frmPipedata.Combo1_Tab19.Visible = False
+            frmPipedata.Combo1_Tab20.Visible = False
+
+            frmPipedata.Combo1_Tab21.Visible = False
+            frmPipedata.Combo1_Tab22.Visible = False
+            frmPipedata.Combo1_Tab23.Visible = False
+            frmPipedata.Combo1_Tab24.Visible = False
+            frmPipedata.Combo1_Tab25.Visible = False
+            frmPipedata.Combo1_Tab26.Visible = False
+
+
+
+            frmPipedata.Combo1.ForeColor = Color.FromArgb(255, 255, 255)
+
+            frmPipedata.Combo1.Visible = True
+
+
+
+        End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Public Sub Stus1()
+
+        SubTab$ = "Stus1a"
+
+        TabbCount = 1
+
+        TabbQty = 8
+
+        DesigCombosGrtjStyle()
+
+        MinMainSize = 4
+
+        LowerLimit = 3
+
+        HigherLimit = MainSize
+
+        DataBaseName1 = "Stus1_W_Shape_InchPound"
+
+        DataFolder1$ = "Stus"
+
+        Sensor1 = 3
+
+        LoadDataBase1()
+
+        If MainSize > LineQtyDbase1 Then
+            MainSize = LineQtyDbase1
+            SaveSettings()
+            Clicker()
+        End If
+
+        SortLists()
+
+        If ActiveDba$(1, MainSize, Sensor1) = "" Or ActiveDba$(1, MainSize, Sensor1) = "N/A" Then
+            ErrorMessageNuts()
+        Else
+            Stus1_Headers()
+            GotoForm()
+        End If
+
+    End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Public Sub Stus1_Headers()
+
+        frmPipedata.Label1.Text = ActiveDba$(1, MainSize%, ListCol) & " lb/ft " & Title$
+
+        TempString$ = Val(ActiveDba$(1, MainSize%, 1)) * WeightFactor
+        FormatDim()
+
+        frmPipedata.Label2.Text = "Weight = " & TempString$ & " " & WeightSign$
+
+        frmPipedata.Label3.Text = ""
+        frmPipedata.Label4.Text = ""
+        frmPipedata.Label5.Text = ""
+        frmPipedata.Label6.Text = ""
+
+        frmPipedata.Label7.Text = ActivitySpecLong$
+        frmPipedata.Label7.Top = frmPipedata.StatusStrip1.Top - frmPipedata.Label7.Height - 8
+        frmPipedata.Label7.Width = frmPipedata.StatusStrip1.Width / 2
+        frmPipedata.Label7.Left = (frmPipedata.StatusStrip1.Left + frmPipedata.StatusStrip1.Width) - frmPipedata.Label7.Width - 8
+
+    End Sub

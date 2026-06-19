@@ -1,0 +1,18 @@
+21,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21
+NPS,DN,RF-F/F,RTJ-F/F,BW-F/F,Height,Lever Length,Hand Wheel Spindle Height,Hand Wheel Diameter,Hand Wheel Spindle Length,Hand Wheel Spindle Offset,weight RF/RTJ,weight BW,RF-F/F Short Pattern,RTJ-F/F Sort Pattern,BW-F/F Short Pattern,RTJ Addition,RTJ Gap,Long Pattern,Short Pattern,Section - Full Bore Valve
+0+1/2,15,N/A,N/A,N/A,2,6,0,0,0,0,21,20,N/A,N/A,N/A,0,0.16,Long Pattern,Short Pattern,Section - Full Bore Valve
+0+3/4,20,N/A,N/A,N/A,3,9,0,0,0,0,30,20,N/A,N/A,N/A,0,0.16,Long Pattern,Short Pattern,Section - Full Bore Valve
+1,25,N/A,N/A,N/A,3,9,0,0,0,0,38,22,N/A,N/A,N/A,0,0.16,Long Pattern,Short Pattern,Section - Full Bore Valve
+1+1/4,32,N/A,N/A,N/A,3,9,0,0,0,0,49,24,N/A,N/A,N/A,0,0.16,Long Pattern,Short Pattern,Section - Full Bore Valve
+1+1/2,40,N/A,N/A,N/A,5,15,0,0,0,0,52,26,N/A,N/A,N/A,0,0.16,Long Pattern,Short Pattern,Section - Full Bore Valve
+2,50,14.5,14.62,14.5,6,24,6,25,13,3,55,28,N/A,N/A,N/A,0.12,0.12,Long Pattern,Short Pattern,Section - Full Bore Valve
+2+1/2,65,16.5,16.62,16.5,6,24,0,0,0,0,68,30,N/A,N/A,N/A,0.12,0.12,Long Pattern,Short Pattern,Section - Full Bore Valve
+3,80,18.5,18.62,18.5,8,36,7,25,13,3,68,32,N/A,N/A,N/A,0.12,0.12,Long Pattern,Short Pattern,Section - Full Bore Valve
+4,100,21.5,21.62,21.5,10,36,8,25,13,4,109,68,N/A,N/A,N/A,0.12,0.12,Long Pattern,Short Pattern,Section - Full Bore Valve
+5,125,N/A,N/A,N/A,0,0,0,0,0,0,N/A,N/A,N/A,N/A,N/A,0.12,0.12,Long Pattern,Short Pattern,Section - Full Bore Valve
+6,150,27.75,28,27.75,14,60,11,25,15,5,250,118,N/A,N/A,N/A,0.25,0.12,Long Pattern,Short Pattern,Section - Full Bore Valve
+8,200,32.75,33.13,32.75,16,60,13,25,15,5,466,295,N/A,N/A,N/A,0.38,0.16,Long Pattern,Short Pattern,Section - Full Bore Valve
+10,250,39,39.38,39,0,0,15,25,15,8,784,545,N/A,N/A,N/A,0.38,0.16,Long Pattern,Short Pattern,Section - Full Bore Valve
+12,300,44.5,45.12,44.5,0,0,18,43,20,9,1277,750,N/A,N/A,N/A,0.62,0.19,Long Pattern,Short Pattern,Section - Full Bore Valve
+14,350,49.5,50.25,49.5,0,0,19,43,20,9,1705,955,N/A,N/A,N/A,0.75,0.22,Long Pattern,Short Pattern,Section - Full Bore Valve
+16,400,54.5,55.38,54.5,0,0,21,43,20,9,2341,1239,N/A,N/A,N/A,0.88,0.31,Long Pattern,Short Pattern,Section - Full Bore Valve
