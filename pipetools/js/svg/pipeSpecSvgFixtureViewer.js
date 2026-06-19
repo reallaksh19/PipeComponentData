@@ -1,7 +1,7 @@
 import { buildPipeSpecSvgString, getPipeSpecSvgAudit } from './pipeSpecSvgEngine.js';
-import { getPipeSpecSvgFixtures } from './pipeSpecSvgFixtures.js';
+import { getPipeSpecSvgFixtureCatalog } from './pipeSpecSvgFixtureCatalog.js';
 
-const fixtures = getPipeSpecSvgFixtures();
+const fixtures = getPipeSpecSvgFixtureCatalog();
 const safe = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const families = ['ALL', ...new Set(fixtures.map((item) => item.family))];
 let activeFamily = 'ALL';
