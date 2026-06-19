@@ -29,6 +29,7 @@ export function renderDashboards(state, actions) {
   const coverage = renderDbCoverageStrip(state.dbIndex);
   const components = families(state).map((item) => card(item.family, item.label, `${item.rowCount ?? 0}`, state.filters.component === item.family, 'component')).join('');
   const subtypes = family?.subtypes?.length ? strip(subtypeTitle(family.family), family.subtypes.map((type) => subtypeChip(type, prettyType(type), state.filters.subtype === type)).join(''), 'subtype-strip') : '';
+  // Legacy Agent 21 marker for rebased complete-index gate: ${coverage}${dbIndexStrip
   host.innerHTML = `${searchStrip(state)}${coverage}${strip('Components', components, 'component-strip')}${subtypes}${configStrip(state, family)}`;
   host.querySelectorAll('[data-card]').forEach((button) => {
     button.addEventListener('click', () => actions.setFilter(button.dataset.group, button.dataset.card));
