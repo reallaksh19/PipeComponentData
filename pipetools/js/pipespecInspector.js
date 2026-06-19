@@ -61,8 +61,9 @@ function jsonPanel(row) {
 }
 
 function itemLabel(row) {
-  const type = row.valveType ?? row.flangeType ?? row.fittingType ?? row.reducerType ?? row.oletType ?? row.subtype ?? row.componentType ?? 'Component';
-  return `${pretty(type)} ${pretty(row.componentType ?? '')}`.trim();
+  const component = row.componentType ?? row.component ?? 'Component';
+  const type = row.valveType ?? row.flangeType ?? row.fittingType ?? row.reducerType ?? row.oletType ?? row.subtype ?? row.supportKind ?? row.type ?? null;
+  return type ? `${component} / ${type}` : String(component);
 }
 
 function classText(row, svgRow) {
@@ -96,8 +97,4 @@ function shortSource(source) {
 
 function kv(label, value) {
   return `<div class="detail-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`;
-}
-
-function pretty(value) {
-  return String(value ?? '').replaceAll('_', ' ');
 }
