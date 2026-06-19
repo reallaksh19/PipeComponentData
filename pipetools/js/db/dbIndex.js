@@ -6,7 +6,7 @@ export async function loadDbIndex(options = {}) {
   if (cachedIndex && !options.forceReload) return cachedIndex;
   const url = options.url ?? DEFAULT_DB_INDEX_URL;
   const response = await fetch(url);
-  if (!response.ok) throw new Error(`DB index load failed: HTTP ${response.status}`);
+  if (!response.ok) throw new Error('DB index load failed: HTTP ' + response.status);
   const payload = await response.json();
   cachedIndex = normalizeDbIndex(payload);
   return cachedIndex;
@@ -37,10 +37,16 @@ export function getSvgSupportedFamilies(index) {
 
 function normalizeEntry(entry = {}) {
   const family = String(entry.family ?? entry.componentType ?? '').toUpperCase();
+  const repositoryPaths = Object.freeze((entry.repositoryPaths ?? [entry.repositoryPath]).filter(Boolean));
+  const runtimeUrls = Object.freeze((entry.runtimeUrls ?? [entry.runtimeUrl]).filter(Boolean));
   return Object.freeze({
     ...entry,
     family,
     componentType: String(entry.componentType ?? family).toUpperCase(),
+    repositoryPaths,
+    runtimeUrls,
+    repositoryPath: entry.repositoryPath ?? repositoryPaths[0] ?? null,
+    runtimeUrl: entry.runtimeUrl ?? runtimeUrls[0] ?? null,
     subtypes: Object.freeze((entry.subtypes ?? []).map((item) => String(item).toUpperCase())),
     keyFields: Object.freeze(entry.keyFields ?? []),
     searchFields: Object.freeze(entry.searchFields ?? []),

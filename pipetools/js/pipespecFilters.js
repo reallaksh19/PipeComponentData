@@ -6,7 +6,8 @@ export function isFacingApplicable(filters = {}) {
 }
 
 export function getRowSubtype(row = {}) {
-  return row.subtype ?? row.valveType ?? row.flangeType ?? row.fittingType ?? row.supportType ?? row.type ?? null;
+  return row.subtype ?? row.valveType ?? row.flangeType ?? row.fittingType
+    ?? row.reducerType ?? row.oletType ?? row.supportType ?? row.supportKind ?? row.type ?? null;
 }
 
 export function filterPipeSpecRows(rows = [], filters = {}) {
@@ -19,12 +20,14 @@ export function rowMatchesFilters(row = {}, filters = {}) {
   if (filters.valveType && !same(row.valveType, filters.valveType)) return false;
   if (filters.flangeType && !same(row.flangeType, filters.flangeType)) return false;
   if (filters.fittingType && !same(row.fittingType, filters.fittingType)) return false;
+  if (filters.reducerType && !same(row.reducerType, filters.reducerType)) return false;
+  if (filters.oletType && !same(row.oletType, filters.oletType)) return false;
   if (filters.endType && !same(row.endType ?? row.endConnection, filters.endType)) return false;
   if (filters.facing && !same(row.facing, filters.facing)) return false;
   if (filters.classRating && !same(row.classRating, stripClass(filters.classRating))) return false;
-  if (filters.nps && !same(row.nps, filters.nps)) return false;
+  if (filters.nps && !same(row.nps ?? row.largeNps, filters.nps)) return false;
   if (filters.dn && !same(row.dn, filters.dn)) return false;
-  if (filters.schedule && !same(row.schedule, filters.schedule)) return false;
+  if (filters.schedule && !same(row.schedule ?? row.largeSchedule ?? row.scheduleOrRating, filters.schedule)) return false;
   return true;
 }
 
@@ -35,7 +38,7 @@ export function getDashboardCounts(rows = [], filters = {}) {
     endTypes: countBy(filterPipeSpecRows(rows, withoutKeys(filters, ['endType'])), (row) => row.endType ?? row.endConnection),
     facings: countBy(filterPipeSpecRows(rows, withoutKeys(filters, ['facing'])), (row) => row.facing),
     classes: countBy(filterPipeSpecRows(rows, withoutKeys(filters, ['classRating'])), (row) => row.classRating),
-    sizes: countBy(filterPipeSpecRows(rows, withoutKeys(filters, ['nps'])), (row) => row.nps),
+    sizes: countBy(filterPipeSpecRows(rows, withoutKeys(filters, ['nps'])), (row) => row.nps ?? row.largeNps),
   };
 }
 
@@ -44,7 +47,8 @@ export function getSelectedPipeSpecRow(rows = [], selectedRowId) {
 }
 
 export function toDashboardFilterPatch(filters = {}) {
-  const subtype = filters.subtype ?? filters.valveType ?? filters.flangeType ?? filters.fittingType ?? null;
+  const subtype = filters.subtype ?? filters.valveType ?? filters.flangeType ?? filters.fittingType
+    ?? filters.reducerType ?? filters.oletType ?? null;
   return {
     component: filters.component ?? null,
     subtype,
@@ -53,7 +57,7 @@ export function toDashboardFilterPatch(filters = {}) {
     classRating: filters.classRating ? stripClass(filters.classRating) : null,
     nps: filters.nps == null ? null : String(filters.nps),
     dn: filters.dn ?? null,
-    schedule: filters.schedule ?? null,
+    schedule: filters.schedule ?? filters.largeSchedule ?? filters.scheduleOrRating ?? null,
   };
 }
 
