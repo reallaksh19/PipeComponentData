@@ -11,7 +11,7 @@ test('Agent 24 uses registry-style dynamic table columns by component', () => {
     assert.ok(render.includes(`${family}: [`), `${family} table columns missing`);
   }
   assert.ok(render.includes('getDashboardCounts'));
-  assert.ok(render.includes("TABLE_COLUMNS[family?.family]"));
+  assert.ok(render.includes('TABLE_COLUMNS[family?.family]'));
 });
 
 test('Agent 24 keeps component dashboard and subtype filters compact', () => {
@@ -21,31 +21,36 @@ test('Agent 24 keeps component dashboard and subtype filters compact', () => {
   assert.ok(css.includes('.partial-dot'));
 });
 
-test('Agent 24 enlarges right SVG inspector and keeps light canvas visible', () => {
+test('Agent 24 places the source SVG in the centre canvas at reduced scale', () => {
   const css = read('pipetools/pipetools.css');
-  assert.match(css, /\.result-grid \{[^}]*grid-template-columns: minmax\(0, 1fr\) 460px/);
-  assert.match(css, /\.svg-canvas \{[^}]*min-height: 350px/);
-  assert.match(css, /\.svg-canvas svg \{[^}]*width: 96%;[^}]*height: 96%/);
+  const render = read('pipetools/js/render.js');
+  const html = read('pipetools/index.html');
+  assert.ok(css.includes('grid-template-columns: minmax(360px, .78fr) minmax(520px, 1.35fr) 340px'));
+  assert.ok(css.includes('.source-svg-canvas'));
   assert.ok(css.includes('linear-gradient(180deg, #fff, #eef4fb)'));
+  assert.ok(render.includes('const SVG_FIT_SCALE = 0.5625'));
+  assert.ok(render.includes('data-pipespec-source-svg-host="true"'));
+  assert.ok(html.includes('source-svg-panel'));
 });
 
-test('Agent 24 inspector exposes SVG Details JSON tabs without default JSON noise', () => {
+test('Agent 24 right inspector is metadata and JSON only', () => {
   const inspector = read('pipetools/js/pipespecInspector.js');
   assert.ok(inspector.includes('inspector-tabs'));
-  assert.ok(inspector.includes('data-inspector-panel="svg"'));
   assert.ok(inspector.includes('data-inspector-panel="details"'));
   assert.ok(inspector.includes('data-inspector-panel="json" hidden'));
   assert.ok(inspector.includes('getPipeSpecSvgKey'));
   assert.ok(inspector.includes('details-grid'));
+  assert.equal(inspector.includes('data-inspector-panel="svg"'), false);
+  assert.equal(inspector.includes('data-pipespec-svg-host'), false);
 });
 
-test('Agent 24 detail actions support tabs, zoom, fit, and preview', () => {
+test('Agent 24 detail actions support centre SVG fit, zoom, and preview', () => {
   const actions = read('pipetools/js/pipespecDetailActions.js');
   assert.ok(actions.includes("action?.startsWith('tab-')"));
   assert.ok(actions.includes('svg-zoom-in'));
-  assert.ok(actions.includes('svg-zoom-out'));
   assert.ok(actions.includes('svg-fit'));
   assert.ok(actions.includes('open-svg-preview'));
+  assert.ok(actions.includes('data-pipespec-source-svg-host'));
 });
 
 test('Agent 24 SVG resolver emits deterministic component route keys', () => {
