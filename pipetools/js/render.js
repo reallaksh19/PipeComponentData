@@ -47,7 +47,7 @@ function dbIndexStrip(family, state) {
   const status = state.loadingComponent ? `Loading ${state.loadingComponent}…` : `${family.rowCount} indexed rows`;
   return `<section class="strip"><div class="strip-title">Selected DB</div><div class="segment-row">
     <span class="chip">${esc(family.family)}</span><span class="chip">${esc(family.standard)}</span>
-    <span class="chip">${esc(status)}</span><span class="chip">SVG: ${family.svgSupported ? 'Yes' : 'No'}</span>
+    <span class="chip">${esc(status)}</span><span class="chip">Packs: ${esc((family.repositoryPaths ?? [family.repositoryPath]).filter(Boolean).length)}</span><span class="chip">SVG: ${family.svgSupported ? 'Yes' : 'No'}</span>
   </div></section>`;
 }
 
@@ -89,8 +89,9 @@ export function renderMain(state, actions) {
 function renderPipeSpecTable(state, actions) {
   const family = currentFamily(state);
   const fields = tableFields(family);
+  const sourceLabel = family ? (family.repositoryPaths ?? [family.repositoryPath]).filter(Boolean).join(' + ') : 'Dashboard-filtered component data';
   document.getElementById('table-title').textContent = family ? `${family.label} DB` : 'PipeSpec DB';
-  document.getElementById('table-kicker').textContent = family ? `${family.repositoryPath} · ${family.standard}` : 'Dashboard-filtered component data';
+  document.getElementById('table-kicker').textContent = family ? `${sourceLabel} · ${family.standard}` : sourceLabel;
   document.getElementById('table-count').textContent = `${state.rows.length} rows`;
   document.getElementById('table-frame').innerHTML = `<table><thead><tr>${fields.map((field) => `<th>${esc(fieldLabel(field))}</th>`).join('')}</tr></thead><tbody>${state.rows.map((row) => rowHtml(row, fields, state.selectedId)).join('')}</tbody></table>`;
   document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));
@@ -149,11 +150,13 @@ function fieldValues(rows, key) {
 function valueForFilter(row, key) {
   if (key === 'subtype') return subtypeOf(row);
   if (key === 'endType') return row.endType ?? row.endConnection;
+  if (key === 'nps') return row.nps ?? row.largeNps;
+  if (key === 'schedule') return row.schedule ?? row.largeSchedule ?? row.scheduleOrRating;
   return row[key];
 }
 
 function subtypeOf(row) {
-  return row.subtype ?? row.valveType ?? row.flangeType ?? row.fittingType ?? row.supportKind ?? row.type ?? null;
+  return row.subtype ?? row.valveType ?? row.flangeType ?? row.fittingType ?? row.reducerType ?? row.oletType ?? row.supportKind ?? row.type ?? null;
 }
 
 function displayValue(key, value) {
@@ -171,7 +174,7 @@ function fieldLabel(field) {
 }
 
 function subtypeTitle(family) {
-  return ({ VALVE: 'Valve Type', FLANGE: 'Flange Type', FITTING: 'Fitting Type', GASKET: 'Gasket Type', SUPPORT: 'Support Type' }[family]) ?? 'Type';
+  return ({ VALVE: 'Valve Type', FLANGE: 'Flange Type', FITTING: 'Fitting Type', GASKET: 'Gasket Type', SUPPORT: 'Support Type', REDUCER: 'Reducer Type', OLET: 'Olet Type' }[family]) ?? 'Type';
 }
 
 function shortSource(source) {
