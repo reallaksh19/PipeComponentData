@@ -17,9 +17,13 @@ const vendoredSpl2Files = [
   'spl2-bundle/js/spl2/spl2_master.js',
   'spl2-bundle/js/spl2/spl2_database.js',
   'spl2-bundle/js/spl2/spl2_loop_algo.js',
+  'spl2-bundle/js/spl2/spl2_canvas.js',
   'spl2-bundle/js/spl2/spl2_loop_canvas.js',
+  'spl2-bundle/js/spl2/spl2_loop_logic.js',
   'spl2-bundle/js/spl2/spl2_rack_canvas.js',
+  'spl2-bundle/js/spl2/spl2_rack_logic.js',
   'spl2-bundle/js/spl2/spl2_simp_canvas.js',
+  'spl2-bundle/js/spl2/spl2_simp_logic.js',
 ];
 
 test('SPL2 source-copied bundle files exist', () => {
@@ -52,7 +56,7 @@ test('SPL2 HTML preserves upstream calculation panels and canvas IDs', () => {
   assert.equal(html.includes('data-pipetools-legacy="spl2"'), false);
 });
 
-test('SPL2 master script preserves upstream import graph and navigation binding', () => {
+test('SPL2 master script preserves upstream import graph and calculation controller', () => {
   const js = read('spl2-bundle/js/spl2/spl2_master.js');
   for (const token of [
     "import { SPL2_DB } from './spl2_database.js'",
@@ -68,9 +72,10 @@ test('SPL2 master script preserves upstream import graph and navigation binding'
     "loop_btn_run",
     "rack_btn_run",
     "simp_btn_run",
+    "function calculateLoop",
+    "function calculateRackLoad",
+    "function calculateSimplified",
   ]) assert.ok(js.includes(token), `missing source JS token: ${token}`);
-
-  assert.equal(js.includes('function calculateLoop'), false);
 });
 
 test('PipeTools bundle config points to the iframe target', () => {
