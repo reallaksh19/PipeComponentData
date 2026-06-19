@@ -2,6 +2,7 @@ const SUPPORTED = new Set(['PIPE', 'VALVE', 'FLANGE', 'FITTING', 'GASKET']);
 const FITTINGS = new Set(['ELBOW_90', 'ELBOW_45', 'TEE_STRAIGHT', 'CAP']);
 const FLANGES = new Set(['WN', 'SO', 'BLIND']);
 const GASKETS = new Set(['FLAT_RING', 'RTJ', 'SPIRAL_WOUND']);
+const VALVES = new Set(['GATE']);
 
 function raw(row, ...paths) {
   for (const path of paths) {
@@ -85,6 +86,7 @@ function flange(row) {
     componentType: 'FLANGE',
     subtype: FLANGES.has(type) ? type : 'WN',
     classRating: rating(raw(row, 'classRating')),
+    facing: upper(row, 'RF', 'facing'),
     flangeOdMm: n(row, 'flangeOdMm', 'dimensions.flangeOdMm', 'dimensions.outerDiaMm'),
     flangeThicknessMm: n(row, 'flangeThicknessMm', 'dimensions.flangeThicknessMm'),
     rfDiaMm: n(row, 'rfDiaMm', 'dimensions.rfDiaMm'),
@@ -129,14 +131,39 @@ function gasket(row) {
   };
 }
 
+export function getPipeSpecSvgQuality(row = {}) {
+  const normalized = toPipeSpecSvgRow(row);
+  const ct = normalized.componentType;
+  if (!SUPPORTED.has(ct)) return quality('MISSING_TEMPLATE', false, 'Unsupported component family');
+  if (ct === 'VALVE') {
+    const valveType = normalized.valveType;
+    return VALVES.has(valveType)
+      ? quality('APPROXIMATE_TEMPLATE', true, 'Gate valve template available; check geometry before issue')
+      : quality('MISSING_TEMPLATE', false, `${valveType} valve needs a dedicated symbol, no generic valve fallback`);
+  }
+  if (ct === 'FITTING' && !FITTINGS.has(normalized.subtype)) return quality('MISSING_TEMPLATE', false, `${normalized.subtype} fitting template pending`);
+  if (ct === 'FLANGE' && !FLANGES.has(normalized.subtype)) return quality('MISSING_TEMPLATE', false, `${normalized.subtype} flange template pending`);
+  if (ct === 'GASKET' && !GASKETS.has(normalized.subtype)) return quality('MISSING_TEMPLATE', false, `${normalized.subtype} gasket template pending`);
+  return quality('APPROXIMATE_TEMPLATE', true, 'Template is source-backed but still requires component fidelity audit');
+}
+
+function quality(status, renderable, reason) {
+  return { status, renderable, reason };
+}
+
 export function hasPipeSpecSvgSupport(row = {}) {
-  const ct = upper(row, '', 'componentType', 'family', 'component');
-  if (!SUPPORTED.has(ct)) return false;
-  if (ct === 'FITTING') return FITTINGS.has(subtype(row));
-  if (ct === 'FLANGE') return FLANGES.has(upper(row, 'WN', 'subtype', 'flangeType', 'type'));
-  if (ct === 'GASKET') return GASKETS.has(subtype(row));
-  if (ct === 'VALVE') return upper(row, 'GATE', 'valveType', 'subtype', 'type') === 'GATE';
-  return true;
+  return getPipeSpecSvgQuality(row).renderable;
+}
+
+export function getPipeSpecSvgKey(row = {}) {
+  const normalized = toPipeSpecSvgRow(row);
+  const ct = normalized.componentType;
+  if (ct === 'VALVE') return ['VALVE', normalized.valveType, normalized.endType, normalized.facing ?? 'NA'].join('_');
+  if (ct === 'FLANGE') return ['FLANGE', normalized.subtype, normalized.facing ?? 'NA', `CL${normalized.classRating}`].join('_');
+  if (ct === 'FITTING') return ['FITTING', normalized.subtype, normalized.schedule || 'NA'].join('_');
+  if (ct === 'GASKET') return ['GASKET', normalized.subtype, normalized.facing ?? 'NA'].join('_');
+  if (ct === 'PIPE') return ['PIPE', normalized.schedule || 'GENERIC'].join('_');
+  return [ct || 'UNKNOWN', subtype(row, 'GENERIC')].join('_');
 }
 
 export function toPipeSpecSvgRow(row = {}) {
@@ -146,11 +173,12 @@ export function toPipeSpecSvgRow(row = {}) {
   if (ct === 'FLANGE') return flange(row);
   if (ct === 'FITTING') return fitting(row);
   if (ct === 'GASKET') return gasket(row);
-  return { ...common(row), componentType: 'UNKNOWN', supported: false };
+  return { ...common(row), componentType: ct || 'UNKNOWN', supported: false };
 }
 
 export const PIPE_SPEC_SVG_SUPPORTED_TYPES = Object.freeze({
   componentTypes: [...SUPPORTED],
+  valves: [...VALVES],
   fittings: [...FITTINGS],
   flanges: [...FLANGES],
   gaskets: [...GASKETS],
