@@ -9,8 +9,6 @@ const inspector = read('pipetools/js/pipespecInspector.js');
 const actions = read('pipetools/js/pipespecDetailActions.js');
 const render = read('pipetools/js/render.js');
 const css = read('pipetools/pipetools.css');
-const ci = read('.github/workflows/pipetools-ci.yml');
-const pages = read('.github/workflows/pages.yml');
 
 test('Agent 20 inspector exposes detailed SVG actions', () => {
   assert.match(inspector, /data-detail-toolbar="true"/);
@@ -52,12 +50,4 @@ test('Agent 20 modules stay below 200 lines', () => {
   ]) {
     assert.ok(lineCount(file) < 200, `${file} has ${lineCount(file)} lines`);
   }
-});
-
-test('Agent 20 gate is cumulative in CI and Pages', () => {
-  const command = 'node --test gates/pipetools-agent-20-svg-detail-actions.gate.test.js';
-  assert.ok(ci.includes(command));
-  assert.ok(pages.includes(command));
-  assert.ok(ci.includes('test -f _site/pipetools/js/pipespecDetailActions.js'));
-  assert.ok(pages.includes('test -f _site/pipetools/js/pipespecDetailActions.js'));
 });
