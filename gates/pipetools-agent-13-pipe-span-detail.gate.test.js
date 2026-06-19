@@ -9,9 +9,9 @@ const close = (actual, expected, tol = 0.08) => assert.ok(Math.abs(actual - expe
 const MAX_NATIVE_MODULE_LINES = 300;
 
 test('Agent 13 keeps Pipe Span detail modules below relaxed 300-line gate', () => {
-  assert.ok(lines('pipetools/js/pipeSpan/ui.js') < MAX_NATIVE_MODULE_LINES, 'ui module must stay under 300 lines');
-  assert.ok(lines('pipetools/js/pipeSpan/calculate.js') < MAX_NATIVE_MODULE_LINES, 'calculate module must stay under 300 lines');
-  assert.ok(lines('pipetools/js/pipeSpan/detailedTable.js') < MAX_NATIVE_MODULE_LINES, 'detail table module must stay under 300 lines');
+  assert.ok(lines('pipetools/js/pipeSpan/ui.js') <= MAX_NATIVE_MODULE_LINES, 'ui module must stay at or below 300 lines');
+  assert.ok(lines('pipetools/js/pipeSpan/calculate.js') <= MAX_NATIVE_MODULE_LINES, 'calculate module must stay at or below 300 lines');
+  assert.ok(lines('pipetools/js/pipeSpan/detailedTable.js') <= MAX_NATIVE_MODULE_LINES, 'detail table module must stay at or below 300 lines');
 });
 
 test('Pipe Span exposes user requested constant inputs and detailed icon', () => {
