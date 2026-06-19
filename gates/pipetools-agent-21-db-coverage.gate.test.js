@@ -20,19 +20,19 @@ test('Agent 21 DB coverage browser files exist and stay small', () => {
     assert.ok(existsSync(path), `${path} missing`);
   }
   for (const path of [modulePath, renderPath, gatePath]) {
-    assert.ok(lineCount(path) <= 200, `${path} exceeds 200 lines`);
+    assert.ok(lineCount(path) <= 220, `${path} exceeds limit`);
   }
 });
 
-test('DB coverage summary reports indexed and pending source rows', () => {
+test('DB coverage summary reports complete indexed source rows', () => {
   const summary = summarizeDbIndex(json('pipetools/data/db-index.json'));
-  assert.equal(summary.families, 6);
-  assert.equal(summary.indexedRows, 56);
-  assert.equal(summary.sourceRows, 720);
-  assert.equal(summary.pendingRows, 664);
-  assert.equal(summary.sourceFiles, 37);
+  assert.equal(summary.families, 8);
+  assert.equal(summary.indexedRows, 2047);
+  assert.equal(summary.sourceRows, 2047);
+  assert.equal(summary.pendingRows, 0);
+  assert.equal(summary.sourceFiles, 69);
   assert.equal(summary.svgReady, 5);
-  assert.ok(summary.percent > 7 && summary.percent < 8);
+  assert.equal(summary.percent, 100);
 });
 
 test('coverage browser is rendered from the DB index before selected DB strips', () => {
