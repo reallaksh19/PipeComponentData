@@ -3,6 +3,8 @@ export const MODULES = [
   'Section Designer', 'Reports', 'Settings'
 ];
 
+export const DISABLED_MODULES = ['Pipe Spacing', 'Section Designer', 'Reports'];
+
 export const COMPONENTS = [
   { key: 'PIPE', label: 'Pipe', count: 0 },
   { key: 'VALVE', label: 'Valve', count: 0 },
