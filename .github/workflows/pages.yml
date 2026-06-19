@@ -48,6 +48,8 @@ jobs:
           node --test gates/pipetools-agent-06-dashboard.gate.test.js
           node --test gates/pipetools-agent-07-pipe-span.gate.test.js
           node --test gates/pipetools-agent-08-spl2-bundle.gate.test.js
+          node --test gates/pipetools-agent-09-data-loading.gate.test.js
+          node --test gates/pipetools-agent-11-ui-svg-scope.gate.test.js
 
       - name: Prepare static Pages artifact
         shell: bash
@@ -67,14 +69,18 @@ jobs:
           sed -i "s|./studio.css|./studio.css?v=${BUILD_SHA}|g" _site/studio/index.html
           sed -i "s|./component-studio-app.js|./component-studio-app.js?v=${BUILD_SHA}|g" _site/studio/index.html
           sed -i "s|./pipetools.css|./pipetools.css?v=${BUILD_SHA}|g" _site/pipetools/index.html
+          sed -i "s|./pipetools-overrides.css|./pipetools-overrides.css?v=${BUILD_SHA}|g" _site/pipetools/index.html
           sed -i "s|./js/app.js|./js/app.js?v=${BUILD_SHA}|g" _site/pipetools/index.html
+          sed -i "s|./js/uiScopePatch.js|./js/uiScopePatch.js?v=${BUILD_SHA}|g" _site/pipetools/index.html
 
           test -f _site/studio/index.html
           test -f _site/studio/component-studio-app.js
           test -f _site/pipetools/index.html
           test -f _site/pipetools/js/app.js
+          test -f _site/pipetools/js/uiScopePatch.js
           test -f _site/pipetools/js/search/search.js
           test -f _site/pipetools/js/svg/inspector.js
+          test -f _site/pipetools/js/svg/auditGeneral.js
           test -f _site/pipetools/js/pipeSpan/calculate.js
           test -f _site/spl2-bundle/spl2_master.html
           test -f _site/spl2-bundle/js/spl2/spl2_master.js
@@ -118,13 +124,13 @@ jobs:
           path: _site
 
   deploy:
-    name: Deploy Studio
+    name: Deploy Studio artifact
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy Pages artifact
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
