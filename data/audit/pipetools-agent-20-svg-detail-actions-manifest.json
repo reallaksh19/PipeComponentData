@@ -1,0 +1,25 @@
+{
+  "agent": "Agent 20",
+  "wave": "13E",
+  "title": "SVG Detail Panel Actions",
+  "scope": [
+    "detail-view icon",
+    "copy selected row JSON",
+    "open mounted SVG preview",
+    "metadata panel for source-backed SVG rows"
+  ],
+  "vendorPolicy": "PipeSpecSVG vendor engine is not rewritten in this wave.",
+  "files": [
+    "pipetools/js/pipespecInspector.js",
+    "pipetools/js/pipespecDetailActions.js",
+    "pipetools/js/render.js",
+    "pipetools/pipetools.css",
+    "gates/pipetools-agent-20-svg-detail-actions.gate.test.js"
+  ],
+  "gates": [
+    "detailed action controls exist",
+    "JSON copy fallback exists",
+    "SVG preview uses mounted source SVG",
+    "new modules remain below 200 lines"
+  ]
+}
