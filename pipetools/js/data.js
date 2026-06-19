@@ -20,10 +20,14 @@ export const FACINGS = ['RF', 'RTJ', 'FF'];
 export const CLASSES = ['150', '300', '600', '900', '1500'];
 
 export const DEFAULT_SPAN_INPUT = {
-  nps: 8,
-  schedule: 'Sch 40',
-  service: 'VAPOUR',
-  insulation: 'BARE',
-  material: 'CS',
-  beamMethod: 'CONTINUOUS',
+  nps: 8, schedule: 'Sch 40', service: 'VAPOUR', insulation: 'BARE', material: 'CS',
+  beamMethod: 'CONTINUOUS', showDetailed: false,
+  insulationDensityKgM3: 150,
+  waterDensityKgM3: 1000,
+  youngsModulusNmm2: 210000,
+  allowableDeflectionMm: 10,
+  allowableStressNmm2: 40,
+  bearingLengthMm: 100,
+  bearingBaseMmFor42In: 16.5,
+  allowableIndentationStressNmm2: 67,
 };
