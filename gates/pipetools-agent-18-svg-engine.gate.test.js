@@ -28,10 +28,11 @@ test('Agent 18 vendors uploaded PipeSpec SVG source package', () => {
 
 test('native wrappers stay below relaxed 300-line gate while vendor source is exempt', () => {
   assert.equal(manifest.maxNativeModuleLines, 300);
+  assert.ok(manifest.vendorFiles.includes(enginePath), 'vendor engine must be recorded as exempt');
+  assert.equal(manifest.nativeFiles.includes(enginePath), false, 'vendor engine must stay outside native gate');
   for (const file of manifest.nativeFiles) {
     assert.ok(lineCount(file) <= manifest.maxNativeModuleLines, `${file} exceeds native line limit`);
   }
-  assert.ok(lineCount(enginePath) > manifest.maxNativeModuleLines, 'vendor engine should remain source-sized');
 });
 
 test('PipeSpecSVG UMD API renders supported component SVGs', () => {
