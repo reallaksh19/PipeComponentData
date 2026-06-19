@@ -1,0 +1,14 @@
+.tab-btn.disabled,
+.tab-btn:disabled {
+  opacity: .38;
+  cursor: not-allowed;
+  filter: grayscale(.55);
+}
+
+.result-grid.without-inspector {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.panel[hidden] {
+  display: none;
+}
