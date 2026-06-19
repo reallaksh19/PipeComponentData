@@ -12,6 +12,8 @@ export const COMPONENTS = [
   { key: 'FITTING', label: 'Fitting', count: 0 },
   { key: 'GASKET', label: 'Gasket', count: 0 },
   { key: 'SUPPORT', label: 'Support', count: 0 },
+  { key: 'REDUCER', label: 'Reducer', count: 0 },
+  { key: 'OLET', label: 'Olet', count: 0 },
 ];
 
 export const VALVE_TYPES = ['GATE', 'GLOBE', 'CHECK', 'BALL', 'BUTTERFLY', 'PLUG'];

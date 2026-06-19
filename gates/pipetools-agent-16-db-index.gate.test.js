@@ -9,7 +9,18 @@ const indexPath = 'pipetools/data/db-index.json';
 const loaderPath = 'pipetools/js/db/dbIndex.js';
 const manifestPath = 'data/audit/pipetools-agent-16-db-index-manifest.json';
 const gatePath = 'gates/pipetools-agent-16-db-index.gate.test.js';
-const expectedFamilies = ['PIPE', 'VALVE', 'FLANGE', 'FITTING', 'GASKET', 'SUPPORT'];
+const expectedFamilies = ['PIPE', 'VALVE', 'FLANGE', 'FITTING', 'GASKET', 'SUPPORT', 'REDUCER', 'OLET'];
+
+const entryPaths = (entry) => (entry.repositoryPaths ?? [entry.repositoryPath]).filter(Boolean);
+const runtimeUrls = (entry) => (entry.runtimeUrls ?? [entry.runtimeUrl]).filter(Boolean);
+
+function uniqueRowCount(paths) {
+  const ids = new Set();
+  for (const path of paths) {
+    for (const row of json(path).rows ?? []) ids.add(row.id ?? JSON.stringify(row));
+  }
+  return ids.size;
+}
 
 test('Agent 16 DB index files exist and stay small', () => {
   for (const path of [indexPath, loaderPath, manifestPath, gatePath]) {
@@ -21,18 +32,22 @@ test('Agent 16 DB index files exist and stay small', () => {
 
 test('DB index covers every PipeTools DB family', () => {
   const index = json(indexPath);
-  assert.equal(index.schema, 'pipetools-db-index/v1');
+  assert.equal(index.schema, 'pipetools-db-index/v2');
   const families = index.families.map((entry) => entry.family).sort();
   assert.deepEqual(families, [...expectedFamilies].sort());
 });
 
-test('DB index points to existing normalized DB files with matching row counts', () => {
+test('DB index points to existing normalized DB packs with matching row counts', () => {
   for (const entry of json(indexPath).families) {
-    assert.ok(existsSync(entry.repositoryPath), `${entry.repositoryPath} missing`);
-    const payload = json(entry.repositoryPath);
-    assert.ok(Array.isArray(payload.rows), `${entry.repositoryPath} rows missing`);
-    assert.equal(payload.rows.length, entry.rowCount, `${entry.family} rowCount mismatch`);
-    assert.ok(entry.runtimeUrl.includes('../data/normalized/'), `${entry.family} runtime URL is not normalized DB`);
+    const paths = entryPaths(entry);
+    assert.ok(paths.length >= 1, `${entry.family} repository paths missing`);
+    for (const path of paths) {
+      assert.ok(existsSync(path), `${path} missing`);
+      assert.ok(Array.isArray(json(path).rows), `${path} rows missing`);
+    }
+    assert.equal(uniqueRowCount(paths), entry.rowCount, `${entry.family} rowCount mismatch`);
+    for (const url of runtimeUrls(entry)) assert.ok(url.includes('../data/normalized/'), `${entry.family} runtime URL is not normalized DB`);
+    assert.equal(entry.sourceRowCount, entry.rowCount, `${entry.family} should have zero pending rows`);
     assert.ok(entry.sourceFileCount >= 1, `${entry.family} sourceFileCount missing`);
   }
 });
@@ -52,11 +67,11 @@ test('DB index entries expose schema fields for dashboard generation', () => {
 test('index preserves required source-specific component routing markers', () => {
   const byFamily = Object.fromEntries(json(indexPath).families.map((entry) => [entry.family, entry]));
   assert.ok(byFamily.VALVE.subtypes.includes('GATE'));
-  assert.ok(byFamily.VALVE.subtypes.includes('PLUG'));
+  assert.ok(byFamily.VALVE.subtypes.includes('CONTROL'));
   assert.ok(byFamily.FITTING.subtypes.includes('ELBOW_45'));
-  assert.ok(byFamily.FITTING.subtypes.includes('TEE_STRAIGHT'));
   assert.ok(byFamily.FLANGE.subtypes.includes('BLIND'));
-  assert.ok(byFamily.GASKET.subtypes.includes('SPIRAL_WOUND'));
+  assert.ok(byFamily.REDUCER.subtypes.includes('ECCENTRIC'));
+  assert.ok(byFamily.OLET.subtypes.includes('ELBOLET'));
   assert.equal(byFamily.SUPPORT.svgSupported, false);
 });
 
