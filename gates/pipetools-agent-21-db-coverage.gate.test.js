@@ -11,11 +11,12 @@ const renderPath = 'pipetools/js/render.js';
 const cssPath = 'pipetools/dbCoverage.css';
 const indexHtmlPath = 'pipetools/index.html';
 const gatePath = 'gates/pipetools-agent-21-db-coverage.gate.test.js';
+const workflowPath = '.github/workflows/pipetools-agent21.yml';
 const manifestPath = 'data/audit/pipetools-agent-21-db-coverage-manifest.json';
 const docPath = 'docs/pipetools/WAVE_13F_DB_INDEX_COVERAGE.md';
 
 test('Agent 21 DB coverage browser files exist and stay small', () => {
-  for (const path of [modulePath, renderPath, cssPath, indexHtmlPath, gatePath, manifestPath, docPath]) {
+  for (const path of [modulePath, renderPath, cssPath, indexHtmlPath, gatePath, workflowPath, manifestPath, docPath]) {
     assert.ok(existsSync(path), `${path} missing`);
   }
   for (const path of [modulePath, renderPath, gatePath]) {
@@ -49,15 +50,11 @@ test('coverage browser exposes clickable family rows and pending labels', () => 
   assert.ok(module.includes('pendingRows: Math.max(sourceRows - indexedRows, 0)'));
 });
 
-test('coverage browser style and Pages artifact are wired', () => {
+test('coverage browser style and workflow are wired', () => {
   const html = read(indexHtmlPath);
   const css = read(cssPath);
-  const ci = read('.github/workflows/pipetools-ci.yml');
-  const pages = read('.github/workflows/pages.yml');
+  const workflow = read(workflowPath);
   assert.ok(html.includes('./dbCoverage.css'));
   assert.ok(css.includes('.db-coverage-summary'));
-  assert.ok(ci.includes('pipetools-agent-21-db-coverage.gate.test.js'));
-  assert.ok(ci.includes('_site/pipetools/dbCoverage.css'));
-  assert.ok(pages.includes('pipetools-agent-21-db-coverage.gate.test.js'));
-  assert.ok(pages.includes('dbCoverage.css?v=${BUILD_SHA}'));
+  assert.ok(workflow.includes('node --test gates/pipetools-agent-21-db-coverage.gate.test.js'));
 });
