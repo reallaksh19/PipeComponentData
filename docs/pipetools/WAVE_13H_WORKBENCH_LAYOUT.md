@@ -17,7 +17,7 @@ Convert PipeSpec DB from a long vertically stacked website page into a fixed-hei
 - No database row promotion in this wave.
 - No SVG engine change in this wave.
 - Existing Pipe Span and SPL2 routes remain untouched.
-- Native modules remain below 200 lines.
+- Native PipeTools modules remain below the relaxed 300-line gate.
 
 ## Acceptance
 - Table starts in the first viewport.

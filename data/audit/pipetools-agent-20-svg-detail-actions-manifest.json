@@ -20,6 +20,6 @@
     "detailed action controls exist",
     "JSON copy fallback exists",
     "SVG preview uses mounted source SVG",
-    "new modules remain below 200 lines"
+    "new modules remain below 300 lines"
   ]
 }

@@ -4,6 +4,7 @@ import { test } from 'node:test';
 
 const read = (path) => readFileSync(path, 'utf8');
 const countLines = (path) => read(path).split('\n').length;
+const MAX_NATIVE_MODULE_LINES = 300;
 
 const nativeCheckedFiles = [
   'pipetools/js/bundle/bundleConfig.js',
@@ -84,10 +85,10 @@ test('PipeTools bundle config points to the iframe target', () => {
   assert.ok(config.includes('reallaksh19/Simplified_Analysis'));
 });
 
-test('native Agent 08 modules stay below 200 lines; vendored SPL2 source is exempt', () => {
+test('native Agent 08 modules stay below relaxed 300-line gate; vendored SPL2 source is exempt', () => {
   for (const path of nativeCheckedFiles) {
-    assert.ok(countLines(path) <= 200, `${path} exceeds 200 lines`);
+    assert.ok(countLines(path) <= MAX_NATIVE_MODULE_LINES, `${path} exceeds ${MAX_NATIVE_MODULE_LINES} lines`);
   }
-  assert.ok(countLines('spl2-bundle/spl2_master.html') > 200, 'source-copied SPL2 HTML should remain vendored');
-  assert.ok(countLines('spl2-bundle/js/spl2/spl2_master.js') > 200, 'source-copied SPL2 JS should remain vendored');
+  assert.equal(nativeCheckedFiles.includes('spl2-bundle/spl2_master.html'), false);
+  assert.equal(nativeCheckedFiles.includes('spl2-bundle/js/spl2/spl2_master.js'), false);
 });

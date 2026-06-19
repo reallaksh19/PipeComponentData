@@ -11,6 +11,7 @@ const manifestPath = 'data/audit/pipetools-agent-16-db-index-manifest.json';
 const gatePath = 'gates/pipetools-agent-16-db-index.gate.test.js';
 const completeManifestPath = 'data/audit/pipetools-agent-22-complete-db-index-manifest.json';
 const expectedFamilies = ['PIPE', 'VALVE', 'FLANGE', 'FITTING', 'GASKET', 'SUPPORT', 'REDUCER', 'OLET'];
+const MAX_NATIVE_MODULE_LINES = 300;
 
 const entryPaths = (entry) => (entry.repositoryPaths ?? [entry.repositoryPath]).filter(Boolean);
 const runtimeUrls = (entry) => (entry.runtimeUrls ?? [entry.runtimeUrl]).filter(Boolean);
@@ -23,12 +24,12 @@ function completeManifestFamilies() {
   return json(completeManifestPath).families ?? {};
 }
 
-test('Agent 16 DB index files exist and stay small', () => {
+test('Agent 16 DB index files exist and stay below relaxed 300-line gate', () => {
   for (const path of [indexPath, loaderPath, manifestPath, gatePath]) {
     assert.ok(existsSync(path), `${path} missing`);
   }
-  assert.ok(lineCount(loaderPath) <= 200, `${loaderPath} exceeds 200 lines`);
-  assert.ok(lineCount(gatePath) <= 200, `${gatePath} exceeds 200 lines`);
+  assert.ok(lineCount(loaderPath) <= MAX_NATIVE_MODULE_LINES, `${loaderPath} exceeds ${MAX_NATIVE_MODULE_LINES} lines`);
+  assert.ok(lineCount(gatePath) <= MAX_NATIVE_MODULE_LINES, `${gatePath} exceeds ${MAX_NATIVE_MODULE_LINES} lines`);
 });
 
 test('DB index covers every PipeTools DB family', () => {

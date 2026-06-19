@@ -33,10 +33,10 @@ test('PipeTools Agent 00-03 keeps native modules below 300 lines', () => {
 
 test('PipeTools Agent 00-03 records approved vendored source exemptions', () => {
   assert.ok(vendorSourceFiles.includes('spl2-bundle/spl2_master.html'));
+  assert.ok(vendorSourceFiles.includes('pipetools/vendor/pipespec-svg/svg-engine.js'));
   for (const file of vendorSourceFiles) {
     assert.ok(fs.existsSync(file), `${file} missing`);
-    const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/).length;
-    assert.ok(lines > manifest.maxNewModuleLines, `${file} should be a vendored source exemption`);
+    assert.equal(sourceFiles.includes(file), false, `${file} must not be checked as a native module`);
   }
 });
 

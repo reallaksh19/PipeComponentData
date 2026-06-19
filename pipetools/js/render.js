@@ -4,12 +4,13 @@ import { getDashboardCounts } from './pipespecFilters.js';
 import { renderPipeSpecInspector } from './pipespecInspector.js';
 import { bindPipeSpecDetailActions } from './pipespecDetailActions.js';
 import { iconSvg, pipeSpanSvg } from './svg.js';
-import { mountPipeSpecSvg } from './svg/pipeSpecSvgEngine.js';
+import { getPipeSpecSvgKey, hasPipeSpecSvgSupport, mountPipeSpecSvg } from './svg/pipeSpecSvgEngine.js';
 import { renderPipeSpanInputs, renderPipeSpanMain } from './pipeSpan/ui.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const fmt = (value, suffix = '') => value == null || value === '' ? '—' : `${value}${suffix}`;
 const disabledModules = new Set(DISABLED_MODULES);
+const SVG_FIT_SCALE = 0.5625;
 
 const TABLE_COLUMNS = {
   PIPE: ['npsDn', 'schedule', 'od', 'thickness', 'material', 'standard', 'dataStatus', 'source'],
@@ -92,7 +93,10 @@ function subtypeChip(key, label, active) {
 }
 
 export function renderMain(state, actions) {
-  if (state.activeModule === 'Pipe Span') return renderPipeSpanMain(state, actions, pipeSpanSvg);
+  if (state.activeModule === 'Pipe Span') {
+    clearSourceSvgPanel('Pipe Span uses its own engineering sketch.');
+    return renderPipeSpanMain(state, actions, pipeSpanSvg);
+  }
   if (state.activeModule === '2D Bundle Calc') return renderBundle();
   renderPipeSpecTable(state, actions);
 }
@@ -107,18 +111,36 @@ function renderPipeSpecTable(state, actions) {
   document.getElementById('table-frame').innerHTML = `<table><thead><tr>${fields.map((field) => `<th>${esc(fieldLabel(field))}</th>`).join('')}</tr></thead><tbody>${state.rows.map((row) => rowHtml(row, fields, state.selectedId)).join('')}</tbody></table>`;
   document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));
   document.getElementById('inspector-body').innerHTML = renderPipeSpecInspector(state.selectedRow);
-  mountInspectorSvg(state.selectedRow);
+  renderSourceSvgPanel(state.selectedRow);
   bindPipeSpecDetailActions(state.selectedRow);
 }
 
-function mountInspectorSvg(row) {
-  const host = document.querySelector('[data-pipespec-svg-host]');
-  if (!host || !row) return;
+function renderSourceSvgPanel(row) {
+  document.getElementById('source-svg-title').textContent = row ? itemLabel(row) : 'Centre Canvas';
+  document.getElementById('source-svg-kicker').textContent = row ? `${getPipeSpecSvgKey(row)} · fit 56%` : 'Source SVG';
+  const host = document.getElementById('source-svg-body');
+  if (!row) return clearSourceSvgPanel('Select a row to preview its source SVG.');
+  if (!hasPipeSpecSvgSupport(row)) return clearSourceSvgPanel(`SVG not available for ${row.componentType ?? 'this component'}.`);
   const rowId = String(row.id ?? '');
-  host.dataset.rowId = rowId;
-  mountPipeSpecSvg(row, host, { width: 560, height: 380 }).catch((error) => {
-    if (host.dataset.rowId === rowId) host.innerHTML = `<div class="svg-unavailable">Source SVG failed: ${esc(error.message)}</div>`;
+  host.innerHTML = `<div class="source-svg-canvas"><div data-pipespec-source-svg-host="true" data-row-id="${esc(rowId)}"><div class="svg-loading">Loading source SVG…</div></div></div>`;
+  mountPipeSpecSvg(row, host.querySelector('[data-pipespec-source-svg-host]'), { width: 760, height: 500 }).then((ok) => {
+    const svg = host.querySelector('svg');
+    if (ok && svg && host.querySelector('[data-row-id]')?.dataset.rowId === rowId) fitSourceSvg(svg);
+  }).catch((error) => {
+    if (host.querySelector('[data-row-id]')?.dataset.rowId === rowId) host.innerHTML = `<div class="source-svg-canvas"><div class="svg-unavailable">Source SVG failed: ${esc(error.message)}</div></div>`;
   });
+}
+
+function clearSourceSvgPanel(message) {
+  const host = document.getElementById('source-svg-body');
+  if (host) host.innerHTML = `<div class="source-svg-canvas"><div class="svg-unavailable">${esc(message)}</div></div>`;
+}
+
+function fitSourceSvg(svg) {
+  const panel = document.getElementById('source-svg-panel');
+  if (panel) panel.dataset.svgScale = String(SVG_FIT_SCALE);
+  svg.style.transform = `scale(${SVG_FIT_SCALE})`;
+  svg.style.transformOrigin = 'center';
 }
 
 function rowHtml(row, fields, selectedId) {
@@ -130,6 +152,7 @@ function renderBundle() {
   document.getElementById('table-count').textContent = 'iframe';
   document.getElementById('table-frame').innerHTML = '<iframe class="bundle-frame" src="../spl2-bundle/spl2_master.html" title="SPL2 2D Calc Bundle"></iframe>';
   document.getElementById('inspector-body').innerHTML = '<p>Legacy bundle is isolated. No shared state is mixed with PipeTools modules yet.</p>';
+  clearSourceSvgPanel('2D Bundle Calc has no PipeSpec SVG selection.');
 }
 
 function currentFamily(state) {
@@ -197,6 +220,10 @@ function subtypeOf(row) {
   return row.subtype ?? row.valveType ?? row.flangeType ?? row.fittingType ?? row.reducerType ?? row.oletType ?? row.supportKind ?? row.type ?? null;
 }
 
+function itemLabel(row) {
+  return `${row.componentType ?? row.component ?? 'Component'}${subtypeOf(row) ? ` / ${subtypeOf(row)}` : ''}`;
+}
+
 function displayValue(key, value) {
   if (key === 'classRating') return `CL ${value}`;
   if (key === 'nps') return displayNps(value);
@@ -212,7 +239,7 @@ function prettyType(value) {
 }
 
 function fieldLabel(field) {
-  return ({ npsDn: 'NPS / DN', f2f: 'F2F', od: 'OD', flangeOd: 'O.D.', centerToEnd: 'C-E', developedLength: 'Dev. Len', largeNps: 'Large NPS', smallNps: 'Small NPS', branchNps: 'Branch NPS', classRating: 'Class', endType: 'End', dataStatus: 'Status', componentType: 'Component', largeSchedule: 'Large Sch.' }[field]) ?? prettyType(field);
+  return ({ npsDn: 'NPS / DN', f2f: 'F2F', od: 'OD', flangeOd: 'O.D.', centerToEnd: 'C-E', developedLength: 'Dev. Len', largeNps: 'Large NPS', smallNps: 'Small NPS', branchNps: 'Branch NPS' }[field]) ?? prettyType(field);
 }
 
 function subtypeTitle(family) {

@@ -22,7 +22,7 @@ The app tab uses an iframe at `../spl2-bundle/spl2_master.html`.
 
 ## Governance
 
-New wrapper/source modules must remain below 200 lines. The current static bundle shell is kept compact and below that limit.
+New wrapper/source modules must remain below the relaxed 300-line PipeTools gate. The current static bundle shell is kept compact and below that limit.
 
 The full upstream legacy bundle contains large HTML/CSS/JS files. Importing those exact files requires a dedicated approval note and should be treated as copied legacy assets, not new source modules.
 
