@@ -1,0 +1,24 @@
+{
+  "agent": "Agent 17",
+  "wave": "13B",
+  "title": "DB index dashboard binding",
+  "scope": [
+    "Load db-index.json before component rows",
+    "Render component cards from DB index families",
+    "Lazy-load selected DB family rows",
+    "Generate subtype and filter controls from DB index metadata",
+    "Generate table columns from index keyFields"
+  ],
+  "files": [
+    "pipetools/js/app.js",
+    "pipetools/js/render.js",
+    "gates/pipetools-agent-17-db-dashboard.gate.test.js",
+    "docs/pipetools/WAVE_13B_DB_DASHBOARD.md"
+  ],
+  "outOfScope": [
+    "SVG engine integration",
+    "Raw source DB tree publication",
+    "Full source DB promotion"
+  ],
+  "next": "Wave 13C vendor PipeSpec SVG engine and adapter"
+}
