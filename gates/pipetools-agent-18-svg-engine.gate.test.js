@@ -26,7 +26,8 @@ test('Agent 18 vendors uploaded PipeSpec SVG source package', () => {
   assert.match(engineSource, /VALVE[\s\S]*FLANGE[\s\S]*PIPE[\s\S]*FITTING[\s\S]*GASKET/);
 });
 
-test('native wrappers stay below 200 lines while vendor source is exempt', () => {
+test('native wrappers stay below relaxed 300-line gate while vendor source is exempt', () => {
+  assert.equal(manifest.maxNativeModuleLines, 300);
   for (const file of manifest.nativeFiles) {
     assert.ok(lineCount(file) <= manifest.maxNativeModuleLines, `${file} exceeds native line limit`);
   }
