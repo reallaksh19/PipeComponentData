@@ -1,4 +1,4 @@
-import { getPipeSpecSvgKey, getPipeSpecSvgQuality, toPipeSpecSvgRow } from './svg/pipeSpecSvgEngine.js';
+import { getPipeSpecSvgAudit, getPipeSpecSvgKey, getPipeSpecSvgQuality, toPipeSpecSvgRow } from './svg/pipeSpecSvgEngine.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 
@@ -7,7 +7,8 @@ export function renderPipeSpecInspector(row) {
   const svgRow = toPipeSpecSvgRow(row);
   const svgKey = getPipeSpecSvgKey(row);
   const quality = getPipeSpecSvgQuality(row);
-  return `${detailToolbar(row)}${tabBar()}${detailMetadata(row, svgRow, svgKey, quality)}${jsonPanel(row)}`;
+  const audit = getPipeSpecSvgAudit(row);
+  return `${detailToolbar(row)}${tabBar()}${detailMetadata(row, svgRow, svgKey, quality, audit)}${jsonPanel(row)}`;
 }
 
 function detailToolbar(row) {
@@ -26,14 +27,16 @@ function tabBar() {
   </div>`;
 }
 
-function detailMetadata(row, svgRow, svgKey, quality) {
+function detailMetadata(row, svgRow, svgKey, quality, audit) {
   return `<section class="detail-metadata details-grid" data-detail-metadata="true" data-inspector-panel="details">
     ${kv('Item', itemLabel(row))}
     ${kv('SVG Route', svgKey)}
+    ${kv('SVG Fidelity', quality.fidelity ?? quality.status)}
     ${kv('SVG Quality', quality.status)}
     ${kv('SVG Reason', quality.reason)}
+    ${kv('Audit Action', audit.nextAction)}
     ${kv('End / Facing', `${row.endType ?? row.endConnection ?? svgRow.endType ?? '—'} ${row.facing ?? svgRow.facing ?? ''}`.trim())}
-    ${kv('Size', `NPS ${row.nps ?? row.largeNps ?? '—'} / DN ${row.dn ?? '—'}`)}
+    ${kv('Size', `NPS ${row.nps ?? row.largeNps ?? svgRow.runNps ?? '—'} / DN ${row.dn ?? '—'}`)}
     ${kv('Class', classText(row, svgRow))}
     ${kv('Primary Dim.', primaryDimension(row, svgRow))}
     ${kv('Weight', weightText(row, svgRow))}
@@ -65,9 +68,10 @@ function primaryDimension(row, svgRow) {
   const items = [
     ['F2F', svgRow.faceToFaceRfMm ?? d.faceToFaceRfMm?.value ?? d.faceToFaceMm?.value, 'mm'],
     ['Height', svgRow.heightMm ?? d.heightMm?.value, 'mm'],
-    ['OD', svgRow.odMm ?? d.odMm?.value, 'mm'],
+    ['OD', svgRow.odMm ?? svgRow.outerDiaMm ?? d.odMm?.value ?? d.outerDiaMm?.value, 'mm'],
     ['O.Dia', svgRow.flangeOdMm ?? svgRow.outerDiaMm ?? d.flangeOdMm?.value ?? d.outerDiaMm?.value, 'mm'],
-    ['C-E', svgRow.ctrToEndMm ?? d.centerToEndMm?.value, 'mm'],
+    ['C-E', svgRow.ctrToEndMm ?? svgRow.centerToEndMm ?? d.centerToEndMm?.value, 'mm'],
+    ['Branch L', svgRow.branchLengthMm ?? d.branchLengthMm?.value ?? d.brLenMm?.value, 'mm'],
   ];
   const hit = items.find(([, value]) => value != null && value !== '');
   return hit ? `${hit[0]} ${hit[1]} ${hit[2]}` : '—';
@@ -75,7 +79,7 @@ function primaryDimension(row, svgRow) {
 
 function weightText(row, svgRow) {
   const w = row.weights ?? {};
-  const value = svgRow.weightKg ?? svgRow.rfRtjKg ?? svgRow.weightKgPerM ?? w.weightKg?.value ?? w.rfRtjKg?.value ?? w.weightKgPerM?.value;
+  const value = svgRow.weightKg ?? svgRow.rfRtjKg ?? svgRow.weightKgPerM ?? w.weightKg?.value ?? w.rfRtjKg?.value ?? w.weightKgPerM?.value ?? w.waferKg?.value;
   if (value == null || value === '') return '—';
   return svgRow.weightKgPerM ? `${value} kg/m` : `${value} kg`;
 }
