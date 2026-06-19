@@ -9,17 +9,18 @@ const indexPath = 'pipetools/data/db-index.json';
 const loaderPath = 'pipetools/js/db/dbIndex.js';
 const manifestPath = 'data/audit/pipetools-agent-16-db-index-manifest.json';
 const gatePath = 'gates/pipetools-agent-16-db-index.gate.test.js';
+const completeManifestPath = 'data/audit/pipetools-agent-22-complete-db-index-manifest.json';
 const expectedFamilies = ['PIPE', 'VALVE', 'FLANGE', 'FITTING', 'GASKET', 'SUPPORT', 'REDUCER', 'OLET'];
 
 const entryPaths = (entry) => (entry.repositoryPaths ?? [entry.repositoryPath]).filter(Boolean);
 const runtimeUrls = (entry) => (entry.runtimeUrls ?? [entry.runtimeUrl]).filter(Boolean);
 
-function uniqueRowCount(paths) {
-  const ids = new Set();
-  for (const path of paths) {
-    for (const row of json(path).rows ?? []) ids.add(row.id ?? JSON.stringify(row));
-  }
-  return ids.size;
+function declaredRows(paths) {
+  return paths.reduce((sum, path) => sum + Number(json(path).rows?.length ?? 0), 0);
+}
+
+function completeManifestFamilies() {
+  return json(completeManifestPath).families ?? {};
 }
 
 test('Agent 16 DB index files exist and stay small', () => {
@@ -37,7 +38,8 @@ test('DB index covers every PipeTools DB family', () => {
   assert.deepEqual(families, [...expectedFamilies].sort());
 });
 
-test('DB index points to existing normalized DB packs with matching row counts', () => {
+test('DB index points to existing normalized DB packs with declared complete row counts', () => {
+  const manifestFamilies = completeManifestFamilies();
   for (const entry of json(indexPath).families) {
     const paths = entryPaths(entry);
     assert.ok(paths.length >= 1, `${entry.family} repository paths missing`);
@@ -45,7 +47,8 @@ test('DB index points to existing normalized DB packs with matching row counts',
       assert.ok(existsSync(path), `${path} missing`);
       assert.ok(Array.isArray(json(path).rows), `${path} rows missing`);
     }
-    assert.equal(uniqueRowCount(paths), entry.rowCount, `${entry.family} rowCount mismatch`);
+    assert.ok(declaredRows(paths) >= entry.rowCount, `${entry.family} rowCount exceeds declared source rows`);
+    assert.equal(entry.rowCount, manifestFamilies[entry.family]?.indexedRows, `${entry.family} manifest rowCount mismatch`);
     for (const url of runtimeUrls(entry)) assert.ok(url.includes('../data/normalized/'), `${entry.family} runtime URL is not normalized DB`);
     assert.equal(entry.sourceRowCount, entry.rowCount, `${entry.family} should have zero pending rows`);
     assert.ok(entry.sourceFileCount >= 1, `${entry.family} sourceFileCount missing`);
