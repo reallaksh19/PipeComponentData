@@ -59,6 +59,7 @@ jobs:
           node --test gates/pipetools-agent-20-svg-detail-actions.gate.test.js
           node --test gates/pipetools-agent-21-db-coverage.gate.test.js
           node --test gates/pipetools-agent-23-workbench-layout.gate.test.js
+          node --test gates/pipetools-agent-24-dashboard-state-svg.gate.test.js
 
       - name: Verify static artifact layout
         shell: bash

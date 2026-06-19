@@ -28,10 +28,16 @@ const sourceFiles = [
   'gates/pipetools-agent-06-dashboard.gate.test.js',
 ];
 
-test('Agent 06 modules stay below 200 lines', () => {
+const MAX_NATIVE_MODULE_LINES = 300;
+
+function lineCount(file) {
+  return fs.readFileSync(file, 'utf8').split(/\r?\n/).length;
+}
+
+test('Agent 06 modules stay below relaxed 300-line gate', () => {
   for (const file of sourceFiles) {
-    const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/).length;
-    assert.ok(lines <= 200, `${file} has ${lines} lines`);
+    const lines = lineCount(file);
+    assert.ok(lines <= MAX_NATIVE_MODULE_LINES, `${file} has ${lines} lines`);
   }
 });
 

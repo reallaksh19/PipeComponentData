@@ -85,6 +85,7 @@ function flange(row) {
     componentType: 'FLANGE',
     subtype: FLANGES.has(type) ? type : 'WN',
     classRating: rating(raw(row, 'classRating')),
+    facing: upper(row, 'RF', 'facing'),
     flangeOdMm: n(row, 'flangeOdMm', 'dimensions.flangeOdMm', 'dimensions.outerDiaMm'),
     flangeThicknessMm: n(row, 'flangeThicknessMm', 'dimensions.flangeThicknessMm'),
     rfDiaMm: n(row, 'rfDiaMm', 'dimensions.rfDiaMm'),
@@ -139,6 +140,17 @@ export function hasPipeSpecSvgSupport(row = {}) {
   return true;
 }
 
+export function getPipeSpecSvgKey(row = {}) {
+  const normalized = toPipeSpecSvgRow(row);
+  const ct = normalized.componentType;
+  if (ct === 'VALVE') return ['VALVE', normalized.valveType, normalized.endType, normalized.facing ?? 'NA'].join('_');
+  if (ct === 'FLANGE') return ['FLANGE', normalized.subtype, normalized.facing ?? 'NA', `CL${normalized.classRating}`].join('_');
+  if (ct === 'FITTING') return ['FITTING', normalized.subtype, normalized.schedule || 'NA'].join('_');
+  if (ct === 'GASKET') return ['GASKET', normalized.subtype, normalized.facing ?? 'NA'].join('_');
+  if (ct === 'PIPE') return ['PIPE', normalized.schedule || 'GENERIC'].join('_');
+  return [ct || 'UNKNOWN', subtype(row, 'GENERIC')].join('_');
+}
+
 export function toPipeSpecSvgRow(row = {}) {
   const ct = upper(row, '', 'componentType', 'family', 'component');
   if (ct === 'PIPE') return pipe(row);
@@ -146,7 +158,7 @@ export function toPipeSpecSvgRow(row = {}) {
   if (ct === 'FLANGE') return flange(row);
   if (ct === 'FITTING') return fitting(row);
   if (ct === 'GASKET') return gasket(row);
-  return { ...common(row), componentType: 'UNKNOWN', supported: false };
+  return { ...common(row), componentType: ct || 'UNKNOWN', supported: false };
 }
 
 export const PIPE_SPEC_SVG_SUPPORTED_TYPES = Object.freeze({
