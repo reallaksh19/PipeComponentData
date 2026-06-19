@@ -1,4 +1,4 @@
-import { getPipeSpecSvgKey, toPipeSpecSvgRow } from './svg/pipeSpecSvgEngine.js';
+import { getPipeSpecSvgKey, getPipeSpecSvgQuality, toPipeSpecSvgRow } from './svg/pipeSpecSvgEngine.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 
@@ -6,7 +6,8 @@ export function renderPipeSpecInspector(row) {
   if (!row) return '<p>Select a table row to preview SVG and source-backed values.</p>';
   const svgRow = toPipeSpecSvgRow(row);
   const svgKey = getPipeSpecSvgKey(row);
-  return `${detailToolbar(row)}${tabBar()}${detailMetadata(row, svgRow, svgKey)}${jsonPanel(row)}`;
+  const quality = getPipeSpecSvgQuality(row);
+  return `${detailToolbar(row)}${tabBar()}${detailMetadata(row, svgRow, svgKey, quality)}${jsonPanel(row)}`;
 }
 
 function detailToolbar(row) {
@@ -25,10 +26,12 @@ function tabBar() {
   </div>`;
 }
 
-function detailMetadata(row, svgRow, svgKey) {
+function detailMetadata(row, svgRow, svgKey, quality) {
   return `<section class="detail-metadata details-grid" data-detail-metadata="true" data-inspector-panel="details">
     ${kv('Item', itemLabel(row))}
     ${kv('SVG Route', svgKey)}
+    ${kv('SVG Quality', quality.status)}
+    ${kv('SVG Reason', quality.reason)}
     ${kv('End / Facing', `${row.endType ?? row.endConnection ?? svgRow.endType ?? '—'} ${row.facing ?? svgRow.facing ?? ''}`.trim())}
     ${kv('Size', `NPS ${row.nps ?? row.largeNps ?? '—'} / DN ${row.dn ?? '—'}`)}
     ${kv('Class', classText(row, svgRow))}
