@@ -1,0 +1,33 @@
+{
+  "agent": "Agent 16",
+  "wave": "Wave 13A",
+  "title": "DB index import",
+  "status": "source-index-only",
+  "files": [
+    "pipetools/data/db-index.json",
+    "pipetools/js/db/dbIndex.js",
+    "gates/pipetools-agent-16-db-index.gate.test.js",
+    "docs/pipetools/WAVE_13A_DB_INDEX_IMPORT.md"
+  ],
+  "indexedFamilies": ["PIPE", "VALVE", "FLANGE", "FITTING", "GASKET", "SUPPORT"],
+  "normalizedDbPaths": [
+    "data/normalized/pipes.json",
+    "data/normalized/valves.json",
+    "data/normalized/flanges.json",
+    "data/normalized/fittings.json",
+    "data/normalized/gaskets.json",
+    "data/normalized/supports.json"
+  ],
+  "outOfScope": [
+    "dashboard rebinding",
+    "SVG engine integration",
+    "SVG adapter routing",
+    "source DB raw tree publishing"
+  ],
+  "acceptance": [
+    "one master index covers all normalized DB families",
+    "index paths exist and row counts match normalized DB rows",
+    "index loader is small and does not lazy-load component DB payloads until requested by later waves",
+    "Pages artifact keeps raw source database tree blocked"
+  ]
+}

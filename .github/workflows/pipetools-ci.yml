@@ -52,6 +52,7 @@ jobs:
           node --test gates/pipetools-agent-13-pipe-span-detail.gate.test.js
           node --test gates/pipetools-agent-14-spl2-parity.gate.test.js
           node --test gates/pipetools-agent-15-spl2-integration.gate.test.js
+          node --test gates/pipetools-agent-16-db-index.gate.test.js
 
       - name: Verify static artifact layout
         shell: bash
@@ -61,6 +62,7 @@ jobs:
           cp -R pipetools/. _site/pipetools/
           cp -R spl2-bundle/. _site/spl2-bundle/
           test -f _site/pipetools/index.html
+          test -f _site/pipetools/data/db-index.json
           test -f _site/pipetools/pipeSpanDetail.css
           test -f _site/pipetools/js/app.js
           test -f _site/pipetools/js/search/search.js
