@@ -50,6 +50,7 @@ jobs:
           node --test gates/pipetools-agent-08-spl2-bundle.gate.test.js
           node --test gates/pipetools-agent-09-data-loading.gate.test.js
           node --test gates/pipetools-agent-11-ui-svg-scope.gate.test.js
+          node --test gates/pipetools-agent-12-pipe-span-parity.gate.test.js
 
       - name: Prepare static Pages artifact
         shell: bash

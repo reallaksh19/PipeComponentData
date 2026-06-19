@@ -60,7 +60,7 @@ function card(key, label, count, active) {
 }
 
 export function renderMain(state, actions) {
-  if (state.activeModule === 'Pipe Span') return renderPipeSpanMain(state, pipeSpanSvg);
+  if (state.activeModule === 'Pipe Span') return renderPipeSpanMain(state, actions, pipeSpanSvg);
   if (state.activeModule === '2D Bundle Calc') return renderBundle();
   renderPipeSpecTable(state, actions);
 }
