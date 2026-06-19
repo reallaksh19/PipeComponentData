@@ -53,6 +53,7 @@ jobs:
           node --test gates/pipetools-agent-14-spl2-parity.gate.test.js
           node --test gates/pipetools-agent-15-spl2-integration.gate.test.js
           node --test gates/pipetools-agent-16-db-index.gate.test.js
+          node --test gates/pipetools-agent-17-db-dashboard.gate.test.js
 
       - name: Verify static artifact layout
         shell: bash
