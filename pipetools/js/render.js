@@ -21,7 +21,9 @@ export function renderDashboards(state, actions) {
   const cards = COMPONENTS.map((item) => card(item.key, item.label, item.count || '', state.filters.component === item.key)).join('');
   const valves = VALVE_TYPES.map((type) => card(type, type, '', state.filters.valveType === type)).join('');
   host.innerHTML = `${searchStrip(state)}${strip('Components', cards)}${strip('Valve Type', valves)}${configStrip(state)}`;
-  host.querySelectorAll('[data-card]').forEach((button) => actions.setFilter(button.dataset.group, button.dataset.card));
+  host.querySelectorAll('[data-card]').forEach((button) => {
+    button.addEventListener('click', () => actions.setFilter(button.dataset.group, button.dataset.card));
+  });
 }
 
 function renderBundleInfo(host) {
