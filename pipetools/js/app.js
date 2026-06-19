@@ -1,4 +1,5 @@
 import { DEFAULT_SPAN_INPUT, MODULES } from './data.js';
+import { loadComponentRows } from './loaders/componentLoader.js';
 import { filterPipeSpecRows } from './pipespecFilters.js';
 import { applySearchResultToState, runPipeSpecSearch } from './pipespecAdapters.js';
 import { actionFromFilterKey, createInitialPipeSpecState, reducePipeSpecState } from './pipespecState.js';
@@ -50,17 +51,15 @@ start().catch((error) => {
 });
 
 async function start() {
-  state.allRows = await loadValveRows();
+  state.allRows = await loadInitialRows();
   applyFilters();
   bindSearch();
   render();
 }
 
-async function loadValveRows() {
-  const response = await fetch(`${DATA_ROOT}/data/normalized/valves.json`);
-  if (!response.ok) return [];
-  const payload = await response.json();
-  return payload.rows ?? [];
+async function loadInitialRows() {
+  const result = await loadComponentRows('VALVE', { root: DATA_ROOT });
+  return result.rows;
 }
 
 function applyFilters() {
