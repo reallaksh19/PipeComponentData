@@ -1,0 +1,31 @@
+{
+  "wave": 7,
+  "agent": "Agent 10",
+  "status": "deployment-qa",
+  "branch": "agent10/wave-7-deployment-qa",
+  "scope": "GitHub Pages deployment QA and static route smoke contracts for PipeTools Suite",
+  "routes": [
+    "./pipetools/",
+    "./studio/",
+    "./spl2-bundle/spl2_master.html"
+  ],
+  "publishedArtifacts": [
+    "_site/pipetools/index.html",
+    "_site/pipetools/js/app.js",
+    "_site/pipetools/js/search/search.js",
+    "_site/pipetools/js/svg/inspector.js",
+    "_site/pipetools/js/pipeSpan/calculate.js",
+    "_site/spl2-bundle/spl2_master.html",
+    "_site/data/normalized/valves.json"
+  ],
+  "cumulativeGates": [
+    "pipetools-agent-00-03",
+    "pipetools-agent-04-search",
+    "pipetools-agent-05-svg",
+    "pipetools-agent-06-dashboard",
+    "pipetools-agent-07-pipe-span",
+    "pipetools-agent-08-spl2-bundle",
+    "pipetools-agent-09-data-loading",
+    "pipetools-agent-10-deployment-qa"
+  ]
+}
