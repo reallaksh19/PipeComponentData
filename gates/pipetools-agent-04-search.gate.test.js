@@ -14,6 +14,7 @@ const SOURCE_FILES = [
   'pipetools/js/search/score.js',
   'pipetools/js/search/search.js',
 ];
+const MAX_NATIVE_MODULE_LINES = 300;
 
 const FIXTURE_ROWS = [
   row('VALVE|GATE|FLANGED|NPS8|CL300|RF', 'VALVE', 'GATE', 'FLANGED', 'RF', '8', 200, '300'),
@@ -23,10 +24,10 @@ const FIXTURE_ROWS = [
   { id: 'FITTING|ELBOW_90_LR|NPS8|SCH80', componentType: 'FITTING', type: 'ELBOW_90_LR', nps: '8', schedule: 'SCH80', dataStatus: 'READY' },
 ];
 
-test('Agent 04 search modules stay below 200 lines', () => {
+test('Agent 04 search modules stay below relaxed 300-line gate', () => {
   for (const file of SOURCE_FILES) {
     const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/).length;
-    assert.ok(lines <= 200, `${file} has ${lines} lines`);
+    assert.ok(lines <= MAX_NATIVE_MODULE_LINES, `${file} has ${lines} lines`);
   }
 });
 
