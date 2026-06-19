@@ -6,17 +6,20 @@ const read = (path) => readFileSync(path, 'utf8');
 const lineCount = (path) => read(path).trimEnd().split('\n').length;
 const MAX_NATIVE_MODULE_LINES = 300;
 
-test('Agent 23 PipeSpec page is a fixed-height workbench', () => {
+test('Agent 23 PipeSpec page is a fixed-height three-zone workbench', () => {
   const css = read('pipetools/pipetools.css');
+  const html = read('pipetools/index.html');
   assert.match(css, /html, body \{ height: 100%; overflow: hidden; \}/);
   assert.match(css, /\.app-shell \{ height: 100vh;[^}]*grid-template-rows: 62px 44px minmax\(0, 1fr\)/);
   assert.match(css, /\.workspace \{[^}]*overflow: hidden;[^}]*grid-template-rows: auto minmax\(0, 1fr\)/);
-  assert.match(css, /\.result-grid \{[^}]*height: 100%;[^}]*grid-template-columns: minmax\(0, 1fr\) 460px/);
+  assert.ok(css.includes('grid-template-columns: minmax(360px, .78fr) minmax(520px, 1.35fr) 340px'));
+  assert.ok(html.includes('source-svg-panel'));
 });
 
-test('Agent 23 keeps only table and inspector scrollable in desktop mode', () => {
+test('Agent 23 keeps table, centre SVG, and inspector bounded in desktop mode', () => {
   const css = read('pipetools/pipetools.css');
   assert.match(css, /\.table-frame \{[^}]*height: 100%;[^}]*overflow: auto;/);
+  assert.match(css, /\.source-svg-body \{[^}]*min-height: 0;[^}]*display: grid;/);
   assert.match(css, /\.inspector-body \{[^}]*min-height: 0;[^}]*overflow: auto;/);
   assert.ok(!css.includes('max-height: calc(100vh - 360px)'), 'old long-page table height must not return');
 });
