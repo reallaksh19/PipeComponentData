@@ -1,4 +1,4 @@
-import { getPipeSpecSvgKey, getPipeSpecSvgQuality, hasPipeSpecSvgSupport, toPipeSpecSvgRow } from './pipeSpecSvgAdapter.js';
+import { getPipeSpecSvgAudit, getPipeSpecSvgKey, getPipeSpecSvgQuality, hasPipeSpecSvgSupport, toPipeSpecSvgRow } from './pipeSpecSvgAdapter.js';
 
 const ENGINE_SCRIPT_URL = new URL('../../vendor/pipespec-svg/svg-engine.js', import.meta.url).href;
 let loadPromise;
@@ -42,4 +42,4 @@ export async function mountPipeSpecSvg(row, container, opts = {}) {
   return true;
 }
 
-export { getPipeSpecSvgKey, getPipeSpecSvgQuality, hasPipeSpecSvgSupport, toPipeSpecSvgRow };
+export { getPipeSpecSvgAudit, getPipeSpecSvgKey, getPipeSpecSvgQuality, hasPipeSpecSvgSupport, toPipeSpecSvgRow };
