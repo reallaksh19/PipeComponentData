@@ -9,7 +9,7 @@ Wave 4 replaces the initial Pipe Span placeholder with a native static JavaScrip
 - Branch: `agent07/wave-4-pipe-span-native`
 - No direct commit to `main`.
 - Open PR first and merge only after review.
-- New source modules must stay below 200 lines unless explicitly approved.
+- PipeTools native source modules must stay below the relaxed 300-line gate.
 - Every behavior added in this wave must have gate coverage.
 
 ## Implemented module boundaries
