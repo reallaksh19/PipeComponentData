@@ -1,0 +1,19 @@
+{
+  "agent": "Agent 12",
+  "wave": "Wave 9",
+  "scope": "Pipe Span source-parity UI revamp",
+  "sourceReferences": [
+    "reallaksh19/CRF-4-1/misc calc update/viewer/tabs/misc-calc-layout.js",
+    "reallaksh19/CRF-4-1/misc calc update/viewer/tabs/misc-calc-tab.js"
+  ],
+  "changedAreas": [
+    "pipetools/js/pipeSpan/ui.js",
+    "pipetools/js/svg/pipeSpan.js",
+    "pipetools/pipetools-overrides.css",
+    "gates/pipetools-agent-12-pipe-span-parity.gate.test.js"
+  ],
+  "excluded": [
+    "Full SVG audit migration; pending user-provided SVG files",
+    "2D Bundle SPL2 source-parity revamp"
+  ]
+}
