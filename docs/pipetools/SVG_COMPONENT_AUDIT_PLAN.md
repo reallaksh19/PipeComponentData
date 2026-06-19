@@ -25,6 +25,28 @@ The DB2 export manifest includes normalized artifacts for pipes, flanges, valves
 | OLET | WELDOLET, SOCKOLET, THREDOLET, ELBOLET | `APPROX_TEMPLATE` | Render first-pass branch-connection symbols and mark for visual tuning. |
 | SUPPORT | manual review source family | `MISSING_TEMPLATE` | Do not render until support symbol taxonomy is defined. |
 
+## Visual fixture review workflow
+
+The visual review board is available at `pipetools/svg-fixtures.html` and is linked from the centre SVG toolbar as **Fixtures**.
+
+Fixture source of truth:
+
+- `pipetools/js/svg/pipeSpecSvgFixtures.js` contains one representative fixture per supported subtype.
+- Each fixture carries a component row, expected audit status, renderability, normalized subtype, and human review checks.
+- `pipetools/js/svg/pipeSpecSvgFixtureViewer.js` renders the board and groups fixtures by family.
+- `gates/pipetools-svg-quality.gate.test.js` checks that fixture expectations match the audit adapter and that renderable fixtures do not fall back to unknown drawing text.
+
+Priority-1 fixtures for visual tuning:
+
+1. `valve-swing-check-fl-rf`
+2. `valve-wafer-check`
+3. `valve-butterfly-wafer`
+4. `valve-control-fl-rf`
+5. `flange-wn-rf`, `flange-so-rf`, `flange-blind-rf`
+6. `reducer-eccentric`
+7. `olet-weldolet`, `olet-sockolet`, `olet-thredolet`, `olet-elbolet`
+8. `gasket-rtj`, `gasket-spiral-wound`
+
 ## Non-negotiable rendering rules
 
 1. A component may render only if its family/subtype is registered in `PIPE_SPEC_SVG_SUPPORTED_TYPES`.
@@ -32,11 +54,11 @@ The DB2 export manifest includes normalized artifacts for pipes, flanges, valves
 3. Unsupported fittings/flanges/gaskets/olets must show an explicit missing-template reason.
 4. The right inspector must display `SVG Fidelity`, `SVG Quality`, `SVG Reason`, and `Audit Action`.
 5. The centre SVG canvas remains the only visual rendering host.
+6. The fixture board must show pending/unsupported rows as blocked, not as approximate drawings.
 
 ## Next visual-fidelity passes
 
-1. Capture golden fixtures for one representative row per supported subtype.
-2. Compare fixture SVGs against source component drawings or accepted piping symbols.
-3. Tune symbols in this order: wafer-check, butterfly wafer, control valve, WN/SO/BLIND flange, weldolet/sockolet/thredolet/elbolet.
-4. Add a table-level SVG status column after the symbols are visually acceptable.
-5. Add interactive dimension highlighting only after the symbol geometry is trustworthy.
+1. Open the fixture board and compare priority-1 SVGs against source component drawings or accepted piping symbols.
+2. Tune geometry in `pipetools/vendor/pipespec-svg/svg-engine.js` using fixture IDs above as the review checklist.
+3. After geometry is acceptable, add table-level SVG quality/status column.
+4. Add interactive dimension highlighting only after symbol geometry is trustworthy.
