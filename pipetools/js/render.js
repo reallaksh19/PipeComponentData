@@ -28,8 +28,8 @@ export function renderDashboards(state, actions) {
   const family = currentFamily(state);
   const coverage = renderDbCoverageStrip(state.dbIndex);
   const components = families(state).map((item) => card(item.family, item.label, `${item.rowCount ?? 0}`, state.filters.component === item.family, 'component')).join('');
-  const subtypes = family?.subtypes?.length ? strip(subtypeTitle(family.family), family.subtypes.map((type) => card(type, prettyType(type), '', state.filters.subtype === type, 'subtype')).join('')) : '';
-  host.innerHTML = `${searchStrip(state)}${coverage}${dbIndexStrip(family, state)}${strip('Database Index', components)}${subtypes}${configStrip(state, family)}`;
+  const subtypes = family?.subtypes?.length ? strip(subtypeTitle(family.family), family.subtypes.map((type) => subtypeChip(type, prettyType(type), state.filters.subtype === type)).join(''), 'subtype-strip') : '';
+  host.innerHTML = `${searchStrip(state)}${coverage}${strip('Components', components, 'component-strip')}${subtypes}${configStrip(state, family)}`;
   host.querySelectorAll('[data-card]').forEach((button) => {
     button.addEventListener('click', () => actions.setFilter(button.dataset.group, button.dataset.card));
   });
@@ -42,19 +42,10 @@ function renderBundleInfo(host) {
   </div></section>`;
 }
 
-function dbIndexStrip(family, state) {
-  if (!family) return '';
-  const status = state.loadingComponent ? `Loading ${state.loadingComponent}…` : `${family.rowCount} indexed rows`;
-  return `<section class="strip"><div class="strip-title">Selected DB</div><div class="segment-row">
-    <span class="chip">${esc(family.family)}</span><span class="chip">${esc(family.standard)}</span>
-    <span class="chip">${esc(status)}</span><span class="chip">SVG: ${family.svgSupported ? 'Yes' : 'No'}</span>
-  </div></section>`;
-}
-
 function searchStrip(state) {
   if (!state.search) return '';
   const chips = state.search.chips.map((chip) => `<span class="chip">${esc(chip.label)}: ${esc(chip.value)}</span>`).join('');
-  return `<section class="strip"><div class="strip-title">Search</div><div class="segment-row">
+  return `<section class="strip search-strip"><div class="strip-title">Search</div><div class="segment-row">
     <span class="chip">${esc(state.search.query)}</span>${chips}<span class="chip">${esc(state.search.matchType)}</span>
   </div></section>`;
 }
@@ -63,7 +54,7 @@ function configStrip(state, family) {
   const fields = [['End', 'endType'], ['Facing', 'facing'], ['Class', 'classRating'], ['Schedule', 'schedule'], ['Size', 'nps']]
     .filter(([, key]) => family?.availableFilters?.includes(key));
   const html = fields.map(([label, key]) => filterGroup(label, key, fieldValues(state.allRows, key), state.filters[key])).join('');
-  return html ? `<section class="strip"><div class="strip-title">Filters</div><div class="segment-row">${html}</div></section>` : '';
+  return html ? `<section class="strip filter-strip"><div class="strip-title">Filters</div><div class="segment-row">${html}</div></section>` : '';
 }
 
 function filterGroup(label, key, values, selected) {
@@ -72,12 +63,16 @@ function filterGroup(label, key, values, selected) {
   return `<span class="segment-label">${label}</span>${all}${buttons}`;
 }
 
-function strip(title, html) {
-  return `<section class="strip"><div class="strip-title">${title}</div><div class="card-row">${html}</div></section>`;
+function strip(title, html, className = '') {
+  return `<section class="strip ${esc(className)}"><div class="strip-title">${title}</div><div class="card-row">${html}</div></section>`;
 }
 
 function card(key, label, count, active, group) {
   return `<button class="card-btn ${active ? 'active' : ''}" data-group="${group}" data-card="${esc(key)}">${iconSvg(key)}<strong>${esc(label)}</strong><small>${esc(count)}</small></button>`;
+}
+
+function subtypeChip(key, label, active) {
+  return `<button class="seg-btn subtype-chip ${active ? 'active' : ''}" data-group="subtype" data-card="${esc(key)}">${esc(label)}</button>`;
 }
 
 export function renderMain(state, actions) {
