@@ -13,7 +13,9 @@ export function renderPipeSpanInputs(host) {
   </div></section>`;
 }
 
-export function renderPipeSpanMain(state, actions, pipeSpanSvg) {
+export function renderPipeSpanMain(state, actionOrSvg, maybeSvg) {
+  const actions = typeof actionOrSvg === 'object' && actionOrSvg ? actionOrSvg : {};
+  const pipeSpanSvg = typeof maybeSvg === 'function' ? maybeSvg : typeof actionOrSvg === 'function' ? actionOrSvg : () => '';
   const input = normalizePipeSpanInput(state.spanInput);
   const result = calculatePipeSpan(input);
   const frame = document.getElementById('table-frame');
@@ -22,14 +24,13 @@ export function renderPipeSpanMain(state, actions, pipeSpanSvg) {
   document.getElementById('table-count').textContent = `NPS ${result.input.nps} · ${result.input.schedule}`;
   frame.innerHTML = layout(input, result, pipeSpanSvg);
   bindPipeSpanInputs(frame, actions);
-  document.getElementById('inspector-body').innerHTML = '';
+  document.getElementById('inspector-body').innerHTML = '<p>Formula trace moved to the Pipe Span Formula Console.</p>';
 }
 
 function layout(input, result, pipeSpanSvg) {
   return `<div class="pipe-span-shell">
     <aside class="pipe-span-rail">
-      <h4>Calculators</h4>
-      <button class="pipe-span-nav active" type="button">Pipe Span</button>
+      <h4>Calculators</h4><button class="pipe-span-nav active" type="button">Pipe Span</button>
       <button class="pipe-span-nav" type="button" disabled>Pipe Shell Indentation</button>
       <button class="pipe-span-nav" type="button" disabled>Welded Shoe</button>
       <button class="pipe-span-nav" type="button" disabled>Trunnion Calc</button>
@@ -39,12 +40,8 @@ function layout(input, result, pipeSpanSvg) {
         <div><h3>Pipe Span</h3><p>Native calculation with method comparison and trace console.</p></div>
         <label>Unit Mode<select id="span-unit-mode"><option selected>Native</option><option disabled>SI</option><option disabled>Imperial</option></select></label>
       </header>
-      <div class="pipe-span-body">
-        <div class="pipe-span-center">
-          ${inputPanel(input)}${resultCards(result)}${resultTable(result)}
-        </div>
-        <aside class="pipe-span-sketch"><h4>Engineering Sketch</h4>${pipeSpanSvg(result)}</aside>
-      </div>
+      <div class="pipe-span-body"><div class="pipe-span-center">${inputPanel(input)}${resultCards(result)}${resultTable(result)}</div>
+        <aside class="pipe-span-sketch"><h4>Engineering Sketch</h4>${pipeSpanSvg(result)}</aside></div>
       <footer class="pipe-span-console"><h4>Formula Console</h4>${traceTable(result.formulaTrace)}</footer>
     </section>
   </div>`;
@@ -67,25 +64,20 @@ function inputPanel(input) {
 
 function resultCards(result) {
   return `<section class="pipe-span-cards">
-    <div>${kv('Selected method span', `${fmt(result.selectedMethodSpanM, 'm')}`)}</div>
-    <div>${kv('Least allowable span', `${fmt(result.leastAllowableSpanM, 'm')}`)}</div>
-    <div>${kv('Governing span', `${fmt(result.governingSpanM, 'm')}`)}</div>
-    <div>${kv('QMS reference', `${fmt(result.qmsReferenceM, 'm')}`)}</div>
+    <div>${kv('Selected method span', fmt(result.selectedMethodSpanM, 'm'))}</div>
+    <div>${kv('Least allowable span', fmt(result.leastAllowableSpanM, 'm'))}</div>
+    <div>${kv('Governing span', fmt(result.governingSpanM, 'm'))}</div>
+    <div>${kv('QMS reference', fmt(result.qmsReferenceM, 'm'))}</div>
   </section>`;
 }
 
 function resultTable(result) {
   const rows = [
-    ['Pipe weight', result.pipeWeightNPerM, 'N/m'],
-    ['Insulation weight', result.insulationWeightNPerM, 'N/m'],
-    ['Water weight', result.waterWeightNPerM, 'N/m'],
-    ['Total weight', result.totalWeightNPerM, 'N/m'],
-    ['Moment of inertia', result.momentOfInertiaCm4, 'cm4'],
-    ['Continuous span', result.continuousSpanM, 'm'],
-    ['Average span', result.averageSpanM, 'm'],
-    ['Fixed span', result.fixedSpanM, 'm'],
-    ['Simply supported span', result.simplySpanM, 'm'],
-    ['Indentation span', result.indentationSpanM, 'm'],
+    ['Pipe weight', result.pipeWeightNPerM, 'N/m'], ['Insulation weight', result.insulationWeightNPerM, 'N/m'],
+    ['Water weight', result.waterWeightNPerM, 'N/m'], ['Total weight', result.totalWeightNPerM, 'N/m'],
+    ['Moment of inertia', result.momentOfInertiaCm4, 'cm4'], ['Continuous span', result.continuousSpanM, 'm'],
+    ['Average span', result.averageSpanM, 'm'], ['Fixed span', result.fixedSpanM, 'm'],
+    ['Simply supported span', result.simplySpanM, 'm'], ['Indentation span', result.indentationSpanM, 'm'],
     ['Governing span', result.governingSpanM, 'm'],
   ];
   return `<section class="pipe-span-card"><h4>Results</h4><table class="pipe-span-table"><thead><tr><th>Output</th><th>Value</th><th>Unit</th></tr></thead><tbody>${
@@ -100,6 +92,7 @@ function traceTable(trace) {
 }
 
 function bindPipeSpanInputs(frame, actions) {
+  if (!frame?.querySelector || typeof actions.updateSpanInput !== 'function') return;
   frame.querySelector('#span-calc')?.addEventListener('click', () => actions.updateSpanInput(readSpanInputs(frame)));
   frame.querySelectorAll('.pipe-span-inputs select').forEach((select) =>
     select.addEventListener('change', () => actions.updateSpanInput(readSpanInputs(frame))));
@@ -107,19 +100,10 @@ function bindPipeSpanInputs(frame, actions) {
 
 function readSpanInputs(frame) {
   const value = (id) => frame.querySelector(`#span-${id}`)?.value;
-  return normalizePipeSpanInput({
-    nps: Number(value('nps')),
-    schedule: value('schedule'),
-    service: value('service'),
-    insulation: value('insulation'),
-    material: value('material'),
-    beamMethod: value('beamMethod'),
-  });
+  return normalizePipeSpanInput({ nps: Number(value('nps')), schedule: value('schedule'), service: value('service'),
+    insulation: value('insulation'), material: value('material'), beamMethod: value('beamMethod') });
 }
 
 function options(values, selected, mapper = String) {
-  return values.map((value) => {
-    const isSelected = mapper(value) === mapper(selected);
-    return `<option ${isSelected ? 'selected' : ''}>${esc(value)}</option>`;
-  }).join('');
+  return values.map((value) => `<option ${mapper(value) === mapper(selected) ? 'selected' : ''}>${esc(value)}</option>`).join('');
 }
