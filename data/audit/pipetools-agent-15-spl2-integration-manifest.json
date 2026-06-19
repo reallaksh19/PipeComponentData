@@ -1,0 +1,25 @@
+{
+  "agent": "15",
+  "wave": "12",
+  "scope": "SPL2 source-copy integration QA",
+  "sourceTreatment": "vendored-copy",
+  "targetRoute": "../spl2-bundle/spl2_master.html",
+  "gates": [
+    "gates/pipetools-agent-15-spl2-integration.gate.test.js"
+  ],
+  "checks": [
+    "iframe route resolves to copied SPL2 bundle",
+    "SPL2 HTML remains full source UI, not compact shell",
+    "relative stylesheet and script references resolve inside spl2-bundle",
+    "spl2_master.js import graph resolves inside spl2-bundle/js/spl2",
+    "source controls and canvas IDs remain available for browser smoke",
+    "Pages workflow publishes and cache-busts SPL2 iframe assets"
+  ],
+  "noRedesign": true,
+  "styleOnlyAllowedChanges": [
+    "colors",
+    "fonts",
+    "container fit",
+    "cache-busting"
+  ]
+}
