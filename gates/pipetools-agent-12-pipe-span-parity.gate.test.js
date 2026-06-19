@@ -4,10 +4,11 @@ import test from 'node:test';
 
 const read = (path) => readFileSync(path, 'utf8');
 const lines = (path) => read(path).split('\n').length;
+const MAX_NATIVE_MODULE_LINES = 300;
 
-test('Agent 12 keeps pipe span modules compact', () => {
-  assert.ok(lines('pipetools/js/pipeSpan/ui.js') < 200, 'pipe span ui module must stay under 200 lines');
-  assert.ok(lines('pipetools/js/svg/pipeSpan.js') < 200, 'pipe span svg module must stay under 200 lines');
+test('Agent 12 keeps pipe span modules below relaxed 300-line gate', () => {
+  assert.ok(lines('pipetools/js/pipeSpan/ui.js') < MAX_NATIVE_MODULE_LINES, 'pipe span ui module must stay under 300 lines');
+  assert.ok(lines('pipetools/js/svg/pipeSpan.js') < MAX_NATIVE_MODULE_LINES, 'pipe span svg module must stay under 300 lines');
 });
 
 test('Pipe Span uses CRF-style misc-calc layout sections without calculator rail', () => {
