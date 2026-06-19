@@ -13,7 +13,7 @@ const kv = (label, value) => `<div class="kv"><span>${esc(label)}</span><strong>
 export function renderPipeSpanInputs(host) {
   host.innerHTML = `<section class="strip pipe-span-source-strip"><div class="strip-title">Pipe Span</div><div class="segment-row">
     <span class="chip">Source style: CRF-4-1 / Misc Calc</span>
-    <span class="chip">Calculator rail + header + right engineering sketch + console</span>
+    <span class="chip">Header + engineering sketch + formula console</span>
     <span class="chip">Detailed workbook view added from user table</span>
   </div></section>`;
 }
@@ -34,9 +34,7 @@ export function renderPipeSpanMain(state, actionOrSvg, maybeSvg) {
 }
 
 function layout(input, result, detailRows, pipeSpanSvg) {
-  return `<div class="pipe-span-shell">
-    <aside class="pipe-span-rail"><h4>Calculators</h4><button class="pipe-span-nav active" type="button">Pipe Span</button>
-      <button class="pipe-span-nav" type="button" disabled>Pipe Shell Indentation</button><button class="pipe-span-nav" type="button" disabled>Welded Shoe</button><button class="pipe-span-nav" type="button" disabled>Trunnion Calc</button></aside>
+  return `<div class="pipe-span-shell no-calculator-rail">
     <section class="pipe-span-main"><header class="pipe-span-header"><div><h3>Pipe Span</h3><p>Native calculation with method comparison and trace console.</p></div>
         <label>Unit Mode<select id="span-unit-mode"><option selected>Native</option><option disabled>SI</option><option disabled>Imperial</option></select></label></header>
       <div class="pipe-span-body"><div class="pipe-span-center">${inputPanel(input)}${resultCards(result)}${resultTable(result)}${detailRows.length ? renderPipeSpanDetailTable(detailRows) : ''}</div>
@@ -64,7 +62,7 @@ function inputNumber(field, value) {
 }
 
 function resultCards(result) {
-  return `<section class="pipe-span-cards"><div>${kv('Selected method span', fmt(result.selectedMethodSpanM, 'm'))}</div><div>${kv('Least allowable span', fmt(result.leastAllowableSpanM, 'm'))}</div><div>${kv('Governing span', fmt(result.governingSpanM, 'm'))}</div><div>${kv('QMS reference', fmt(result.qmsReferenceM, 'm'))}</div></section>`;
+  return `<section class="pipe-span-cards"><div>${kv('Selected method span', fmt(result.selectedMethodSpanM, 'm'))}</div><div>${kv('Least allowable span', fmt(result.leastAllowableSpanM, 'm'))}</div><div>${kv('Governing span', fmt(result.governingSpanM, 'm'))}</div><div>${kv('Ref. span', fmt(result.qmsReferenceM, 'm'))}</div></section>`;
 }
 
 function resultTable(result) {

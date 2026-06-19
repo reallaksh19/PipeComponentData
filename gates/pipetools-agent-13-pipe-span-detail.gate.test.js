@@ -45,6 +45,16 @@ test('Detailed view matches the supplied workbook-style Sch 40 sample columns', 
   assert.equal(nps2.qmsVsLeastPct, 98); assert.equal(nps2.feedVsLeastPct, 121); assert.equal(nps2.feedVsBsContBeamPct, 81);
 });
 
+test('Detailed view displays reference labels instead of QMS labels', () => {
+  const table = read('pipetools/js/pipeSpan/detailedTable.js');
+  const ui = read('pipetools/js/pipeSpan/ui.js');
+  assert.match(table, /Ref\.<br>Span/);
+  assert.match(table, /Ref\.<br>Rack Span/);
+  assert.match(table, /Ref\. Vs<br>Least/);
+  assert.match(ui, /Ref\. span/);
+  assert.doesNotMatch(table + ui, /QMS<br>|QMS reference/);
+});
+
 test('Detailed view is linked, styled, and published by workflows', () => {
   assert.match(read('pipetools/index.html'), /pipeSpanDetail\.css/);
   assert.match(read('pipetools/pipeSpanDetail.css'), /pipe-span-detail-table/);
