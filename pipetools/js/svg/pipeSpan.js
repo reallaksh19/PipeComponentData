@@ -5,13 +5,13 @@ const N = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value
 export function pipeSpanSvg(result = {}) {
   const row = result.row ?? {};
   const span = N(result.governingSpanM, 0);
-  const qms = result.qmsReferenceM ?? null;
+  const reference = result.qmsReferenceM ?? null;
   const od = N(row.odMm, 114.3);
   const wall = N(row.wallMm, 6.02);
   const pipeWeight = result.totalWeightNPerM ?? result.pipeWeightNPerM;
   const method = result.input?.beamMethod ?? 'CONTINUOUS';
   const spanText = formatDimension(span, 'm');
-  const qmsText = qms == null ? '---' : formatDimension(qms, 'm');
+  const refText = reference == null ? '---' : formatDimension(reference, 'm');
   const loadText = formatDimension(pipeWeight, 'N/m');
   const wallText = formatDimension(wall, 'mm');
   const odText = formatDimension(od, 'mm');
@@ -33,7 +33,7 @@ export function pipeSpanSvg(result = {}) {
   const leftSupport = support(92, 156, 'S1');
   const rightSupport = support(428, 156, 'S2');
   const dim = dimension(92, 206, 428, 206, `Governing span ${spanText}`);
-  const qmsDim = dimension(122, 232, 398, 232, `QMS ref ${qmsText}`);
+  const refDim = dimension(122, 232, 398, 232, `Ref. ${refText}`);
   const loads = [160, 220, 280, 340].map((x) => loadArrow(x, 70, 102)).join('');
   const labels = [
     callout(122, 107, 70, 78, `OD ${odText}`),
@@ -41,7 +41,7 @@ export function pipeSpanSvg(result = {}) {
     callout(260, 70, 305, 62, `Load ${loadText}`),
     svgEl('text', { x: 260, y: 280, 'text-anchor': 'middle', fill: '#475569', 'font-size': 10 }, 'Deflection/stress method comparison shown in result table; SVG uses governing value.'),
   ].join('');
-  return svgCard(defs + bg + title + sub + center + pipe + hatchA + hatchB + boreTop + boreBot + loads + leftSupport + rightSupport + dim + qmsDim + labels, 'Pipe span engineering sketch', '0 0 520 300');
+  return svgCard(defs + bg + title + sub + center + pipe + hatchA + hatchB + boreTop + boreBot + loads + leftSupport + rightSupport + dim + refDim + labels, 'Pipe span engineering sketch', '0 0 520 300');
 }
 
 function support(x, y, label) {
