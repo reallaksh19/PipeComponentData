@@ -1,8 +1,9 @@
-const SUPPORTED = new Set(['PIPE', 'VALVE', 'FLANGE', 'FITTING', 'GASKET']);
+const SUPPORTED = new Set(['PIPE', 'VALVE', 'FLANGE', 'FITTING', 'GASKET', 'REDUCER']);
 const FITTINGS = new Set(['ELBOW_90', 'ELBOW_45', 'TEE_STRAIGHT', 'CAP']);
 const FLANGES = new Set(['WN', 'SO', 'BLIND']);
 const GASKETS = new Set(['FLAT_RING', 'RTJ', 'SPIRAL_WOUND']);
-const VALVES = new Set(['GATE']);
+const VALVES = new Set(['GATE', 'GLOBE', 'BALL', 'SWING_CHECK', 'CHECK', 'BUTTERFLY']);
+const REDUCERS = new Set(['CONCENTRIC', 'ECCENTRIC']);
 
 function raw(row, ...paths) {
   for (const path of paths) {
@@ -29,8 +30,12 @@ function txt(row, fallback, ...paths) {
   return textValue(raw(row, ...paths), fallback);
 }
 
+function token(value, fallback = '') {
+  return textValue(value, fallback).toUpperCase().replace(/[^A-Z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+}
+
 function upper(row, fallback, ...paths) {
-  return txt(row, fallback, ...paths).toUpperCase();
+  return token(txt(row, fallback, ...paths));
 }
 
 function rating(value) {
@@ -52,6 +57,26 @@ function common(row) {
   };
 }
 
+function inferValveType(row) {
+  const explicit = token(raw(row, 'valveType', 'subtype', 'type'), '');
+  const source = token(raw(row, 'source'), '');
+  const candidate = explicit || source;
+  if (candidate.includes('SWING_CHECK') || candidate.includes('SWINGCHECK')) return 'SWING_CHECK';
+  if (candidate.includes('CHECK') || candidate.includes('NON_RETURN')) return 'CHECK';
+  if (candidate.includes('BUTTERFLY') || candidate.includes('WAFER')) return 'BUTTERFLY';
+  if (candidate.includes('BALL')) return 'BALL';
+  if (candidate.includes('GLOBE')) return 'GLOBE';
+  if (candidate.includes('GATE')) return 'GATE';
+  return explicit || 'UNKNOWN_VALVE';
+}
+
+function reducerType(row) {
+  const value = upper(row, '', 'reducerType', 'subtype', 'type');
+  if (value.includes('ECC')) return 'ECCENTRIC';
+  if (value.includes('CONC')) return 'CONCENTRIC';
+  return value || 'UNKNOWN_REDUCER';
+}
+
 function pipe(row) {
   return {
     ...common(row),
@@ -68,7 +93,7 @@ function valve(row) {
   return {
     ...common(row),
     componentType: 'VALVE',
-    valveType: upper(row, 'GATE', 'valveType', 'subtype', 'type'),
+    valveType: inferValveType(row),
     endType: upper(row, 'FLANGED', 'endType', 'endConnection'),
     classRating: rating(raw(row, 'classRating')),
     facing: upper(row, 'RF', 'facing'),
@@ -84,14 +109,14 @@ function flange(row) {
   return {
     ...common(row),
     componentType: 'FLANGE',
-    subtype: FLANGES.has(type) ? type : 'WN',
+    subtype: FLANGES.has(type) ? type : 'UNKNOWN_FLANGE',
     classRating: rating(raw(row, 'classRating')),
     facing: upper(row, 'RF', 'facing'),
     flangeOdMm: n(row, 'flangeOdMm', 'dimensions.flangeOdMm', 'dimensions.outerDiaMm'),
     flangeThicknessMm: n(row, 'flangeThicknessMm', 'dimensions.flangeThicknessMm'),
     rfDiaMm: n(row, 'rfDiaMm', 'dimensions.rfDiaMm'),
     rfHeightMm: n(row, 'rfHeightMm', 'dimensions.rfHeightMm'),
-    pcdMm: n(row, 'pcdMm', 'dimensions.pcdMm'),
+    pcdMm: n(row, 'pcdMm', 'bolting.pcdMm'),
     boltCount: n(row, 'boltCount', 'bolting.boltCount'),
     boltSizeMm: n(row, 'boltSizeMm', 'isoBoltSizeMm', 'bolting.boltSizeMm'),
     weightKg: n(row, 'weightKg', 'weights.weightKg'),
@@ -117,6 +142,21 @@ function fitting(row) {
   };
 }
 
+function reducer(row) {
+  return {
+    ...common(row),
+    componentType: 'REDUCER',
+    reducerType: reducerType(row),
+    largeNps: txt(row, '', 'largeNps', 'npsLarge', 'runNps'),
+    smallNps: txt(row, '', 'smallNps', 'npsSmall', 'branchNps'),
+    schedule: txt(row, '', 'schedule', 'largeSchedule').replace(/^Sch\s*/i, ''),
+    largeOdMm: n(row, 'largeOdMm', 'dimensions.largeOdMm', 'dimensions.odLargeMm'),
+    smallOdMm: n(row, 'smallOdMm', 'dimensions.smallOdMm', 'dimensions.odSmallMm'),
+    centerToEndMm: n(row, 'centerToEndMm', 'ctrToEndMm', 'dimensions.centerToEndMm'),
+    weightKg: n(row, 'weightKg', 'weights.weightKg'),
+  };
+}
+
 function gasket(row) {
   const type = subtype(row);
   return {
@@ -136,15 +176,19 @@ export function getPipeSpecSvgQuality(row = {}) {
   const ct = normalized.componentType;
   if (!SUPPORTED.has(ct)) return quality('MISSING_TEMPLATE', false, 'Unsupported component family');
   if (ct === 'VALVE') {
-    const valveType = normalized.valveType;
-    return VALVES.has(valveType)
-      ? quality('APPROXIMATE_TEMPLATE', true, 'Gate valve template available; check geometry before issue')
-      : quality('MISSING_TEMPLATE', false, `${valveType} valve needs a dedicated symbol, no generic valve fallback`);
+    return VALVES.has(normalized.valveType)
+      ? quality('COMPONENT_TEMPLATE', true, `${normalized.valveType} valve uses a dedicated symbol template`)
+      : quality('MISSING_TEMPLATE', false, `${normalized.valveType} valve needs a dedicated symbol, no generic valve fallback`);
+  }
+  if (ct === 'REDUCER') {
+    return REDUCERS.has(normalized.reducerType)
+      ? quality('COMPONENT_TEMPLATE', true, `${normalized.reducerType} reducer template available`)
+      : quality('MISSING_TEMPLATE', false, `${normalized.reducerType} reducer template pending`);
   }
   if (ct === 'FITTING' && !FITTINGS.has(normalized.subtype)) return quality('MISSING_TEMPLATE', false, `${normalized.subtype} fitting template pending`);
   if (ct === 'FLANGE' && !FLANGES.has(normalized.subtype)) return quality('MISSING_TEMPLATE', false, `${normalized.subtype} flange template pending`);
   if (ct === 'GASKET' && !GASKETS.has(normalized.subtype)) return quality('MISSING_TEMPLATE', false, `${normalized.subtype} gasket template pending`);
-  return quality('APPROXIMATE_TEMPLATE', true, 'Template is source-backed but still requires component fidelity audit');
+  return quality('COMPONENT_TEMPLATE', true, 'Component-specific source-backed template available');
 }
 
 function quality(status, renderable, reason) {
@@ -159,6 +203,7 @@ export function getPipeSpecSvgKey(row = {}) {
   const normalized = toPipeSpecSvgRow(row);
   const ct = normalized.componentType;
   if (ct === 'VALVE') return ['VALVE', normalized.valveType, normalized.endType, normalized.facing ?? 'NA'].join('_');
+  if (ct === 'REDUCER') return ['REDUCER', normalized.reducerType, normalized.largeNps || 'NA', normalized.smallNps || 'NA'].join('_');
   if (ct === 'FLANGE') return ['FLANGE', normalized.subtype, normalized.facing ?? 'NA', `CL${normalized.classRating}`].join('_');
   if (ct === 'FITTING') return ['FITTING', normalized.subtype, normalized.schedule || 'NA'].join('_');
   if (ct === 'GASKET') return ['GASKET', normalized.subtype, normalized.facing ?? 'NA'].join('_');
@@ -173,12 +218,14 @@ export function toPipeSpecSvgRow(row = {}) {
   if (ct === 'FLANGE') return flange(row);
   if (ct === 'FITTING') return fitting(row);
   if (ct === 'GASKET') return gasket(row);
+  if (ct === 'REDUCER') return reducer(row);
   return { ...common(row), componentType: ct || 'UNKNOWN', supported: false };
 }
 
 export const PIPE_SPEC_SVG_SUPPORTED_TYPES = Object.freeze({
   componentTypes: [...SUPPORTED],
   valves: [...VALVES],
+  reducers: [...REDUCERS],
   fittings: [...FITTINGS],
   flanges: [...FLANGES],
   gaskets: [...GASKETS],
