@@ -1,0 +1,24 @@
+{
+  "schema": "pipetools-agent-18-svg-engine/v1",
+  "wave": "Wave 13C",
+  "scope": "Vendor uploaded PipeSpec SVG source engine and add a normalized-row adapter without changing renderer logic.",
+  "sourceAttachment": "Database webpage redesign (4).zip",
+  "maxNativeModuleLines": 200,
+  "vendorFiles": [
+    "pipetools/vendor/pipespec-svg/svg-engine.js"
+  ],
+  "nativeFiles": [
+    "pipetools/js/svg/pipeSpecSvgAdapter.js",
+    "pipetools/js/svg/pipeSpecSvgEngine.js",
+    "gates/pipetools-agent-18-svg-engine.gate.test.js"
+  ],
+  "sampleRows": [
+    { "componentType": "PIPE", "nps": "4", "dn": 100, "schedule": "40", "standard": "ASME B36.10M", "odMm": 114.3, "idMm": 102.26, "wallMm": 6.02, "weightKgPerM": 16.08 },
+    { "componentType": "FITTING", "subtype": "ELBOW_45", "nps": "4", "dn": 100, "schedule": "40", "standard": "ASME B16.9", "odMm": 114.3, "ctrToEndMm": 102, "devLenMm": 120, "weightKg": 2.1 },
+    { "componentType": "FITTING", "subtype": "TEE_STRAIGHT", "nps": "4", "dn": 100, "schedule": "40", "standard": "ASME B16.9", "odMm": 114.3, "ctrToEndMm": 102, "weightKg": 4.2 },
+    { "componentType": "FLANGE", "subtype": "WN", "nps": "4", "dn": 100, "classRating": "150", "standard": "ASME B16.5", "flangeOdMm": 230, "flangeThicknessMm": 22.3, "rfDiaMm": 157.2, "rfHeightMm": 2, "pcdMm": 190.5, "boltCount": 8, "boltSizeMm": 16, "weightKg": 6.8, "weldDiaMm": 114.3, "wnLengthMm": 75 },
+    { "componentType": "VALVE", "valveType": "GATE", "endType": "FLANGED", "nps": "4", "dn": 100, "classRating": "150", "facing": "RF", "standard": "ASME B16.10", "faceToFaceRfMm": 229, "heightMm": 590, "handwheelDiaMm": 250, "rfRtjKg": 52 },
+    { "componentType": "GASKET", "subtype": "SPIRAL_WOUND", "standard": "ASME B16.20", "outerDiaMm": 157, "innerDiaMm": 115, "thicknessMm": 4.5 }
+  ],
+  "routingPolicy": "Unsupported components must return explicit SVG unavailable; do not silently route to pipe/flange/anchor fallbacks."
+}
