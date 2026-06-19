@@ -1,0 +1,26 @@
+{
+  "schema": "pipetools-agent-22-complete-db-index/v1",
+  "wave": "13G",
+  "goal": "Complete every committed normalized runtime DB pack in the PipeTools DB index browser.",
+  "families": {
+    "PIPE": { "indexedRows": 454, "pendingRows": 0 },
+    "VALVE": { "indexedRows": 410, "pendingRows": 0 },
+    "FLANGE": { "indexedRows": 254, "pendingRows": 0 },
+    "FITTING": { "indexedRows": 15, "pendingRows": 0 },
+    "GASKET": { "indexedRows": 3, "pendingRows": 0 },
+    "SUPPORT": { "indexedRows": 2, "pendingRows": 0 },
+    "REDUCER": { "indexedRows": 858, "pendingRows": 0 },
+    "OLET": { "indexedRows": 140, "pendingRows": 0 }
+  },
+  "totals": {
+    "families": 8,
+    "indexedRows": 2136,
+    "pendingRows": 0,
+    "coveragePercent": 100
+  },
+  "guardrails": [
+    "Raw source DB tree remains unpublished.",
+    "Only normalized runtime DB packs are loaded by PipeTools.",
+    "Rows are de-duplicated by stable id when a family has multiple packs."
+  ]
+}
