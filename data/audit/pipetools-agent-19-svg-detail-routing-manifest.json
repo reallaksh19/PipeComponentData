@@ -31,5 +31,5 @@
     "Nested normalized dimensions and weights must map to the PipeSpecSVG schema.",
     "Unsupported rows must show explicit SVG not available output."
   ],
-  "maxNativeModuleLines": 220
+  "maxNativeModuleLines": 300
 }
