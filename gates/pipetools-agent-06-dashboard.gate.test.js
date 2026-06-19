@@ -81,11 +81,17 @@ test('Agent 05 SVG registry renders selected row preview', () => {
   assert.match(renderPipeSpecInspector(rows[0]), /GATE/);
 });
 
+test('dashboard render binds events without invoking filters during render', () => {
+  const text = fs.readFileSync('pipetools/js/render.js', 'utf8');
+  assert.match(text, /addEventListener\('click'/);
+  assert.doesNotMatch(text, /forEach\(\(button\) => actions\.setFilter/);
+});
+
 test('CI workflows preserve cumulative PipeTools gates', () => {
   for (const file of ['.github/workflows/pipetools-ci.yml', '.github/workflows/pages.yml']) {
     const text = fs.readFileSync(file, 'utf8');
     for (const gate of ['00-03', '04-search', '05-svg', '06-dashboard']) {
-      assert.match(text, new RegExp(`pipetools-agent-${gate}\\.gate\\.test\\.js`), `${file} missing ${gate}`);
+      assert.match(text, new RegExp(`pipetools-agent-${gate}\.gate\.test\.js`), `${file} missing ${gate}`);
     }
   }
 });
