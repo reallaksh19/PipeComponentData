@@ -20,23 +20,16 @@ export function summarizeDbIndex(index) {
 export function renderDbCoverageStrip(index) {
   const summary = summarizeDbIndex(index);
   if (!summary.families) return '';
-  const cards = [
-    ['DB families', `${summary.families}`],
-    ['Indexed rows', `${summary.indexedRows}`],
-    ['Source rows', `${summary.sourceRows}`],
-    ['Pending rows', `${summary.pendingRows}`],
-    ['Coverage', `${summary.percent}%`],
-    ['SVG ready', `${summary.svgReady}/${summary.families}`],
-  ].map(([label, value]) => `<span class="db-coverage-card"><strong>${esc(value)}</strong><small>${esc(label)}</small></span>`).join('');
+  const headline = `${summary.families} families · ${summary.indexedRows} indexed · ${summary.sourceRows} source · ${summary.percent}% coverage · SVG ${summary.svgReady}/${summary.families}`;
   const rows = summary.rows.map((row) => `<button class="db-index-row" data-group="component" data-card="${esc(row.family)}">
     <span><strong>${esc(row.label)}</strong><small>${esc(row.standard)}</small></span>
     <span>${esc(row.indexedRows)}/${esc(row.sourceRows)}</span>
     <span>${esc(row.pendingRows)} pending</span>
     <span>${row.svgSupported ? 'SVG' : 'No SVG'}</span>
   </button>`).join('');
-  return `<section class="strip db-coverage-strip"><div class="strip-title">Index Coverage</div><div class="db-coverage-panel">
-    <div class="db-coverage-summary">${cards}</div>
-    <div class="db-index-browser" aria-label="Database index browser">${rows}</div>
+  return `<section class="strip db-coverage-strip db-health-strip"><div class="strip-title">DB Health</div><div class="db-coverage-panel">
+    <div class="db-coverage-summary"><strong>${esc(headline)}</strong><span>${esc(summary.pendingRows)} pending</span></div>
+    <details class="db-health-details"><summary>Details</summary><div class="db-index-browser" aria-label="Database index browser">${rows}</div></details>
   </div></section>`;
 }
 
