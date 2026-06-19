@@ -1,46 +1,147 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SPL2 2D Calc Bundle</title>
-  <style>
-    :root { color-scheme: dark; --bg:#07111f; --panel:#0d1728; --line:#263850; --text:#e5f0ff; --muted:#8aa0b8; --accent:#38bdf8; --ok:#34d399; }
-    * { box-sizing: border-box; }
-    body { margin:0; min-height:100vh; background:var(--bg); color:var(--text); font:14px Inter, system-ui, sans-serif; }
-    header { padding:14px 18px; border-bottom:1px solid var(--line); background:#0b1526; display:flex; justify-content:space-between; gap:12px; }
-    main { display:grid; grid-template-columns:220px minmax(0, 1fr); min-height:calc(100vh - 54px); }
-    nav { border-right:1px solid var(--line); padding:14px; background:#091323; }
-    button { width:100%; margin:0 0 8px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--text); text-align:left; cursor:pointer; }
-    button.active { border-color:var(--accent); color:var(--accent); background:#0b2034; }
-    section { display:none; padding:18px; }
-    section.active { display:block; }
-    .grid { display:grid; grid-template-columns:minmax(280px, 420px) minmax(0, 1fr); gap:16px; }
-    .card { border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:16px; }
-    label { display:grid; gap:6px; margin-bottom:12px; color:var(--muted); }
-    input, select { width:100%; border:1px solid var(--line); border-radius:8px; background:#07111f; color:var(--text); padding:8px; }
-    .result { display:grid; grid-template-columns:1fr auto; gap:8px; padding:8px 0; border-bottom:1px dashed var(--line); }
-    .result strong { color:var(--ok); }
-    canvas { width:100%; min-height:260px; border:1px solid var(--line); border-radius:12px; background:#050b14; }
-    .note { color:var(--muted); font-size:12px; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPL2 Master Dashboard</title>
+  <link rel="stylesheet" href="css/app.css" />
 </head>
 <body data-pipetools-legacy="spl2">
-  <header><strong>SPL2 2D Calculation Bundle</strong><span class="note">Imported static iframe boundary from Simplified_Analysis concepts</span></header>
-  <main>
-    <nav>
-      <button class="active" data-tab="loop">Loop Calculations</button>
-      <button data-tab="rack">Pipe Rack Calculation</button>
-      <button data-tab="simp">Simplified Method</button>
-      <button data-tab="about">Import Notes</button>
-    </nav>
-    <div>
-      <section id="loop" class="active grid"><div class="card"><h2>Loop Calculation</h2><label>Pipe OD mm<input id="loop-od" type="number" value="219.1"></label><label>Total weight N/m<input id="loop-w" type="number" value="650"></label><label>Allowable stress MPa<input id="loop-s" type="number" value="140"></label><label>Target expansion mm<input id="loop-exp" type="number" value="35"></label><button id="loop-run">Calculate</button></div><div class="card"><canvas id="loop-canvas" width="640" height="280"></canvas><div id="loop-out"></div></div></section>
-      <section id="rack" class="grid"><div class="card"><h2>Pipe Rack Load</h2><label>Pipe count<input id="rack-count" type="number" value="6"></label><label>Average load N/m<input id="rack-load" type="number" value="750"></label><label>Span m<input id="rack-span" type="number" value="6"></label><button id="rack-run">Calculate</button></div><div class="card"><canvas id="rack-canvas" width="640" height="280"></canvas><div id="rack-out"></div></div></section>
-      <section id="simp" class="grid"><div class="card"><h2>Simplified 2D Method</h2><label>Length m<input id="simp-l" type="number" value="12"></label><label>Load N/m<input id="simp-w" type="number" value="500"></label><label>Elastic modulus GPa<input id="simp-e" type="number" value="200"></label><button id="simp-run">Calculate</button></div><div class="card"><canvas id="simp-canvas" width="640" height="280"></canvas><div id="simp-out"></div></div></section>
-      <section id="about"><div class="card"><h2>Legacy Import Boundary</h2><p>This compact SPL2 static shell preserves the tab and iframe contract while keeping new source modules below 200 lines. Full upstream legacy assets remain documented separately for approved import.</p></div></section>
-    </div>
-  </main>
+  <header id="app-header" class="spl2-hidden-header">
+    <div class="app-title"><div class="logo-mark">3D</div><h1>Calc Suite</h1></div>
+  </header>
+  <div id="top-tab-spl2" class="top-pane active">
+    <aside class="sidebar-nav" aria-label="SPL2 modules">
+      <button class="side-btn active" data-target="tab-loop">Loop Calculations</button>
+      <button class="side-btn" data-target="tab-rack">Pipe Rack Calculation</button>
+      <button class="side-btn" data-target="tab-simp">Simplified Method</button>
+      <button class="side-btn" data-target="tab-db">Database</button>
+      <button class="side-btn" data-target="tab-config">2D Bundle Config</button>
+      <button class="side-btn diagnostics" data-target="tab-debug">🐛 Diagnostics</button>
+    </aside>
+    <main class="content-area">
+      <section id="tab-loop" class="tab-pane grid-layout-3 active">
+        <div class="panel">
+          <div class="panel-header">INPUT DATA</div>
+          <div class="panel-body">
+            <h4>Pipe &amp; Material</h4>
+            <div class="form-grid two">
+              <label>Temperature (<span class="unit-temp">°F</span>)<input type="number" id="loop_inp_temp" value="220" /></label>
+              <label>NPS (<span class="unit-len-sm">in</span>)<select id="loop_inp_nps"></select></label>
+              <label>Schedule<select id="loop_inp_sch"></select></label>
+              <label>Material<select id="loop_inp_mat"></select></label>
+              <label>Allowable Stress SA (<span class="unit-stress">psi</span>)<input type="number" id="loop_inp_stress" value="27000" /></label>
+            </div>
+            <hr />
+            <h4>Loop Data</h4>
+            <div class="form-grid two">
+              <label>Anchor Distance S [<span class="unit-len-lg">ft</span>]<input type="number" id="loop_inp_s" value="325" /></label>
+              <label>Guide Distance G [<span class="unit-len-lg">ft</span>]<input type="number" id="loop_inp_g" value="80" /></label>
+              <label>Loop Depth H [<span class="unit-len-lg">ft</span>]<input type="number" id="loop_inp_h" value="25" /></label>
+              <label>Loop Width W [<span class="unit-len-lg">ft</span>]<input type="number" id="loop_inp_w" value="15" /></label>
+            </div>
+            <button class="btn-calc" id="loop_btn_run">CALCULATE LOOP</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">LOOP EXPANSION SCHEMATIC</div>
+          <div class="panel-body canvas-body"><canvas id="canvas-loop" width="720" height="420"></canvas></div>
+        </div>
+        <div class="panel results-panel">
+          <div class="panel-header">CALCULATION RESULTS</div>
+          <div class="panel-body" id="loop_results"></div>
+        </div>
+      </section>
+
+      <section id="tab-rack" class="tab-pane grid-layout-2">
+        <div class="panel">
+          <div class="panel-header">RACK INPUT MATRIX</div>
+          <div class="panel-body">
+            <div class="form-grid two">
+              <label>NPS<select id="rack_inp_nps"></select></label>
+              <label>Schedule<select id="rack_inp_sch"></select></label>
+              <label>Material<select id="rack_inp_mat"></select></label>
+              <label>Number of Lines<input type="number" id="rack_inp_count" value="6" /></label>
+              <label>Rack Span [ft]<input type="number" id="rack_inp_span" value="20" /></label>
+              <label>Average Load [lb/ft]<input type="number" id="rack_inp_load" value="450" /></label>
+            </div>
+            <button class="btn-calc" id="rack_btn_run">CALCULATE RACK</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">RACK SECTION / PLAN CANVAS</div>
+          <div class="panel-body canvas-grid">
+            <canvas id="canvas-rack-section" width="640" height="260"></canvas>
+            <canvas id="canvas-rack-plan" width="640" height="260"></canvas>
+          </div>
+        </div>
+        <div class="panel results-panel">
+          <div class="panel-header">RACK LOAD SUMMARY</div>
+          <div class="panel-body" id="rack_results"></div>
+        </div>
+      </section>
+
+      <section id="tab-simp" class="tab-pane grid-layout-1">
+        <div class="panel">
+          <div class="panel-header">SIMPLIFIED METHOD INPUTS</div>
+          <div class="panel-body">
+            <div class="form-grid two">
+              <label>NPS<select id="simp_inp_nps"></select></label>
+              <label>Schedule<select id="simp_inp_sch"></select></label>
+              <label>Material<select id="simp_inp_mat"></select></label>
+              <label>Length [ft]<input type="number" id="simp_inp_len" value="40" /></label>
+              <label>Load [lb/ft]<input type="number" id="simp_inp_load" value="300" /></label>
+              <label>Allowable Deflection [in]<input type="number" id="simp_inp_defl" value="1" /></label>
+            </div>
+            <button class="btn-calc" id="simp_btn_run">CALCULATE SIMPLIFIED</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">SIMPLIFIED 2D/3D SCHEMATIC</div>
+          <div class="panel-body canvas-body"><canvas id="canvas-simp-3d" width="720" height="380"></canvas></div>
+        </div>
+        <div class="panel results-panel">
+          <div class="panel-header">SIMPLIFIED RESULTS</div>
+          <div class="panel-body" id="simp_results"></div>
+        </div>
+      </section>
+
+      <section id="tab-db" class="tab-pane">
+        <div class="db-tabs">
+          <button class="db-tab-btn active" data-dbsub="db-pipe">Pipe Schedules</button>
+          <button class="db-tab-btn" data-dbsub="db-material">Materials</button>
+          <button class="db-tab-btn" data-dbsub="db-constants">Constants</button>
+        </div>
+        <div id="db-pipe" class="db-table-wrapper"></div>
+        <div id="db-material" class="db-table-wrapper hidden"></div>
+        <div id="db-constants" class="db-table-wrapper hidden"></div>
+      </section>
+
+      <section id="tab-config" class="tab-pane">
+        <div class="panel config-panel">
+          <div class="panel-header">GLOBAL CONSTANTS &amp; CONFIGURATION</div>
+          <div class="panel-body">
+            <table>
+              <thead><tr><th>Parameter</th><th>Value</th><th>Unit</th></tr></thead>
+              <tbody>
+                <tr><td>Unit System</td><td><select id="global_inp_units"><option>Imperial</option><option>SI</option></select></td><td>-</td></tr>
+                <tr><td>Insulation Density</td><td><input id="global_inp_ins_dens" type="number" value="8.112" /></td><td><span class="unit-dens">lb/ft³</span></td></tr>
+                <tr><td>Ambient Temperature</td><td><input id="global_inp_amb_temp" type="number" value="70" /></td><td><span class="unit-temp">°F</span></td></tr>
+                <tr><td>Friction Factor μ</td><td><input id="global_inp_fric" type="number" value="0.3" /></td><td>-</td></tr>
+                <tr><td>Design Factor</td><td><input id="global_inp_sf" type="number" value="1.1" /></td><td>-</td></tr>
+                <tr><td>Wind Force</td><td><input id="global_inp_wind" type="number" value="146.47" /></td><td><span class="unit-wind">lb/ft²</span></td></tr>
+                <tr><td>Natural Frequency Factor C</td><td><input id="global_inp_freq_c" type="number" value="2.45" /></td><td>-</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-debug" class="tab-pane">
+        <div class="panel"><div class="panel-header">DIAGNOSTICS</div><div class="panel-body" id="debug_results"></div></div>
+      </section>
+    </main>
+  </div>
   <script type="module" src="js/spl2/spl2_master.js"></script>
 </body>
 </html>

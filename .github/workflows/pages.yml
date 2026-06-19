@@ -52,6 +52,7 @@ jobs:
           node --test gates/pipetools-agent-11-ui-svg-scope.gate.test.js
           node --test gates/pipetools-agent-12-pipe-span-parity.gate.test.js
           node --test gates/pipetools-agent-13-pipe-span-detail.gate.test.js
+          node --test gates/pipetools-agent-14-spl2-parity.gate.test.js
 
       - name: Prepare static Pages artifact
         shell: bash
@@ -75,6 +76,8 @@ jobs:
           sed -i "s|./pipeSpanDetail.css|./pipeSpanDetail.css?v=${BUILD_SHA}|g" _site/pipetools/index.html
           sed -i "s|./js/app.js|./js/app.js?v=${BUILD_SHA}|g" _site/pipetools/index.html
           sed -i "s|./js/uiScopePatch.js|./js/uiScopePatch.js?v=${BUILD_SHA}|g" _site/pipetools/index.html
+          sed -i "s|css/app.css|css/app.css?v=${BUILD_SHA}|g" _site/spl2-bundle/spl2_master.html
+          sed -i "s|js/spl2/spl2_master.js|js/spl2/spl2_master.js?v=${BUILD_SHA}|g" _site/spl2-bundle/spl2_master.html
 
           test -f _site/studio/index.html
           test -f _site/studio/component-studio-app.js
@@ -88,6 +91,7 @@ jobs:
           test -f _site/pipetools/js/pipeSpan/calculate.js
           test -f _site/pipetools/js/pipeSpan/detailedTable.js
           test -f _site/spl2-bundle/spl2_master.html
+          test -f _site/spl2-bundle/css/app.css
           test -f _site/spl2-bundle/js/spl2/spl2_master.js
           test -f _site/data/indexes/component-search.index.json
           test -f _site/data/search/component-aliases.json
