@@ -1,6 +1,7 @@
 import { COMPONENTS, DISABLED_MODULES } from './data.js';
 import { renderPipeSpecInspector } from './pipespecInspector.js';
 import { iconSvg, pipeSpanSvg } from './svg.js';
+import { mountPipeSpecSvg } from './svg/pipeSpecSvgEngine.js';
 import { renderPipeSpanInputs, renderPipeSpanMain } from './pipeSpan/ui.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
@@ -91,6 +92,17 @@ function renderPipeSpecTable(state, actions) {
   document.getElementById('table-frame').innerHTML = `<table><thead><tr>${fields.map((field) => `<th>${esc(fieldLabel(field))}</th>`).join('')}</tr></thead><tbody>${state.rows.map((row) => rowHtml(row, fields, state.selectedId)).join('')}</tbody></table>`;
   document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));
   document.getElementById('inspector-body').innerHTML = renderPipeSpecInspector(state.selectedRow);
+  mountInspectorSvg(state.selectedRow);
+}
+
+function mountInspectorSvg(row) {
+  const host = document.querySelector('[data-pipespec-svg-host]');
+  if (!host || !row) return;
+  const rowId = String(row.id ?? '');
+  host.dataset.rowId = rowId;
+  mountPipeSpecSvg(row, host, { width: 390, height: 262 }).catch((error) => {
+    if (host.dataset.rowId === rowId) host.innerHTML = `<div class="svg-unavailable">Source SVG failed: ${esc(error.message)}</div>`;
+  });
 }
 
 function rowHtml(row, fields, selectedId) {
