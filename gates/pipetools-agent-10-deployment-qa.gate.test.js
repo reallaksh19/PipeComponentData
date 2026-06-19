@@ -50,7 +50,7 @@ test('Pages artifact contract publishes PipeTools, SPL2, and public data only', 
     '_site/data/audit/pipetools-agent-10-deployment-qa-manifest.json',
   ];
   for (const item of required) assert.match(pages, new RegExp(item.replaceAll('.', '\\.')));
-  assert.match(pages, /url=.\.\/pipetools\//);
+  assert.match(pages, /url=\.\/pipetools\//);
   assert.match(pages, /Raw source database tree must not be published/);
 });
 
