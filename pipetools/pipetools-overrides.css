@@ -21,6 +21,14 @@
   color: #0f172a;
 }
 
+.pipe-span-shell.no-calculator-rail {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.pipe-span-shell.no-calculator-rail .pipe-span-main {
+  grid-column: 1;
+}
+
 .pipe-span-rail {
   border-right: 1px solid #cbd5e1;
   background: #f1f5f9;
