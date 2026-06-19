@@ -1,4 +1,5 @@
 import { DEFAULT_SPAN_INPUT, DISABLED_MODULES, MODULES } from './data.js';
+import { loadDbIndex, getDbFamilies, getDbFamily } from './db/dbIndex.js';
 import { loadComponentRows } from './loaders/componentLoader.js';
 import { filterPipeSpecRows } from './pipespecFilters.js';
 import { applySearchResultToState, runPipeSpecSearch } from './pipespecAdapters.js';
@@ -7,8 +8,10 @@ import { renderDashboards, renderMain, renderTabs } from './render.js';
 import { updateUiScope } from './uiScopePatch.js';
 
 const DATA_ROOT = '..';
+const DB_INDEX_URL = './data/db-index.json';
 const renderGuard = { active: false, queued: false, burst: 0 };
 const disabledModules = new Set(DISABLED_MODULES);
+let loadToken = 0;
 let pipeSpecState = createInitialPipeSpecState({
   filters: { component: 'VALVE', subtype: 'GATE', endType: 'FLANGED', facing: 'RF', classRating: '150' },
 });
@@ -19,6 +22,10 @@ const state = {
   filters: {},
   spanInput: { ...DEFAULT_SPAN_INPUT },
   search: null,
+  dbIndex: null,
+  dbFamilies: [],
+  currentDbFamily: null,
+  loadingComponent: null,
   allRows: [],
   rows: [],
   selectedId: null,
@@ -34,6 +41,10 @@ const actions = {
     requestRender();
   },
   setFilter(key, value) {
+    if (key === 'component') {
+      void setComponent(value);
+      return;
+    }
     const before = JSON.stringify(pipeSpecState.filters);
     pipeSpecState = reducePipeSpecState(pipeSpecState, actionFromFilterKey(key, value));
     if (JSON.stringify(pipeSpecState.filters) === before && !pipeSpecState.selectedRowId) return;
@@ -58,14 +69,36 @@ const actions = {
 start().catch((error) => showFatal(error));
 
 async function start() {
-  state.allRows = await loadInitialRows();
+  state.dbIndex = await loadDbIndex({ url: DB_INDEX_URL });
+  state.dbFamilies = getDbFamilies(state.dbIndex);
+  state.allRows = await loadFamilyRows(pipeSpecState.filters.component);
   applyFilters();
   bindSearch();
   requestRender();
 }
 
-async function loadInitialRows() {
-  const result = await loadComponentRows('VALVE', { root: DATA_ROOT });
+async function setComponent(value) {
+  const component = String(value ?? '').toUpperCase();
+  if (!component || component === pipeSpecState.filters.component) return;
+  const token = ++loadToken;
+  state.loadingComponent = component;
+  state.search = null;
+  state.allRows = [];
+  state.rows = [];
+  pipeSpecState = reducePipeSpecState(pipeSpecState, { type: 'SET_COMPONENT', value: component });
+  syncStateFromPipeSpec();
+  requestRender();
+
+  const rows = await loadFamilyRows(component);
+  if (token !== loadToken) return;
+  state.loadingComponent = null;
+  state.allRows = rows;
+  applyFilters();
+  requestRender();
+}
+
+async function loadFamilyRows(component) {
+  const result = await loadComponentRows(component, { root: DATA_ROOT });
   return result.rows;
 }
 
@@ -86,6 +119,7 @@ function syncStateFromPipeSpec() {
     chips: pipeSpecState.searchChips,
     matchType: pipeSpecState.matchType ?? 'none',
   } : state.search;
+  state.currentDbFamily = getDbFamily(state.dbIndex, pipeSpecState.filters.component);
   state.selectedId = pipeSpecState.selectedRowId;
   state.selectedRow = state.rows.find((row) => row.id === state.selectedId) ?? null;
 }
