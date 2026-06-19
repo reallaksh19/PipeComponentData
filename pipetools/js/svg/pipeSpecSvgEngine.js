@@ -1,4 +1,4 @@
-import { hasPipeSpecSvgSupport, toPipeSpecSvgRow } from './pipeSpecSvgAdapter.js';
+import { getPipeSpecSvgAudit, getPipeSpecSvgKey, getPipeSpecSvgQuality, hasPipeSpecSvgSupport, toPipeSpecSvgRow } from './pipeSpecSvgAdapter.js';
 
 const ENGINE_SCRIPT_URL = new URL('../../vendor/pipespec-svg/svg-engine.js', import.meta.url).href;
 let loadPromise;
@@ -33,7 +33,8 @@ export async function buildPipeSpecSvgString(row, opts = {}) {
 export async function mountPipeSpecSvg(row, container, opts = {}) {
   if (!container) return false;
   if (!hasPipeSpecSvgSupport(row)) {
-    container.innerHTML = '<div class="svg-unavailable">SVG not available for this component.</div>';
+    const quality = getPipeSpecSvgQuality(row);
+    container.innerHTML = `<div class="svg-unavailable">${quality.reason}</div>`;
     return false;
   }
   const engine = await loadPipeSpecSvgEngine();
@@ -41,4 +42,4 @@ export async function mountPipeSpecSvg(row, container, opts = {}) {
   return true;
 }
 
-export { hasPipeSpecSvgSupport, toPipeSpecSvgRow };
+export { getPipeSpecSvgAudit, getPipeSpecSvgKey, getPipeSpecSvgQuality, hasPipeSpecSvgSupport, toPipeSpecSvgRow };

@@ -1,14 +1,27 @@
 import { COMPONENTS, DISABLED_MODULES } from './data.js';
 import { renderDbCoverageStrip } from './db/dbCoverage.js';
+import { getDashboardCounts } from './pipespecFilters.js';
 import { renderPipeSpecInspector } from './pipespecInspector.js';
 import { bindPipeSpecDetailActions } from './pipespecDetailActions.js';
 import { iconSvg, pipeSpanSvg } from './svg.js';
-import { mountPipeSpecSvg } from './svg/pipeSpecSvgEngine.js';
+import { getPipeSpecSvgKey, hasPipeSpecSvgSupport, mountPipeSpecSvg } from './svg/pipeSpecSvgEngine.js';
 import { renderPipeSpanInputs, renderPipeSpanMain } from './pipeSpan/ui.js';
 
-const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const fmt = (value, suffix = '') => value == null || value === '' ? '—' : `${value}${suffix}`;
 const disabledModules = new Set(DISABLED_MODULES);
+const SVG_FIT_SCALE = 0.5625;
+
+const TABLE_COLUMNS = {
+  PIPE: ['npsDn', 'schedule', 'od', 'thickness', 'material', 'standard', 'dataStatus', 'source'],
+  VALVE: ['valveType', 'endType', 'facing', 'npsDn', 'classRating', 'f2f', 'height', 'weight', 'source', 'dataStatus'],
+  FLANGE: ['subtype', 'facing', 'npsDn', 'classRating', 'flangeOd', 'thickness', 'weight', 'source', 'dataStatus'],
+  FITTING: ['subtype', 'npsDn', 'schedule', 'centerToEnd', 'developedLength', 'weight', 'source', 'dataStatus'],
+  GASKET: ['subtype', 'facing', 'npsDn', 'classRating', 'outerDia', 'innerDia', 'thickness', 'source', 'dataStatus'],
+  SUPPORT: ['supportKind', 'attachmentRule', 'standard', 'source', 'dataStatus'],
+  REDUCER: ['reducerType', 'largeNps', 'smallNps', 'largeSchedule', 'centerToEnd', 'source', 'dataStatus'],
+  OLET: ['oletType', 'npsDn', 'schedule', 'branchNps', 'source', 'dataStatus'],
+};
 
 export function renderTabs(state, onSelect) {
   const host = document.getElementById('module-tabs');
@@ -27,9 +40,9 @@ export function renderDashboards(state, actions) {
   if (state.activeModule === '2D Bundle Calc') return renderBundleInfo(host);
   const family = currentFamily(state);
   const coverage = renderDbCoverageStrip(state.dbIndex);
-  const components = families(state).map((item) => card(item.family, item.label, `${item.rowCount ?? 0}`, state.filters.component === item.family, 'component')).join('');
-  const subtypes = family?.subtypes?.length ? strip(subtypeTitle(family.family), family.subtypes.map((type) => card(type, prettyType(type), '', state.filters.subtype === type, 'subtype')).join('')) : '';
-  host.innerHTML = `${searchStrip(state)}${coverage}${dbIndexStrip(family, state)}${strip('Database Index', components)}${subtypes}${configStrip(state, family)}`;
+  const components = families(state).map((item) => card(item.family, item.label, item.rowCount ?? 0, state.filters.component === item.family, 'component', item.svgSupported)).join('');
+  const subtypes = family?.subtypes?.length ? strip(subtypeTitle(family.family), family.subtypes.map((type) => subtypeChip(type, `${prettyType(type)} ${countFor(state, 'subtypes', type)}`, state.filters.subtype === type)).join(''), 'subtype-strip') : '';
+  host.innerHTML = `${searchStrip(state)}${coverage}${strip('Components', components, 'component-strip')}${subtypes}${configStrip(state, family)}`;
   host.querySelectorAll('[data-card]').forEach((button) => {
     button.addEventListener('click', () => actions.setFilter(button.dataset.group, button.dataset.card));
   });
@@ -42,19 +55,10 @@ function renderBundleInfo(host) {
   </div></section>`;
 }
 
-function dbIndexStrip(family, state) {
-  if (!family) return '';
-  const status = state.loadingComponent ? `Loading ${state.loadingComponent}…` : `${family.rowCount} indexed rows`;
-  return `<section class="strip"><div class="strip-title">Selected DB</div><div class="segment-row">
-    <span class="chip">${esc(family.family)}</span><span class="chip">${esc(family.standard)}</span>
-    <span class="chip">${esc(status)}</span><span class="chip">SVG: ${family.svgSupported ? 'Yes' : 'No'}</span>
-  </div></section>`;
-}
-
 function searchStrip(state) {
   if (!state.search) return '';
   const chips = state.search.chips.map((chip) => `<span class="chip">${esc(chip.label)}: ${esc(chip.value)}</span>`).join('');
-  return `<section class="strip"><div class="strip-title">Search</div><div class="segment-row">
+  return `<section class="strip search-strip"><div class="strip-title">Search</div><div class="segment-row">
     <span class="chip">${esc(state.search.query)}</span>${chips}<span class="chip">${esc(state.search.matchType)}</span>
   </div></section>`;
 }
@@ -62,26 +66,36 @@ function searchStrip(state) {
 function configStrip(state, family) {
   const fields = [['End', 'endType'], ['Facing', 'facing'], ['Class', 'classRating'], ['Schedule', 'schedule'], ['Size', 'nps']]
     .filter(([, key]) => family?.availableFilters?.includes(key));
-  const html = fields.map(([label, key]) => filterGroup(label, key, fieldValues(state.allRows, key), state.filters[key])).join('');
-  return html ? `<section class="strip"><div class="strip-title">Filters</div><div class="segment-row">${html}</div></section>` : '';
+  const html = fields.map(([label, key]) => filterGroup(state, label, key)).join('');
+  return html ? `<section class="strip filter-strip"><div class="strip-title">Filters</div><div class="segment-row">${html}</div></section>` : '';
 }
 
-function filterGroup(label, key, values, selected) {
+function filterGroup(state, label, key) {
+  const selected = state.filters[key];
+  const values = fieldValues(state.allRows, key);
   const all = `<button class="seg-btn ${!selected ? 'active' : ''}" data-group="${key}" data-card="">All</button>`;
   const buttons = values.map((value) => `<button class="seg-btn ${String(selected) === String(value) ? 'active' : ''}" data-group="${key}" data-card="${esc(value)}">${esc(displayValue(key, value))}</button>`).join('');
   return `<span class="segment-label">${label}</span>${all}${buttons}`;
 }
 
-function strip(title, html) {
-  return `<section class="strip"><div class="strip-title">${title}</div><div class="card-row">${html}</div></section>`;
+function strip(title, html, className = '') {
+  return `<section class="strip ${esc(className)}"><div class="strip-title">${title}</div><div class="card-row">${html}</div></section>`;
 }
 
-function card(key, label, count, active, group) {
-  return `<button class="card-btn ${active ? 'active' : ''}" data-group="${group}" data-card="${esc(key)}">${iconSvg(key)}<strong>${esc(label)}</strong><small>${esc(count)}</small></button>`;
+function card(key, label, count, active, group, svgSupported = true) {
+  const badge = svgSupported ? '' : '<em class="partial-dot" title="SVG pending"></em>';
+  return `<button class="card-btn ${active ? 'active' : ''}" data-group="${group}" data-card="${esc(key)}">${iconSvg(key)}<strong>${esc(label)}${badge}</strong><small>${esc(count)}</small></button>`;
+}
+
+function subtypeChip(key, label, active) {
+  return `<button class="seg-btn subtype-chip ${active ? 'active' : ''}" data-group="subtype" data-card="${esc(key)}">${esc(label)}</button>`;
 }
 
 export function renderMain(state, actions) {
-  if (state.activeModule === 'Pipe Span') return renderPipeSpanMain(state, actions, pipeSpanSvg);
+  if (state.activeModule === 'Pipe Span') {
+    clearSourceSvgPanel('Pipe Span uses its own engineering sketch.');
+    return renderPipeSpanMain(state, actions, pipeSpanSvg);
+  }
   if (state.activeModule === '2D Bundle Calc') return renderBundle();
   renderPipeSpecTable(state, actions);
 }
@@ -89,24 +103,43 @@ export function renderMain(state, actions) {
 function renderPipeSpecTable(state, actions) {
   const family = currentFamily(state);
   const fields = tableFields(family);
+  const sourceLabel = family ? (family.repositoryPaths ?? [family.repositoryPath]).filter(Boolean).join(' + ') : 'Dashboard-filtered component data';
   document.getElementById('table-title').textContent = family ? `${family.label} DB` : 'PipeSpec DB';
-  document.getElementById('table-kicker').textContent = family ? `${family.repositoryPath} · ${family.standard}` : 'Dashboard-filtered component data';
-  document.getElementById('table-count').textContent = `${state.rows.length} rows`;
+  document.getElementById('table-kicker').textContent = family ? `${sourceLabel} · ${family.standard}` : sourceLabel;
+  document.getElementById('table-count').innerHTML = `${state.rows.length} rows <span class="table-tool">Columns</span><span class="table-tool">Compact</span>`;
   document.getElementById('table-frame').innerHTML = `<table><thead><tr>${fields.map((field) => `<th>${esc(fieldLabel(field))}</th>`).join('')}</tr></thead><tbody>${state.rows.map((row) => rowHtml(row, fields, state.selectedId)).join('')}</tbody></table>`;
   document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));
   document.getElementById('inspector-body').innerHTML = renderPipeSpecInspector(state.selectedRow);
-  mountInspectorSvg(state.selectedRow);
+  renderSourceSvgPanel(state.selectedRow);
   bindPipeSpecDetailActions(state.selectedRow);
 }
 
-function mountInspectorSvg(row) {
-  const host = document.querySelector('[data-pipespec-svg-host]');
-  if (!host || !row) return;
+function renderSourceSvgPanel(row) {
+  document.getElementById('source-svg-title').textContent = row ? itemLabel(row) : 'Centre Canvas';
+  document.getElementById('source-svg-kicker').textContent = row ? `${getPipeSpecSvgKey(row)} · fit 56%` : 'Source SVG';
+  const host = document.getElementById('source-svg-body');
+  if (!row) return clearSourceSvgPanel('Select a row to preview its source SVG.');
+  if (!hasPipeSpecSvgSupport(row)) return clearSourceSvgPanel(`SVG not available for ${row.componentType ?? 'this component'}.`);
   const rowId = String(row.id ?? '');
-  host.dataset.rowId = rowId;
-  mountPipeSpecSvg(row, host, { width: 390, height: 262 }).catch((error) => {
-    if (host.dataset.rowId === rowId) host.innerHTML = `<div class="svg-unavailable">Source SVG failed: ${esc(error.message)}</div>`;
+  host.innerHTML = `<div class="source-svg-canvas"><div data-pipespec-source-svg-host="true" data-row-id="${esc(rowId)}"><div class="svg-loading">Loading source SVG…</div></div></div>`;
+  mountPipeSpecSvg(row, host.querySelector('[data-pipespec-source-svg-host]'), { width: 760, height: 500 }).then((ok) => {
+    const svg = host.querySelector('svg');
+    if (ok && svg && host.querySelector('[data-row-id]')?.dataset.rowId === rowId) fitSourceSvg(svg);
+  }).catch((error) => {
+    if (host.querySelector('[data-row-id]')?.dataset.rowId === rowId) host.innerHTML = `<div class="source-svg-canvas"><div class="svg-unavailable">Source SVG failed: ${esc(error.message)}</div></div>`;
   });
+}
+
+function clearSourceSvgPanel(message) {
+  const host = document.getElementById('source-svg-body');
+  if (host) host.innerHTML = `<div class="source-svg-canvas"><div class="svg-unavailable">${esc(message)}</div></div>`;
+}
+
+function fitSourceSvg(svg) {
+  const panel = document.getElementById('source-svg-panel');
+  if (panel) panel.dataset.svgScale = String(SVG_FIT_SCALE);
+  svg.style.transform = `scale(${SVG_FIT_SCALE})`;
+  svg.style.transformOrigin = 'center';
 }
 
 function rowHtml(row, fields, selectedId) {
@@ -118,6 +151,7 @@ function renderBundle() {
   document.getElementById('table-count').textContent = 'iframe';
   document.getElementById('table-frame').innerHTML = '<iframe class="bundle-frame" src="../spl2-bundle/spl2_master.html" title="SPL2 2D Calc Bundle"></iframe>';
   document.getElementById('inspector-body').innerHTML = '<p>Legacy bundle is isolated. No shared state is mixed with PipeTools modules yet.</p>';
+  clearSourceSvgPanel('2D Bundle Calc has no PipeSpec SVG selection.');
 }
 
 function currentFamily(state) {
@@ -129,17 +163,44 @@ function families(state) {
 }
 
 function tableFields(family) {
-  const keys = family?.keyFields?.length ? family.keyFields : ['componentType', 'subtype', 'nps', 'dn'];
-  return [...new Set([...keys, 'dataStatus', 'source'])].slice(0, 9);
+  return TABLE_COLUMNS[family?.family] ?? [...new Set([...(family?.keyFields ?? ['componentType', 'subtype', 'nps', 'dn']), 'dataStatus', 'source'])].slice(0, 9);
 }
 
 function cellValue(row, field) {
+  const d = row.dimensions ?? {}, w = row.weights ?? {};
   if (field === 'subtype') return subtypeOf(row);
   if (field === 'valveType') return row.valveType ?? subtypeOf(row);
-  if (field === 'classRating') return row.classRating ? `CL ${row.classRating}` : '—';
+  if (field === 'classRating') return row.classRating ? `CL ${String(row.classRating).replace(/^CL\s*/i, '')}` : '—';
   if (field === 'componentType') return row.componentType ?? row.component ?? '—';
+  if (field === 'npsDn') return `NPS ${displayNps(row.nps ?? row.largeNps ?? '—')} / DN ${row.dn ?? '—'}`;
   if (field === 'source') return shortSource(row.source);
+  if (field === 'f2f') return dim(row.faceToFaceMm ?? d.faceToFaceRfMm ?? d.faceToFaceMm);
+  if (field === 'height') return dim(row.heightMm ?? d.heightMm);
+  if (field === 'weight') return weight(row.weightKg ?? w.weightKg ?? w.rfRtjKg ?? w.weightKgPerM);
+  if (field === 'od' || field === 'flangeOd' || field === 'outerDia') return dim(row.odMm ?? row.flangeOdMm ?? row.outerDiaMm ?? d.odMm ?? d.flangeOdMm ?? d.outerDiaMm);
+  if (field === 'innerDia') return dim(row.innerDiaMm ?? d.innerDiaMm);
+  if (field === 'thickness') return dim(row.thicknessMm ?? row.wallMm ?? row.flangeThicknessMm ?? d.thicknessMm ?? d.wallMm ?? d.flangeThicknessMm);
+  if (field === 'centerToEnd') return dim(row.centerToEndMm ?? row.ctrToEndMm ?? d.centerToEndMm);
+  if (field === 'developedLength') return dim(row.developedLengthMm ?? row.devLenMm ?? d.developedLengthMm);
+  if (field === 'material') return row.materialFamily ?? row.material ?? '—';
+  if (field === 'largeNps' || field === 'smallNps') return displayNps(row[field]);
+  if (field === 'schedule') return row.schedule ?? row.largeSchedule ?? row.scheduleOrRating ?? '—';
+  if (field === 'branchNps') return displayNps(row.branchNps ?? row.smallNps ?? '—');
   return fmt(row[field]);
+}
+
+function countFor(state, bucket, key) {
+  return getDashboardCounts(state.allRows, state.filters)[bucket]?.[key] ?? '';
+}
+
+function dim(value) {
+  const v = value && typeof value === 'object' && 'value' in value ? value.value : value;
+  return v == null || v === '' ? '—' : `${v} mm`;
+}
+
+function weight(value) {
+  const v = value && typeof value === 'object' && 'value' in value ? value.value : value;
+  return v == null || v === '' ? '—' : `${v} kg`;
 }
 
 function fieldValues(rows, key) {
@@ -149,17 +210,27 @@ function fieldValues(rows, key) {
 function valueForFilter(row, key) {
   if (key === 'subtype') return subtypeOf(row);
   if (key === 'endType') return row.endType ?? row.endConnection;
+  if (key === 'nps') return row.nps ?? row.largeNps;
+  if (key === 'schedule') return row.schedule ?? row.largeSchedule ?? row.scheduleOrRating;
   return row[key];
 }
 
 function subtypeOf(row) {
-  return row.subtype ?? row.valveType ?? row.flangeType ?? row.fittingType ?? row.supportKind ?? row.type ?? null;
+  return row.subtype ?? row.valveType ?? row.flangeType ?? row.fittingType ?? row.reducerType ?? row.oletType ?? row.supportKind ?? row.type ?? null;
+}
+
+function itemLabel(row) {
+  return `${row.componentType ?? row.component ?? 'Component'}${subtypeOf(row) ? ` / ${subtypeOf(row)}` : ''}`;
 }
 
 function displayValue(key, value) {
   if (key === 'classRating') return `CL ${value}`;
-  if (key === 'nps') return `NPS ${value}`;
+  if (key === 'nps') return displayNps(value);
   return prettyType(value);
+}
+
+function displayNps(value) {
+  return String(value ?? '—').replace(/^0\+/, '').replaceAll('+', ' ');
 }
 
 function prettyType(value) {
@@ -167,11 +238,11 @@ function prettyType(value) {
 }
 
 function fieldLabel(field) {
-  return ({ nps: 'NPS', dn: 'DN', classRating: 'Class', endType: 'End', dataStatus: 'Status', componentType: 'Component' }[field]) ?? prettyType(field);
+  return ({ npsDn: 'NPS / DN', f2f: 'F2F', od: 'OD', flangeOd: 'O.D.', centerToEnd: 'C-E', developedLength: 'Dev. Len', largeNps: 'Large NPS', smallNps: 'Small NPS', branchNps: 'Branch NPS' }[field]) ?? prettyType(field);
 }
 
 function subtypeTitle(family) {
-  return ({ VALVE: 'Valve Type', FLANGE: 'Flange Type', FITTING: 'Fitting Type', GASKET: 'Gasket Type', SUPPORT: 'Support Type' }[family]) ?? 'Type';
+  return ({ VALVE: 'Valve Type', FLANGE: 'Flange Type', FITTING: 'Fitting Type', GASKET: 'Gasket Type', SUPPORT: 'Support Type', REDUCER: 'Reducer Type', OLET: 'Olet Type' }[family]) ?? 'Type';
 }
 
 function shortSource(source) {
