@@ -49,7 +49,7 @@ test('nested normalized rows map to PipeSpecSVG schema', () => {
 test('supported detail panel uses source SVG host instead of legacy registry fallback', () => {
   const html = renderPipeSpecInspector(nestedElbow45);
   assert.match(html, /data-pipespec-svg-host="true"/);
-  assert.match(html, /Source SVG/);
+  assert.match(html, /svg-loading/);
   assert.match(html, /FITTING \/ ELBOW_45/);
   assert.doesNotMatch(inspectorSource, /resolveInspectorSvg|renderSvgPreview/);
   assert.match(renderSource, /mountPipeSpecSvg/);
