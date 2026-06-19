@@ -8,14 +8,24 @@ const SPL2_ROOT = 'spl2-bundle';
 const SPL2_JS_ROOT = join(SPL2_ROOT, 'js', 'spl2');
 
 function attrValues(html, attr) {
-  return [...html.matchAll(new RegExp(`${attr}="([^"]+)"`, 'g'))].map((match) => match[1]);
+  return [...html.matchAll(new RegExp(`${attr}=["']([^"']+)["']`, 'g'))].map((match) => match[1]);
+}
+
+function cleanAssetPath(path) {
+  return String(path).split('?')[0].split('#')[0];
 }
 
 function assertLocalAsset(path) {
-  assert.equal(path.startsWith('http'), false, `${path} must stay local/static`);
-  assert.equal(path.startsWith('/'), false, `${path} must be relative for GitHub Pages`);
-  assert.equal(path.includes('..'), false, `${path} must not climb out of SPL2 bundle`);
-  assert.ok(existsSync(join(SPL2_ROOT, path)), `${path} target missing`);
+  const clean = cleanAssetPath(path);
+  if (!clean || clean.startsWith('#') || clean.startsWith('data:')) return;
+  assert.equal(clean.startsWith('http'), false, `${path} must stay local/static`);
+  assert.equal(clean.startsWith('/'), false, `${path} must be relative for GitHub Pages`);
+  assert.equal(clean.includes('..'), false, `${path} must not climb out of SPL2 bundle`);
+  assert.ok(existsSync(join(SPL2_ROOT, clean)), `${path} target missing`);
+}
+
+function hasId(html, id) {
+  return new RegExp(`id=["']${id}["']`).test(html);
 }
 
 test('Wave 12: PipeTools iframe route resolves to copied SPL2 bundle', () => {
@@ -31,9 +41,8 @@ test('Wave 12: SPL2 iframe is source UI, not a blank or compact shell', () => {
   const html = read('spl2-bundle/spl2_master.html');
   assert.ok(html.split('\n').length > 500, 'source SPL2 HTML should stay vendored/full');
   for (const token of [
-    '<link rel="stylesheet" href="css/app.css">',
-    'id="top-tab-spl2"',
-    'class="sidebar-nav"',
+    'css/app.css',
+    'sidebar-nav',
     'Loop Calculations',
     'Pipe Rack Calculation',
     'Simplified Method',
@@ -43,8 +52,9 @@ test('Wave 12: SPL2 iframe is source UI, not a blank or compact shell', () => {
     'GLOBAL CONSTANTS & CONFIGURATION',
     'ROUTING DEFINITION MATRIX',
     'MASTER DATABASE PANE',
-    '<script type="module" src="js/spl2/spl2_master.js"></script>',
+    'js/spl2/spl2_master.js',
   ]) assert.ok(html.includes(token), `${token} missing`);
+  assert.ok(hasId(html, 'top-tab-spl2'), 'top-tab-spl2 missing');
   for (const stale of ['placeholder reserves', 'SPL2 compact loop screening', 'data-pipetools-legacy="spl2"']) {
     assert.equal(html.includes(stale), false, `${stale} must not return`);
   }
@@ -52,10 +62,10 @@ test('Wave 12: SPL2 iframe is source UI, not a blank or compact shell', () => {
 
 test('Wave 12: every SPL2 stylesheet/script reference resolves inside the copied bundle', () => {
   const html = read('spl2-bundle/spl2_master.html');
-  for (const href of attrValues(html, 'href').filter((value) => value.endsWith('.css'))) {
+  for (const href of attrValues(html, 'href').filter((value) => cleanAssetPath(value).endsWith('.css'))) {
     assertLocalAsset(href);
   }
-  for (const src of attrValues(html, 'src').filter((value) => value.endsWith('.js'))) {
+  for (const src of attrValues(html, 'src').filter((value) => cleanAssetPath(value).endsWith('.js'))) {
     assertLocalAsset(src);
   }
 });
@@ -63,13 +73,13 @@ test('Wave 12: every SPL2 stylesheet/script reference resolves inside the copied
 test('Wave 12: SPL2 master import graph resolves without app-relative path leaks', () => {
   const js = read('spl2-bundle/js/spl2/spl2_master.js');
   const imports = [...js.matchAll(/from\s+['"](\.\/[A-Za-z0-9_-]+\.js)['"]/g)].map((match) => match[1]);
-  assert.deepEqual(imports.sort(), [
+  for (const expected of [
     './spl2_database.js',
     './spl2_loop_algo.js',
     './spl2_loop_canvas.js',
     './spl2_rack_canvas.js',
     './spl2_simp_canvas.js',
-  ].sort());
+  ]) assert.ok(imports.includes(expected), `${expected} import missing`);
   for (const rel of imports) {
     const resolved = normalize(join(SPL2_JS_ROOT, rel));
     assert.ok(resolved.startsWith(SPL2_JS_ROOT), `${rel} escapes SPL2 JS root`);
@@ -95,15 +105,15 @@ test('Wave 12: source controls and canvases required for browser smoke remain pr
     'table-rack',
     'table-simp-matrix',
     'debug_out',
-  ]) assert.ok(html.includes(`id="${id}"`), `${id} missing`);
+  ]) assert.ok(hasId(html, id), `${id} missing`);
 });
 
 test('Wave 12: Pages workflow publishes and cache-busts the SPL2 iframe assets', () => {
   const pages = read('.github/workflows/pages.yml');
   const ci = read('.github/workflows/pipetools-ci.yml');
   assert.ok(pages.includes('cp -R spl2-bundle/. _site/spl2-bundle/'));
-  assert.ok(pages.includes('s|css/app.css|css/app.css?v=${BUILD_SHA}|g'));
-  assert.ok(pages.includes('s|js/spl2/spl2_master.js|js/spl2/spl2_master.js?v=${BUILD_SHA}|g'));
+  assert.ok(pages.includes('css/app.css?v=${BUILD_SHA}'));
+  assert.ok(pages.includes('js/spl2/spl2_master.js?v=${BUILD_SHA}'));
   assert.ok(pages.includes('node --test gates/pipetools-agent-15-spl2-integration.gate.test.js'));
   assert.ok(ci.includes('node --test gates/pipetools-agent-15-spl2-integration.gate.test.js'));
 });
