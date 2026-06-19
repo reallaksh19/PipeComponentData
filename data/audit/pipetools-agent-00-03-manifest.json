@@ -4,7 +4,8 @@
   "agents": ["Agent 00", "Agent 01", "Agent 02", "Agent 03"],
   "maxNewModuleLines": 200,
   "vendorSourceLineLimitExemptions": [
-    "spl2-bundle/spl2_master.html"
+    "spl2-bundle/spl2_master.html",
+    "pipetools/vendor/pipespec-svg/svg-engine.js"
   ],
   "pagesArtifact": {
     "sourceRoot": "pipetools",
