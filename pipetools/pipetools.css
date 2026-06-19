@@ -52,6 +52,10 @@ tr.selected td { background: rgba(56,189,248,.12); }
 .warn { color: var(--amber); font-weight: 700; }
 .inspector-body { padding: 14px; display: grid; gap: 12px; }
 .svg-card { border: 1px solid var(--line); border-radius: 16px; background: #07111f; padding: 10px; }
+.source-svg-card { display: grid; gap: 8px; background: #f8fafc; color: #0f172a; }
+.source-svg-label { color: #0369a1; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; font-weight: 800; }
+.svg-loading, .svg-unavailable { color: var(--muted); border: 1px dashed var(--line); border-radius: 12px; padding: 14px; text-align: center; }
+.source-svg-card .svg-loading, .source-svg-card .svg-unavailable { color: #475569; border-color: #cbd5e1; background: #fff; }
 .kv { display: grid; grid-template-columns: 1fr auto; gap: 8px; border-bottom: 1px dashed var(--line); padding: 7px 0; }
 .kv span:first-child { color: var(--muted); }
 .input-grid { display: grid; grid-template-columns: repeat(4, minmax(120px, 1fr)); gap: 8px; width: 100%; }
