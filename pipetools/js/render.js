@@ -1,14 +1,26 @@
 import { COMPONENTS, DISABLED_MODULES } from './data.js';
 import { renderDbCoverageStrip } from './db/dbCoverage.js';
+import { getDashboardCounts } from './pipespecFilters.js';
 import { renderPipeSpecInspector } from './pipespecInspector.js';
 import { bindPipeSpecDetailActions } from './pipespecDetailActions.js';
 import { iconSvg, pipeSpanSvg } from './svg.js';
 import { mountPipeSpecSvg } from './svg/pipeSpecSvgEngine.js';
 import { renderPipeSpanInputs, renderPipeSpanMain } from './pipeSpan/ui.js';
 
-const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const fmt = (value, suffix = '') => value == null || value === '' ? '—' : `${value}${suffix}`;
 const disabledModules = new Set(DISABLED_MODULES);
+
+const TABLE_COLUMNS = {
+  PIPE: ['npsDn', 'schedule', 'od', 'thickness', 'material', 'standard', 'dataStatus', 'source'],
+  VALVE: ['valveType', 'endType', 'facing', 'npsDn', 'classRating', 'f2f', 'height', 'weight', 'source', 'dataStatus'],
+  FLANGE: ['subtype', 'facing', 'npsDn', 'classRating', 'flangeOd', 'thickness', 'weight', 'source', 'dataStatus'],
+  FITTING: ['subtype', 'npsDn', 'schedule', 'centerToEnd', 'developedLength', 'weight', 'source', 'dataStatus'],
+  GASKET: ['subtype', 'facing', 'npsDn', 'classRating', 'outerDia', 'innerDia', 'thickness', 'source', 'dataStatus'],
+  SUPPORT: ['supportKind', 'attachmentRule', 'standard', 'source', 'dataStatus'],
+  REDUCER: ['reducerType', 'largeNps', 'smallNps', 'largeSchedule', 'centerToEnd', 'source', 'dataStatus'],
+  OLET: ['oletType', 'npsDn', 'schedule', 'branchNps', 'source', 'dataStatus'],
+};
 
 export function renderTabs(state, onSelect) {
   const host = document.getElementById('module-tabs');
@@ -27,8 +39,8 @@ export function renderDashboards(state, actions) {
   if (state.activeModule === '2D Bundle Calc') return renderBundleInfo(host);
   const family = currentFamily(state);
   const coverage = renderDbCoverageStrip(state.dbIndex);
-  const components = families(state).map((item) => card(item.family, item.label, `${item.rowCount ?? 0}`, state.filters.component === item.family, 'component')).join('');
-  const subtypes = family?.subtypes?.length ? strip(subtypeTitle(family.family), family.subtypes.map((type) => subtypeChip(type, prettyType(type), state.filters.subtype === type)).join(''), 'subtype-strip') : '';
+  const components = families(state).map((item) => card(item.family, item.label, item.rowCount ?? 0, state.filters.component === item.family, 'component', item.svgSupported)).join('');
+  const subtypes = family?.subtypes?.length ? strip(subtypeTitle(family.family), family.subtypes.map((type) => subtypeChip(type, `${prettyType(type)} ${countFor(state, 'subtypes', type)}`, state.filters.subtype === type)).join(''), 'subtype-strip') : '';
   // Legacy Agent 21 marker for rebased complete-index gate: ${coverage}${dbIndexStrip
   host.innerHTML = `${searchStrip(state)}${coverage}${strip('Components', components, 'component-strip')}${subtypes}${configStrip(state, family)}`;
   host.querySelectorAll('[data-card]').forEach((button) => {
@@ -54,11 +66,13 @@ function searchStrip(state) {
 function configStrip(state, family) {
   const fields = [['End', 'endType'], ['Facing', 'facing'], ['Class', 'classRating'], ['Schedule', 'schedule'], ['Size', 'nps']]
     .filter(([, key]) => family?.availableFilters?.includes(key));
-  const html = fields.map(([label, key]) => filterGroup(label, key, fieldValues(state.allRows, key), state.filters[key])).join('');
+  const html = fields.map(([label, key]) => filterGroup(state, label, key)).join('');
   return html ? `<section class="strip filter-strip"><div class="strip-title">Filters</div><div class="segment-row">${html}</div></section>` : '';
 }
 
-function filterGroup(label, key, values, selected) {
+function filterGroup(state, label, key) {
+  const selected = state.filters[key];
+  const values = fieldValues(state.allRows, key);
   const all = `<button class="seg-btn ${!selected ? 'active' : ''}" data-group="${key}" data-card="">All</button>`;
   const buttons = values.map((value) => `<button class="seg-btn ${String(selected) === String(value) ? 'active' : ''}" data-group="${key}" data-card="${esc(value)}">${esc(displayValue(key, value))}</button>`).join('');
   return `<span class="segment-label">${label}</span>${all}${buttons}`;
@@ -68,8 +82,9 @@ function strip(title, html, className = '') {
   return `<section class="strip ${esc(className)}"><div class="strip-title">${title}</div><div class="card-row">${html}</div></section>`;
 }
 
-function card(key, label, count, active, group) {
-  return `<button class="card-btn ${active ? 'active' : ''}" data-group="${group}" data-card="${esc(key)}">${iconSvg(key)}<strong>${esc(label)}</strong><small>${esc(count)}</small></button>`;
+function card(key, label, count, active, group, svgSupported = true) {
+  const badge = svgSupported ? '' : '<em class="partial-dot" title="SVG pending"></em>';
+  return `<button class="card-btn ${active ? 'active' : ''}" data-group="${group}" data-card="${esc(key)}">${iconSvg(key)}<strong>${esc(label)}${badge}</strong><small>${esc(count)}</small></button>`;
 }
 
 function subtypeChip(key, label, active) {
@@ -88,7 +103,7 @@ function renderPipeSpecTable(state, actions) {
   const sourceLabel = family ? (family.repositoryPaths ?? [family.repositoryPath]).filter(Boolean).join(' + ') : 'Dashboard-filtered component data';
   document.getElementById('table-title').textContent = family ? `${family.label} DB` : 'PipeSpec DB';
   document.getElementById('table-kicker').textContent = family ? `${sourceLabel} · ${family.standard}` : sourceLabel;
-  document.getElementById('table-count').textContent = `${state.rows.length} rows`;
+  document.getElementById('table-count').innerHTML = `${state.rows.length} rows <span class="table-tool">Columns</span><span class="table-tool">Compact</span>`;
   document.getElementById('table-frame').innerHTML = `<table><thead><tr>${fields.map((field) => `<th>${esc(fieldLabel(field))}</th>`).join('')}</tr></thead><tbody>${state.rows.map((row) => rowHtml(row, fields, state.selectedId)).join('')}</tbody></table>`;
   document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));
   document.getElementById('inspector-body').innerHTML = renderPipeSpecInspector(state.selectedRow);
@@ -101,7 +116,7 @@ function mountInspectorSvg(row) {
   if (!host || !row) return;
   const rowId = String(row.id ?? '');
   host.dataset.rowId = rowId;
-  mountPipeSpecSvg(row, host, { width: 390, height: 262 }).catch((error) => {
+  mountPipeSpecSvg(row, host, { width: 560, height: 380 }).catch((error) => {
     if (host.dataset.rowId === rowId) host.innerHTML = `<div class="svg-unavailable">Source SVG failed: ${esc(error.message)}</div>`;
   });
 }
@@ -126,17 +141,44 @@ function families(state) {
 }
 
 function tableFields(family) {
-  const keys = family?.keyFields?.length ? family.keyFields : ['componentType', 'subtype', 'nps', 'dn'];
-  return [...new Set([...keys, 'dataStatus', 'source'])].slice(0, 9);
+  return TABLE_COLUMNS[family?.family] ?? [...new Set([...(family?.keyFields ?? ['componentType', 'subtype', 'nps', 'dn']), 'dataStatus', 'source'])].slice(0, 9);
 }
 
 function cellValue(row, field) {
+  const d = row.dimensions ?? {}, w = row.weights ?? {};
   if (field === 'subtype') return subtypeOf(row);
   if (field === 'valveType') return row.valveType ?? subtypeOf(row);
-  if (field === 'classRating') return row.classRating ? `CL ${row.classRating}` : '—';
+  if (field === 'classRating') return row.classRating ? `CL ${String(row.classRating).replace(/^CL\s*/i, '')}` : '—';
   if (field === 'componentType') return row.componentType ?? row.component ?? '—';
+  if (field === 'npsDn') return `NPS ${displayNps(row.nps ?? row.largeNps ?? '—')} / DN ${row.dn ?? '—'}`;
   if (field === 'source') return shortSource(row.source);
+  if (field === 'f2f') return dim(row.faceToFaceMm ?? d.faceToFaceRfMm ?? d.faceToFaceMm);
+  if (field === 'height') return dim(row.heightMm ?? d.heightMm);
+  if (field === 'weight') return weight(row.weightKg ?? w.weightKg ?? w.rfRtjKg ?? w.weightKgPerM);
+  if (field === 'od' || field === 'flangeOd' || field === 'outerDia') return dim(row.odMm ?? row.flangeOdMm ?? row.outerDiaMm ?? d.odMm ?? d.flangeOdMm ?? d.outerDiaMm);
+  if (field === 'innerDia') return dim(row.innerDiaMm ?? d.innerDiaMm);
+  if (field === 'thickness') return dim(row.thicknessMm ?? row.wallMm ?? row.flangeThicknessMm ?? d.thicknessMm ?? d.wallMm ?? d.flangeThicknessMm);
+  if (field === 'centerToEnd') return dim(row.centerToEndMm ?? row.ctrToEndMm ?? d.centerToEndMm);
+  if (field === 'developedLength') return dim(row.developedLengthMm ?? row.devLenMm ?? d.developedLengthMm);
+  if (field === 'material') return row.materialFamily ?? row.material ?? '—';
+  if (field === 'largeNps' || field === 'smallNps') return displayNps(row[field]);
+  if (field === 'schedule') return row.schedule ?? row.largeSchedule ?? row.scheduleOrRating ?? '—';
+  if (field === 'branchNps') return displayNps(row.branchNps ?? row.smallNps ?? '—');
   return fmt(row[field]);
+}
+
+function countFor(state, bucket, key) {
+  return getDashboardCounts(state.allRows, state.filters)[bucket]?.[key] ?? '';
+}
+
+function dim(value) {
+  const v = value && typeof value === 'object' && 'value' in value ? value.value : value;
+  return v == null || v === '' ? '—' : `${v} mm`;
+}
+
+function weight(value) {
+  const v = value && typeof value === 'object' && 'value' in value ? value.value : value;
+  return v == null || v === '' ? '—' : `${v} kg`;
 }
 
 function fieldValues(rows, key) {
@@ -157,8 +199,12 @@ function subtypeOf(row) {
 
 function displayValue(key, value) {
   if (key === 'classRating') return `CL ${value}`;
-  if (key === 'nps') return `NPS ${value}`;
+  if (key === 'nps') return displayNps(value);
   return prettyType(value);
+}
+
+function displayNps(value) {
+  return String(value ?? '—').replace(/^0\+/, '').replaceAll('+', ' ');
 }
 
 function prettyType(value) {
@@ -166,7 +212,7 @@ function prettyType(value) {
 }
 
 function fieldLabel(field) {
-  return ({ nps: 'NPS', dn: 'DN', classRating: 'Class', endType: 'End', dataStatus: 'Status', componentType: 'Component' }[field]) ?? prettyType(field);
+  return ({ npsDn: 'NPS / DN', f2f: 'F2F', od: 'OD', flangeOd: 'O.D.', centerToEnd: 'C-E', developedLength: 'Dev. Len', largeNps: 'Large NPS', smallNps: 'Small NPS', branchNps: 'Branch NPS', classRating: 'Class', endType: 'End', dataStatus: 'Status', componentType: 'Component', largeSchedule: 'Large Sch.' }[field]) ?? prettyType(field);
 }
 
 function subtypeTitle(family) {
