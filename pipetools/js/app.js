@@ -6,6 +6,7 @@ import { actionFromFilterKey, createInitialPipeSpecState, reducePipeSpecState } 
 import { renderDashboards, renderMain, renderTabs } from './render.js';
 
 const DATA_ROOT = '..';
+const renderGuard = { active: false, queued: false, burst: 0 };
 let pipeSpecState = createInitialPipeSpecState({
   filters: { component: 'VALVE', subtype: 'GATE', endType: 'FLANGED', facing: 'RF', classRating: '150' },
 });
@@ -24,37 +25,41 @@ const state = {
 
 const actions = {
   setModule(name) {
+    if (!name || state.activeModule === name) return;
     state.activeModule = name;
     pipeSpecState = reducePipeSpecState(pipeSpecState, { type: 'SELECT_ROW', value: null });
     syncStateFromPipeSpec();
-    render();
+    requestRender();
   },
   setFilter(key, value) {
+    const before = JSON.stringify(pipeSpecState.filters);
     pipeSpecState = reducePipeSpecState(pipeSpecState, actionFromFilterKey(key, value));
+    if (JSON.stringify(pipeSpecState.filters) === before && !pipeSpecState.selectedRowId) return;
     state.search = null;
     applyFilters();
-    render();
+    requestRender();
   },
   selectRow(id) {
+    if (pipeSpecState.selectedRowId === id) return;
     pipeSpecState = reducePipeSpecState(pipeSpecState, { type: 'SELECT_ROW', value: id });
     syncStateFromPipeSpec();
-    render();
+    requestRender();
   },
   updateSpanInput(next) {
-    state.spanInput = { ...state.spanInput, ...next };
-    render();
+    const merged = { ...state.spanInput, ...next };
+    if (JSON.stringify(merged) === JSON.stringify(state.spanInput)) return;
+    state.spanInput = merged;
+    requestRender();
   },
 };
 
-start().catch((error) => {
-  document.body.innerHTML = `<main class="panel" style="margin:20px;padding:20px">PipeTools failed to load: ${error.message}</main>`;
-});
+start().catch((error) => showFatal(error));
 
 async function start() {
   state.allRows = await loadInitialRows();
   applyFilters();
   bindSearch();
-  render();
+  requestRender();
 }
 
 async function loadInitialRows() {
@@ -91,12 +96,44 @@ function bindSearch() {
     state.activeModule = 'PipeSpec DB';
     pipeSpecState = applySearchResultToState(pipeSpecState, searchResult);
     applyFilters();
-    render();
+    requestRender();
   });
 }
 
+function requestRender() {
+  if (renderGuard.active) {
+    renderGuard.queued = true;
+    return;
+  }
+  render();
+}
+
 function render() {
-  renderTabs(state, actions.setModule);
-  renderDashboards(state, actions);
-  renderMain(state, actions);
+  if (renderGuard.active) {
+    renderGuard.queued = true;
+    return;
+  }
+  renderGuard.active = true;
+  try {
+    renderTabs(state, actions.setModule);
+    renderDashboards(state, actions);
+    renderMain(state, actions);
+  } catch (error) {
+    showFatal(error);
+  } finally {
+    renderGuard.active = false;
+    if (renderGuard.queued && renderGuard.burst < 2) {
+      renderGuard.queued = false;
+      renderGuard.burst += 1;
+      queueMicrotask(requestRender);
+    } else {
+      renderGuard.queued = false;
+      renderGuard.burst = 0;
+    }
+  }
+}
+
+function showFatal(error) {
+  const message = error?.message ?? String(error);
+  document.body.innerHTML = `<main class="panel" style="margin:20px;padding:20px">PipeTools failed to load: ${message}</main>`;
 }
