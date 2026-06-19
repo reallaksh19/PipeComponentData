@@ -23,8 +23,8 @@ const COLUMNS = Object.freeze([
   ['Average Span LC Peng<br>Defl m', (r) => num(r.lcPengDeflectionM, 1)],
   ['Average Span LC Peng<br>Stress m', (r) => num(r.lcPengStressM, 1)],
   ['Least of All<br>Span m', (r) => num(r.leastOfAllM, 1)], ['FEED<br>Span', (r) => num(r.feedSpanM, 2)],
-  ['QMS<br>Span', (r) => num(r.qmsSpanM, 2)], ['QMS<br>Rack Span', (r) => num(r.qmsRackSpanM, 2)],
-  ['QMS Vs<br>Least', (r) => pct(r.qmsVsLeastPct)], ['FEED Vs<br>Least', (r) => pct(r.feedVsLeastPct)],
+  ['Ref.<br>Span', (r) => num(r.qmsSpanM, 2)], ['Ref.<br>Rack Span', (r) => num(r.qmsRackSpanM, 2)],
+  ['Ref. Vs<br>Least', (r) => pct(r.qmsVsLeastPct)], ['FEED Vs<br>Least', (r) => pct(r.feedVsLeastPct)],
   ['FEED Vs<br>BS-Cont. Beam', (r) => pct(r.feedVsBsContBeamPct)],
 ]);
 
