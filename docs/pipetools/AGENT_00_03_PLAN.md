@@ -35,7 +35,7 @@ Reusable UI is implemented as static app primitives:
 - inspector panel
 - SVG preview cards
 
-Every new source module is kept below 200 lines.
+Every new PipeTools native source module is kept below the relaxed 300-line gate.
 
 ## Agent 02 — App Shell and Pages
 
