@@ -72,7 +72,8 @@ test('Wave 12: source controls and canvases required for browser smoke remain pr
     'loop_btn_run',
     'rack_btn_run',
     'simp_btn_run',
-    'table-rack',
+    'table-rack-matrix',
+    'table-rack-output',
     'debug_out',
   ]) assert.ok(hasId(html, id), `${id} missing`);
 });
