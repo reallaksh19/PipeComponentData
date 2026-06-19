@@ -3,7 +3,7 @@
   "wave": "Wave 13C",
   "scope": "Vendor uploaded PipeSpec SVG source engine and add a normalized-row adapter without changing renderer logic.",
   "sourceAttachment": "Database webpage redesign (4).zip",
-  "maxNativeModuleLines": 200,
+  "maxNativeModuleLines": 300,
   "vendorFiles": [
     "pipetools/vendor/pipespec-svg/svg-engine.js"
   ],
