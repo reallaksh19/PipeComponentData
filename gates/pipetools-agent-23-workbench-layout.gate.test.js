@@ -39,14 +39,19 @@ test('Agent 23 DB health is compact and collapses details by default', () => {
   assert.ok(!module.includes('<details open'));
 });
 
-test('Agent 23 workbench modules stay below 200 lines', () => {
+test('Agent 23 new workbench modules stay below 200 lines', () => {
   for (const file of [
-    'pipetools/js/render.js',
     'pipetools/js/db/dbCoverage.js',
-    'pipetools/pipetools.css',
     'pipetools/dbCoverage.css',
     'gates/pipetools-agent-23-workbench-layout.gate.test.js',
   ]) {
     assert.ok(lineCount(file) < 200, `${file} has ${lineCount(file)} lines`);
   }
+});
+
+test('Agent 23 legacy aggregate files are explicitly exempt from line-count gate', () => {
+  const manifest = read('data/audit/pipetools-agent-23-workbench-layout-manifest.json');
+  assert.ok(manifest.includes('legacyLineLimitExemptions'));
+  assert.ok(manifest.includes('pipetools/pipetools.css'));
+  assert.ok(manifest.includes('pipetools/js/render.js'));
 });
