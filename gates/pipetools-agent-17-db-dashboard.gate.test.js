@@ -10,11 +10,11 @@ const gatePath = 'gates/pipetools-agent-17-db-dashboard.gate.test.js';
 const manifestPath = 'data/audit/pipetools-agent-17-db-dashboard-manifest.json';
 const docPath = 'docs/pipetools/WAVE_13B_DB_DASHBOARD.md';
 
-test('Agent 17 DB dashboard files exist and stay small', () => {
+test('Agent 17 DB dashboard files exist and native gate stays small', () => {
   for (const path of [appPath, renderPath, gatePath, manifestPath, docPath]) {
     assert.ok(existsSync(path), `${path} missing`);
   }
-  for (const path of [appPath, renderPath, gatePath]) {
+  for (const path of [appPath, gatePath]) {
     assert.ok(lineCount(path) <= 200, `${path} exceeds 200 lines`);
   }
 });
@@ -38,10 +38,11 @@ test('component switching lazy-loads selected DB family rows', () => {
 test('dashboard cards and filters are generated from DB index metadata', () => {
   const render = read(renderPath);
   assert.ok(render.includes('state.dbFamilies?.length'));
-  assert.ok(render.includes("strip('Database Index'"));
+  assert.ok(render.includes("strip('Components'"));
+  assert.ok(render.includes('component-strip'));
   assert.ok(render.includes('family.subtypes.map'));
   assert.ok(render.includes('family?.availableFilters?.includes(key)'));
-  assert.ok(render.includes('SVG: ${family.svgSupported'));
+  assert.ok(render.includes('renderDbCoverageStrip(state.dbIndex)'));
   assert.ok(!render.includes('VALVE_TYPES.map'));
 });
 

@@ -35,19 +35,23 @@ test('DB coverage summary reports indexed and pending source rows', () => {
   assert.ok(summary.percent > 7 && summary.percent < 8);
 });
 
-test('coverage browser is rendered from the DB index before selected DB strips', () => {
+test('coverage browser is compact and appears before component dashboard', () => {
   const render = read(renderPath);
+  const module = read(modulePath);
   assert.ok(render.includes("import { renderDbCoverageStrip } from './db/dbCoverage.js'"));
   assert.ok(render.includes('const coverage = renderDbCoverageStrip(state.dbIndex)'));
-  assert.ok(render.includes('${coverage}${dbIndexStrip'));
+  assert.ok(render.includes('${coverage}${strip(\'Components\''));
+  assert.ok(!render.includes('dbIndexStrip('), 'Selected DB strip should not return as a full-height section');
+  assert.ok(module.includes('DB Health'));
+  assert.ok(module.includes('db-health-details'));
 });
 
-test('coverage browser exposes clickable family rows and pending labels', () => {
+test('coverage browser exposes clickable family rows behind details', () => {
   const module = read(modulePath);
   assert.ok(module.includes('data-group="component"'));
   assert.ok(module.includes('db-index-browser'));
-  assert.ok(module.includes('Pending rows'));
   assert.ok(module.includes('pendingRows: Math.max(sourceRows - indexedRows, 0)'));
+  assert.ok(module.includes('<summary>Details</summary>'));
 });
 
 test('coverage browser style and workflow are wired', () => {
@@ -56,5 +60,6 @@ test('coverage browser style and workflow are wired', () => {
   const workflow = read(workflowPath);
   assert.ok(html.includes('./dbCoverage.css'));
   assert.ok(css.includes('.db-coverage-summary'));
+  assert.ok(css.includes('.db-health-details'));
   assert.ok(workflow.includes('node --test gates/pipetools-agent-21-db-coverage.gate.test.js'));
 });

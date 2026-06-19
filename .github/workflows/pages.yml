@@ -58,6 +58,9 @@ jobs:
           node --test gates/pipetools-agent-17-db-dashboard.gate.test.js
           node --test gates/pipetools-agent-18-svg-engine.gate.test.js
           node --test gates/pipetools-agent-19-svg-detail-routing.gate.test.js
+          node --test gates/pipetools-agent-20-svg-detail-actions.gate.test.js
+          node --test gates/pipetools-agent-21-db-coverage.gate.test.js
+          node --test gates/pipetools-agent-23-workbench-layout.gate.test.js
 
       - name: Prepare static Pages artifact
         shell: bash
@@ -112,6 +115,7 @@ jobs:
           test -f _site/data/audit/pipetools-agent-17-db-dashboard-manifest.json
           test -f _site/data/audit/pipetools-agent-18-svg-engine-manifest.json
           test -f _site/data/audit/pipetools-agent-19-svg-detail-routing-manifest.json
+          test -f _site/data/audit/pipetools-agent-23-workbench-layout-manifest.json
           test -f _site/data/exports/db-export-manifest.json
           test -f _site/data/exports/public-export-pack.manifest.json
           test -f _site/data/normalized/valves.json

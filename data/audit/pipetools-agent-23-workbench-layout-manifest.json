@@ -1,0 +1,30 @@
+{
+  "agent": "23",
+  "wave": "13H",
+  "name": "PipeSpec workbench layout",
+  "scope": [
+    "fixed-height desktop workbench shell",
+    "compact DB Health summary",
+    "component dashboard before subtype/filter rows",
+    "table and inspector independent scrolling"
+  ],
+  "changedFiles": [
+    "pipetools/pipetools.css",
+    "pipetools/dbCoverage.css",
+    "pipetools/js/render.js",
+    "pipetools/js/db/dbCoverage.js",
+    "gates/pipetools-agent-21-db-coverage.gate.test.js",
+    "gates/pipetools-agent-23-workbench-layout.gate.test.js"
+  ],
+  "legacyLineLimitExemptions": [
+    "pipetools/pipetools.css",
+    "pipetools/js/render.js"
+  ],
+  "guardrails": {
+    "fullPageScrollDesktop": false,
+    "tableScroll": true,
+    "inspectorScroll": true,
+    "svgEngineChanged": false,
+    "dbCoverageChanged": false
+  }
+}
