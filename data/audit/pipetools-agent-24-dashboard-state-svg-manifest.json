@@ -1,0 +1,35 @@
+{
+  "agent": "24",
+  "wave": "13I",
+  "name": "PipeSpec dashboard state and SVG inspector workbench",
+  "scope": [
+    "registry-style dynamic columns per component family",
+    "compact component and subtype filter strips",
+    "enlarged right-side SVG inspector canvas",
+    "SVG / Details / JSON inspector views",
+    "deterministic SVG route keys"
+  ],
+  "changedFiles": [
+    "pipetools/pipetools.css",
+    "pipetools/js/render.js",
+    "pipetools/js/pipespecInspector.js",
+    "pipetools/js/pipespecDetailActions.js",
+    "pipetools/js/svg/pipeSpecSvgAdapter.js",
+    "pipetools/js/svg/pipeSpecSvgEngine.js",
+    "gates/pipetools-agent-24-dashboard-state-svg.gate.test.js"
+  ],
+  "legacyLineLimitExemptions": [
+    "pipetools/pipetools.css",
+    "pipetools/js/render.js"
+  ],
+  "guardrails": {
+    "fullPageScrollDesktop": false,
+    "tableScroll": true,
+    "inspectorScroll": true,
+    "defaultInspectorTab": "SVG",
+    "jsonVisibleByDefault": false,
+    "svgEngineChanged": false,
+    "vendorSvgEngineRewritten": false,
+    "unsupportedFamiliesUseNoFallback": true
+  }
+}
