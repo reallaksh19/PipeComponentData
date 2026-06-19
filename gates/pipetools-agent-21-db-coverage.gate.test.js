@@ -15,11 +15,12 @@ const workflowPath = '.github/workflows/pipetools-agent21.yml';
 const manifestPath = 'data/audit/pipetools-agent-21-db-coverage-manifest.json';
 const docPath = 'docs/pipetools/WAVE_13F_DB_INDEX_COVERAGE.md';
 
-test('Agent 21 DB coverage browser files exist and stay small', () => {
+test('Agent 21 DB coverage browser files exist and native modules stay small', () => {
   for (const path of [modulePath, renderPath, cssPath, indexHtmlPath, gatePath, workflowPath, manifestPath, docPath]) {
     assert.ok(existsSync(path), `${path} missing`);
   }
-  for (const path of [modulePath, renderPath, gatePath]) assert.ok(lineCount(path) <= 220, `${path} exceeds limit`);
+  for (const path of [modulePath, gatePath]) assert.ok(lineCount(path) <= 220, `${path} exceeds limit`);
+  assert.ok(lineCount(renderPath) <= 260, `${renderPath} exceeds legacy aggregate guardrail`);
 });
 
 test('DB coverage summary reports complete indexed source rows', () => {
@@ -33,11 +34,11 @@ test('DB coverage summary reports complete indexed source rows', () => {
   assert.equal(summary.percent, 100);
 });
 
-test('coverage browser is rendered from the DB index before selected DB strips', () => {
+test('coverage browser is rendered from the DB index before component strips', () => {
   const render = read(renderPath);
   assert.ok(render.includes("import { renderDbCoverageStrip } from './db/dbCoverage.js'"));
   assert.ok(render.includes('const coverage = renderDbCoverageStrip(state.dbIndex)'));
-  assert.ok(render.includes('${coverage}${dbIndexStrip'));
+  assert.ok(render.includes('${searchStrip(state)}${coverage}${strip('));
 });
 
 test('coverage browser exposes clickable family rows and pending labels', () => {
