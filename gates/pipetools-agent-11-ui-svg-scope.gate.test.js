@@ -11,9 +11,19 @@ test('Agent 11 files stay compact', () => {
   for (const file of files) assert.ok(text(file).split('\n').length <= 200, file);
 });
 
-test('disabled future modules and scoped inspector patch are wired', () => {
+test('disabled future modules render stable without polling patch', () => {
+  const render = text('pipetools/js/render.js');
+  const scope = text('pipetools/js/uiScopePatch.js');
+  const app = text('pipetools/js/app.js');
   assert.ok(text('pipetools/js/data.js').includes('DISABLED_MODULES'));
-  assert.ok(text('pipetools/js/uiScopePatch.js').includes('PipeSpec DB'));
+  assert.ok(render.includes('DISABLED_MODULES'));
+  assert.ok(render.includes('button:not(:disabled)'));
+  assert.ok(render.includes('aria-disabled="true"'));
+  assert.ok(render.includes('disabledModules.has(name)'));
+  assert.ok(app.includes('disabledModules.has(name)'));
+  assert.ok(app.includes('updateUiScope();'));
+  assert.ok(scope.includes('PipeSpec DB'));
+  assert.ok(!scope.includes('setInterval'));
   assert.ok(text('pipetools/index.html').includes('uiScopePatch.js'));
 });
 
