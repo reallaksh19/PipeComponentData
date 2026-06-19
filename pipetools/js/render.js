@@ -1,4 +1,5 @@
 import { COMPONENTS, DISABLED_MODULES } from './data.js';
+import { renderDbCoverageStrip } from './db/dbCoverage.js';
 import { renderPipeSpecInspector } from './pipespecInspector.js';
 import { bindPipeSpecDetailActions } from './pipespecDetailActions.js';
 import { iconSvg, pipeSpanSvg } from './svg.js';
@@ -25,9 +26,10 @@ export function renderDashboards(state, actions) {
   if (state.activeModule === 'Pipe Span') return renderPipeSpanInputs(host, state, actions);
   if (state.activeModule === '2D Bundle Calc') return renderBundleInfo(host);
   const family = currentFamily(state);
+  const coverage = renderDbCoverageStrip(state.dbIndex);
   const components = families(state).map((item) => card(item.family, item.label, `${item.rowCount ?? 0}`, state.filters.component === item.family, 'component')).join('');
   const subtypes = family?.subtypes?.length ? strip(subtypeTitle(family.family), family.subtypes.map((type) => card(type, prettyType(type), '', state.filters.subtype === type, 'subtype')).join('')) : '';
-  host.innerHTML = `${searchStrip(state)}${dbIndexStrip(family, state)}${strip('Database Index', components)}${subtypes}${configStrip(state, family)}`;
+  host.innerHTML = `${searchStrip(state)}${coverage}${dbIndexStrip(family, state)}${strip('Database Index', components)}${subtypes}${configStrip(state, family)}`;
   host.querySelectorAll('[data-card]').forEach((button) => {
     button.addEventListener('click', () => actions.setFilter(button.dataset.group, button.dataset.card));
   });
