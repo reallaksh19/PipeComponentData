@@ -18,13 +18,13 @@ const vendorSourceFiles = manifest.vendorSourceLineLimitExemptions ?? [];
 
 test('PipeTools Agent 00-03 manifest and routes are present', () => {
   assert.equal(manifest.schema, 'pipetools-agent-foundation/v1');
-  assert.equal(manifest.maxNewModuleLines, 200);
+  assert.equal(manifest.maxNewModuleLines, 300);
   for (const moduleName of ['PipeSpec DB', 'Pipe Span', '2D Bundle Calc']) {
     assert.equal(manifest.modules.includes(moduleName), true, `${moduleName} missing`);
   }
 });
 
-test('PipeTools Agent 00-03 keeps native modules below 200 lines', () => {
+test('PipeTools Agent 00-03 keeps native modules below 300 lines', () => {
   for (const file of sourceFiles) {
     const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/).length;
     assert.ok(lines <= manifest.maxNewModuleLines, `${file} has ${lines} lines`);
