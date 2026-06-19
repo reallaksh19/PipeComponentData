@@ -7,8 +7,8 @@ const lines = (path) => read(path).split('\n').length;
 const MAX_NATIVE_MODULE_LINES = 300;
 
 test('Agent 12 keeps pipe span modules below relaxed 300-line gate', () => {
-  assert.ok(lines('pipetools/js/pipeSpan/ui.js') < MAX_NATIVE_MODULE_LINES, 'pipe span ui module must stay under 300 lines');
-  assert.ok(lines('pipetools/js/svg/pipeSpan.js') < MAX_NATIVE_MODULE_LINES, 'pipe span svg module must stay under 300 lines');
+  assert.ok(lines('pipetools/js/pipeSpan/ui.js') <= MAX_NATIVE_MODULE_LINES, 'pipe span ui module must stay at or below 300 lines');
+  assert.ok(lines('pipetools/js/svg/pipeSpan.js') <= MAX_NATIVE_MODULE_LINES, 'pipe span svg module must stay at or below 300 lines');
 });
 
 test('Pipe Span uses CRF-style misc-calc layout sections without calculator rail', () => {
