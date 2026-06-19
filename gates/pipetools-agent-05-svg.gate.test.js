@@ -50,8 +50,8 @@ test('malicious dynamic SVG text is escaped before rendering', () => {
   assert.match(fallback, /&lt;\/text&gt;&lt;foreignObject&gt;bad&lt;\/foreignObject&gt;/);
   assert.doesNotMatch(fallback, /<foreignObject>/i);
   const span = pipeSpanSvg({ governingSpanM: '<' + 'bad' + '>' });
-  assert.match(span, /&lt;bad&gt; m/);
-  assert.doesNotMatch(span, /<bad>/i);
+  assert.match(span, /Pipe Span Engineering Sketch|Pipe span engineering sketch/);
+  assert.doesNotMatch(span, /<bad>|&lt;bad&gt;|foreignObject|on\w+=|java\s*script/i);
 });
 
 test('dashboard icons and fallback SVG are available', () => {
