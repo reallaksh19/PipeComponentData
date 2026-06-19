@@ -3,15 +3,27 @@ import { existsSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
 const read = (path) => readFileSync(path, 'utf8');
-const lines = (path) => read(path).split('\n').length;
 
-test('SPL2 source-parity shell files exist', () => {
-  assert.ok(existsSync('spl2-bundle/css/app.css'));
-  assert.ok(existsSync('spl2-bundle/spl2_master.html'));
-  assert.ok(existsSync('spl2-bundle/js/spl2/spl2_master.js'));
+const sourceFiles = [
+  'spl2-bundle/spl2_master.html',
+  'spl2-bundle/css/app.css',
+  'spl2-bundle/js/spl2/spl2_master.js',
+  'spl2-bundle/js/spl2/spl2_database.js',
+  'spl2-bundle/js/spl2/spl2_loop_algo.js',
+  'spl2-bundle/js/spl2/spl2_canvas.js',
+  'spl2-bundle/js/spl2/spl2_loop_canvas.js',
+  'spl2-bundle/js/spl2/spl2_rack_canvas.js',
+  'spl2-bundle/js/spl2/spl2_simp_canvas.js',
+  'spl2-bundle/js/spl2/spl2_loop_logic.js',
+  'spl2-bundle/js/spl2/spl2_rack_logic.js',
+  'spl2-bundle/js/spl2/spl2_simp_logic.js',
+];
+
+test('SPL2 exact source files are vendored', () => {
+  for (const path of sourceFiles) assert.ok(existsSync(path), `${path} missing`);
 });
 
-test('SPL2 shell exposes upstream navigation and panes', () => {
+test('SPL2 master HTML preserves upstream UI and options', () => {
   const html = read('spl2-bundle/spl2_master.html');
   for (const term of [
     'Loop Calculations',
@@ -20,38 +32,31 @@ test('SPL2 shell exposes upstream navigation and panes', () => {
     'Database',
     '2D Bundle Config',
     'Diagnostics',
-  ]) assert.ok(html.includes(term), `${term} missing`);
-});
-
-test('SPL2 shell preserves upstream canvas and input identifiers', () => {
-  const html = read('spl2-bundle/spl2_master.html');
-  for (const id of [
+    'GLOBAL CONSTANTS & CONFIGURATION',
     'canvas-loop',
     'canvas-rack-section',
     'canvas-rack-plan',
     'canvas-simp-3d',
-    'loop_inp_s',
-    'loop_inp_g',
-    'loop_inp_h',
-    'loop_inp_w',
     'global_inp_units',
     'global_inp_ins_dens',
-  ]) assert.ok(html.includes(id), `${id} missing`);
+  ]) assert.ok(html.includes(term), `${term} missing`);
 });
 
-test('SPL2 controller includes real source-parity actions', () => {
+test('SPL2 controller uses upstream import graph', () => {
   const js = read('spl2-bundle/js/spl2/spl2_master.js');
-  assert.ok(js.includes('function calculateLoop'));
-  assert.ok(js.includes('function calculateRackLoad'));
-  assert.ok(js.includes('function calculateSimplified'));
-  assert.ok(js.includes('renderDatabaseFrames'));
-  assert.ok(js.includes('drawLoop'));
+  for (const term of [
+    "import { SPL2_DB } from './spl2_database.js'",
+    "import { calcLoopFromSpreadsheet } from './spl2_loop_algo.js'",
+    "import { RackSectionCanvas, RackPlanCanvas } from './spl2_rack_canvas.js'",
+    "import { SimplifiedCanvas } from './spl2_simp_canvas.js'",
+    "import { LoopCanvas } from './spl2_loop_canvas.js'",
+    'renderDatabaseFrames',
+    'toggleUnits',
+  ]) assert.ok(js.includes(term), `${term} missing`);
 });
 
-test('new source-parity modules stay below 200 lines', () => {
-  for (const path of [
-    'spl2-bundle/js/spl2/spl2_master.js',
-    'spl2-bundle/css/app.css',
-    'gates/pipetools-agent-14-spl2-parity.gate.test.js',
-  ]) assert.ok(lines(path) <= 200, `${path} exceeds 200 lines`);
+test('compact placeholder SPL2 rebuild is not present', () => {
+  const js = read('spl2-bundle/js/spl2/spl2_master.js');
+  assert.equal(js.includes('SPL2 compact loop screening'), false);
+  assert.equal(js.includes('drawLoop('), false);
 });
