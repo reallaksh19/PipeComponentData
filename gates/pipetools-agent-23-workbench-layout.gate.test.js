@@ -10,7 +10,7 @@ test('Agent 23 PipeSpec page is a fixed-height workbench', () => {
   assert.match(css, /html, body \{ height: 100%; overflow: hidden; \}/);
   assert.match(css, /\.app-shell \{ height: 100vh;[^}]*grid-template-rows: 62px 44px minmax\(0, 1fr\)/);
   assert.match(css, /\.workspace \{[^}]*overflow: hidden;[^}]*grid-template-rows: auto minmax\(0, 1fr\)/);
-  assert.match(css, /\.result-grid \{[^}]*height: 100%;[^}]*grid-template-columns: minmax\(0, 1fr\) 380px/);
+  assert.match(css, /\.result-grid \{[^}]*height: 100%;[^}]*grid-template-columns: minmax\(0, 1fr\) 460px/);
 });
 
 test('Agent 23 keeps only table and inspector scrollable in desktop mode', () => {
