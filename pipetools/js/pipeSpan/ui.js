@@ -30,7 +30,7 @@ export function renderPipeSpanMain(state, actionOrSvg, maybeSvg) {
   document.getElementById('table-count').textContent = `NPS ${result.input.nps} · ${result.input.schedule}`;
   frame.innerHTML = layout(input, result, detailRows, pipeSpanSvg);
   bindPipeSpanInputs(frame, actions, input);
-  document.getElementById('inspector-body').textContent = 'Formula trace moved to the Pipe Span Formula Console.';
+  document.getElementById('inspector-body').innerHTML = '<p>Formula trace moved to the Pipe Span Formula Console.</p>';
 }
 
 function layout(input, result, detailRows, pipeSpanSvg) {
