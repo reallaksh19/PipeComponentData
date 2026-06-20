@@ -1,8 +1,7 @@
 import { dimensionFacts, formatFact, weightFacts } from '../dimensionDisplay.js';
-import { calloutTemplateFor } from './dimensionCalloutTemplates.js';
+import { requiredCalloutLabels } from './dimensionCalloutTemplates.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-const MAJOR_RE = /f2f|face|height|h\/w|hw|od|o\.d|id|i\.d|wall|thk|thick|c-e|center|centre|pcd|bolt/i;
 const MAX_SHOWN = 5;
 const MAX_MISSING = 4;
 
@@ -24,7 +23,7 @@ export function clearDimensionCalloutDiagnostics(scope = document) {
 
 function diagnosticModel(row = {}, symbol = {}, callouts = []) {
   const facts = factMap([...dimensionFacts(row), ...weightFacts(row)]);
-  const required = requiredFacts(symbol);
+  const required = requiredCalloutLabels(symbol);
   const renderedLabels = new Set(callouts.map((callout) => callout.label).filter(Boolean));
   const shown = [...renderedLabels]
     .map((label) => facts.get(label))
@@ -62,17 +61,4 @@ function factMap(facts) {
     if (!map.has(fact.label)) map.set(fact.label, fact);
   });
   return map;
-}
-
-function requiredFacts(symbol) {
-  const seen = new Set();
-  const labels = [];
-  for (const [, fieldLabels = []] of calloutTemplateFor(symbol).fields || []) {
-    const major = fieldLabels.find((label) => MAJOR_RE.test(label));
-    if (major && !seen.has(major)) {
-      seen.add(major);
-      labels.push(major);
-    }
-  }
-  return labels;
 }
