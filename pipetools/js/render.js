@@ -44,10 +44,10 @@ export function renderDashboards(state, actions) {
   const family = currentFamily(state);
   const coverage = renderDbCoverageStrip(state.dbIndex);
   const components = families(state).map((item) => card(item.family, item.label, item.rowCount ?? 0, state.filters.component === item.family, 'component', item.svgSupported)).join('');
-  const subtypes = family?.subtypes?.length ? strip(subtypeTitle(family.family), family.subtypes.map((type) => subtypeChip(type, `${prettyType(type)} ${countFor(state, 'subtypes', type)}`, state.filters.subtype === type)).join(''), 'subtype-strip') : '';
+  const types = family?.subtypes?.length ? `<span class="inline-type-label">Type</span>${family.subtypes.map((type) => subtypeChip(type, `${prettyType(type)} ${countFor(state, 'subtypes', type)}`, state.filters.subtype === type)).join('')}` : '';
   // Legacy Agent 21 marker for rebased complete-index gate: ${coverage}${dbIndexStrip
-  host.innerHTML = `${searchStrip(state)}${coverage}${strip('Components', components, 'component-strip')}${subtypes}${configStrip(state, family)}`;
-  host.querySelectorAll('[data-card]').forEach((button) => {
+  host.innerHTML = `${searchStrip(state)}${coverage}${strip('Components', `${components}${types}`, 'component-strip component-type-strip')}${configStrip(state, family)}`;
+  document.querySelectorAll('#dashboard-zone [data-card], #db-health-chip [data-card]').forEach((button) => {
     button.addEventListener('click', () => actions.setFilter(button.dataset.group, button.dataset.card));
   });
 }
@@ -108,8 +108,9 @@ function renderPipeSpecTable(state, actions) {
   const family = currentFamily(state);
   const fields = tableFields(family);
   const sourceLabel = family ? (family.repositoryPaths ?? [family.repositoryPath]).filter(Boolean).join(' + ') : 'Dashboard-filtered component data';
-  document.getElementById('table-title').textContent = family ? `${family.label} DB` : 'PipeSpec DB';
-  document.getElementById('table-kicker').textContent = family ? `${sourceLabel} · ${family.standard}` : sourceLabel;
+  const titleInfo = family ? `${sourceLabel} · ${family.standard} · ${state.rows.length} rows` : sourceLabel;
+  document.getElementById('table-title').innerHTML = family ? `${esc(family.label)} DB ${infoBadge(titleInfo)}` : 'PipeSpec DB';
+  document.getElementById('table-kicker').textContent = family ? 'Normalized source database' : sourceLabel;
   document.getElementById('table-count').innerHTML = `${state.rows.length} rows <span class="table-tool">Columns</span><span class="table-tool">Compact</span>`;
   document.getElementById('table-frame').innerHTML = `<table><thead><tr>${fields.map((field) => `<th>${esc(fieldLabel(field))}</th>`).join('')}</tr></thead><tbody>${state.rows.map((row) => rowHtml(row, fields, state.selectedId)).join('')}</tbody></table>`;
   document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));
@@ -262,6 +263,10 @@ function fieldLabel(field) {
 
 function subtypeTitle(family) {
   return ({ VALVE: 'Valve Type', FLANGE: 'Flange Type', FITTING: 'Fitting Type', GASKET: 'Gasket Type', SUPPORT: 'Support Type', REDUCER: 'Reducer Type', OLET: 'Olet Type' }[family]) ?? 'Type';
+}
+
+function infoBadge(text) {
+  return `<span class="info-dot" title="${esc(text)}" aria-label="${esc(text)}">i</span>`;
 }
 
 function shortSource(source) {
