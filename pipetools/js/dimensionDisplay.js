@@ -1,9 +1,6 @@
 export function valueFromPaths(row = {}, ...paths) {
-  for (const path of paths) {
-    const value = unwrap(readPath(row, path));
-    if (value !== '' && value != null) return value;
-  }
-  return null;
+  const match = firstPathValue(row, paths);
+  return match ? match.value : null;
 }
 
 export function dimensionFacts(row = {}) {
@@ -27,7 +24,7 @@ export function dimensionFacts(row = {}) {
     ['Dev. len', 'developedLengthMm', 'devLenMm', 'dimensions.developedLengthMm'],
     ['Over cap', 'overCapMm', 'overallCapMm', 'dimensions.overCapMm', 'dimensions.overallCapMm'],
   ];
-  return specs.map(([label, ...paths]) => makeFact(label, valueFromPaths(row, ...paths), unitFor(label))).filter(Boolean);
+  return specs.map(([label, ...paths]) => makeFact(label, firstPathValue(row, paths), unitFor(label))).filter(Boolean);
 }
 
 export function weightFacts(row = {}) {
@@ -37,7 +34,7 @@ export function weightFacts(row = {}) {
     ['BW weight', 'buttWeldKg', 'weights.buttWeldKg'],
     ['Weight / m', 'weightKgPerM', 'weights.weightKgPerM', 'weights.emptyPipeKgPerM', 'weights.pipeKgPerM'],
   ];
-  return specs.map(([label, ...paths]) => makeFact(label, valueFromPaths(row, ...paths), label === 'Weight / m' ? 'kg/m' : 'kg')).filter(Boolean);
+  return specs.map(([label, ...paths]) => makeFact(label, firstPathValue(row, paths), label === 'Weight / m' ? 'kg/m' : 'kg')).filter(Boolean);
 }
 
 export function firstDimensionText(row = {}) {
@@ -62,14 +59,22 @@ export function formatFact(fact) {
   return fact?.unit ? `${fact.value} ${fact.unit}` : String(fact?.value ?? '—');
 }
 
-function makeFact(label, value, unit) {
-  if (value == null || value === '') return null;
-  return { label, value, unit };
+function makeFact(label, match, unit) {
+  if (!match || match.value == null || match.value === '') return null;
+  return { label, value: match.value, unit, path: match.path };
 }
 
 function unitFor(label) {
   if (label === 'Bolt count') return '';
   return 'mm';
+}
+
+function firstPathValue(row, paths = []) {
+  for (const path of paths) {
+    const value = unwrap(readPath(row, path));
+    if (value !== '' && value != null) return { value, path };
+  }
+  return null;
 }
 
 function readPath(row, path) {
