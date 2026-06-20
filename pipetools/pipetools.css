@@ -43,10 +43,21 @@ h2 { font-size: 16px; }
 .segment-label { flex: 0 0 auto; color: var(--muted); font-size: 11px; margin: 0 2px 0 8px; }
 .seg-btn { flex: 0 0 auto; padding: 5px 9px; }
 .subtype-chip { min-width: 58px; }
+.component-type-strip .card-row { overflow-x: auto; }
+.component-type-strip .card-btn { flex: 0 0 70px; min-height: 38px; padding: 5px 6px; }
+.component-type-strip .card-btn svg { display: none; }
+.component-type-strip .card-btn strong { font-size: 11px; line-height: 1.1; }
+.component-type-strip .card-btn small { font-size: 10px; }
+.component-type-strip .inline-type-label { flex: 0 0 auto; margin-left: 8px; padding-left: 10px; border-left: 1px solid var(--line); color: var(--blue); font-size: 10px; text-transform: uppercase; letter-spacing: .1em; font-weight: 800; }
+.component-type-strip .subtype-chip { flex: 0 0 auto; min-width: max-content; }
 .result-grid { min-height: 0; height: 100%; display: grid; grid-template-columns: minmax(360px, .78fr) minmax(520px, 1.35fr) 340px; gap: 10px; }
 .panel { min-width: 0; min-height: 0; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.24); }
 .table-panel, .inspector, .source-svg-panel { display: grid; grid-template-rows: auto minmax(0, 1fr); }
 .panel-head { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--line); background: var(--panel-2); }
+.panel-head > div { min-width: 0; }
+#table-title { display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#table-kicker { max-width: min(360px, 42vw); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.info-dot { display: inline-grid; place-items: center; width: 17px; height: 17px; flex: 0 0 17px; border: 1px solid var(--line); border-radius: 50%; background: #07111f; color: var(--blue); font: 800 11px/1 system-ui, sans-serif; cursor: help; }
 .table-frame { min-height: 0; height: 100%; overflow: auto; }
 table { width: 100%; border-collapse: collapse; min-width: 860px; }
 th, td { padding: 8px 10px; border-bottom: 1px solid rgba(38,56,80,.65); text-align: left; white-space: nowrap; }
