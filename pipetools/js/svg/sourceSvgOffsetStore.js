@@ -1,5 +1,6 @@
 const OFFSET_STORAGE_KEY = 'pipetools.dxf.sourceSvgOffsets.v1';
-export const OFFSET_DOC_URL = '../docs/Pipedata/Database/Gensets/dxf-symbol-offsets.json';
+export const OFFSET_RUNTIME_URL = new URL('../../data/dxf-symbol-offsets.json', import.meta.url).href;
+export const OFFSET_PROMOTION_PATH = 'docs/Pipedata/Database/Gensets/dxf-symbol-offsets.json';
 export const DEFAULT_SOURCE_SVG_OFFSET = Object.freeze({ panX: '0px', panY: '0px', scale: 0.9, source: 'built-in-default' });
 
 let committedOffsetsPromise = null;
@@ -34,8 +35,9 @@ export function exportSourceSvgOffsetsPayload() {
   return {
     schema: 'PipeToolsDxfSymbolOffsets.v1',
     notes: [
-      'Committed defaults are loaded from docs/Pipedata/Database/Gensets/dxf-symbol-offsets.json.',
-      'Browser Fix Offset saves local overrides in localStorage. Copy this JSON into the docs file to share defaults.'
+      `Runtime defaults are loaded from ${OFFSET_RUNTIME_URL}.`,
+      `Promote reviewed browser fixes into ${OFFSET_PROMOTION_PATH}, then mirror that file to pipetools/data/dxf-symbol-offsets.json for GitHub Pages runtime.`,
+      'Browser Fix Offset saves local overrides in localStorage. Copy this JSON into the defaults file to share calibrated offsets.'
     ],
     offsets: local.offsets || {}
   };
@@ -49,7 +51,7 @@ export function offsetStatusText(sourceCode, offset) {
 
 async function readCommittedOffsets() {
   if (!committedOffsetsPromise) {
-    committedOffsetsPromise = fetch(OFFSET_DOC_URL, { cache: 'no-store' })
+    committedOffsetsPromise = fetch(OFFSET_RUNTIME_URL, { cache: 'no-store' })
       .then((response) => response.ok ? response.json() : { offsets: {} })
       .catch(() => ({ offsets: {} }));
   }
