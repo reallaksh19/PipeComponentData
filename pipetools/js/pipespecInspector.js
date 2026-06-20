@@ -1,3 +1,4 @@
+import { dimensionFacts, firstDimensionText, firstWeightText, formatFact, weightFacts } from './dimensionDisplay.js';
 import { getPipeSpecSvgKey, toPipeSpecSvgRow } from './svg/pipeSpecSvgEngine.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
@@ -32,11 +33,13 @@ function detailMetadata(row, svgRow, svgKey) {
     ${kv('End / Facing', `${row.endType ?? row.endConnection ?? svgRow.endType ?? '—'} ${row.facing ?? svgRow.facing ?? ''}`.trim())}
     ${kv('Size', `NPS ${row.nps ?? row.largeNps ?? '—'} / DN ${row.dn ?? '—'}`)}
     ${kv('Class', classText(row, svgRow))}
-    ${kv('Primary Dim.', primaryDimension(row, svgRow))}
-    ${kv('Weight', weightText(row, svgRow))}
+    ${kv('Primary Dim.', firstDimensionText(row))}
+    ${kv('Weight', firstWeightText(row))}
     ${kv('Source', shortSource(row.source))}
     ${kv('Status', row.dataStatus ?? row.provenance?.dataStatus ?? '—')}
     ${kv('Standard', row.standard ?? svgRow.standard ?? '—')}
+    ${factRows('Dimensions', dimensionFacts(row))}
+    ${factRows('Weights', weightFacts(row))}
   </section>`;
 }
 
@@ -57,24 +60,13 @@ function classText(row, svgRow) {
   return rating ? `CL ${String(rating).replace(/^CL\s*/i, '')}` : '—';
 }
 
-function primaryDimension(row, svgRow) {
-  const d = row.dimensions ?? {};
-  const items = [
-    ['F2F', svgRow.faceToFaceRfMm ?? d.faceToFaceRfMm?.value ?? d.faceToFaceMm?.value, 'mm'],
-    ['Height', svgRow.heightMm ?? d.heightMm?.value, 'mm'],
-    ['OD', svgRow.odMm ?? d.odMm?.value, 'mm'],
-    ['O.Dia', svgRow.flangeOdMm ?? svgRow.outerDiaMm ?? d.flangeOdMm?.value ?? d.outerDiaMm?.value, 'mm'],
-    ['C-E', svgRow.ctrToEndMm ?? d.centerToEndMm?.value, 'mm'],
-  ];
-  const hit = items.find(([, value]) => value != null && value !== '');
-  return hit ? `${hit[0]} ${hit[1]} ${hit[2]}` : '—';
+function factRows(title, facts) {
+  if (!facts.length) return kv(title, 'No source-backed values in row');
+  return `${sectionHeader(title)}${facts.map((fact) => kv(fact.label, formatFact(fact))).join('')}`;
 }
 
-function weightText(row, svgRow) {
-  const w = row.weights ?? {};
-  const value = svgRow.weightKg ?? svgRow.rfRtjKg ?? svgRow.weightKgPerM ?? w.weightKg?.value ?? w.rfRtjKg?.value ?? w.weightKgPerM?.value;
-  if (value == null || value === '') return '—';
-  return svgRow.weightKgPerM ? `${value} kg/m` : `${value} kg`;
+function sectionHeader(title) {
+  return `<div class="detail-row detail-section"><span>${esc(title)}</span><strong>Source row</strong></div>`;
 }
 
 function shortSource(source) {
