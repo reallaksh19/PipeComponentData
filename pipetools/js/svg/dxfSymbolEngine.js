@@ -1,4 +1,5 @@
 import { renderDimensionCallouts, clearDimensionCallouts } from './dimensionCallouts.js';
+import { computeAutoSourceSvgOffset } from './sourceSvgAutoFit.js';
 import { loadSourceSvgOffset, offsetStatusText } from './sourceSvgOffsetStore.js';
 
 const MANIFEST_JSON_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.json', import.meta.url).href;
@@ -215,17 +216,24 @@ function applyPanelOffset(container, offset, sourceCode) {
   panel.style.setProperty('--source-svg-scale', String(offset.scale));
   panel.style.setProperty('--source-svg-pan-x', String(offset.panX));
   panel.style.setProperty('--source-svg-pan-y', String(offset.panY));
-  container.querySelectorAll('[data-dxf-symbol-svg], img.dxf-symbol-img').forEach((target) => target.style.removeProperty('transform'));
+  container.querySelectorAll('[data-dxf-symbol-svg], img.dxf-symbol-img, .dimension-callout-layer').forEach((target) => target.style.removeProperty('transform'));
   panel.querySelector('[data-detail-status]')?.replaceChildren(document.createTextNode(offsetStatusText(sourceCode, offset)));
+}
+
+function nextFrame(callback) {
+  const raf = typeof requestAnimationFrame === 'function' ? requestAnimationFrame : (fn) => setTimeout(fn, 0);
+  raf(() => raf(callback));
 }
 
 function scheduleStoredOffset(container, result) {
   const panel = container.closest?.('#source-svg-panel');
   if (panel) panel.dataset.currentSourceCode = result.sourceCode || '';
-  setTimeout(async () => {
-    const offset = await loadSourceSvgOffset(result.sourceCode);
+  nextFrame(async () => {
+    const stored = await loadSourceSvgOffset(result.sourceCode);
+    const measured = stored?.source === 'built-in-default' ? computeAutoSourceSvgOffset(container) : null;
+    const offset = measured || stored;
     if (offset) applyPanelOffset(container, offset, result.sourceCode);
-  }, 0);
+  });
 }
 
 function tightenViewBox(svg) {
