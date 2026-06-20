@@ -75,13 +75,10 @@ tr.selected td { background: rgba(56,189,248,.12); }
 .source-svg-canvas { position: relative; min-height: 0; height: 100%; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(180deg, #fff, #eef4fb); display: grid; place-items: center; overflow: hidden; cursor: grab; touch-action: none; }
 .source-svg-canvas[data-pan-active="true"] { cursor: grabbing; }
 .source-svg-canvas [data-pipespec-source-svg-host] { position: relative; width: 100%; height: 100%; display: grid; place-items: center; z-index: 1; }
-.source-svg-canvas svg { width: 96%; height: 96%; max-width: 100%; max-height: 100%; transition: transform .12s ease; }
-.source-svg-canvas img.dxf-symbol-img { width: 96%; height: 96%; max-width: 100%; max-height: 100%; object-fit: contain; }
-.source-svg-canvas [data-pipespec-source-svg-host] svg,
-.source-svg-canvas [data-pipespec-source-svg-host] img.dxf-symbol-img { transform: translate(var(--source-svg-pan-x), var(--source-svg-pan-y)) scale(var(--source-svg-scale)) !important; transform-origin: center; will-change: transform; }
-.source-svg-canvas[data-pan-active="true"] [data-pipespec-source-svg-host] svg,
-.source-svg-canvas[data-pan-active="true"] [data-pipespec-source-svg-host] img.dxf-symbol-img { transition: none; }
-.dimension-callout-layer { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.source-svg-viewport { position: relative; width: 96%; height: 96%; display: grid; place-items: center; transform: translate(var(--source-svg-pan-x), var(--source-svg-pan-y)) scale(var(--source-svg-scale)); transform-origin: center; transition: transform .12s ease; will-change: transform; }
+.source-svg-canvas[data-pan-active="true"] .source-svg-viewport { transition: none; }
+.source-svg-viewport [data-dxf-symbol-svg], .source-svg-viewport img.dxf-symbol-img { grid-area: 1 / 1; width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: contain; transform: none !important; }
+.dimension-callout-layer { grid-area: 1 / 1; position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; overflow: visible; transform: none !important; }
 .dimension-callout-line { stroke: #0f172a; stroke-width: 3; marker-start: url(#dimension-callout-arrow); marker-end: url(#dimension-callout-arrow); vector-effect: non-scaling-stroke; }
 .dimension-callout-arrow { fill: #0f172a; stroke: none; }
 .dimension-callout-box { fill: rgba(255,255,255,.94); stroke: rgba(15,23,42,.32); stroke-width: 1.2; filter: drop-shadow(0 4px 10px rgba(15,23,42,.22)); }
