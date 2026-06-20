@@ -144,13 +144,13 @@ function mountImageFallback(container, result, reason, row) {
   img.loading = 'eager';
   img.dataset.dxfSymbolImg = 'true';
   img.className = 'dxf-symbol-img';
-  container.innerHTML = '';
-  container.append(img, metaNode(result, 'file reference'));
+  const viewport = sourceViewport(img);
+  container.replaceChildren(viewport, metaNode(result, 'file reference'));
   img.onerror = () => {
-    clearDimensionCallouts(container.closest?.('.source-svg-canvas'));
+    clearDimensionCallouts(container);
     container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(reason)}</div>`;
   };
-  renderDimensionCallouts(row, result.symbol, container.closest?.('.source-svg-canvas'));
+  renderDimensionCallouts(row, result.symbol, viewport);
   scheduleStoredOffset(container, result);
   return { ...result, renderMode: 'img', reason: `${result.reason}; inline parse unavailable, mounted SVG file reference` };
 }
@@ -190,6 +190,14 @@ function removePlaceholderText(svg) {
   });
 }
 
+function sourceViewport(target) {
+  const viewport = document.createElement('div');
+  viewport.className = 'source-svg-viewport';
+  viewport.dataset.sourceSvgViewport = 'true';
+  viewport.append(target);
+  return viewport;
+}
+
 function metaNode(result, mode = 'inline') {
   const meta = document.createElement('div');
   meta.className = 'source-svg-meta';
@@ -207,8 +215,7 @@ function applyPanelOffset(container, offset, sourceCode) {
   panel.style.setProperty('--source-svg-scale', String(offset.scale));
   panel.style.setProperty('--source-svg-pan-x', String(offset.panX));
   panel.style.setProperty('--source-svg-pan-y', String(offset.panY));
-  const target = container.querySelector('svg, img.dxf-symbol-img');
-  target?.style?.removeProperty('transform');
+  container.querySelectorAll('[data-dxf-symbol-svg], img.dxf-symbol-img').forEach((target) => target.style.removeProperty('transform'));
   panel.querySelector('[data-detail-status]')?.replaceChildren(document.createTextNode(offsetStatusText(sourceCode, offset)));
 }
 
@@ -251,7 +258,7 @@ export async function mountDxfSymbolSvg(row, container) {
   try {
     result = await resolveDxfSymbolForComponent(row);
     if (result.status !== 'OK') {
-      clearDimensionCallouts(container.closest?.('.source-svg-canvas'));
+      clearDimensionCallouts(container);
       container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(result.reason)}</div>`;
       return result;
     }
@@ -259,14 +266,15 @@ export async function mountDxfSymbolSvg(row, container) {
     if (!response.ok) throw new Error(`DXF SVG file failed to load: ${response.status} ${response.statusText}`);
     const svgNode = parseSvgNode(await response.text());
     if (!svgNode) throw new Error('DXF SVG file is not a safe parseable SVG payload');
-    container.replaceChildren(svgNode, metaNode(result));
+    const viewport = sourceViewport(svgNode);
+    container.replaceChildren(viewport, metaNode(result));
     tightenViewBox(svgNode);
-    renderDimensionCallouts(row, result.symbol, container.closest?.('.source-svg-canvas'));
+    renderDimensionCallouts(row, result.symbol, viewport);
     scheduleStoredOffset(container, result);
     return { ...result, renderMode: 'inline' };
   } catch (error) {
     if (result?.status === 'OK') return mountImageFallback(container, result, error.message, row);
-    clearDimensionCallouts(container.closest?.('.source-svg-canvas'));
+    clearDimensionCallouts(container);
     const failed = { status: 'SVG_NOT_AVAILABLE', reason: error.message || 'DXF symbol lookup failed', symbol: null };
     container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(failed.reason)}</div>`;
     return failed;
