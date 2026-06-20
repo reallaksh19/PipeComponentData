@@ -91,7 +91,7 @@ function firstNonOverlappingSlot(label, baseSlot, placed) {
   let best = null;
   for (const [dx, dy] of LABEL_OFFSETS) {
     const rawSlot = { ...baseSlot, lx: Number(baseSlot.lx ?? 500) + dx, ly: Number(baseSlot.ly ?? 500) + dy };
-    const candidate = clampSlotWithBox(rawSlot, labelBox(label, rawSlot));
+    const candidate = clampSlotWithLabel(rawSlot, label);
     if (!best) best = candidate;
     if (!placed.some((box) => overlaps(candidate.box, box))) return { ...candidate, adjusted: dx !== 0 || dy !== 0 || candidate.clamped };
   }
@@ -106,7 +106,8 @@ function labelBox(label, slot) {
   return { x, y, width, height };
 }
 
-function clampSlotWithBox(slot, box) {
+function clampSlotWithLabel(slot, label) {
+  const box = labelBox(label, slot);
   const next = { ...slot };
   let dx = 0, dy = 0;
   if (box.x < LABEL_MARGIN) dx = LABEL_MARGIN - box.x;
@@ -115,7 +116,7 @@ function clampSlotWithBox(slot, box) {
   if (box.y + box.height > LAYER_SIZE - LABEL_MARGIN) dy = LAYER_SIZE - LABEL_MARGIN - box.height - box.y;
   next.lx = Number(next.lx ?? 500) + dx;
   next.ly = Number(next.ly ?? 500) + dy;
-  return { slot: next, box: labelBox(`${box.width}`, next), clamped: dx !== 0 || dy !== 0 };
+  return { slot: next, box: labelBox(label, next), clamped: dx !== 0 || dy !== 0 };
 }
 
 function overlaps(a, b) {
