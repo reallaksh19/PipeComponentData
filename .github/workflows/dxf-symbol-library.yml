@@ -1,0 +1,37 @@
+name: DXF Symbol Library QA
+
+on:
+  pull_request:
+    paths:
+      - 'pipetools/symbols/dxf/**'
+      - 'pipetools/js/svg/dxfSymbolEngine.js'
+      - 'pipetools/js/render.js'
+      - 'pipetools/data/db-index.json'
+  push:
+    branches:
+      - feature/dxf-symbol-library
+    paths:
+      - 'pipetools/symbols/dxf/**'
+      - 'pipetools/js/svg/dxfSymbolEngine.js'
+      - 'pipetools/js/render.js'
+      - 'pipetools/data/db-index.json'
+
+jobs:
+  validate-dxf-symbols:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check DXF viewer scripts
+        run: |
+          node --check pipetools/symbols/dxf/js/symbol-library.js
+          node --check pipetools/js/svg/dxfSymbolEngine.js
+
+      - name: Validate DXF symbol manifest and assets
+        run: node pipetools/symbols/dxf/validate-dxf-symbols.mjs

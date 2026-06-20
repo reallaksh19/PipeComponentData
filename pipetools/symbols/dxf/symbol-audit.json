@@ -1,0 +1,41 @@
+{
+  "schema": "pipecomponentdata-dxf-symbol-audit/v1",
+  "generatedAt": "2026-06-20",
+  "convertedBatch": {
+    "totalSvgFiles": 28,
+    "mappedCount": 28,
+    "unmappedCount": 0,
+    "unmappedSvgFiles": [],
+    "missingSvgFiles": [],
+    "duplicateSourceCodes": []
+  },
+  "mappedFamilies": [
+    "FITTING",
+    "FLANGE",
+    "GASKET",
+    "LINE_BLANK",
+    "OLET",
+    "PIPE",
+    "REDUCER",
+    "VALVE"
+  ],
+  "indexedFamiliesCurrentlyWithoutMappedSymbols": [
+    "SUPPORT"
+  ],
+  "knownDbIndexFollowUps": [
+    "Existing db-index marks REDUCER and OLET svgSupported=false; flip to true after this library is wired into the main PipeTools UI.",
+    "LINE_BLANK is represented in the DXF symbols but does not yet have a normalized family in db-index.json."
+  ],
+  "fullDxfPackage": {
+    "estimatedTotalSymbols": "200+",
+    "mappedInThisPatch": 28,
+    "remainingEstimate": "170+",
+    "status": "Full source DXF package was not enumerated by this patch; this audit covers the converted SVG batch committed here."
+  },
+  "recommendedNextDxfConversions": [
+    "Map remaining valves by end connection and operator type.",
+    "Map remaining socket/threaded fittings and branch components.",
+    "Add support symbols only if the normalized SUPPORT family is intended to use SVG previews.",
+    "Promote LINE_BLANK rows into db-index.json if spectacle blinds require table/dashboard selection."
+  ]
+}
