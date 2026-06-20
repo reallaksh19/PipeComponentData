@@ -1,3 +1,5 @@
+import { loadSourceSvgOffset, offsetStatusText } from './sourceSvgOffsetStore.js';
+
 const MANIFEST_JSON_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.json', import.meta.url).href;
 const MANIFEST_JS_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.js', import.meta.url).href;
 const FETCH_TIMEOUT_MS = 6000;
@@ -146,6 +148,7 @@ function mountImageFallback(container, result, reason) {
   img.onerror = () => {
     container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(reason)}</div>`;
   };
+  scheduleStoredOffset(container, result);
   return { ...result, renderMode: 'img', reason: `${result.reason}; inline parse unavailable, mounted SVG file reference` };
 }
 
@@ -176,6 +179,30 @@ function metaNode(result, mode = 'inline') {
   meta.className = 'source-svg-meta';
   meta.textContent = `DXF ${result.sourceCode} · ${result.symbol.family} · ${result.symbol.subtype || '—'} · ${mode}`;
   return meta;
+}
+
+function applyPanelOffset(container, offset, sourceCode) {
+  const panel = container.closest?.('#source-svg-panel');
+  if (!panel || !offset) return;
+  panel.dataset.currentSourceCode = sourceCode || '';
+  panel.dataset.svgScale = String(offset.scale);
+  panel.dataset.svgPanX = String(offset.panX);
+  panel.dataset.svgPanY = String(offset.panY);
+  panel.style.setProperty('--source-svg-scale', String(offset.scale));
+  panel.style.setProperty('--source-svg-pan-x', String(offset.panX));
+  panel.style.setProperty('--source-svg-pan-y', String(offset.panY));
+  const target = container.querySelector('svg, img.dxf-symbol-img');
+  target?.style?.removeProperty('transform');
+  panel.querySelector('[data-detail-status]')?.replaceChildren(document.createTextNode(offsetStatusText(sourceCode, offset)));
+}
+
+function scheduleStoredOffset(container, result) {
+  const panel = container.closest?.('#source-svg-panel');
+  if (panel) panel.dataset.currentSourceCode = result.sourceCode || '';
+  setTimeout(async () => {
+    const offset = await loadSourceSvgOffset(result.sourceCode);
+    if (offset) applyPanelOffset(container, offset, result.sourceCode);
+  }, 0);
 }
 
 function tightenViewBox(svg) {
@@ -217,6 +244,7 @@ export async function mountDxfSymbolSvg(row, container) {
     if (!svgNode) throw new Error('DXF SVG file is not a safe parseable SVG payload');
     container.replaceChildren(svgNode, metaNode(result));
     tightenViewBox(svgNode);
+    scheduleStoredOffset(container, result);
     return { ...result, renderMode: 'inline' };
   } catch (error) {
     if (result?.status === 'OK') return mountImageFallback(container, result, error.message);
