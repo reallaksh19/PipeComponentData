@@ -1,15 +1,16 @@
 const OFFSET_STORAGE_KEY = 'pipetools.dxf.sourceSvgOffsets.v1';
 export const OFFSET_DOC_URL = '../docs/Pipedata/Database/Gensets/dxf-symbol-offsets.json';
+export const DEFAULT_SOURCE_SVG_OFFSET = Object.freeze({ panX: '25vw', panY: '-33vh', scale: 0.5625, source: 'built-in-default' });
 
 let committedOffsetsPromise = null;
 
 export async function loadSourceSvgOffset(sourceCode) {
   const code = normalizeCode(sourceCode);
-  if (!code) return null;
+  if (!code) return normalizeOffset(DEFAULT_SOURCE_SVG_OFFSET);
   const local = readLocalOffsets();
   if (local.offsets?.[code]) return normalizeOffset(local.offsets[code]);
   const committed = await readCommittedOffsets();
-  return normalizeOffset(committed.offsets?.[code]);
+  return normalizeOffset(committed.offsets?.[code] || DEFAULT_SOURCE_SVG_OFFSET);
 }
 
 export function saveSourceSvgOffset(sourceCode, viewport) {
@@ -79,9 +80,9 @@ function normalizeOffset(offset) {
   if (!offset) return null;
   const scale = Number(offset.scale);
   return {
-    panX: String(offset.panX ?? '25vw'),
-    panY: String(offset.panY ?? '-33vh'),
-    scale: Number.isFinite(scale) && scale > 0 ? scale : 0.5625,
+    panX: String(offset.panX ?? DEFAULT_SOURCE_SVG_OFFSET.panX),
+    panY: String(offset.panY ?? DEFAULT_SOURCE_SVG_OFFSET.panY),
+    scale: Number.isFinite(scale) && scale > 0 ? scale : DEFAULT_SOURCE_SVG_OFFSET.scale,
     updatedAt: offset.updatedAt || null,
     source: offset.source || 'unknown'
   };
