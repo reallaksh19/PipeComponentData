@@ -146,7 +146,7 @@ function setViewport({ scale, panX, panY }) {
   panel.style.setProperty('--source-svg-scale', String(scale));
   panel.style.setProperty('--source-svg-pan-x', String(panX));
   panel.style.setProperty('--source-svg-pan-y', String(panY));
-  sourceTarget()?.style?.removeProperty('transform');
+  document.querySelectorAll('[data-dxf-symbol-svg], img.dxf-symbol-img, .dimension-callout-layer').forEach((node) => node.style.removeProperty('transform'));
   updateSourceCoordinateReadout();
 }
 
@@ -252,11 +252,11 @@ function sourcePanel() {
 }
 
 function sourceTarget() {
-  return document.querySelector('[data-pipespec-source-svg-host] svg, [data-pipespec-source-svg-host] img.dxf-symbol-img');
+  return document.querySelector('[data-pipespec-source-svg-host] .source-svg-viewport, [data-pipespec-source-svg-host] [data-dxf-symbol-svg], [data-pipespec-source-svg-host] img.dxf-symbol-img');
 }
 
 function sourceSvg() {
-  return document.querySelector('[data-pipespec-source-svg-host] svg');
+  return document.querySelector('[data-pipespec-source-svg-host] [data-dxf-symbol-svg]');
 }
 
 async function writeClipboard(text) {
