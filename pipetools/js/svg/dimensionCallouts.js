@@ -4,9 +4,9 @@ import { calloutTemplateFor } from './dimensionCalloutTemplates.js';
 const NS = 'http://www.w3.org/2000/svg';
 const ARROW_ID = 'dimension-callout-arrow';
 
-export function renderDimensionCallouts(row, symbol, canvas) {
-  if (!canvas) return [];
-  clearDimensionCallouts(canvas);
+export function renderDimensionCallouts(row, symbol, viewport) {
+  if (!viewport) return [];
+  clearDimensionCallouts(viewport);
   const callouts = buildCallouts(row, symbol);
   if (!callouts.length) return [];
   const layer = svgNode('svg', {
@@ -17,12 +17,12 @@ export function renderDimensionCallouts(row, symbol, canvas) {
   });
   layer.append(defs());
   callouts.forEach((callout) => layer.append(calloutNode(callout)));
-  canvas.append(layer);
+  viewport.append(layer);
   return callouts;
 }
 
-export function clearDimensionCallouts(canvas = document.querySelector('.source-svg-canvas')) {
-  canvas?.querySelectorAll?.('.dimension-callout-layer').forEach((node) => node.remove());
+export function clearDimensionCallouts(scope = document.querySelector('.source-svg-canvas')) {
+  scope?.querySelectorAll?.('.dimension-callout-layer').forEach((node) => node.remove());
 }
 
 function buildCallouts(row = {}, symbol = {}) {
