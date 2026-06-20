@@ -1,3 +1,4 @@
+import { renderDimensionCallouts, clearDimensionCallouts } from './dimensionCallouts.js';
 import { loadSourceSvgOffset, offsetStatusText } from './sourceSvgOffsetStore.js';
 
 const MANIFEST_JSON_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.json', import.meta.url).href;
@@ -136,7 +137,7 @@ function scoreSymbol(symbol, row) {
   return lookupWeight + fieldWeight + standardScore(symbol, row);
 }
 
-function mountImageFallback(container, result, reason) {
+function mountImageFallback(container, result, reason, row) {
   const img = new Image();
   img.src = result.svgUrl;
   img.alt = `${result.symbol.title} DXF symbol`;
@@ -146,8 +147,10 @@ function mountImageFallback(container, result, reason) {
   container.innerHTML = '';
   container.append(img, metaNode(result, 'file reference'));
   img.onerror = () => {
+    clearDimensionCallouts(container.closest?.('.source-svg-canvas'));
     container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(reason)}</div>`;
   };
+  renderDimensionCallouts(row, result.symbol, container.closest?.('.source-svg-canvas'));
   scheduleStoredOffset(container, result);
   return { ...result, renderMode: 'img', reason: `${result.reason}; inline parse unavailable, mounted SVG file reference` };
 }
@@ -226,7 +229,7 @@ export async function resolveDxfSymbolForComponent(row) {
   if (!matches.length) return { status: 'SVG_NOT_AVAILABLE', reason: 'No DXF manifest mapping matched this DB row', symbol: null, row };
   const symbol = matches.sort((a, b) => scoreSymbol(b, row) - scoreSymbol(a, row))[0];
   const svgUrl = new URL(symbol.svg, manifestUrl).href;
-  return { status: 'OK', reason: 'Matched DXF manifest dbLookup fields', symbol, svgUrl, sourceCode: symbol.sourceCode };
+  return { status: 'OK', reason: 'Matched DXF manifest dbLookup fields', symbol, svgUrl, sourceCode: symbol.sourceCode, row };
 }
 
 export async function mountDxfSymbolSvg(row, container) {
@@ -235,6 +238,7 @@ export async function mountDxfSymbolSvg(row, container) {
   try {
     result = await resolveDxfSymbolForComponent(row);
     if (result.status !== 'OK') {
+      clearDimensionCallouts(container.closest?.('.source-svg-canvas'));
       container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(result.reason)}</div>`;
       return result;
     }
@@ -244,10 +248,12 @@ export async function mountDxfSymbolSvg(row, container) {
     if (!svgNode) throw new Error('DXF SVG file is not a safe parseable SVG payload');
     container.replaceChildren(svgNode, metaNode(result));
     tightenViewBox(svgNode);
+    renderDimensionCallouts(row, result.symbol, container.closest?.('.source-svg-canvas'));
     scheduleStoredOffset(container, result);
     return { ...result, renderMode: 'inline' };
   } catch (error) {
-    if (result?.status === 'OK') return mountImageFallback(container, result, error.message);
+    if (result?.status === 'OK') return mountImageFallback(container, result, error.message, row);
+    clearDimensionCallouts(container.closest?.('.source-svg-canvas'));
     const failed = { status: 'SVG_NOT_AVAILABLE', reason: error.message || 'DXF symbol lookup failed', symbol: null };
     container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(failed.reason)}</div>`;
     return failed;
