@@ -38,6 +38,10 @@ jobs:
         shell: bash
         run: npm test
 
+      - name: Validate DXF offset defaults
+        shell: bash
+        run: node pipetools/symbols/dxf/validate-dxf-offsets.mjs
+
       - name: Prepare static Pages artifact
         shell: bash
         run: |
@@ -55,6 +59,7 @@ jobs:
           test -f _site/studio/component-studio-app.js
           test -f _site/pipetools/index.html
           test -f _site/pipetools/data/db-index.json
+          test -f _site/pipetools/data/dxf-symbol-offsets.json
           test -f _site/pipetools/vendor/pipespec-svg/svg-engine.js
           test -f _site/pipetools/pipeSpanDetail.css
           test -f _site/pipetools/js/app.js
