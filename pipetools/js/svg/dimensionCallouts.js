@@ -1,26 +1,7 @@
 import { dimensionFacts, formatFact, weightFacts } from '../dimensionDisplay.js';
+import { calloutTemplateFor } from './dimensionCalloutTemplates.js';
 
 const NS = 'http://www.w3.org/2000/svg';
-const LABEL_ORDER = {
-  valve: ['F2F RF', 'F2F RTJ', 'BW length', 'Height', 'HW dia'],
-  flange: ['OD', 'Wall / Thk', 'RF dia', 'RF height', 'PCD', 'Bolt count', 'Bolt size'],
-  gasket: ['OD', 'ID', 'Wall / Thk'],
-  fitting: ['C-E', 'Dev. len', 'OD', 'Wall / Thk'],
-  reducer: ['C-E', 'OD', 'ID', 'Wall / Thk'],
-  olet: ['OD', 'ID', 'C-E', 'Wall / Thk'],
-  pipe: ['OD', 'Wall / Thk'],
-};
-
-const SLOTS = {
-  f2f: { x1: 210, y1: 855, x2: 790, y2: 855, lx: 500, ly: 815, anchor: 'middle' },
-  height: { x1: 850, y1: 245, x2: 850, y2: 760, lx: 820, ly: 225, anchor: 'start' },
-  top: { x1: 340, y1: 145, x2: 660, y2: 145, lx: 500, ly: 105, anchor: 'middle' },
-  left: { x1: 150, y1: 260, x2: 150, y2: 740, lx: 180, ly: 235, anchor: 'start' },
-  mid: { x1: 270, y1: 720, x2: 730, y2: 720, lx: 500, ly: 680, anchor: 'middle' },
-  badge1: { lx: 760, ly: 105, anchor: 'start' },
-  badge2: { lx: 760, ly: 155, anchor: 'start' },
-  badge3: { lx: 760, ly: 205, anchor: 'start' },
-};
 
 export function renderDimensionCallouts(row, symbol, canvas) {
   if (!canvas) return [];
@@ -28,7 +9,7 @@ export function renderDimensionCallouts(row, symbol, canvas) {
   const callouts = buildCallouts(row, symbol);
   if (!callouts.length) return [];
   const layer = svgNode('svg', {
-    class: 'dimension-callout-layer',
+    class: `dimension-callout-layer dimension-callout-family-${String(symbol?.family || 'unknown').toLowerCase()}`,
     viewBox: '0 0 1000 1000',
     preserveAspectRatio: 'none',
     'aria-label': 'Source-backed DB dimension callouts',
@@ -44,33 +25,52 @@ export function clearDimensionCallouts(canvas = document.querySelector('.source-
 }
 
 function buildCallouts(row = {}, symbol = {}) {
-  const family = String(symbol.family || row.componentType || row.component || '').toLowerCase();
-  const dimensions = new Map(dimensionFacts(row).map((fact) => [fact.label, fact]));
-  const weights = weightFacts(row);
-  const ordered = (LABEL_ORDER[family] || LABEL_ORDER.fitting).map((label) => dimensions.get(label)).filter(Boolean);
+  const template = calloutTemplateFor(symbol);
+  const facts = factMap([...dimensionFacts(row), ...weightFacts(row)]);
+  const used = new Set();
   const calls = [];
-  const f2f = firstFact(ordered, ['F2F RF', 'F2F RTJ', 'BW length', 'C-E', 'Dev. len']);
-  const height = firstFact(ordered, ['Height']);
-  const top = firstFact(ordered, ['HW dia', 'OD', 'RF dia', 'PCD']);
-  const left = firstFact(ordered, ['OD', 'ID']);
-  const mid = firstFact(ordered, ['Wall / Thk', 'RF height']);
-  if (f2f) calls.push({ slot: 'f2f', label: f2f.label, value: formatFact(f2f), arrow: true });
-  if (height) calls.push({ slot: 'height', label: height.label, value: formatFact(height), arrow: true });
-  if (top && top !== f2f) calls.push({ slot: 'top', label: top.label, value: formatFact(top), arrow: true });
-  if (left && left !== top && left !== f2f) calls.push({ slot: 'left', label: left.label, value: formatFact(left), arrow: true });
-  if (mid && mid !== top && mid !== left && mid !== f2f) calls.push({ slot: 'mid', label: mid.label, value: formatFact(mid), arrow: true });
-  weights.slice(0, 2).forEach((fact, index) => calls.push({ slot: index ? 'badge2' : 'badge1', label: fact.label, value: formatFact(fact), arrow: false }));
-  ordered.filter((fact) => !calls.some((item) => item.label === fact.label)).slice(0, 2).forEach((fact, index) => calls.push({ slot: index ? 'badge3' : 'badge2', label: fact.label, value: formatFact(fact), arrow: false }));
-  return calls.filter((item) => item.value && !String(item.value).includes('—')).slice(0, 7);
+  for (const [slotName, labels, arrow = true] of template.fields || []) {
+    const fact = firstUnusedFact(facts, labels, used);
+    if (!fact) continue;
+    const value = formatFact(fact);
+    if (!isRenderable(value)) continue;
+    used.add(fact.label);
+    calls.push({ slot: template.slots[slotName], slotName, label: fact.label, value, arrow });
+  }
+  fallbackFacts(facts, used, template.slots).forEach((callout) => calls.push(callout));
+  return calls.slice(0, 8);
 }
 
-function firstFact(facts, labels) {
-  return labels.map((label) => facts.find((fact) => fact.label === label)).find(Boolean);
+function factMap(facts) {
+  const map = new Map();
+  facts.filter(Boolean).forEach((fact) => {
+    const value = formatFact(fact);
+    if (isRenderable(value) && !map.has(fact.label)) map.set(fact.label, fact);
+  });
+  return map;
+}
+
+function firstUnusedFact(facts, labels = [], used) {
+  return labels.map((label) => facts.get(label)).find((fact) => fact && !used.has(fact.label));
+}
+
+function fallbackFacts(facts, used, slots) {
+  const badgeSlots = [slots.badge1, slots.badge2, slots.badge3, slots.badge4].filter(Boolean);
+  return [...facts.values()]
+    .filter((fact) => !used.has(fact.label))
+    .slice(0, Math.max(0, 3 - used.size))
+    .map((fact, index) => ({ slot: badgeSlots[index] || slots.badge1, slotName: `badge${index + 1}`, label: fact.label, value: formatFact(fact), arrow: false }));
+}
+
+function isRenderable(value) {
+  const text = String(value ?? '').trim();
+  return Boolean(text) && !/[—–]/.test(text) && text !== '-';
 }
 
 function calloutNode(callout) {
-  const slot = SLOTS[callout.slot] || SLOTS.badge1;
-  const group = svgNode('g', { class: `dimension-callout dimension-callout-${callout.slot}` });
+  const slot = callout.slot;
+  if (!slot) return svgNode('g');
+  const group = svgNode('g', { class: `dimension-callout dimension-callout-${callout.slotName}` });
   if (callout.arrow && Number.isFinite(slot.x1)) group.append(svgNode('line', {
     class: 'dimension-callout-line',
     x1: slot.x1,
@@ -84,7 +84,7 @@ function calloutNode(callout) {
 
 function labelNode(text, slot) {
   const label = String(text || '').trim();
-  const width = Math.min(320, Math.max(92, label.length * 7.2 + 18));
+  const width = Math.min(340, Math.max(92, label.length * 7.2 + 18));
   const height = 28;
   const x = slot.anchor === 'middle' ? slot.lx - width / 2 : slot.lx;
   const y = slot.ly - height + 8;
@@ -99,7 +99,7 @@ function labelNode(text, slot) {
 function defs() {
   const defsNode = svgNode('defs');
   const marker = svgNode('marker', {
-    id: 'dimension-callout-arrow',
+    id: `dimension-callout-arrow-${Date.now().toString(36)}`,
     markerWidth: 10,
     markerHeight: 10,
     refX: 5,
