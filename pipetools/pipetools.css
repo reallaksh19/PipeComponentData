@@ -70,7 +70,7 @@ tr.selected td { background: rgba(56,189,248,.12); }
 .table-tool { margin-left: 6px; border-left: 1px solid var(--line); padding-left: 7px; }
 .source-svg-head { align-items: center; }
 .source-svg-tools { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
-.source-svg-panel { --source-svg-scale: .5625; --source-svg-pan-x: 25vw; --source-svg-pan-y: -33vh; }
+.source-svg-panel { --source-svg-scale: .9; --source-svg-pan-x: 0px; --source-svg-pan-y: 0px; }
 .source-svg-body { min-height: 0; padding: 10px; display: grid; }
 .source-svg-canvas { position: relative; min-height: 0; height: 100%; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(180deg, #fff, #eef4fb); display: grid; place-items: center; overflow: hidden; cursor: grab; touch-action: none; }
 .source-svg-canvas[data-pan-active="true"] { cursor: grabbing; }
