@@ -1,3 +1,11 @@
+.status-chips .db-health-chip {
+  border: 1px solid var(--line);
+  background: #0b1a2d;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 11px;
+}
 .db-coverage-panel {
   display: grid;
   gap: 4px;
@@ -64,6 +72,14 @@
   grid-template-columns: minmax(90px, 1fr) auto auto auto;
   padding: 7px 9px;
   text-align: left;
+}
+.db-health-chip .db-index-row span {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: 11px;
+  padding: 0;
 }
 .db-index-row:hover {
   border-color: var(--blue);
