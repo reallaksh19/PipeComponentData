@@ -38,6 +38,10 @@ jobs:
         shell: bash
         run: npm test
 
+      - name: Run DXF behavior tests
+        shell: bash
+        run: node --test tests/pipetools-dxf-behavior.test.mjs
+
       - name: Validate DXF offset defaults
         shell: bash
         run: node pipetools/symbols/dxf/validate-dxf-offsets.mjs
