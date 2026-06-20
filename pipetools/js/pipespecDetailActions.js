@@ -1,11 +1,12 @@
+import { computeAutoSourceSvgOffset } from './svg/sourceSvgAutoFit.js';
 import { exportSourceSvgOffsetsPayload, offsetStatusText, saveSourceSvgOffset } from './svg/sourceSvgOffsetStore.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-const FIT_SCALE = 0.5625;
+const FIT_SCALE = 0.9;
 const MIN_SCALE = 0.25;
 const MAX_SCALE = 2.5;
-const DEFAULT_PAN_X = '25vw';
-const DEFAULT_PAN_Y = '-33vh';
+const DEFAULT_PAN_X = '0px';
+const DEFAULT_PAN_Y = '0px';
 
 export function bindPipeSpecDetailActions(row) {
   const inspector = document.getElementById('inspector-body');
@@ -103,9 +104,11 @@ function zoomSvg(host, delta) {
 }
 
 function fitSvg(host) {
-  if (!sourceTarget()) return setStatus(host, 'Centre SVG not ready');
-  setViewport({ scale: FIT_SCALE, panX: DEFAULT_PAN_X, panY: DEFAULT_PAN_Y });
-  setStatus(host, 'Centre SVG fit 56% · pan +25vw / -33vh');
+  const container = document.querySelector('[data-pipespec-source-svg-host]');
+  if (!sourceTarget() || !container) return setStatus(host, 'Centre SVG not ready');
+  const offset = computeAutoSourceSvgOffset(container) || { scale: FIT_SCALE, panX: DEFAULT_PAN_X, panY: DEFAULT_PAN_Y, source: 'manual-fit-fallback' };
+  setViewport(offset);
+  setStatus(host, `Centre SVG auto-fit · ${offsetStatusText(sourcePanel()?.dataset.currentSourceCode, offset)}`);
 }
 
 async function fixSvgOffset({ host }) {
@@ -180,7 +183,7 @@ function ensureSourceCoordinateReadout(canvas = document.querySelector('.source-
     readout = document.createElement('div');
     readout.className = 'source-coordinate-readout';
     readout.dataset.sourceSvgCoordinates = 'true';
-    readout.textContent = 'pan x 0 y 0 · zoom 56% · centre pending';
+    readout.textContent = 'pan x 0 y 0 · zoom 90% · centre pending';
     canvas.appendChild(readout);
   }
   return readout;
