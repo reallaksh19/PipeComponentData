@@ -25,6 +25,80 @@
   box-shadow: 0 0 0 1px rgba(103, 232, 249, .22) inset;
 }
 
+.db-health-chip {
+  overflow: visible;
+  position: relative;
+}
+
+.db-health-chip details {
+  display: inline-block;
+  position: relative;
+}
+
+.db-health-chip summary {
+  cursor: pointer;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.db-health-chip summary::-webkit-details-marker {
+  display: none;
+}
+
+.db-health-chip summary b {
+  color: var(--green);
+  font-weight: 800;
+  margin-left: 4px;
+}
+
+.db-health-chip .db-coverage-panel {
+  background: #07111f;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, .42);
+  min-width: 560px;
+  padding: 8px;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 50;
+}
+
+.component-type-strip .card-row {
+  align-items: center;
+}
+
+.inline-type-label {
+  align-self: stretch;
+  border-left: 1px solid var(--line);
+  color: var(--blue);
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  margin-left: 8px;
+  padding-left: 12px;
+  text-transform: uppercase;
+}
+
+.info-dot {
+  align-items: center;
+  background: rgba(56, 189, 248, .15);
+  border: 1px solid rgba(56, 189, 248, .45);
+  border-radius: 999px;
+  color: #bae6fd;
+  cursor: help;
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 900;
+  height: 17px;
+  justify-content: center;
+  margin-left: 5px;
+  vertical-align: 2px;
+  width: 17px;
+}
+
 .pipe-span-shell {
   display: grid;
   grid-template-columns: 230px minmax(0, 1fr);
@@ -190,6 +264,12 @@
 }
 
 @media (max-width: 1100px) {
+  .db-health-chip .db-coverage-panel {
+    left: auto;
+    min-width: min(92vw, 560px);
+    right: 0;
+  }
+
   .pipe-span-shell,
   .pipe-span-body {
     grid-template-columns: 1fr;
