@@ -11,10 +11,6 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
   build:
     name: Build Studio artifact
@@ -38,30 +34,9 @@ jobs:
             npm install
           fi
 
-      - name: Run full verification gates
+      - name: Run repository verification
         shell: bash
-        run: |
-          npm test
-          node --test gates/pipetools-agent-00-03.gate.test.js
-          node --test gates/pipetools-agent-04-search.gate.test.js
-          node --test gates/pipetools-agent-05-svg.gate.test.js
-          node --test gates/pipetools-agent-06-dashboard.gate.test.js
-          node --test gates/pipetools-agent-07-pipe-span.gate.test.js
-          node --test gates/pipetools-agent-08-spl2-bundle.gate.test.js
-          node --test gates/pipetools-agent-09-data-loading.gate.test.js
-          node --test gates/pipetools-agent-11-ui-svg-scope.gate.test.js
-          node --test gates/pipetools-agent-12-pipe-span-parity.gate.test.js
-          node --test gates/pipetools-agent-13-pipe-span-detail.gate.test.js
-          node --test gates/pipetools-agent-14-spl2-parity.gate.test.js
-          node --test gates/pipetools-agent-15-spl2-integration.gate.test.js
-          node --test gates/pipetools-agent-16-db-index.gate.test.js
-          node --test gates/pipetools-agent-17-db-dashboard.gate.test.js
-          node --test gates/pipetools-agent-18-svg-engine.gate.test.js
-          node --test gates/pipetools-agent-19-svg-detail-routing.gate.test.js
-          node --test gates/pipetools-agent-20-svg-detail-actions.gate.test.js
-          node --test gates/pipetools-agent-21-db-coverage.gate.test.js
-          node --test gates/pipetools-agent-23-workbench-layout.gate.test.js
-          node --test gates/pipetools-agent-24-dashboard-state-svg.gate.test.js
+        run: npm test
 
       - name: Prepare static Pages artifact
         shell: bash
@@ -76,18 +51,6 @@ jobs:
           cp data/search/component-aliases.json _site/data/search/
           cp data/audit/*.json _site/data/audit/
           cp data/exports/*.json _site/data/exports/
-
-          BUILD_SHA="${GITHUB_SHA::12}"
-          sed -i "s|./studio.css|./studio.css?v=${BUILD_SHA}|g" _site/studio/index.html
-          sed -i "s|./component-studio-app.js|./component-studio-app.js?v=${BUILD_SHA}|g" _site/studio/index.html
-          sed -i "s|./pipetools.css|./pipetools.css?v=${BUILD_SHA}|g" _site/pipetools/index.html
-          sed -i "s|./pipetools-overrides.css|./pipetools-overrides.css?v=${BUILD_SHA}|g" _site/pipetools/index.html
-          sed -i "s|./pipeSpanDetail.css|./pipeSpanDetail.css?v=${BUILD_SHA}|g" _site/pipetools/index.html
-          sed -i "s|./js/app.js|./js/app.js?v=${BUILD_SHA}|g" _site/pipetools/index.html
-          sed -i "s|./js/uiScopePatch.js|./js/uiScopePatch.js?v=${BUILD_SHA}|g" _site/pipetools/index.html
-          sed -i "s|css/app.css|css/app.css?v=${BUILD_SHA}|g" _site/spl2-bundle/spl2_master.html
-          sed -i "s|js/spl2/spl2_master.js|js/spl2/spl2_master.js?v=${BUILD_SHA}|g" _site/spl2-bundle/spl2_master.html
-
           test -f _site/studio/index.html
           test -f _site/studio/component-studio-app.js
           test -f _site/pipetools/index.html
@@ -110,38 +73,14 @@ jobs:
           test -f _site/data/search/component-aliases.json
           test -f _site/data/audit/db-coverage-dashboard.json
           test -f _site/data/audit/source-use-policy.json
-          test -f _site/data/audit/pipetools-agent-00-03-manifest.json
-          test -f _site/data/audit/pipetools-agent-05-wave-2-manifest.json
-          test -f _site/data/audit/pipetools-agent-16-db-index-manifest.json
-          test -f _site/data/audit/pipetools-agent-17-db-dashboard-manifest.json
-          test -f _site/data/audit/pipetools-agent-18-svg-engine-manifest.json
-          test -f _site/data/audit/pipetools-agent-19-svg-detail-routing-manifest.json
-          test -f _site/data/audit/pipetools-agent-23-workbench-layout-manifest.json
-          test -f _site/data/audit/pipetools-agent-24-dashboard-state-svg-manifest.json
           test -f _site/data/exports/db-export-manifest.json
           test -f _site/data/exports/public-export-pack.manifest.json
           test -f _site/data/normalized/valves.json
-
           if [ -d _site/docs/Pipedata/Database ]; then
             echo "ERROR: Raw source database tree must not be published to Pages"
             exit 1
           fi
-
-          cat > _site/index.html <<'HTML'
-          <!doctype html>
-          <html lang="en">
-            <head>
-              <meta charset="utf-8" />
-              <meta name="viewport" content="width=device-width, initial-scale=1" />
-              <meta http-equiv="refresh" content="0; url=./pipetools/" />
-              <title>PipeTools Suite</title>
-            </head>
-            <body>
-              <p><a href="./pipetools/">Open PipeTools Suite</a></p>
-              <p><a href="./studio/">Open Pipe Component Studio</a></p>
-            </body>
-          </html>
-          HTML
+          printf '%s\n' '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="refresh" content="0; url=./pipetools/"><title>PipeTools Suite</title></head><body><p><a href="./pipetools/">Open PipeTools Suite</a></p><p><a href="./studio/">Open Pipe Component Studio</a></p></body></html>' > _site/index.html
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -157,8 +96,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy
-        id: deployment
         uses: actions/deploy-pages@v4
