@@ -80,6 +80,8 @@ const SOURCE_OVERRIDES = {
   Ftsc3: { fields: teeFields() },
 };
 
+export const MAJOR_CALLOUT_RE = /f2f|face|height|h\/w|hw|od|o\.d|id|i\.d|wall|thk|thick|c-e|center|centre|pcd|bolt/i;
+
 function teeFields() {
   return [
     ['runLength', ['C-E', 'Dev. len']],
@@ -90,11 +92,27 @@ function teeFields() {
 }
 
 export function calloutTemplateFor(symbol = {}) {
-  const source = String(symbol.sourceCode || '');
-  const family = String(symbol.family || '').toUpperCase();
-  const override = SOURCE_OVERRIDES[source];
   return {
     slots: BASE_SLOTS,
-    fields: override?.fields || TEMPLATE_FIELDS[family] || TEMPLATE_FIELDS.FITTING,
+    fields: calloutTemplateFields(symbol),
   };
+}
+
+export function calloutTemplateFields(symbol = {}) {
+  const source = String(symbol.sourceCode || '');
+  const family = String(symbol.family || '').toUpperCase();
+  return SOURCE_OVERRIDES[source]?.fields || TEMPLATE_FIELDS[family] || TEMPLATE_FIELDS.FITTING;
+}
+
+export function requiredCalloutLabels(symbol = {}, { majorOnly = true } = {}) {
+  const seen = new Set();
+  const labels = [];
+  for (const [, fieldLabels = []] of calloutTemplateFields(symbol)) {
+    const label = fieldLabels.find((item) => !majorOnly || MAJOR_CALLOUT_RE.test(item));
+    if (label && !seen.has(label)) {
+      seen.add(label);
+      labels.push(label);
+    }
+  }
+  return labels;
 }
