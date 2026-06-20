@@ -1,0 +1,8 @@
+{
+  "schema": "PipeToolsDxfSymbolOffsets.v1",
+  "notes": [
+    "Published runtime copy of DXF-derived PipeTools SVG symbol viewport defaults.",
+    "Keep this file mirrored with docs/Pipedata/Database/Gensets/dxf-symbol-offsets.json after reviewed Fix Offset calibrations are promoted."
+  ],
+  "offsets": {}
+}
