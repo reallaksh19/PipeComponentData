@@ -1,0 +1,20 @@
+.source-svg-panel[data-dimension-callout-mode="compact"] .dimension-callout-layer {
+  opacity: .92;
+}
+
+.source-svg-panel[data-dimension-callout-mode="compact"] .dimension-callout-line {
+  stroke-width: 2.5;
+}
+
+.source-svg-panel[data-dimension-callout-mode="compact"] .dimension-callout-label {
+  font-size: 12px;
+}
+
+.source-svg-panel[data-dimension-callout-mode="off"] .source-data-overlay {
+  opacity: .72;
+}
+
+.source-svg-tools [data-detail-action="svg-callout-mode"] {
+  min-width: 118px;
+  justify-content: center;
+}
