@@ -5,7 +5,7 @@
     "loadOrder": "Load this index first, then lazy-load every runtimeUrls pack for the selected family and de-duplicate by stable row id.",
     "rawSourcePolicy": "Do not publish docs/Pipedata/Database raw DB tree to Pages; publish normalized DB packs only.",
     "coveragePolicy": "Pending rows means normalized runtime packs still missing from the PipeTools browser. Wave 13G promotes every currently committed normalized DB pack, so pending is zero.",
-    "svgPolicy": "svgSupported is an advertised routing flag only; unsupported rows must show explicit SVG-not-available, not a wrong fallback."
+    "svgPolicy": "svgSupported is an advertised legacy/native routing flag only; DXF-manifest symbols may still resolve even when this flag is false. Unsupported rows must show explicit SVG-not-available, not a wrong fallback."
   },
   "families": [
     {
@@ -152,8 +152,8 @@
       "keyFields": ["componentType", "reducerType", "largeNps", "smallNps", "largeSchedule"],
       "searchFields": ["id", "reducerType", "largeNps", "smallNps", "largeSchedule", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "schedule", "nps", "dataStatus"],
-      "svgSupported": true,
-      "notes": ["All committed normalized reducer expansion rows are indexed. DXF-derived reducer symbols are available through the dxf symbol manifest."]
+      "svgSupported": false,
+      "notes": ["All committed normalized reducer expansion rows are indexed. DXF-derived reducer symbols resolve through the dxf symbol manifest and are not counted in the legacy/native SVG coverage gate."]
     },
     {
       "family": "OLET",
@@ -179,8 +179,8 @@
       "keyFields": ["componentType", "oletType", "nps", "scheduleOrRating", "dataStatus"],
       "searchFields": ["id", "oletType", "nps", "dn", "scheduleOrRating", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "schedule", "nps", "dn", "dataStatus"],
-      "svgSupported": true,
-      "notes": ["All committed normalized olet expansion rows are indexed. DXF-derived olet symbols are available through the dxf symbol manifest."]
+      "svgSupported": false,
+      "notes": ["All committed normalized olet expansion rows are indexed. DXF-derived olet symbols resolve through the dxf symbol manifest and are not counted in the legacy/native SVG coverage gate."]
     }
   ]
 }
