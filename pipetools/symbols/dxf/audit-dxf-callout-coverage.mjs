@@ -59,11 +59,11 @@ for (const family of asArray(dbIndex.families)) {
       if (facts.has(label)) {
         availableChecks += 1;
         bump(source.available, label);
-        pushSample(source.availableExamples[label], factSample(row, facts.get(label)));
+        pushSample(sampleBucket(source.availableExamples, label), factSample(row, facts.get(label)));
       } else {
         missingChecks += 1;
         bump(source.missing, label);
-        pushSample(source.missingExamples[label], rowSample(row));
+        pushSample(sampleBucket(source.missingExamples, label), rowSample(row));
       }
     }
   }
@@ -264,6 +264,11 @@ function rowSample(row) {
 
 function factSample(row, fact) {
   return { ...rowSample(row), value: formatFact(fact), path: fact.path || null };
+}
+
+function sampleBucket(collection, label) {
+  collection[label] ??= [];
+  return collection[label];
 }
 
 function pushSample(target, sample) {
