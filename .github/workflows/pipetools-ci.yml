@@ -37,6 +37,9 @@ jobs:
       - name: Run repository verification
         run: npm test
 
+      - name: Run DXF behavior tests
+        run: node --test tests/pipetools-dxf-behavior.test.mjs
+
       - name: Validate DXF offset defaults
         run: node pipetools/symbols/dxf/validate-dxf-offsets.mjs
 
