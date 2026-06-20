@@ -4,10 +4,12 @@ import { calloutTemplateFor } from './dimensionCalloutTemplates.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const ARROW_ID = 'dimension-callout-arrow';
+const DOT_ID = 'dimension-callout-dot';
 const LAYER_SIZE = 1000;
 const LABEL_HEIGHT = 28;
 const LABEL_GAP = 7;
 const LABEL_MARGIN = 16;
+const WITNESS = 34;
 const FULL_LIMIT = 8;
 const COMPACT_LIMIT = 4;
 const LABEL_OFFSETS = [
@@ -111,12 +113,22 @@ function isRenderable(value) {
 function layoutCallouts(callouts) {
   const placed = [];
   return callouts.map((callout) => {
-    const label = `${callout.label}: ${callout.value}`;
+    const label = calloutLabel(callout);
     const base = callout.slot || {};
     const candidate = firstNonOverlappingSlot(label, base, placed);
     placed.push(candidate.box);
     return { ...callout, labelText: label, layoutSlot: candidate.slot, labelBox: candidate.box, adjusted: candidate.adjusted };
   });
+}
+
+function calloutLabel(callout) {
+  const prefix = shouldPrefixDiameter(callout) ? 'Ø ' : '';
+  return `${prefix}${callout.label}: ${callout.value}`;
+}
+
+function shouldPrefixDiameter(callout) {
+  const text = `${callout.slotName} ${callout.label}`.toLowerCase();
+  return /diameter|od|id|rf dia|pcd|hw dia/.test(text) && !/count|size|weight/.test(text);
 }
 
 function firstNonOverlappingSlot(label, baseSlot, placed) {
@@ -158,18 +170,68 @@ function overlaps(a, b) {
 function calloutNode(callout) {
   const slot = callout.layoutSlot || callout.slot;
   if (!slot) return svgNode('g');
-  const group = svgNode('g', { class: `dimension-callout dimension-callout-${callout.slotName}${callout.adjusted ? ' dimension-callout-adjusted' : ''}` });
-  if (callout.arrow && Number.isFinite(slot.x1)) group.append(svgNode('line', {
-    class: 'dimension-callout-line',
-    x1: slot.x1,
-    y1: slot.y1,
-    x2: slot.x2,
-    y2: slot.y2,
-    'marker-start': `url(#${ARROW_ID})`,
-    'marker-end': `url(#${ARROW_ID})`,
-  }));
+  const kind = geometryKind(callout, slot);
+  const group = svgNode('g', { class: `dimension-callout dimension-callout-${callout.slotName} dimension-callout-kind-${kind}${callout.adjusted ? ' dimension-callout-adjusted' : ''}` });
+  geometryNodes(kind, slot).forEach((node) => group.append(node));
   group.append(labelNode(callout.labelText || `${callout.label}: ${callout.value}`, slot));
   return group;
+}
+
+function geometryKind(callout, slot) {
+  if (!callout.arrow || slot.kind === 'badge') return 'badge';
+  if (slot.kind) return slot.kind;
+  if (/height|branch|small|large/.test(String(callout.slotName))) return 'dimension-y';
+  if (/diameter|od|id/.test(`${callout.slotName} ${callout.label}`.toLowerCase())) return 'diameter';
+  if (/thick|wall|rf height/.test(`${callout.slotName} ${callout.label}`.toLowerCase())) return 'leader';
+  return 'dimension-x';
+}
+
+function geometryNodes(kind, slot) {
+  if (!Number.isFinite(Number(slot.x1)) || kind === 'badge') return [];
+  if (kind === 'leader') return leaderNodes(slot);
+  if (kind === 'dimension-y') return dimensionYNodes(slot);
+  if (kind === 'diameter') return diameterNodes(slot);
+  return dimensionXNodes(slot);
+}
+
+function dimensionXNodes(slot) {
+  const x1 = Number(slot.x1), y1 = Number(slot.y1), x2 = Number(slot.x2), y2 = Number(slot.y2);
+  const side = y1 > 500 ? -1 : 1;
+  return [
+    lineNode('dimension-callout-witness', x1, y1 + WITNESS * side, x1, y1 - 10 * side),
+    lineNode('dimension-callout-witness', x2, y2 + WITNESS * side, x2, y2 - 10 * side),
+    lineNode('dimension-callout-line dimension-callout-dimension-line', x1, y1, x2, y2, { 'marker-start': `url(#${ARROW_ID})`, 'marker-end': `url(#${ARROW_ID})` }),
+  ];
+}
+
+function dimensionYNodes(slot) {
+  const x1 = Number(slot.x1), y1 = Number(slot.y1), x2 = Number(slot.x2), y2 = Number(slot.y2);
+  const side = x1 > 500 ? -1 : 1;
+  return [
+    lineNode('dimension-callout-witness', x1 + WITNESS * side, y1, x1 - 10 * side, y1),
+    lineNode('dimension-callout-witness', x2 + WITNESS * side, y2, x2 - 10 * side, y2),
+    lineNode('dimension-callout-line dimension-callout-dimension-line', x1, y1, x2, y2, { 'marker-start': `url(#${ARROW_ID})`, 'marker-end': `url(#${ARROW_ID})` }),
+  ];
+}
+
+function diameterNodes(slot) {
+  const x1 = Number(slot.x1), y1 = Number(slot.y1), x2 = Number(slot.x2), y2 = Number(slot.y2);
+  return [
+    lineNode('dimension-callout-centre-mark', (x1 + x2) / 2 - 12, (y1 + y2) / 2, (x1 + x2) / 2 + 12, (y1 + y2) / 2),
+    lineNode('dimension-callout-line dimension-callout-diameter-line', x1, y1, x2, y2, { 'marker-start': `url(#${ARROW_ID})`, 'marker-end': `url(#${ARROW_ID})` }),
+  ];
+}
+
+function leaderNodes(slot) {
+  const x1 = Number(slot.x1), y1 = Number(slot.y1), x2 = Number(slot.x2), y2 = Number(slot.y2);
+  return [
+    lineNode('dimension-callout-line dimension-callout-leader-line', x1, y1, x2, y2, { 'marker-end': `url(#${ARROW_ID})` }),
+    svgNode('circle', { class: 'dimension-callout-leader-dot', cx: x1, cy: y1, r: 4 }),
+  ];
+}
+
+function lineNode(className, x1, y1, x2, y2, attrs = {}) {
+  return svgNode('line', { class: className, x1, y1, x2, y2, ...attrs });
 }
 
 function labelNode(text, slot) {
@@ -196,6 +258,9 @@ function defs() {
   });
   marker.append(svgNode('path', { d: 'M 0 0 L 10 5 L 0 10 z', class: 'dimension-callout-arrow' }));
   defsNode.append(marker);
+  const dot = svgNode('marker', { id: DOT_ID, markerWidth: 8, markerHeight: 8, refX: 4, refY: 4, orient: 'auto' });
+  dot.append(svgNode('circle', { cx: 4, cy: 4, r: 3, class: 'dimension-callout-arrow' }));
+  defsNode.append(dot);
   return defsNode;
 }
 
