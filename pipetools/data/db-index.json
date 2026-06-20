@@ -78,14 +78,14 @@
         "../data/normalized/flanges-expanded.json",
         "../data/normalized/flanges.json"
       ],
-      "rowCount": 254,
-      "sourceRowCount": 254,
-      "sourceFileCount": 7,
-      "keyFields": ["componentType", "subtype", "nps", "classRating", "unitSystem"],
-      "searchFields": ["id", "subtype", "nps", "dn", "classRating", "standard", "source", "dataStatus"],
-      "availableFilters": ["componentType", "subtype", "classRating", "nps", "dn", "unitSystem", "dataStatus"],
+      "rowCount": 1294,
+      "sourceRowCount": 1294,
+      "sourceFileCount": 21,
+      "keyFields": ["componentType", "subtype", "facing", "nps", "classRating"],
+      "searchFields": ["id", "subtype", "nps", "dn", "classRating", "facing", "standard", "source", "dataStatus"],
+      "availableFilters": ["componentType", "subtype", "facing", "classRating", "nps", "dataStatus"],
       "svgSupported": true,
-      "notes": ["All committed normalized flange packs are indexed. Expanded WN/BLIND rows are combined with SO seed rows and de-duplicated at runtime."]
+      "notes": ["All committed normalized flange packs are indexed."]
     },
     {
       "family": "FITTING",
@@ -93,29 +93,41 @@
       "componentType": "FITTING",
       "subtypes": ["ELBOW_90", "ELBOW_45", "TEE_STRAIGHT", "CAP"],
       "standard": "ASME B16.9",
-      "repositoryPath": "data/normalized/fittings.json",
-      "runtimeUrl": "../data/normalized/fittings.json",
-      "rowCount": 15,
-      "sourceRowCount": 15,
-      "sourceFileCount": 5,
-      "keyFields": ["componentType", "subtype", "nps", "schedule", "unitSystem"],
+      "repositoryPaths": [
+        "data/normalized/fittings-expanded.json",
+        "data/normalized/fittings.json",
+        "data/normalized/fittings-sch80-wave2.json",
+        "data/normalized/fittings-sch80-wave3.json",
+        "data/normalized/fittings-sch80-wave4.json"
+      ],
+      "runtimeUrls": [
+        "../data/normalized/fittings-expanded.json",
+        "../data/normalized/fittings.json",
+        "../data/normalized/fittings-sch80-wave2.json",
+        "../data/normalized/fittings-sch80-wave3.json",
+        "../data/normalized/fittings-sch80-wave4.json"
+      ],
+      "rowCount": 1017,
+      "sourceRowCount": 1017,
+      "sourceFileCount": 15,
+      "keyFields": ["componentType", "subtype", "nps", "schedule"],
       "searchFields": ["id", "subtype", "nps", "dn", "schedule", "standard", "source", "dataStatus"],
-      "availableFilters": ["componentType", "subtype", "schedule", "nps", "dn", "unitSystem", "dataStatus"],
+      "availableFilters": ["componentType", "subtype", "schedule", "nps", "dn", "dataStatus"],
       "svgSupported": true,
-      "notes": ["All committed normalized fitting rows are indexed."]
+      "notes": ["All committed normalized fitting packs are indexed, including expansion and Schedule 80 continuation packs."]
     },
     {
       "family": "GASKET",
       "label": "Gasket",
       "componentType": "GASKET",
       "subtypes": ["FLAT_RING", "RTJ", "SPIRAL_WOUND"],
-      "standard": "SOURCE_INVENTORY_ONLY",
-      "repositoryPath": "data/normalized/gaskets.json",
-      "runtimeUrl": "../data/normalized/gaskets.json",
-      "rowCount": 3,
-      "sourceRowCount": 3,
-      "sourceFileCount": 3,
-      "keyFields": ["componentType", "subtype", "nps", "classRating", "facing"],
+      "standard": "ASME B16.20 / B16.21",
+      "repositoryPath": "data/normalized/gaskets-expanded.json",
+      "runtimeUrl": "../data/normalized/gaskets-expanded.json",
+      "rowCount": 207,
+      "sourceRowCount": 207,
+      "sourceFileCount": 9,
+      "keyFields": ["componentType", "subtype", "facing", "nps", "classRating"],
       "searchFields": ["id", "subtype", "nps", "classRating", "facing", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "facing", "classRating", "nps", "dataStatus"],
       "svgSupported": true,
@@ -152,8 +164,8 @@
       "keyFields": ["componentType", "reducerType", "largeNps", "smallNps", "largeSchedule"],
       "searchFields": ["id", "reducerType", "largeNps", "smallNps", "largeSchedule", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "schedule", "nps", "dataStatus"],
-      "svgSupported": false,
-      "notes": ["All committed normalized reducer expansion rows are indexed."]
+      "svgSupported": true,
+      "notes": ["All committed normalized reducer expansion rows are indexed. DXF-derived reducer symbols are available through the dxf symbol manifest."]
     },
     {
       "family": "OLET",
@@ -179,8 +191,8 @@
       "keyFields": ["componentType", "oletType", "nps", "scheduleOrRating", "dataStatus"],
       "searchFields": ["id", "oletType", "nps", "dn", "scheduleOrRating", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "schedule", "nps", "dn", "dataStatus"],
-      "svgSupported": false,
-      "notes": ["All committed normalized olet expansion rows are indexed."]
+      "svgSupported": true,
+      "notes": ["All committed normalized olet expansion rows are indexed. DXF-derived olet symbols are available through the dxf symbol manifest."]
     }
   ]
 }
