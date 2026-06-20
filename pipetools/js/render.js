@@ -4,7 +4,7 @@ import { getDashboardCounts } from './pipespecFilters.js';
 import { renderPipeSpecInspector } from './pipespecInspector.js';
 import { bindPipeSpecDetailActions } from './pipespecDetailActions.js';
 import { iconSvg, pipeSpanSvg } from './svg.js';
-import { getPipeSpecSvgKey, hasPipeSpecSvgSupport, mountPipeSpecSvg } from './svg/pipeSpecSvgEngine.js';
+import { mountDxfSymbolSvg } from './svg/dxfSymbolEngine.js';
 import { renderPipeSpanInputs, renderPipeSpanMain } from './pipeSpan/ui.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
@@ -116,18 +116,27 @@ function renderPipeSpecTable(state, actions) {
 }
 
 function renderSourceSvgPanel(row) {
-  document.getElementById('source-svg-title').textContent = row ? itemLabel(row) : 'Centre Canvas';
-  document.getElementById('source-svg-kicker').textContent = row ? `${getPipeSpecSvgKey(row)} · fit 56%` : 'Source SVG';
+  const title = document.getElementById('source-svg-title');
+  const kicker = document.getElementById('source-svg-kicker');
   const host = document.getElementById('source-svg-body');
-  if (!row) return clearSourceSvgPanel('Select a row to preview its source SVG.');
-  if (!hasPipeSpecSvgSupport(row)) return clearSourceSvgPanel(`SVG not available for ${row.componentType ?? 'this component'}.`);
+  title.textContent = row ? itemLabel(row) : 'Centre Canvas';
+  kicker.textContent = row ? 'DXF manifest lookup · no generic fallback' : 'Source SVG';
+  if (!row) return clearSourceSvgPanel('Select a row to preview its DXF-derived source SVG.');
   const rowId = String(row.id ?? '');
-  host.innerHTML = `<div class="source-svg-canvas"><div data-pipespec-source-svg-host="true" data-row-id="${esc(rowId)}"><div class="svg-loading">Loading source SVG…</div></div></div>`;
-  mountPipeSpecSvg(row, host.querySelector('[data-pipespec-source-svg-host]'), { width: 760, height: 500 }).then((ok) => {
-    const svg = host.querySelector('svg');
-    if (ok && svg && host.querySelector('[data-row-id]')?.dataset.rowId === rowId) fitSourceSvg(svg);
+  host.innerHTML = `<div class="source-svg-canvas"><div data-pipespec-source-svg-host="true" data-row-id="${esc(rowId)}"><div class="svg-loading">Loading DXF-derived SVG…</div></div></div>`;
+  mountDxfSymbolSvg(row, host.querySelector('[data-pipespec-source-svg-host]')).then((result) => {
+    if (host.querySelector('[data-row-id]')?.dataset.rowId !== rowId) return;
+    if (result.status === 'OK') {
+      title.textContent = result.symbol.title;
+      kicker.textContent = `${result.sourceCode} · ${result.symbol.family} · ${result.symbol.standard || 'standard pending'}`;
+      const svg = host.querySelector('svg');
+      if (svg) fitSourceSvg(svg);
+    } else {
+      title.textContent = 'SVG not available';
+      kicker.textContent = `${result.status} · ${result.reason}`;
+    }
   }).catch((error) => {
-    if (host.querySelector('[data-row-id]')?.dataset.rowId === rowId) host.innerHTML = `<div class="source-svg-canvas"><div class="svg-unavailable">Source SVG failed: ${esc(error.message)}</div></div>`;
+    if (host.querySelector('[data-row-id]')?.dataset.rowId === rowId) host.innerHTML = `<div class="source-svg-canvas"><div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(error.message)}</div></div>`;
   });
 }
 
