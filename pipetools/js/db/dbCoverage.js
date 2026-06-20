@@ -20,17 +20,23 @@ export function summarizeDbIndex(index) {
 export function renderDbCoverageStrip(index) {
   const summary = summarizeDbIndex(index);
   if (!summary.families) return '';
-  const headline = `${summary.families} families · ${summary.indexedRows} indexed · ${summary.sourceRows} source · ${summary.percent}% coverage · SVG ${summary.svgReady}/${summary.families}`;
+  const host = typeof document !== 'undefined' ? document.getElementById('db-health-chip') : null;
+  if (host) host.innerHTML = renderHeaderHealth(summary);
+  return '';
+}
+
+function renderHeaderHealth(summary) {
+  const headline = `${summary.indexedRows}/${summary.sourceRows} rows · ${summary.percent}% · SVG ${summary.svgReady}/${summary.families}`;
   const rows = summary.rows.map((row) => `<button class="db-index-row" data-group="component" data-card="${esc(row.family)}">
     <span><strong>${esc(row.label)}</strong><small>${esc(row.standard)}</small></span>
     <span>${esc(row.indexedRows)}/${esc(row.sourceRows)}</span>
     <span title="Pending rows">${esc(row.pendingRows)} pending</span>
     <span>${row.svgSupported ? 'SVG' : 'No SVG'}</span>
   </button>`).join('');
-  return `<section class="strip db-coverage-strip db-health-strip"><div class="strip-title">DB Health</div><div class="db-coverage-panel">
-    <div class="db-coverage-summary"><strong>${esc(headline)}</strong><span title="Pending rows">${esc(summary.pendingRows)} pending</span></div>
-    <details class="db-health-details"><summary>Details</summary><div class="db-index-browser" aria-label="Database index browser">${rows}</div></details>
-  </div></section>`;
+  return `<details class="db-health-details"><summary>DB Health <b>${esc(headline)}</b></summary><div class="db-coverage-panel">
+    <div class="db-coverage-summary"><strong>${esc(summary.families)} DB families</strong><span title="Pending rows">${esc(summary.pendingRows)} pending</span></div>
+    <div class="db-index-browser" aria-label="Database index browser">${rows}</div>
+  </div></details>`;
 }
 
 function familyCoverage(entry) {
