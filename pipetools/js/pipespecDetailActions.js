@@ -88,8 +88,10 @@ function bindSourcePan() {
   };
   canvas.addEventListener('pointerup', end);
   canvas.addEventListener('pointercancel', end);
-  const observer = new MutationObserver(() => updateSourceCoordinateReadout());
-  observer.observe(canvas, { childList: true, subtree: true });
+  if (typeof MutationObserver === 'function') {
+    const observer = new MutationObserver(() => updateSourceCoordinateReadout());
+    observer.observe(canvas, { childList: true, subtree: true });
+  }
   updateSourceCoordinateReadout();
 }
 
