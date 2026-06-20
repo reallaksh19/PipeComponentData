@@ -10,11 +10,97 @@
   font-size: 12px;
 }
 
-.source-svg-panel[data-dimension-callout-mode="off"] .source-data-overlay {
+.source-svg-panel[data-dimension-callout-mode="off"] .source-data-overlay,
+.source-svg-panel[data-dimension-callout-mode="off"] .dimension-diagnostics {
   opacity: .72;
 }
 
 .source-svg-tools [data-detail-action="svg-callout-mode"] {
   min-width: 118px;
   justify-content: center;
+}
+
+.dimension-diagnostics {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 6;
+  display: grid;
+  gap: 5px;
+  width: min(310px, calc(100% - 20px));
+  max-height: calc(100% - 72px);
+  overflow: hidden;
+  padding: 8px;
+  border: 1px solid rgba(56,189,248,.28);
+  border-radius: 12px;
+  background: rgba(7,17,31,.88);
+  color: #dbeafe;
+  box-shadow: 0 12px 30px rgba(0,0,0,.22);
+  pointer-events: none;
+}
+
+.dimension-diagnostics strong {
+  color: #f8fafc;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.dimension-diagnostics-summary {
+  color: #93c5fd;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dimension-diagnostics-section,
+.dimension-diagnostics-missing {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.dimension-diagnostics-section span,
+.dimension-diagnostics-missing span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 3px 6px;
+  border: 1px solid rgba(219,234,254,.12);
+  border-radius: 999px;
+  background: rgba(15,23,42,.72);
+  color: #e0f2fe;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.dimension-diagnostics-section b,
+.dimension-diagnostics-missing b {
+  color: #7dd3fc;
+  font-size: 10px;
+}
+
+.dimension-diagnostics-section em {
+  max-width: 120px;
+  overflow: hidden;
+  color: #94a3b8;
+  font-style: normal;
+  text-overflow: ellipsis;
+}
+
+.dimension-diagnostics .missing-chip {
+  border-color: rgba(245,158,11,.35);
+  color: #fde68a;
+}
+
+.dimension-diagnostics .ok-chip {
+  border-color: rgba(52,211,153,.35);
+  color: #bbf7d0;
+}
+
+.dimension-diagnostics .muted {
+  color: #cbd5e1;
 }
