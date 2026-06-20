@@ -1,5 +1,6 @@
 const MANIFEST_JSON_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.json', import.meta.url).href;
 const MANIFEST_JS_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.js', import.meta.url).href;
+const FETCH_TIMEOUT_MS = 6000;
 
 let manifestPromise;
 let manifestUrl = MANIFEST_JSON_URL;
@@ -41,7 +42,8 @@ function semanticValue(row, key) {
     endType: ['endType', 'endConnection', 'connectionType'],
     facing: ['facing', 'faceType'],
     classRating: ['classRating', 'rating', 'pressureClass'],
-    nps: ['nps', 'largeNps', 'nominalSize']
+    nps: ['nps', 'largeNps', 'nominalSize'],
+    standard: ['standard', 'sourceStandard']
   }[key] || [key];
   for (const name of lookups) {
     const value = rowField(row, name);
@@ -61,8 +63,18 @@ function normalizeSymbol(symbol) {
   };
 }
 
+async function fetchWithTimeout(url, options = {}) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    return await fetch(url, { cache: 'no-cache', ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function fetchJson(url) {
-  const response = await fetch(url, { cache: 'no-cache' });
+  const response = await fetchWithTimeout(url);
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
   return response.json();
 }
@@ -122,6 +134,22 @@ function scoreSymbol(symbol, row) {
   return lookupWeight + fieldWeight + standardScore(symbol, row);
 }
 
+function mountImageFallback(container, result, reason) {
+  const img = new Image();
+  img.src = result.svgUrl;
+  img.alt = `${result.symbol.title} DXF symbol`;
+  img.loading = 'eager';
+  img.dataset.dxfSymbolImg = 'true';
+  img.className = 'dxf-symbol-img';
+  container.innerHTML = '';
+  container.append(img);
+  container.insertAdjacentHTML('beforeend', `<div class="source-svg-meta">DXF ${esc(result.sourceCode)} · ${esc(result.symbol.family)} · ${esc(result.symbol.subtype || '—')} · file reference</div>`);
+  img.onerror = () => {
+    container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(reason)}</div>`;
+  };
+  return { ...result, renderMode: 'img', reason: `${result.reason}; inline fetch unavailable, mounted SVG file reference` };
+}
+
 export async function resolveDxfSymbolForComponent(row) {
   await loadDxfSymbolManifest();
   if (!row || typeof row !== 'object') return { status: 'SVG_NOT_AVAILABLE', reason: 'No component row supplied', symbol: null };
@@ -134,25 +162,29 @@ export async function resolveDxfSymbolForComponent(row) {
 
 export async function mountDxfSymbolSvg(row, container) {
   if (!container) return { status: 'SVG_NOT_AVAILABLE', reason: 'No SVG host supplied', symbol: null };
-  const result = await resolveDxfSymbolForComponent(row);
-  if (result.status !== 'OK') {
-    container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(result.reason)}</div>`;
-    return result;
-  }
-  const response = await fetch(result.svgUrl, { cache: 'no-cache' });
-  if (!response.ok) {
-    const failed = { ...result, status: 'SVG_NOT_AVAILABLE', reason: `DXF SVG file failed to load: ${response.status} ${response.statusText}` };
+  let result;
+  try {
+    result = await resolveDxfSymbolForComponent(row);
+    if (result.status !== 'OK') {
+      container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(result.reason)}</div>`;
+      return result;
+    }
+    const response = await fetchWithTimeout(result.svgUrl);
+    if (!response.ok) throw new Error(`DXF SVG file failed to load: ${response.status} ${response.statusText}`);
+    const svgText = await response.text();
+    if (!/<svg[\s>]/i.test(svgText) || /<script[\s>]/i.test(svgText)) {
+      const failed = { ...result, status: 'SVG_NOT_AVAILABLE', reason: 'DXF SVG file is not a safe inline SVG payload' };
+      container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(failed.reason)}</div>`;
+      return failed;
+    }
+    container.innerHTML = `${svgText}<div class="source-svg-meta">DXF ${esc(result.sourceCode)} · ${esc(result.symbol.family)} · ${esc(result.symbol.subtype || '—')}</div>`;
+    return { ...result, renderMode: 'inline' };
+  } catch (error) {
+    if (result?.status === 'OK') return mountImageFallback(container, result, error.message);
+    const failed = { status: 'SVG_NOT_AVAILABLE', reason: error.message || 'DXF symbol lookup failed', symbol: null };
     container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(failed.reason)}</div>`;
     return failed;
   }
-  const svgText = await response.text();
-  if (!/<svg[\s>]/i.test(svgText) || /<script[\s>]/i.test(svgText)) {
-    const failed = { ...result, status: 'SVG_NOT_AVAILABLE', reason: 'DXF SVG file is not a safe inline SVG payload' };
-    container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(failed.reason)}</div>`;
-    return failed;
-  }
-  container.innerHTML = `${svgText}<div class="source-svg-meta">DXF ${esc(result.sourceCode)} · ${esc(result.symbol.family)} · ${esc(result.symbol.subtype || '—')}</div>`;
-  return result;
 }
 
 export async function getDxfSymbolKey(row) {
