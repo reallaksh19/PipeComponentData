@@ -1,24 +1,29 @@
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const FIT_SCALE = 0.5625;
+const MIN_SCALE = 0.25;
+const MAX_SCALE = 2.5;
+const DEFAULT_PAN_X = '25vw';
+const DEFAULT_PAN_Y = '-33vh';
 
 export function bindPipeSpecDetailActions(row) {
   const inspector = document.getElementById('inspector-body');
   const source = document.getElementById('source-svg-panel');
   if (!row || (!inspector && !source)) return;
   const payload = JSON.stringify(row, null, 2);
-  if (source) source.dataset.svgScale = source.dataset.svgScale || String(FIT_SCALE);
+  initSourceViewport();
+  bindSourcePan();
   [inspector, source].filter(Boolean).forEach((host) => {
     host.querySelectorAll('[data-detail-action]').forEach((button) => {
-      button.addEventListener('click', () => runDetailAction(button.dataset.detailAction, { button, host: inspector ?? host, payload }));
+      button.onclick = () => runDetailAction(button.dataset.detailAction, { button, host: button.closest('.panel') ?? host, payload });
     });
   });
 }
 
 async function runDetailAction(action, context) {
   if (action?.startsWith('tab-')) return selectTab(context, action.replace('tab-', ''));
-  if (action === 'svg-zoom-in') return zoomSvg(context.host, 0.08);
-  if (action === 'svg-zoom-out') return zoomSvg(context.host, -0.08);
-  if (action === 'svg-fit') return fitSvg(context.host);
+  if (action === 'svg-zoom-in') return zoomSvg(context.host, 0.1);
+  if (action === 'svg-zoom-out') return zoomSvg(context.host, -0.1);
+  if (action === 'svg-fit' || action === 'svg-pan-home') return fitSvg(context.host);
   if (action === 'copy-json') return copyJson(context);
   if (action === 'open-svg-preview') return openSvgPreview(context);
 }
@@ -43,25 +48,87 @@ async function copyJson({ button, host, payload }) {
   }
 }
 
+function initSourceViewport() {
+  const panel = sourcePanel();
+  if (!panel) return;
+  setViewport({ scale: FIT_SCALE, panX: DEFAULT_PAN_X, panY: DEFAULT_PAN_Y });
+}
+
+function bindSourcePan() {
+  const canvas = document.querySelector('.source-svg-canvas');
+  if (!canvas || canvas.dataset.panBound === 'true') return;
+  canvas.dataset.panBound = 'true';
+  let drag = null;
+  canvas.addEventListener('pointerdown', (event) => {
+    if (!sourceTarget() || event.button !== 0) return;
+    if (event.target.closest?.('.source-data-overlay,.source-svg-meta,.svg-loading,.svg-unavailable')) return;
+    const view = readViewport();
+    drag = { id: event.pointerId, x: event.clientX, y: event.clientY, panX: toPx(view.panX, 'x'), panY: toPx(view.panY, 'y') };
+    canvas.dataset.panActive = 'true';
+    canvas.setPointerCapture?.(event.pointerId);
+    event.preventDefault();
+  });
+  canvas.addEventListener('pointermove', (event) => {
+    if (!drag || event.pointerId !== drag.id) return;
+    const view = readViewport();
+    setViewport({ scale: view.scale, panX: `${drag.panX + event.clientX - drag.x}px`, panY: `${drag.panY + event.clientY - drag.y}px` });
+  });
+  const end = (event) => {
+    if (!drag || event.pointerId !== drag.id) return;
+    canvas.releasePointerCapture?.(event.pointerId);
+    delete canvas.dataset.panActive;
+    drag = null;
+  };
+  canvas.addEventListener('pointerup', end);
+  canvas.addEventListener('pointercancel', end);
+}
+
 function zoomSvg(host, delta) {
-  const svg = sourceSvg();
-  if (!svg) return setStatus(host, 'Centre SVG not ready');
-  const panel = document.getElementById('source-svg-panel');
-  const next = Math.min(1.2, Math.max(0.4, Number(panel?.dataset.svgScale ?? FIT_SCALE) + delta));
-  if (panel) panel.dataset.svgScale = String(next);
-  svg.style.transform = `scale(${next})`;
-  svg.style.transformOrigin = 'center';
-  setStatus(host, `Centre SVG zoom ${Math.round(next * 100)}%`);
+  if (!sourceTarget()) return setStatus(host, 'Centre SVG not ready');
+  const view = readViewport();
+  const next = Math.min(MAX_SCALE, Math.max(MIN_SCALE, view.scale + delta));
+  setViewport({ ...view, scale: next });
+  setStatus(host, `Centre SVG zoom ${Math.round(next * 100)}% · drag to pan`);
 }
 
 function fitSvg(host) {
-  const svg = sourceSvg();
-  if (!svg) return setStatus(host, 'Centre SVG not ready');
-  const panel = document.getElementById('source-svg-panel');
-  if (panel) panel.dataset.svgScale = String(FIT_SCALE);
-  svg.style.transform = `scale(${FIT_SCALE})`;
-  svg.style.transformOrigin = 'center';
-  setStatus(host, 'Centre SVG fit 56%');
+  if (!sourceTarget()) return setStatus(host, 'Centre SVG not ready');
+  setViewport({ scale: FIT_SCALE, panX: DEFAULT_PAN_X, panY: DEFAULT_PAN_Y });
+  setStatus(host, 'Centre SVG fit 56% · pan +25vw / -33vh');
+}
+
+function setViewport({ scale, panX, panY }) {
+  const panel = sourcePanel();
+  if (!panel) return;
+  panel.dataset.svgScale = String(scale);
+  panel.dataset.svgPanX = String(panX);
+  panel.dataset.svgPanY = String(panY);
+  panel.style.setProperty('--source-svg-scale', String(scale));
+  panel.style.setProperty('--source-svg-pan-x', String(panX));
+  panel.style.setProperty('--source-svg-pan-y', String(panY));
+}
+
+function readViewport() {
+  const panel = sourcePanel();
+  return {
+    scale: Math.min(MAX_SCALE, Math.max(MIN_SCALE, Number(panel?.dataset.svgScale ?? FIT_SCALE) || FIT_SCALE)),
+    panX: panel?.dataset.svgPanX || DEFAULT_PAN_X,
+    panY: panel?.dataset.svgPanY || DEFAULT_PAN_Y
+  };
+}
+
+function toPx(value, axis) {
+  const text = String(value ?? '0').trim();
+  const number = parseFloat(text);
+  if (!Number.isFinite(number)) return 0;
+  if (text.endsWith('vw')) return window.innerWidth * number / 100;
+  if (text.endsWith('vh')) return window.innerHeight * number / 100;
+  if (text.endsWith('%')) {
+    const canvas = document.querySelector('.source-svg-canvas');
+    const size = axis === 'x' ? canvas?.clientWidth : canvas?.clientHeight;
+    return (size ?? 0) * number / 100;
+  }
+  return number;
 }
 
 function openSvgPreview({ host }) {
@@ -73,6 +140,14 @@ function openSvgPreview({ host }) {
   popup.document.write(previewHtml(svg.outerHTML));
   popup.document.close();
   setStatus(host, 'Opened centre SVG preview');
+}
+
+function sourcePanel() {
+  return document.getElementById('source-svg-panel');
+}
+
+function sourceTarget() {
+  return document.querySelector('[data-pipespec-source-svg-host] svg, [data-pipespec-source-svg-host] img.dxf-symbol-img');
 }
 
 function sourceSvg() {
