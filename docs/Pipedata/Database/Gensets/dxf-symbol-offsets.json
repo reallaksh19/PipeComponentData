@@ -1,0 +1,8 @@
+{
+  "schema": "PipeToolsDxfSymbolOffsets.v1",
+  "notes": [
+    "Default viewport offsets for DXF-derived PipeTools SVG symbols.",
+    "The browser Fix Offset button stores local overrides in localStorage and exports JSON that can be copied into this file."
+  ],
+  "offsets": {}
+}
