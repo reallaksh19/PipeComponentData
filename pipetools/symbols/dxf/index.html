@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PipeComponentData DXF Symbol Library</title>
+  <title>PipeComponentData DXF Symbol Audit Dashboard</title>
   <style>
     :root { color-scheme: light; --bg:#eef0f3; --panel:#fff; --ink:#0f172a; --muted:#64748b; --line:#cbd5e1; --soft:#f8fafc; --brand:#1d4ed8; --ok:#15803d; --warn:#b45309; --bad:#991b1b; --shadow:0 12px 30px rgba(15,23,42,.08); --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; --sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
     * { box-sizing:border-box; }
@@ -11,8 +11,8 @@
     .shell { max-width:1580px; margin:0 auto; padding:24px; }
     .hero { display:grid; grid-template-columns:1fr auto; gap:18px; align-items:end; margin-bottom:14px; }
     h1 { margin:0 0 8px; font-size:24px; letter-spacing:-.03em; }
-    .intro { margin:0; max-width:940px; color:var(--muted); line-height:1.55; font-size:13px; }
-    .status-box { min-width:260px; background:var(--panel); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:12px 14px; }
+    .intro { margin:0; max-width:980px; color:var(--muted); line-height:1.55; font-size:13px; }
+    .status-box { min-width:300px; background:var(--panel); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:12px 14px; }
     .status-box div { display:flex; justify-content:space-between; gap:18px; margin:6px 0; font-size:12px; }
     .status-box b { font-family:var(--mono); }
     .toolbar { position:sticky; top:0; z-index:5; display:grid; grid-template-columns:minmax(260px,360px) 1fr; gap:12px; align-items:start; padding:10px 0 14px; background:rgba(238,240,243,.92); border-bottom:1px solid rgba(203,213,225,.75); backdrop-filter:blur(8px); }
@@ -23,24 +23,29 @@
     .chip span { margin-left:5px; color:var(--muted); font-family:var(--mono); }
     .chip.active { background:#0f172a; border-color:#0f172a; color:#fff; }
     .chip.active span { color:#cbd5e1; }
-    .workbench { display:grid; grid-template-columns:minmax(420px,1fr) minmax(380px,520px); gap:18px; margin-top:18px; align-items:start; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; }
+    .audit-summary { display:grid; grid-template-columns:repeat(5,minmax(130px,1fr)); gap:10px; margin:14px 0 0; }
+    .metric { background:var(--panel); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); padding:10px 12px; }
+    .metric span { display:block; color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.08em; font-weight:900; }
+    .metric b { display:block; margin-top:4px; font:900 18px/1.2 var(--mono); }
+    .workbench { display:grid; grid-template-columns:minmax(420px,1fr) minmax(380px,540px); gap:18px; margin-top:18px; align-items:start; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:14px; }
     .card { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:12px; box-shadow:var(--shadow); cursor:pointer; outline:none; }
     .card:hover, .card.selected { border-color:var(--brand); box-shadow:0 0 0 3px rgba(29,78,216,.12), var(--shadow); }
     .card header { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:28px; }
     .card b { color:var(--brand); font-family:var(--mono); font-size:12px; letter-spacing:.04em; }
-    .card span { background:#e0f2fe; color:#075985; border-radius:999px; padding:4px 8px; font-size:10px; font-weight:900; text-transform:uppercase; }
-    .card img { width:100%; height:160px; object-fit:contain; background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:8px; margin:10px 0; display:block; }
+    .card span.family { background:#e0f2fe; color:#075985; border-radius:999px; padding:4px 8px; font-size:10px; font-weight:900; text-transform:uppercase; }
+    .card img { width:100%; height:150px; object-fit:contain; background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:8px; margin:10px 0; display:block; }
     .card h2 { margin:0 0 5px; font-size:14px; line-height:1.25; }
     .card p { margin:0 0 8px; color:var(--muted); font-size:11px; }
     code, pre { font-family:var(--mono); font-size:11px; }
-    .badge { display:inline-flex; border-radius:999px; padding:4px 8px; background:#fef3c7; color:var(--warn); font-size:10px; font-family:var(--mono); font-weight:900; }
+    .badge-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+    .badge { display:inline-flex; align-items:center; border-radius:999px; padding:4px 8px; background:#fef3c7; color:var(--warn); font-size:10px; font-family:var(--mono); font-weight:900; }
     .badge.ok { background:#dcfce7; color:var(--ok); }
     .badge.warn { background:#fee2e2; color:var(--bad); }
     .badge.muted { background:#e2e8f0; color:#475569; }
     .detail { position:sticky; top:92px; background:var(--panel); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); overflow:hidden; }
-    .detail-figure { min-height:310px; background:#fff; display:grid; place-items:center; padding:16px; border-bottom:1px solid #e2e8f0; }
-    .detail-figure img { width:100%; height:330px; object-fit:contain; display:block; }
+    .detail-figure { min-height:300px; background:#fff; display:grid; place-items:center; padding:16px; border-bottom:1px solid #e2e8f0; }
+    .detail-figure img { width:100%; height:315px; object-fit:contain; display:block; }
     .detail-meta { padding:16px; }
     .detail-meta h2 { margin:0 0 12px; font-size:18px; }
     .detail-meta dl { display:grid; grid-template-columns:1fr 1fr; margin:0; border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; }
@@ -49,11 +54,15 @@
     .detail-meta dt { color:var(--muted); font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
     .detail-meta dd { margin:0; overflow-wrap:anywhere; font-size:12px; font-weight:750; }
     .detail-meta h3 { margin:14px 0 8px; font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+    .audit-list { display:grid; gap:6px; margin:8px 0 0; }
+    .audit-list li { display:flex; justify-content:space-between; gap:10px; padding:7px 9px; border:1px solid #e2e8f0; border-radius:10px; background:#f8fafc; font-size:11px; }
+    .audit-list strong { font-family:var(--mono); }
+    .audit-list em { color:var(--muted); font-style:normal; }
     pre { margin:0; padding:11px; background:#0f172a; color:#cbd5e1; border-radius:12px; overflow:auto; }
     .note { margin:12px 0 0; color:var(--muted); line-height:1.45; font-size:12px; }
     .empty { grid-column:1/-1; background:var(--panel); border:1px dashed var(--line); border-radius:14px; padding:34px; color:var(--muted); text-align:center; font-weight:800; }
     .empty.error { color:var(--bad); background:#fef2f2; }
-    @media (max-width:1080px) { .hero,.toolbar,.workbench { grid-template-columns:1fr; } .detail { position:static; } }
+    @media (max-width:1080px) { .hero,.toolbar,.workbench,.audit-summary { grid-template-columns:1fr; } .detail { position:static; } }
     @media (max-width:640px) { .shell { padding:16px; } .detail-meta dl { grid-template-columns:1fr; } .detail-meta div { border-right:0; } }
   </style>
 </head>
@@ -61,18 +70,27 @@
   <main class="shell">
     <section class="hero">
       <div>
-        <h1>DXF-Based Piping Component Symbol Library</h1>
-        <p class="intro">Static-first viewer for PipeComponentData. Every card references a converted DXF SVG under <code>symbols/</code>; the old hand-drawn approximation system is intentionally not used. Select a symbol to inspect its DXF source code, family, subtype, standard, DB lookup hints, and optional normalized database linkage.</p>
+        <h1>DXF-Based Piping Component Symbol Audit Dashboard</h1>
+        <p class="intro">Static-first QA dashboard for PipeComponentData. Every card references a converted DXF SVG under <code>symbols/</code>, links it to normalized DB rows, audits DB-backed dimension callout readiness, and reports calibration offset status. Unsupported rows must resolve to <code>SVG_NOT_AVAILABLE</code>; generic fallback symbols are intentionally not used.</p>
       </div>
       <aside class="status-box" aria-label="Library status">
         <div><span>Total symbols</span><b id="totalCount">0</b></div>
         <div><span>Shown</span><b id="shownCount">0</b></div>
         <div><span>DB status</span><b id="dbStatus">pending</b></div>
+        <div><span>Offset defaults</span><b id="offsetStatus">pending</b></div>
       </aside>
     </section>
 
+    <section class="audit-summary" aria-label="DXF audit summary">
+      <div class="metric"><span>DB linked symbols</span><b id="linkedMetric">0</b></div>
+      <div class="metric"><span>Callout ready</span><b id="readyMetric">0</b></div>
+      <div class="metric"><span>Missing major</span><b id="missingMetric">0</b></div>
+      <div class="metric"><span>Offset calibrated</span><b id="offsetMetric">0</b></div>
+      <div class="metric"><span>Unmatched</span><b id="unmatchedMetric">0</b></div>
+    </section>
+
     <section class="toolbar" aria-label="DXF symbol filters">
-      <input id="searchBox" class="search" type="search" placeholder="Search code, title, subtype, family, standard…" />
+      <input id="searchBox" class="search" type="search" placeholder="Search code, title, subtype, family, standard, missing fields…" />
       <nav id="familyNav" class="family-nav" aria-label="Family dashboard"></nav>
     </section>
 
