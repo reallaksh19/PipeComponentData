@@ -1,6 +1,6 @@
 const OFFSET_STORAGE_KEY = 'pipetools.dxf.sourceSvgOffsets.v1';
 export const OFFSET_DOC_URL = '../docs/Pipedata/Database/Gensets/dxf-symbol-offsets.json';
-export const DEFAULT_SOURCE_SVG_OFFSET = Object.freeze({ panX: '25vw', panY: '-33vh', scale: 0.5625, source: 'built-in-default' });
+export const DEFAULT_SOURCE_SVG_OFFSET = Object.freeze({ panX: '0px', panY: '0px', scale: 0.9, source: 'built-in-default' });
 
 let committedOffsetsPromise = null;
 
@@ -44,7 +44,7 @@ export function exportSourceSvgOffsetsPayload() {
 export function offsetStatusText(sourceCode, offset) {
   const code = normalizeCode(sourceCode) || 'unknown';
   if (!offset) return `${code}: default viewport`;
-  return `${code}: pan ${offset.panX},${offset.panY} · zoom ${Math.round(Number(offset.scale || 1) * 100)}%`;
+  return `${code}: pan ${offset.panX},${offset.panY} · zoom ${Math.round(Number(offset.scale || 1) * 100)}% · ${offset.source || 'offset'}`;
 }
 
 async function readCommittedOffsets() {
