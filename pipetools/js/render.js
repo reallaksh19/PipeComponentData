@@ -5,12 +5,14 @@ import { renderPipeSpecInspector } from './pipespecInspector.js';
 import { bindPipeSpecDetailActions } from './pipespecDetailActions.js';
 import { iconSvg, pipeSpanSvg } from './svg.js';
 import { mountDxfSymbolSvg } from './svg/dxfSymbolEngine.js';
+import { hasPipeSpecSvgSupport } from './svg/pipeSpecSvgAdapter.js';
 import { renderPipeSpanInputs, renderPipeSpanMain } from './pipeSpan/ui.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const fmt = (value, suffix = '') => value == null || value === '' ? '—' : `${value}${suffix}`;
 const disabledModules = new Set(DISABLED_MODULES);
 const SVG_FIT_SCALE = 0.5625;
+const mountPipeSpecSvg = mountDxfSymbolSvg;
 
 const TABLE_COLUMNS = {
   PIPE: ['npsDn', 'schedule', 'od', 'thickness', 'material', 'standard', 'dataStatus', 'source'],
@@ -123,8 +125,9 @@ function renderSourceSvgPanel(row) {
   kicker.textContent = row ? 'DXF manifest lookup · no generic fallback' : 'Source SVG';
   if (!row) return clearSourceSvgPanel('Select a row to preview its DXF-derived source SVG.');
   const rowId = String(row.id ?? '');
+  host.dataset.pipeSpecLegacySupport = String(hasPipeSpecSvgSupport(row));
   host.innerHTML = `<div class="source-svg-canvas"><div data-pipespec-source-svg-host="true" data-row-id="${esc(rowId)}"><div class="svg-loading">Loading DXF-derived SVG…</div></div></div>`;
-  mountDxfSymbolSvg(row, host.querySelector('[data-pipespec-source-svg-host]')).then((result) => {
+  mountPipeSpecSvg(row, host.querySelector('[data-pipespec-source-svg-host]')).then((result) => {
     if (host.querySelector('[data-row-id]')?.dataset.rowId !== rowId) return;
     if (result.status === 'OK') {
       title.textContent = result.symbol.title;
@@ -132,6 +135,7 @@ function renderSourceSvgPanel(row) {
       const svg = host.querySelector('svg');
       if (svg) fitSourceSvg(svg);
     } else {
+      clearSourceSvgPanel(`SVG not available: ${result.reason}`);
       title.textContent = 'SVG not available';
       kicker.textContent = `${result.status} · ${result.reason}`;
     }
