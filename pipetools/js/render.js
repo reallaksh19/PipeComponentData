@@ -54,7 +54,7 @@ export function renderDashboards(state, actions) {
 function componentTypeStrip(state, family) {
   const componentCards = families(state).map((item) => card(item.family, item.label, item.rowCount ?? 0, state.filters.component === item.family, 'component', item.svgSupported)).join('');
   const typeChips = family?.subtypes?.length ? family.subtypes.map((type) => subtypeChip(type, `${prettyType(type)} ${countFor(state, 'subtypes', type)}`, state.filters.subtype === type)).join('') : '<span class="type-empty">Select a component</span>';
-  return `<section class="strip component-type-strip"><div class="strip-title">Components</div><div class="component-type-layout">
+  return `<section class="strip component-strip component-type-strip"><div class="strip-title">Components</div><div class="component-type-layout">
     <div class="component-group" aria-label="Components">${componentCards}</div>
     <div class="type-group" aria-label="${esc(subtypeTitle(family?.family))}"><span class="type-label">Type</span>${typeChips}</div>
   </div></section>`;
@@ -90,6 +90,10 @@ function filterGroup(state, label, key) {
   return `<span class="segment-label">${label}</span>${all}${buttons}`;
 }
 
+function strip(title, html, className = '') {
+  return `<section class="strip ${esc(className)}"><div class="strip-title">${title}</div><div class="card-row">${html}</div></section>`;
+}
+
 function card(key, label, count, active, group, svgSupported = true) {
   const badge = svgSupported ? '' : '<em class="partial-dot" title="SVG pending"></em>';
   return `<button class="card-btn ${active ? 'active' : ''}" data-group="${group}" data-card="${esc(key)}">${iconSvg(key)}<strong>${esc(label)}${badge}</strong><small>${esc(count)}</small></button>`;
@@ -112,10 +116,9 @@ function renderPipeSpecTable(state, actions) {
   const family = currentFamily(state);
   const fields = tableFields(family);
   const sourceLabel = family ? (family.repositoryPaths ?? [family.repositoryPath]).filter(Boolean).join(' + ') : 'Dashboard-filtered component data';
-  const visibleKicker = family ? `${family.standard ?? 'Standard pending'} · ${state.rows.length} rows` : sourceLabel;
-  const titleInfo = family ? `${sourceLabel} · ${family.standard ?? 'Standard pending'} · ${state.rows.length} rows` : sourceLabel;
+  const titleInfo = family ? `${sourceLabel} · ${family.standard} · ${state.rows.length} rows` : sourceLabel;
   document.getElementById('table-title').innerHTML = family ? `${esc(family.label)} DB ${infoBadge(titleInfo)}` : 'PipeSpec DB';
-  document.getElementById('table-kicker').textContent = visibleKicker;
+  document.getElementById('table-kicker').textContent = family ? `${family.standard ?? 'Standard pending'} · ${state.rows.length} rows` : 'Dashboard-filtered component data';
   document.getElementById('table-count').innerHTML = `${state.rows.length} rows <span class="table-tool">Columns</span><span class="table-tool">Compact</span>`;
   document.getElementById('table-frame').innerHTML = `<table><thead><tr>${fields.map((field) => `<th>${esc(fieldLabel(field))}</th>`).join('')}</tr></thead><tbody>${state.rows.map((row) => rowHtml(row, fields, state.selectedId)).join('')}</tbody></table>`;
   document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));
