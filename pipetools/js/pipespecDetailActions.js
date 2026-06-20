@@ -51,6 +51,7 @@ async function copyJson({ button, host, payload }) {
 function initSourceViewport() {
   const panel = sourcePanel();
   if (!panel) return;
+  ensureSourceCoordinateReadout();
   setViewport({ scale: FIT_SCALE, panX: DEFAULT_PAN_X, panY: DEFAULT_PAN_Y });
 }
 
@@ -58,10 +59,11 @@ function bindSourcePan() {
   const canvas = document.querySelector('.source-svg-canvas');
   if (!canvas || canvas.dataset.panBound === 'true') return;
   canvas.dataset.panBound = 'true';
+  ensureSourceCoordinateReadout(canvas);
   let drag = null;
   canvas.addEventListener('pointerdown', (event) => {
     if (!sourceTarget() || event.button !== 0) return;
-    if (event.target.closest?.('.source-data-overlay,.source-svg-meta,.svg-loading,.svg-unavailable')) return;
+    if (event.target.closest?.('.source-data-overlay,.source-svg-meta,.source-coordinate-readout,.svg-loading,.svg-unavailable')) return;
     const view = readViewport();
     drag = { id: event.pointerId, x: event.clientX, y: event.clientY, panX: toPx(view.panX, 'x'), panY: toPx(view.panY, 'y') };
     canvas.dataset.panActive = 'true';
@@ -69,18 +71,26 @@ function bindSourcePan() {
     event.preventDefault();
   });
   canvas.addEventListener('pointermove', (event) => {
-    if (!drag || event.pointerId !== drag.id) return;
+    if (!drag || event.pointerId !== drag.id) {
+      updateSourceCoordinateReadout(event);
+      return;
+    }
     const view = readViewport();
     setViewport({ scale: view.scale, panX: `${drag.panX + event.clientX - drag.x}px`, panY: `${drag.panY + event.clientY - drag.y}px` });
+    updateSourceCoordinateReadout(event);
   });
   const end = (event) => {
     if (!drag || event.pointerId !== drag.id) return;
     canvas.releasePointerCapture?.(event.pointerId);
     delete canvas.dataset.panActive;
     drag = null;
+    updateSourceCoordinateReadout(event);
   };
   canvas.addEventListener('pointerup', end);
   canvas.addEventListener('pointercancel', end);
+  const observer = new MutationObserver(() => updateSourceCoordinateReadout());
+  observer.observe(canvas, { childList: true, subtree: true });
+  updateSourceCoordinateReadout();
 }
 
 function zoomSvg(host, delta) {
@@ -106,6 +116,7 @@ function setViewport({ scale, panX, panY }) {
   panel.style.setProperty('--source-svg-scale', String(scale));
   panel.style.setProperty('--source-svg-pan-x', String(panX));
   panel.style.setProperty('--source-svg-pan-y', String(panY));
+  updateSourceCoordinateReadout();
 }
 
 function readViewport() {
@@ -129,6 +140,69 @@ function toPx(value, axis) {
     return (size ?? 0) * number / 100;
   }
   return number;
+}
+
+function ensureSourceCoordinateReadout(canvas = document.querySelector('.source-svg-canvas')) {
+  if (!canvas) return null;
+  let readout = canvas.querySelector('[data-source-svg-coordinates]');
+  if (!readout) {
+    readout = document.createElement('div');
+    readout.className = 'source-coordinate-readout';
+    readout.dataset.sourceSvgCoordinates = 'true';
+    readout.textContent = 'pan x 0 y 0 · zoom 56% · centre pending';
+    canvas.appendChild(readout);
+  }
+  return readout;
+}
+
+function updateSourceCoordinateReadout(event) {
+  const canvas = document.querySelector('.source-svg-canvas');
+  const readout = ensureSourceCoordinateReadout(canvas);
+  if (!canvas || !readout) return;
+  const rect = canvas.getBoundingClientRect();
+  const view = readViewport();
+  const target = sourceTarget();
+  const panX = Math.round(toPx(view.panX, 'x'));
+  const panY = Math.round(toPx(view.panY, 'y'));
+  const cursor = event ? `cursor ${Math.round(event.clientX - rect.left)},${Math.round(event.clientY - rect.top)}` : 'cursor —,—';
+  const centre = target ? targetCentreText(target, rect) : 'centre Δ —,— · fix —,—';
+  const svgInfo = sourceSvgInfo();
+  readout.textContent = `pan ${panX},${panY} · zoom ${Math.round(view.scale * 100)}% · ${cursor} · canvas ${Math.round(rect.width)}×${Math.round(rect.height)} · ${centre}${svgInfo ? ` · ${svgInfo}` : ''}`;
+}
+
+function targetCentreText(target, canvasRect) {
+  const box = target.getBoundingClientRect();
+  const dx = Math.round((box.left + box.width / 2) - (canvasRect.left + canvasRect.width / 2));
+  const dy = Math.round((box.top + box.height / 2) - (canvasRect.top + canvasRect.height / 2));
+  return `centre Δ ${signed(dx)},${signed(dy)} · fix ${signed(-dx)},${signed(-dy)}`;
+}
+
+function sourceSvgInfo() {
+  const svg = sourceSvg();
+  if (!svg) return '';
+  const viewBox = svg.getAttribute('viewBox') || '';
+  const box = svgBBox(svg);
+  const vb = viewBox ? `vb ${compactNumbers(viewBox)}` : '';
+  const bb = box ? `bbox ${box}` : '';
+  return [vb, bb].filter(Boolean).join(' · ');
+}
+
+function svgBBox(svg) {
+  try {
+    const box = svg.getBBox?.();
+    if (!box || !Number.isFinite(box.width) || !Number.isFinite(box.height)) return '';
+    return `${Math.round(box.x)},${Math.round(box.y)},${Math.round(box.width)}×${Math.round(box.height)}`;
+  } catch {
+    return '';
+  }
+}
+
+function compactNumbers(text) {
+  return String(text).trim().split(/\s+/).slice(0, 4).map((item) => String(Math.round(Number(item) || 0))).join(',');
+}
+
+function signed(value) {
+  return `${value >= 0 ? '+' : ''}${value}`;
 }
 
 function openSvgPreview({ host }) {
