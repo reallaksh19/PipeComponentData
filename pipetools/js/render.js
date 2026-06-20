@@ -43,13 +43,20 @@ export function renderDashboards(state, actions) {
   if (state.activeModule === '2D Bundle Calc') return renderBundleInfo(host);
   const family = currentFamily(state);
   const coverage = renderDbCoverageStrip(state.dbIndex);
-  const components = families(state).map((item) => card(item.family, item.label, item.rowCount ?? 0, state.filters.component === item.family, 'component', item.svgSupported)).join('');
-  const types = family?.subtypes?.length ? `<span class="inline-type-label">Type</span>${family.subtypes.map((type) => subtypeChip(type, `${prettyType(type)} ${countFor(state, 'subtypes', type)}`, state.filters.subtype === type)).join('')}` : '';
   // Legacy Agent 21 marker for rebased complete-index gate: ${coverage}${dbIndexStrip
-  host.innerHTML = `${searchStrip(state)}${coverage}${strip('Components', `${components}${types}`, 'component-strip component-type-strip')}${configStrip(state, family)}`;
+  host.innerHTML = `${searchStrip(state)}${coverage}${componentTypeStrip(state, family)}${configStrip(state, family)}`;
   document.querySelectorAll('#dashboard-zone [data-card], #db-health-chip [data-card]').forEach((button) => {
     button.addEventListener('click', () => actions.setFilter(button.dataset.group, button.dataset.card));
   });
+}
+
+function componentTypeStrip(state, family) {
+  const componentCards = families(state).map((item) => card(item.family, item.label, item.rowCount ?? 0, state.filters.component === item.family, 'component', item.svgSupported)).join('');
+  const typeChips = family?.subtypes?.length ? family.subtypes.map((type) => subtypeChip(type, `${prettyType(type)} ${countFor(state, 'subtypes', type)}`, state.filters.subtype === type)).join('') : '<span class="type-empty">Select a component</span>';
+  return `<section class="strip component-type-strip"><div class="strip-title">Components</div><div class="component-type-layout">
+    <div class="component-group" aria-label="Components">${componentCards}</div>
+    <div class="type-group" aria-label="${esc(subtypeTitle(family?.family))}"><span class="type-label">Type</span>${typeChips}</div>
+  </div></section>`;
 }
 
 function renderBundleInfo(host) {
@@ -82,10 +89,6 @@ function filterGroup(state, label, key) {
   return `<span class="segment-label">${label}</span>${all}${buttons}`;
 }
 
-function strip(title, html, className = '') {
-  return `<section class="strip ${esc(className)}"><div class="strip-title">${title}</div><div class="card-row">${html}</div></section>`;
-}
-
 function card(key, label, count, active, group, svgSupported = true) {
   const badge = svgSupported ? '' : '<em class="partial-dot" title="SVG pending"></em>';
   return `<button class="card-btn ${active ? 'active' : ''}" data-group="${group}" data-card="${esc(key)}">${iconSvg(key)}<strong>${esc(label)}${badge}</strong><small>${esc(count)}</small></button>`;
@@ -108,9 +111,10 @@ function renderPipeSpecTable(state, actions) {
   const family = currentFamily(state);
   const fields = tableFields(family);
   const sourceLabel = family ? (family.repositoryPaths ?? [family.repositoryPath]).filter(Boolean).join(' + ') : 'Dashboard-filtered component data';
-  const titleInfo = family ? `${sourceLabel} · ${family.standard} · ${state.rows.length} rows` : sourceLabel;
+  const visibleKicker = family ? `${family.standard ?? 'Standard pending'} · ${state.rows.length} rows` : sourceLabel;
+  const titleInfo = family ? `${sourceLabel} · ${family.standard ?? 'Standard pending'} · ${state.rows.length} rows` : sourceLabel;
   document.getElementById('table-title').innerHTML = family ? `${esc(family.label)} DB ${infoBadge(titleInfo)}` : 'PipeSpec DB';
-  document.getElementById('table-kicker').textContent = family ? 'Normalized source database' : sourceLabel;
+  document.getElementById('table-kicker').textContent = visibleKicker;
   document.getElementById('table-count').innerHTML = `${state.rows.length} rows <span class="table-tool">Columns</span><span class="table-tool">Compact</span>`;
   document.getElementById('table-frame').innerHTML = `<table><thead><tr>${fields.map((field) => `<th>${esc(fieldLabel(field))}</th>`).join('')}</tr></thead><tbody>${state.rows.map((row) => rowHtml(row, fields, state.selectedId)).join('')}</tbody></table>`;
   document.querySelectorAll('[data-row-id]').forEach((row) => row.addEventListener('click', () => actions.selectRow(row.dataset.rowId)));
