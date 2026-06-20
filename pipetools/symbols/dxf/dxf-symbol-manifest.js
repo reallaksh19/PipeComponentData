@@ -1,4 +1,4 @@
-{
+window.DXF_SYMBOL_MANIFEST = {
   "schema": "pipecomponentdata-dxf-symbol-manifest/v1",
   "version": "2026-06-20",
   "source": {
@@ -612,4 +612,4 @@
       "facing": null
     }
   ]
-}
+};
