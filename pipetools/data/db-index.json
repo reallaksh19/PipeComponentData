@@ -78,14 +78,14 @@
         "../data/normalized/flanges-expanded.json",
         "../data/normalized/flanges.json"
       ],
-      "rowCount": 1294,
-      "sourceRowCount": 1294,
-      "sourceFileCount": 21,
+      "rowCount": 254,
+      "sourceRowCount": 254,
+      "sourceFileCount": 7,
       "keyFields": ["componentType", "subtype", "facing", "nps", "classRating"],
       "searchFields": ["id", "subtype", "nps", "dn", "classRating", "facing", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "facing", "classRating", "nps", "dataStatus"],
       "svgSupported": true,
-      "notes": ["All committed normalized flange packs are indexed."]
+      "notes": ["All committed normalized flange packs are indexed: the source-backed WN/BLIND expansion plus legacy sampled WN/SO/BLIND rows."]
     },
     {
       "family": "FITTING",
@@ -93,28 +93,16 @@
       "componentType": "FITTING",
       "subtypes": ["ELBOW_90", "ELBOW_45", "TEE_STRAIGHT", "CAP"],
       "standard": "ASME B16.9",
-      "repositoryPaths": [
-        "data/normalized/fittings-expanded.json",
-        "data/normalized/fittings.json",
-        "data/normalized/fittings-sch80-wave2.json",
-        "data/normalized/fittings-sch80-wave3.json",
-        "data/normalized/fittings-sch80-wave4.json"
-      ],
-      "runtimeUrls": [
-        "../data/normalized/fittings-expanded.json",
-        "../data/normalized/fittings.json",
-        "../data/normalized/fittings-sch80-wave2.json",
-        "../data/normalized/fittings-sch80-wave3.json",
-        "../data/normalized/fittings-sch80-wave4.json"
-      ],
-      "rowCount": 1017,
-      "sourceRowCount": 1017,
-      "sourceFileCount": 15,
+      "repositoryPath": "data/normalized/fittings.json",
+      "runtimeUrl": "../data/normalized/fittings.json",
+      "rowCount": 15,
+      "sourceRowCount": 15,
+      "sourceFileCount": 5,
       "keyFields": ["componentType", "subtype", "nps", "schedule"],
       "searchFields": ["id", "subtype", "nps", "dn", "schedule", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "schedule", "nps", "dn", "dataStatus"],
       "svgSupported": true,
-      "notes": ["All committed normalized fitting packs are indexed, including expansion and Schedule 80 continuation packs."]
+      "notes": ["All committed normalized fitting seed rows are indexed; larger fitting expansion packs are not referenced until committed."]
     },
     {
       "family": "GASKET",
@@ -122,16 +110,16 @@
       "componentType": "GASKET",
       "subtypes": ["FLAT_RING", "RTJ", "SPIRAL_WOUND"],
       "standard": "ASME B16.20 / B16.21",
-      "repositoryPath": "data/normalized/gaskets-expanded.json",
-      "runtimeUrl": "../data/normalized/gaskets-expanded.json",
-      "rowCount": 207,
-      "sourceRowCount": 207,
-      "sourceFileCount": 9,
+      "repositoryPath": "data/normalized/gaskets.json",
+      "runtimeUrl": "../data/normalized/gaskets.json",
+      "rowCount": 3,
+      "sourceRowCount": 3,
+      "sourceFileCount": 3,
       "keyFields": ["componentType", "subtype", "facing", "nps", "classRating"],
       "searchFields": ["id", "subtype", "nps", "classRating", "facing", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "facing", "classRating", "nps", "dataStatus"],
       "svgSupported": true,
-      "notes": ["All committed normalized gasket inventory rows are indexed."]
+      "notes": ["All committed normalized gasket inventory rows are indexed; expanded gasket dimensions remain deferred until source tables are promoted."]
     },
     {
       "family": "SUPPORT",
