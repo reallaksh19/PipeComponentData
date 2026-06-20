@@ -1,3 +1,5 @@
+import { refreshDimensionCallouts } from './svg/dimensionCallouts.js';
+import { cycleDimensionCalloutMode, dimensionCalloutModeLabel, getDimensionCalloutMode } from './svg/dimensionCalloutModeStore.js';
 import { computeAutoSourceSvgOffset } from './svg/sourceSvgAutoFit.js';
 import { exportSourceSvgOffsetsPayload, offsetStatusText, saveSourceSvgOffset } from './svg/sourceSvgOffsetStore.js';
 
@@ -15,6 +17,7 @@ export function bindPipeSpecDetailActions(row) {
   const payload = JSON.stringify(row, null, 2);
   initSourceViewport();
   bindSourcePan();
+  syncCalloutModeButtons();
   [inspector, source].filter(Boolean).forEach((host) => {
     host.querySelectorAll('[data-detail-action]').forEach((button) => {
       button.onclick = () => runDetailAction(button.dataset.detailAction, { button, host: button.closest('.panel') ?? host, payload });
@@ -28,6 +31,7 @@ async function runDetailAction(action, context) {
   if (action === 'svg-zoom-out') return zoomSvg(context.host, -0.1);
   if (action === 'svg-fit' || action === 'svg-pan-home') return fitSvg(context.host);
   if (action === 'svg-fix-offset') return fixSvgOffset(context);
+  if (action === 'svg-callout-mode') return toggleCalloutMode(context);
   if (action === 'copy-json') return copyJson(context);
   if (action === 'open-svg-preview') return openSvgPreview(context);
 }
@@ -126,6 +130,22 @@ async function fixSvgOffset({ host }) {
   }
   setStatus(host, `Fixed offset saved locally · ${offsetStatusText(sourceCode, saved)} · ${exportStatus}`);
   updateSourceCoordinateReadout();
+}
+
+function toggleCalloutMode({ host, button }) {
+  const mode = cycleDimensionCalloutMode();
+  const count = refreshDimensionCallouts(sourcePanel() || document);
+  syncCalloutModeButtons(mode);
+  pulseButton(button, dimensionCalloutModeLabel(mode));
+  setStatus(host, `${dimensionCalloutModeLabel(mode)} · ${count} visible DB callouts`);
+}
+
+function syncCalloutModeButtons(mode = getDimensionCalloutMode()) {
+  document.querySelectorAll('[data-detail-action="svg-callout-mode"] span').forEach((span) => {
+    span.textContent = dimensionCalloutModeLabel(mode);
+  });
+  const panel = sourcePanel();
+  if (panel) panel.dataset.dimensionCalloutMode = mode;
 }
 
 function downloadOffsetsJson(text) {
@@ -286,11 +306,11 @@ function previewHtml(svgMarkup) {
 }
 
 function pulseButton(button, label) {
-  const span = button.querySelector('span');
+  const span = button?.querySelector?.('span');
   if (!span) return;
   const previous = span.textContent;
   span.textContent = label;
-  setTimeout(() => { span.textContent = previous; }, 1100);
+  setTimeout(() => { span.textContent = previous; syncCalloutModeButtons(); }, 1100);
 }
 
 function setStatus(host, text) {
