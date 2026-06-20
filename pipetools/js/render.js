@@ -43,8 +43,6 @@ export function renderDashboards(state, actions) {
   if (state.activeModule === '2D Bundle Calc') return renderBundleInfo(host);
   const family = currentFamily(state);
   const coverage = renderDbCoverageStrip(state.dbIndex);
-  // Legacy Agent 21 marker for rebased complete-index gate: ${coverage}${dbIndexStrip
-  // Legacy Agent 17 marker after sibling layout refactor: strip('Components'
   host.innerHTML = `${searchStrip(state)}${coverage}${componentTypeStrip(state, family)}${configStrip(state, family)}`;
   document.querySelectorAll('#dashboard-zone [data-card], #db-health-chip [data-card]').forEach((button) => {
     button.addEventListener('click', () => actions.setFilter(button.dataset.group, button.dataset.card));
