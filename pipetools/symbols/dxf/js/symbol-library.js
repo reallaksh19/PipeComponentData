@@ -1,147 +1,187 @@
 (() => {
-  const $ = selector => document.querySelector(selector);
-  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
-  const state = { manifest: null, symbols: [], filtered: [], selectedId: null, family: 'ALL', query: '', dbIndex: null, dbRows: new Map(), dbStatus: 'optional' };
-  const normal = value => String(value ?? '').trim().toUpperCase().replace(/[\s-]+/g, '_');
-  const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
-  const arr = value => Array.isArray(value) ? value : value ? [value] : [];
+  'use strict';
 
-  async function loadScript(url) {
-    await new Promise((resolve, reject) => {
-      const tag = document.createElement('script');
-      tag.src = url;
-      tag.onload = resolve;
-      tag.onerror = reject;
-      document.head.appendChild(tag);
-    });
+  const state = {
+    manifest: null,
+    symbols: [],
+    filtered: [],
+    dbIndex: null,
+    familyRows: new Map(),
+    activeFamily: 'ALL',
+    search: '',
+    selectedId: null,
+    dbStatus: 'pending',
+    manifestUrl: 'dxf-symbol-manifest.json'
+  };
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const text = v => (v == null ? '' : String(v));
+  const norm = v => text(v).trim().toUpperCase().replace(/[\s\-\/]+/g, '_');
+  const arr = v => (!v ? [] : Array.isArray(v) ? v : [v]);
+  const uniq = list => [...new Set(list.filter(Boolean))];
+
+  function esc(value) {
+    return text(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  async function fetchJson(url) {
+    const r = await fetch(url, { cache: 'no-cache' });
+    if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
+    return r.json();
+  }
+
+  async function fetchFirstJson(candidates) {
+    const errors = [];
+    for (const url of uniq(candidates)) {
+      try { return { url, json: await fetchJson(url) }; }
+      catch (err) { errors.push(`${url}: ${err.message}`); }
+    }
+    throw new Error(errors.join('; '));
+  }
+
+  function manifestCandidates() {
+    return [document.currentScript?.dataset?.manifest, './dxf-symbol-manifest.json', 'dxf-symbol-manifest.json'];
+  }
+
+  function normalizeSymbol(s) {
+    return {
+      ...s,
+      sourceCode: s.sourceCode || s.code,
+      title: s.title || s.label,
+      dbLookup: s.dbLookup || s.lookup || {},
+      quality: s.quality || 'DXF_DERIVED'
+    };
   }
 
   async function loadManifest() {
     try {
-      const res = await fetch('dxf-symbol-manifest.json', { cache: 'no-store' });
-      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-      state.manifest = await res.json();
+      const result = await fetchFirstJson(manifestCandidates());
+      state.manifestUrl = result.url;
+      state.manifest = result.json;
     } catch (err) {
-      await loadScript('dxf-symbol-manifest.js');
+      if (!window.DXF_SYMBOL_MANIFEST) throw err;
       state.manifest = window.DXF_SYMBOL_MANIFEST;
+      state.manifestUrl = 'dxf-symbol-manifest.js fallback';
     }
-    state.symbols = Array.isArray(state.manifest) ? state.manifest : arr(state.manifest?.symbols);
-    state.filtered = state.symbols;
-    state.selectedId = state.symbols[0]?.id || null;
+    state.symbols = (state.manifest.symbols || []).map(normalizeSymbol);
+    state.selectedId ||= state.symbols[0]?.id || null;
     return state.manifest;
   }
 
+  function familyLabel(family) {
+    return ({ PIPE: 'Pipe', GASKET: 'Gasket', FLANGE: 'Flange', VALVE: 'Valve', FITTING: 'Fitting', REDUCER: 'Reducer', OLET: 'Olet', LINE_BLANK: 'Line Blank' }[family] || family);
+  }
+
+  function rowField(row, key) {
+    if (!row || typeof row !== 'object') return undefined;
+    if (Object.hasOwn(row, key)) return row[key];
+    const k = Object.keys(row).find(name => norm(name) === norm(key));
+    return k ? row[k] : undefined;
+  }
+
+  function semanticValue(row, key) {
+    if (key === 'componentType') return rowField(row, 'componentType') || rowField(row, 'componentFamily') || rowField(row, 'family');
+    if (key === 'subtype') return rowField(row, 'subtype') || rowField(row, 'type') || rowField(row, 'fittingType');
+    return rowField(row, key);
+  }
+
   function lookupMatches(row, lookup) {
-    if (!row || !lookup) return false;
-    return Object.entries(lookup).every(([key, expected]) => {
-      const actual = row[key] ?? row[key.charAt(0).toLowerCase() + key.slice(1)];
-      if (actual == null) return false;
-      return normal(actual) === normal(expected);
-    });
+    const entries = Object.entries(lookup || {}).filter(([, v]) => v != null && v !== '');
+    if (!entries.length) return false;
+    return entries.every(([key, expected]) => norm(semanticValue(row, key)) === norm(expected));
   }
 
-  function rowField(row, ...names) {
-    for (const name of names) if (row?.[name] != null && row[name] !== '') return row[name];
-    return '';
-  }
-
-  function resolveSymbolForComponent(row) {
-    const componentType = normal(rowField(row, 'componentType', 'family', 'type'));
-    if (!componentType) return { status: 'SVG_NOT_AVAILABLE', reason: 'Missing componentType', symbol: null, svg: null };
-    const candidates = state.symbols.filter(symbol => normal(symbol.componentType) === componentType || normal(symbol.family) === componentType);
-    let best = null;
-    let bestScore = -1;
-    for (const symbol of candidates) {
-      let score = 0;
-      if (lookupMatches(row, symbol.dbLookup)) score += 100;
-      const checks = [
-        ['subtype', rowField(row, 'subtype', 'componentSubtype'), symbol.subtype],
-        ['valveType', rowField(row, 'valveType', 'subtype'), symbol.dbLookup?.valveType || symbol.subtype],
-        ['endType', rowField(row, 'endType', 'connectionType'), symbol.endType],
-        ['reducerType', rowField(row, 'reducerType', 'subtype'), symbol.dbLookup?.reducerType || symbol.subtype],
-        ['oletType', rowField(row, 'oletType', 'subtype'), symbol.dbLookup?.oletType || symbol.subtype],
-        ['facing', rowField(row, 'facing'), symbol.facing],
-        ['classRating', rowField(row, 'classRating', 'rating'), symbol.classRating],
-        ['nps', rowField(row, 'nps', 'nominalSize'), symbol.nps]
-      ];
-      for (const [, actual, expected] of checks) {
-        if (actual && expected && normal(actual) === normal(expected)) score += 10;
-      }
-      if (score > bestScore) { best = symbol; bestScore = score; }
+  function resolveSymbolForComponent(componentRow) {
+    if (!componentRow || typeof componentRow !== 'object') {
+      return { status: 'SVG_NOT_AVAILABLE', reason: 'No component row supplied', symbol: null };
     }
-    if (!best || bestScore <= 0) return { status: 'SVG_NOT_AVAILABLE', reason: `No DXF manifest match for ${componentType}`, symbol: null, svg: null };
-    return { status: 'OK', reason: 'DXF manifest match', symbol: best, svg: best.svg, sourceCode: best.sourceCode };
+    const matches = state.symbols.filter(s => lookupMatches(componentRow, s.dbLookup));
+    if (!matches.length) {
+      return { status: 'SVG_NOT_AVAILABLE', reason: 'No DXF manifest mapping matched this row', symbol: null, row: componentRow };
+    }
+    const score = s => Object.keys(s.dbLookup || {}).length + (s.facing && norm(s.facing) === norm(rowField(componentRow, 'facing')) ? 1 : 0);
+    const symbol = matches.sort((a, b) => score(b) - score(a))[0];
+    return { status: 'OK', symbol, svg: symbol.svg, sourceCode: symbol.sourceCode, reason: 'Matched DXF manifest dbLookup fields' };
   }
 
-  async function fetchJson(url) {
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-    return res.json();
+  function deriveRepoRoot(dbIndexUrl) {
+    const absolute = new URL(dbIndexUrl, window.location.href);
+    absolute.pathname = absolute.pathname.replace(/pipetools\/data\/db-index\.json$/, '').replace(/data\/db-index\.json$/, '');
+    return absolute.toString();
   }
 
-  function dbRoot(url) {
-    const parsed = new URL(url, location.href);
-    parsed.pathname = parsed.pathname.replace(/pipetools\/data\/db-index\.json$/, '').replace(/data\/db-index\.json$/, '');
-    return parsed.href;
+  function resolveUrl(base, path) {
+    try { return new URL(path, new URL(base, window.location.href)).toString(); }
+    catch { return path; }
   }
 
   async function loadDBIndex() {
-    const candidates = arr(state.manifest?.dbIndexCandidates);
-    for (const candidate of candidates) {
-      try {
-        const json = await fetchJson(candidate);
-        state.dbIndex = json;
-        state.dbRoot = dbRoot(candidate);
-        state.dbStatus = 'index loaded';
-        await Promise.all([...new Set(state.symbols.map(symbol => symbol.family))].map(loadFamilyRows));
-        linkDbCounts();
-        state.dbStatus = 'linked';
-        return json;
-      } catch (_) {}
+    const candidates = state.manifest?.dbIndexCandidates || [];
+    try {
+      state.dbStatus = 'loading-index'; renderStatus();
+      const result = await fetchFirstJson(candidates);
+      state.dbIndex = result.json;
+      state.dbIndexUrl = result.url;
+      state.dbRootUrl = deriveRepoRoot(result.url);
+      state.dbStatus = 'index-loaded';
+      await Promise.all([...new Set(state.symbols.map(s => s.family))].map(loadFamilyRows));
+      state.dbStatus = 'linked';
+    } catch (err) {
+      state.dbStatus = `offline (${err.message.split(';')[0]})`;
     }
-    state.dbStatus = 'offline/static';
-    return null;
+    linkDbCounts();
+    return state.dbIndex;
+  }
+
+  function familyRecord(family) {
+    return (state.dbIndex?.families || []).find(f => f.family === family || f.componentType === family);
+  }
+
+  function rowList(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.rows)) return payload.rows;
+    if (Array.isArray(payload?.data)) return payload.data;
+    if (Array.isArray(payload?.items)) return payload.items;
+    return payload?.byKey && typeof payload.byKey === 'object' ? Object.values(payload.byKey) : [];
   }
 
   async function loadFamilyRows(family) {
-    if (state.dbRows.has(family)) return state.dbRows.get(family);
-    const record = arr(state.dbIndex?.families).find(item => item.family === family || item.componentType === family);
-    const urls = [...arr(record?.runtimeUrl), ...arr(record?.runtimeUrls), ...arr(record?.repositoryPath), ...arr(record?.repositoryPaths)];
+    if (state.familyRows.has(family)) return state.familyRows.get(family);
+    const record = familyRecord(family);
+    if (!record) { state.familyRows.set(family, []); return []; }
+    const urls = uniq([
+      ...arr(record.runtimeUrl).map(u => resolveUrl(state.dbIndexUrl, u)),
+      ...arr(record.runtimeUrls).map(u => resolveUrl(state.dbIndexUrl, u)),
+      ...arr(record.repositoryPath).map(u => resolveUrl(state.dbRootUrl, u)),
+      ...arr(record.repositoryPaths).map(u => resolveUrl(state.dbRootUrl, u))
+    ]);
     const rows = [];
-    for (const item of urls) {
-      const url = item.startsWith('../') || item.startsWith('/') ? item : new URL(item, state.dbRoot || location.href).href;
-      try {
-        const payload = await fetchJson(url);
-        rows.push(...(Array.isArray(payload) ? payload : payload.rows || payload.data || payload.items || Object.values(payload.byKey || {})));
-      } catch (_) {}
+    for (const url of urls) {
+      try { rows.push(...rowList(await fetchJson(url))); }
+      catch (err) { console.warn(`DB pack skipped: ${url}`, err); }
     }
-    state.dbRows.set(family, rows);
+    state.familyRows.set(family, rows);
     return rows;
   }
 
   function linkDbCounts() {
-    for (const symbol of state.symbols) {
-      const rows = state.dbRows.get(symbol.family) || [];
+    state.symbols.forEach(symbol => {
+      const rows = state.familyRows.get(symbol.family) || [];
       const matches = rows.filter(row => lookupMatches(row, symbol.dbLookup));
       symbol.dbMatches = matches.length;
-      symbol.dbSample = matches.slice(0, 3).map(row => row.id || row.key || row.code).filter(Boolean);
-    }
+      symbol.dbSample = matches.slice(0, 3).map(r => r.id || r.key || r.code || r.name).filter(Boolean);
+    });
   }
 
   function applyFilters() {
-    const q = normal(state.query);
-    state.filtered = state.symbols.filter(symbol => {
-      if (state.family !== 'ALL' && symbol.family !== state.family) return false;
+    const q = norm(state.search);
+    state.filtered = state.symbols.filter(s => {
+      if (state.activeFamily !== 'ALL' && s.family !== state.activeFamily) return false;
       if (!q) return true;
-      return normal([symbol.id, symbol.sourceCode, symbol.title, symbol.family, symbol.subtype, symbol.endType, symbol.standard].join(' ')).includes(q);
+      return norm([s.id, s.sourceCode, s.sourceDxf, s.title, s.family, s.subtype, s.endType, s.facing, s.standard].join(' ')).includes(q);
     });
-    if (!state.filtered.some(symbol => symbol.id === state.selectedId)) state.selectedId = state.filtered[0]?.id || null;
-  }
-
-  function renderFamilies() {
-    const families = ['ALL', ...new Set(state.symbols.map(symbol => symbol.family))];
-    $('#familyNav').innerHTML = families.map(family => `<button class="chip ${family === state.family ? 'active' : ''}" data-family="${esc(family)}">${family === 'ALL' ? 'All' : esc(family)} <span>${family === 'ALL' ? state.symbols.length : state.symbols.filter(s => s.family === family).length}</span></button>`).join('');
-    $$('#familyNav .chip').forEach(button => button.addEventListener('click', () => { state.family = button.dataset.family; refresh(); }));
+    if (!state.filtered.some(s => s.id === state.selectedId)) state.selectedId = state.filtered[0]?.id || null;
   }
 
   function dbBadge(symbol) {
@@ -150,14 +190,54 @@
     return '<span class="badge warn">unmatched</span>';
   }
 
+  function renderFamilies() {
+    const nav = $('#familyNav');
+    const families = ['ALL', ...new Set(state.symbols.map(s => s.family))];
+    nav.innerHTML = families.map(f => `<button type="button" class="chip ${f === state.activeFamily ? 'active' : ''}" data-family="${esc(f)}">${f === 'ALL' ? 'All' : familyLabel(f)} <span>${f === 'ALL' ? state.symbols.length : state.symbols.filter(s => s.family === f).length}</span></button>`).join('');
+    $$('.chip', nav).forEach(btn => btn.addEventListener('click', () => { state.activeFamily = btn.dataset.family; refresh(); }));
+  }
+
   function renderGrid() {
-    $('#symbolGrid').innerHTML = state.filtered.length ? state.filtered.map(symbol => `<article class="card ${symbol.id === state.selectedId ? 'selected' : ''}" data-id="${esc(symbol.id)}" tabindex="0"><header><b>${esc(symbol.sourceCode)}</b><span>${esc(symbol.family)}</span></header><img src="${esc(symbol.svg)}" alt="${esc(symbol.title)}" loading="lazy"><h2>${esc(symbol.title)}</h2><p><code>${esc(symbol.subtype || '—')}</code> · ${esc(symbol.standard || 'standard pending')}</p>${dbBadge(symbol)}</article>`).join('') : '<div class="empty">No matching DXF symbols.</div>';
-    $$('#symbolGrid .card').forEach(card => card.addEventListener('click', () => { state.selectedId = card.dataset.id; renderGrid(); renderDetail(); }));
+    const grid = $('#symbolGrid');
+    grid.innerHTML = state.filtered.length ? state.filtered.map(s => `
+      <article class="card ${s.id === state.selectedId ? 'selected' : ''}" data-id="${esc(s.id)}" tabindex="0">
+        <header><b>${esc(s.sourceCode)}</b><span>${esc(familyLabel(s.family))}</span></header>
+        <img src="${esc(s.svg)}" alt="${esc(s.title)}" loading="lazy">
+        <h2>${esc(s.title)}</h2>
+        <p><code>${esc(s.subtype || '—')}</code> · ${esc(s.standard || 'standard pending')}</p>
+        ${dbBadge(s)}
+      </article>`).join('') : '<div class="empty">No matching DXF symbols.</div>';
+    $$('.card', grid).forEach(card => {
+      const select = () => { state.selectedId = card.dataset.id; renderGrid(); renderDetail(); };
+      card.addEventListener('click', select);
+      card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') select(); });
+    });
   }
 
   function renderDetail() {
-    const symbol = state.symbols.find(item => item.id === state.selectedId);
-    $('#detailPanel').innerHTML = symbol ? `<div class="detail-figure"><img src="${esc(symbol.svg)}" alt="${esc(symbol.title)}"></div><div class="detail-meta"><h2>${esc(symbol.title)}</h2><dl>${['sourceCode','sourceDxf','svg','family','componentType','subtype','endType','facing','standard','quality'].map(key => `<div><dt>${esc(key)}</dt><dd>${esc(symbol[key] ?? '—')}</dd></div>`).join('')}</dl><h3>DB lookup keys</h3><pre>${esc(JSON.stringify(symbol.dbLookup || {}, null, 2))}</pre><p class="note">Unsupported rows return <code>SVG_NOT_AVAILABLE</code>; no generic fallback is used.</p></div>` : '<div class="empty">SVG_NOT_AVAILABLE</div>';
+    const s = state.symbols.find(item => item.id === state.selectedId);
+    const panel = $('#detailPanel');
+    if (!s) { panel.innerHTML = '<div class="empty">SVG_NOT_AVAILABLE</div>'; return; }
+    panel.innerHTML = `
+      <div class="detail-figure"><img src="${esc(s.svg)}" alt="${esc(s.title)}"></div>
+      <div class="detail-meta">
+        <h2>${esc(s.title)}</h2>
+        <dl>
+          <div><dt>DXF Code</dt><dd><code>${esc(s.sourceCode)}</code></dd></div>
+          <div><dt>Source DXF</dt><dd><code>${esc(s.sourceDxf)}</code></dd></div>
+          <div><dt>SVG</dt><dd><code>${esc(s.svg)}</code></dd></div>
+          <div><dt>Family</dt><dd>${esc(s.family)}</dd></div>
+          <div><dt>Component</dt><dd>${esc(s.componentType)}</dd></div>
+          <div><dt>Subtype</dt><dd>${esc(s.subtype || '—')}</dd></div>
+          <div><dt>End Type</dt><dd>${esc(s.endType || '—')}</dd></div>
+          <div><dt>Facing</dt><dd>${esc(s.facing || '—')}</dd></div>
+          <div><dt>Standard</dt><dd>${esc(s.standard || '—')}</dd></div>
+          <div><dt>Quality</dt><dd>${esc(s.quality)}</dd></div>
+          <div><dt>DB Link</dt><dd>${dbBadge(s)}</dd></div>
+        </dl>
+        <h3>DB lookup keys</h3><pre>${esc(JSON.stringify(s.dbLookup || {}, null, 2))}</pre>
+        <p class="note">Unsupported rows must resolve to <code>SVG_NOT_AVAILABLE</code>; no generic symbol fallback is used.</p>
+      </div>`;
   }
 
   function renderStatus() {
@@ -169,7 +249,7 @@
   function refresh() { applyFilters(); renderFamilies(); renderGrid(); renderDetail(); renderStatus(); }
 
   async function boot() {
-    $('#searchBox').addEventListener('input', event => { state.query = event.target.value; refresh(); });
+    $('#searchBox').addEventListener('input', e => { state.search = e.target.value; refresh(); });
     try { await loadManifest(); refresh(); await loadDBIndex(); refresh(); }
     catch (err) { $('#symbolGrid').innerHTML = `<div class="empty error">Could not load DXF symbol manifest: ${esc(err.message)}</div>`; }
   }
