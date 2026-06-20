@@ -1,4 +1,5 @@
 import { dimensionFacts, formatFact, weightFacts } from '../dimensionDisplay.js';
+import { getDimensionCalloutMode } from './dimensionCalloutModeStore.js';
 import { calloutTemplateFor } from './dimensionCalloutTemplates.js';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -7,6 +8,8 @@ const LAYER_SIZE = 1000;
 const LABEL_HEIGHT = 28;
 const LABEL_GAP = 7;
 const LABEL_MARGIN = 16;
+const FULL_LIMIT = 8;
+const COMPACT_LIMIT = 4;
 const LABEL_OFFSETS = [
   [0, 0], [0, -44], [0, 44], [46, 0], [-46, 0],
   [56, -38], [-56, -38], [56, 38], [-56, 38], [0, -88], [0, 88],
@@ -14,19 +17,32 @@ const LABEL_OFFSETS = [
 
 export function renderDimensionCallouts(row, symbol, viewport) {
   if (!viewport) return [];
+  viewport.__pipeToolsDimensionRow = row;
+  viewport.__pipeToolsDimensionSymbol = symbol;
   clearDimensionCallouts(viewport);
-  const callouts = layoutCallouts(buildCallouts(row, symbol));
+  const mode = getDimensionCalloutMode();
+  viewport.dataset.dimensionCalloutMode = mode;
+  if (mode === 'off') return [];
+  const callouts = layoutCallouts(calloutsForMode(buildCallouts(row, symbol), mode));
   if (!callouts.length) return [];
   const layer = svgNode('svg', {
-    class: `dimension-callout-layer dimension-callout-family-${String(symbol?.family || 'unknown').toLowerCase()}`,
+    class: `dimension-callout-layer dimension-callout-mode-${mode} dimension-callout-family-${String(symbol?.family || 'unknown').toLowerCase()}`,
     viewBox: `0 0 ${LAYER_SIZE} ${LAYER_SIZE}`,
     preserveAspectRatio: 'none',
-    'aria-label': 'Source-backed DB dimension callouts',
+    'aria-label': `Source-backed DB dimension callouts (${mode})`,
   });
   layer.append(defs());
   callouts.forEach((callout) => layer.append(calloutNode(callout)));
   viewport.append(layer);
   return callouts;
+}
+
+export function refreshDimensionCallouts(scope = document) {
+  let total = 0;
+  scope?.querySelectorAll?.('[data-source-svg-viewport]').forEach((viewport) => {
+    total += renderDimensionCallouts(viewport.__pipeToolsDimensionRow, viewport.__pipeToolsDimensionSymbol, viewport).length;
+  });
+  return total;
 }
 
 export function clearDimensionCallouts(scope = document.querySelector('.source-svg-canvas')) {
@@ -44,10 +60,26 @@ function buildCallouts(row = {}, symbol = {}) {
     const value = formatFact(fact);
     if (!isRenderable(value)) continue;
     used.add(fact.label);
-    calls.push({ slot: template.slots[slotName], slotName, label: fact.label, value, arrow });
+    calls.push({ slot: template.slots[slotName], slotName, label: fact.label, value, arrow, priority: priorityFor(fact.label, slotName) });
   }
   fallbackFacts(facts, used, template.slots).forEach((callout) => calls.push(callout));
-  return calls.slice(0, 8);
+  return calls.slice(0, FULL_LIMIT);
+}
+
+function calloutsForMode(callouts, mode) {
+  if (mode === 'compact') {
+    const primary = callouts.filter((callout) => callout.priority <= 2).slice(0, COMPACT_LIMIT);
+    return primary.length ? primary : callouts.slice(0, Math.min(2, callouts.length));
+  }
+  return callouts.slice(0, FULL_LIMIT);
+}
+
+function priorityFor(label, slotName = '') {
+  const text = `${label} ${slotName}`.toLowerCase();
+  if (/f2f|face|height|h\/w|hw|c-e|center|centre/.test(text)) return 1;
+  if (/od|o\.d|id|i\.d|wall|thk|thick|rf dia|pcd|bolt/.test(text)) return 2;
+  if (/weight/.test(text)) return 4;
+  return 3;
 }
 
 function factMap(facts) {
@@ -68,7 +100,7 @@ function fallbackFacts(facts, used, slots) {
   return [...facts.values()]
     .filter((fact) => !used.has(fact.label))
     .slice(0, Math.max(0, 3 - used.size))
-    .map((fact, index) => ({ slot: badgeSlots[index] || slots.badge1, slotName: `badge${index + 1}`, label: fact.label, value: formatFact(fact), arrow: false }));
+    .map((fact, index) => ({ slot: badgeSlots[index] || slots.badge1, slotName: `badge${index + 1}`, label: fact.label, value: formatFact(fact), arrow: false, priority: priorityFor(fact.label, `badge${index + 1}`) }));
 }
 
 function isRenderable(value) {
