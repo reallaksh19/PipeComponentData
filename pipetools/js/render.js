@@ -188,7 +188,7 @@ function currentFamily(state) {
 }
 
 function families(state) {
-  return state.dbFamilies?.length ? state.dbFamilies : COMPONENTS.map((item) => ({ family: item.key, label: item.label, rowCount: item.count ?? 0 }));
+  return state.dbFamilies?.length ? state.dbFamilies : COMPONENTS.map((item) => ({ family: item.key, label: item.label, rowCount: item.count ?? 0, svgSupported: item.svgSupported }));
 }
 
 function tableFields(family) {
