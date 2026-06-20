@@ -142,12 +142,54 @@ function mountImageFallback(container, result, reason) {
   img.dataset.dxfSymbolImg = 'true';
   img.className = 'dxf-symbol-img';
   container.innerHTML = '';
-  container.append(img);
-  container.insertAdjacentHTML('beforeend', `<div class="source-svg-meta">DXF ${esc(result.sourceCode)} · ${esc(result.symbol.family)} · ${esc(result.symbol.subtype || '—')} · file reference</div>`);
+  container.append(img, metaNode(result, 'file reference'));
   img.onerror = () => {
     container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(reason)}</div>`;
   };
-  return { ...result, renderMode: 'img', reason: `${result.reason}; inline fetch unavailable, mounted SVG file reference` };
+  return { ...result, renderMode: 'img', reason: `${result.reason}; inline parse unavailable, mounted SVG file reference` };
+}
+
+function cleanSvgDocument(svgText) {
+  return String(svgText || '')
+    .replace(/^\s*<\?xml[\s\S]*?\?>/i, '')
+    .replace(/<!DOCTYPE[\s\S]*?>/i, '')
+    .trim();
+}
+
+function parseSvgNode(svgText) {
+  const cleaned = cleanSvgDocument(svgText);
+  if (!/<svg[\s>]/i.test(cleaned) || /<script[\s>]/i.test(cleaned)) return null;
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(cleaned, 'image/svg+xml');
+  if (doc.querySelector('parsererror')) return null;
+  const svg = doc.documentElement?.tagName?.toLowerCase() === 'svg' ? doc.documentElement : doc.querySelector('svg');
+  if (!svg) return null;
+  const node = document.importNode(svg, true);
+  node.removeAttribute('width');
+  node.removeAttribute('height');
+  node.dataset.dxfSymbolSvg = 'true';
+  return node;
+}
+
+function metaNode(result, mode = 'inline') {
+  const meta = document.createElement('div');
+  meta.className = 'source-svg-meta';
+  meta.textContent = `DXF ${result.sourceCode} · ${result.symbol.family} · ${result.symbol.subtype || '—'} · ${mode}`;
+  return meta;
+}
+
+function tightenViewBox(svg) {
+  requestAnimationFrame(() => {
+    try {
+      const box = svg.getBBox();
+      if (!Number.isFinite(box.width) || !Number.isFinite(box.height) || box.width <= 0 || box.height <= 0) return;
+      const pad = Math.max(box.width, box.height) * 0.08;
+      svg.setAttribute('viewBox', `${box.x - pad} ${box.y - pad} ${box.width + pad * 2} ${box.height + pad * 2}`);
+      svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    } catch {
+      // Browser may reject getBBox for some imported SVGs; raw viewBox remains valid.
+    }
+  });
 }
 
 export async function resolveDxfSymbolForComponent(row) {
@@ -171,13 +213,10 @@ export async function mountDxfSymbolSvg(row, container) {
     }
     const response = await fetchWithTimeout(result.svgUrl);
     if (!response.ok) throw new Error(`DXF SVG file failed to load: ${response.status} ${response.statusText}`);
-    const svgText = await response.text();
-    if (!/<svg[\s>]/i.test(svgText) || /<script[\s>]/i.test(svgText)) {
-      const failed = { ...result, status: 'SVG_NOT_AVAILABLE', reason: 'DXF SVG file is not a safe inline SVG payload' };
-      container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(failed.reason)}</div>`;
-      return failed;
-    }
-    container.innerHTML = `${svgText}<div class="source-svg-meta">DXF ${esc(result.sourceCode)} · ${esc(result.symbol.family)} · ${esc(result.symbol.subtype || '—')}</div>`;
+    const svgNode = parseSvgNode(await response.text());
+    if (!svgNode) throw new Error('DXF SVG file is not a safe parseable SVG payload');
+    container.replaceChildren(svgNode, metaNode(result));
+    tightenViewBox(svgNode);
     return { ...result, renderMode: 'inline' };
   } catch (error) {
     if (result?.status === 'OK') return mountImageFallback(container, result, error.message);
