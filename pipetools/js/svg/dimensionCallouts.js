@@ -2,6 +2,7 @@ import { dimensionFacts, formatFact, weightFacts } from '../dimensionDisplay.js'
 import { calloutTemplateFor } from './dimensionCalloutTemplates.js';
 
 const NS = 'http://www.w3.org/2000/svg';
+const ARROW_ID = 'dimension-callout-arrow';
 
 export function renderDimensionCallouts(row, symbol, canvas) {
   if (!canvas) return [];
@@ -77,6 +78,8 @@ function calloutNode(callout) {
     y1: slot.y1,
     x2: slot.x2,
     y2: slot.y2,
+    'marker-start': `url(#${ARROW_ID})`,
+    'marker-end': `url(#${ARROW_ID})`,
   }));
   group.append(labelNode(`${callout.label}: ${callout.value}`, slot));
   return group;
@@ -99,7 +102,7 @@ function labelNode(text, slot) {
 function defs() {
   const defsNode = svgNode('defs');
   const marker = svgNode('marker', {
-    id: `dimension-callout-arrow-${Date.now().toString(36)}`,
+    id: ARROW_ID,
     markerWidth: 10,
     markerHeight: 10,
     refX: 5,
