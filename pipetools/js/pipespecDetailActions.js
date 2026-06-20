@@ -1,3 +1,5 @@
+import { exportSourceSvgOffsetsPayload, offsetStatusText, saveSourceSvgOffset } from './svg/sourceSvgOffsetStore.js';
+
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const FIT_SCALE = 0.5625;
 const MIN_SCALE = 0.25;
@@ -24,6 +26,7 @@ async function runDetailAction(action, context) {
   if (action === 'svg-zoom-in') return zoomSvg(context.host, 0.1);
   if (action === 'svg-zoom-out') return zoomSvg(context.host, -0.1);
   if (action === 'svg-fit' || action === 'svg-pan-home') return fitSvg(context.host);
+  if (action === 'svg-fix-offset') return fixSvgOffset(context);
   if (action === 'copy-json') return copyJson(context);
   if (action === 'open-svg-preview') return openSvgPreview(context);
 }
@@ -105,6 +108,35 @@ function fitSvg(host) {
   setStatus(host, 'Centre SVG fit 56% · pan +25vw / -33vh');
 }
 
+async function fixSvgOffset({ host }) {
+  const panel = sourcePanel();
+  const sourceCode = panel?.dataset.currentSourceCode;
+  if (!sourceCode || !sourceTarget()) return setStatus(host, 'DXF symbol not ready for offset fix');
+  const saved = saveSourceSvgOffset(sourceCode, readViewport());
+  const payload = JSON.stringify(exportSourceSvgOffsetsPayload(), null, 2);
+  let exportStatus = 'offset JSON copied';
+  try {
+    await writeClipboard(payload);
+  } catch {
+    downloadOffsetsJson(payload);
+    exportStatus = 'offset JSON downloaded';
+  }
+  setStatus(host, `Fixed offset saved locally · ${offsetStatusText(sourceCode, saved)} · ${exportStatus}`);
+  updateSourceCoordinateReadout();
+}
+
+function downloadOffsetsJson(text) {
+  if (typeof document === 'undefined' || typeof URL === 'undefined' || typeof Blob === 'undefined') return;
+  const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'dxf-symbol-offsets.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 500);
+}
+
 function setViewport({ scale, panX, panY }) {
   const panel = sourcePanel();
   if (!panel) return;
@@ -114,6 +146,7 @@ function setViewport({ scale, panX, panY }) {
   panel.style.setProperty('--source-svg-scale', String(scale));
   panel.style.setProperty('--source-svg-pan-x', String(panX));
   panel.style.setProperty('--source-svg-pan-y', String(panY));
+  sourceTarget()?.style?.removeProperty('transform');
   updateSourceCoordinateReadout();
 }
 
