@@ -1,4 +1,5 @@
 import { renderDimensionCallouts, clearDimensionCallouts } from './dimensionCallouts.js';
+import { renderDimensionCalloutDiagnostics, clearDimensionCalloutDiagnostics } from './dimensionCalloutDiagnostics.js';
 import { computeAutoSourceSvgOffset } from './sourceSvgAutoFit.js';
 import { loadSourceSvgOffset, offsetStatusText } from './sourceSvgOffsetStore.js';
 
@@ -149,9 +150,11 @@ function mountImageFallback(container, result, reason, row) {
   container.replaceChildren(viewport, metaNode(result, 'file reference'));
   img.onerror = () => {
     clearDimensionCallouts(container);
+    clearDimensionCalloutDiagnostics(container);
     container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(reason)}</div>`;
   };
-  renderDimensionCallouts(row, result.symbol, viewport);
+  const callouts = renderDimensionCallouts(row, result.symbol, viewport);
+  renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts);
   scheduleStoredOffset(container, result);
   return { ...result, renderMode: 'img', reason: `${result.reason}; inline parse unavailable, mounted SVG file reference` };
 }
@@ -267,6 +270,7 @@ export async function mountDxfSymbolSvg(row, container) {
     result = await resolveDxfSymbolForComponent(row);
     if (result.status !== 'OK') {
       clearDimensionCallouts(container);
+      clearDimensionCalloutDiagnostics(container);
       container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(result.reason)}</div>`;
       return result;
     }
@@ -277,12 +281,14 @@ export async function mountDxfSymbolSvg(row, container) {
     const viewport = sourceViewport(svgNode);
     container.replaceChildren(viewport, metaNode(result));
     tightenViewBox(svgNode);
-    renderDimensionCallouts(row, result.symbol, viewport);
+    const callouts = renderDimensionCallouts(row, result.symbol, viewport);
+    renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts);
     scheduleStoredOffset(container, result);
     return { ...result, renderMode: 'inline' };
   } catch (error) {
     if (result?.status === 'OK') return mountImageFallback(container, result, error.message, row);
     clearDimensionCallouts(container);
+    clearDimensionCalloutDiagnostics(container);
     const failed = { status: 'SVG_NOT_AVAILABLE', reason: error.message || 'DXF symbol lookup failed', symbol: null };
     container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(failed.reason)}</div>`;
     return failed;
