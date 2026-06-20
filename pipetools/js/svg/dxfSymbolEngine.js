@@ -174,7 +174,20 @@ function parseSvgNode(svgText) {
   node.removeAttribute('width');
   node.removeAttribute('height');
   node.dataset.dxfSymbolSvg = 'true';
+  removePlaceholderText(node);
   return node;
+}
+
+function removePlaceholderText(svg) {
+  svg.querySelectorAll?.('text').forEach((text) => {
+    if (/^[-–—]+$/.test(text.textContent.trim())) text.remove();
+  });
+  svg.querySelectorAll?.('tspan').forEach((text) => {
+    if (/^[-–—]+$/.test(text.textContent.trim())) text.remove();
+  });
+  svg.querySelectorAll?.('text').forEach((text) => {
+    if (!text.textContent.trim()) text.remove();
+  });
 }
 
 function metaNode(result, mode = 'inline') {
