@@ -1,5 +1,6 @@
 import { COMPONENTS, DISABLED_MODULES } from './data.js';
 import { renderDbCoverageStrip } from './db/dbCoverage.js';
+import { dimensionFacts, formatDimensionValue, formatFact, formatWeightValue, valueFromPaths, weightFacts } from './dimensionDisplay.js';
 import { getDashboardCounts } from './pipespecFilters.js';
 import { renderPipeSpecInspector } from './pipespecInspector.js';
 import { bindPipeSpecDetailActions } from './pipespecDetailActions.js';
@@ -122,16 +123,16 @@ function renderSourceSvgPanel(row) {
   const kicker = document.getElementById('source-svg-kicker');
   const host = document.getElementById('source-svg-body');
   title.textContent = row ? itemLabel(row) : 'Centre Canvas';
-  kicker.textContent = row ? 'DXF manifest lookup · no generic fallback' : 'Source SVG';
+  kicker.textContent = row ? 'DXF manifest lookup · DB dimensions overlay' : 'Source SVG';
   if (!row) return clearSourceSvgPanel('Select a row to preview its DXF-derived source SVG.');
   const rowId = String(row.id ?? '');
   host.dataset.pipeSpecLegacySupport = String(hasPipeSpecSvgSupport(row));
-  host.innerHTML = `<div class="source-svg-canvas"><div data-pipespec-source-svg-host="true" data-row-id="${esc(rowId)}"><div class="svg-loading">Loading DXF-derived SVG…</div></div></div>`;
+  host.innerHTML = `<div class="source-svg-canvas"><div data-pipespec-source-svg-host="true" data-row-id="${esc(rowId)}"><div class="svg-loading">Loading DXF-derived SVG…</div></div>${sourceDataOverlay(row)}</div>`;
   mountPipeSpecSvg(row, host.querySelector('[data-pipespec-source-svg-host]')).then((result) => {
     if (host.querySelector('[data-row-id]')?.dataset.rowId !== rowId) return;
     if (result.status === 'OK') {
       title.textContent = result.symbol.title;
-      kicker.textContent = `${result.sourceCode} · ${result.symbol.family} · ${result.symbol.standard || 'standard pending'}`;
+      kicker.textContent = `${result.sourceCode} · ${result.symbol.family} · ${result.symbol.standard || 'standard pending'} · source row dimensions`;
       const svg = host.querySelector('svg');
       if (svg) fitSourceSvg(svg);
     } else {
@@ -140,8 +141,15 @@ function renderSourceSvgPanel(row) {
       kicker.textContent = `${result.status} · ${result.reason}`;
     }
   }).catch((error) => {
-    if (host.querySelector('[data-row-id]')?.dataset.rowId === rowId) host.innerHTML = `<div class="source-svg-canvas"><div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(error.message)}</div></div>`;
+    if (host.querySelector('[data-row-id]')?.dataset.rowId === rowId) host.innerHTML = `<div class="source-svg-canvas"><div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(error.message)}</div>${sourceDataOverlay(row)}</div>`;
   });
+}
+
+function sourceDataOverlay(row) {
+  const facts = [...dimensionFacts(row).slice(0, 6), ...weightFacts(row).slice(0, 2)];
+  if (!facts.length) return '<div class="source-data-overlay pending"><strong>DB dimensions</strong><span>No source-backed dimensions on this selected row.</span></div>';
+  const html = facts.map((fact) => `<span><b>${esc(fact.label)}</b>${esc(formatFact(fact))}</span>`).join('');
+  return `<div class="source-data-overlay"><strong>DB dimensions</strong>${html}</div>`;
 }
 
 function clearSourceSvgPanel(message) {
@@ -181,21 +189,20 @@ function tableFields(family) {
 }
 
 function cellValue(row, field) {
-  const d = row.dimensions ?? {}, w = row.weights ?? {};
   if (field === 'subtype') return subtypeOf(row);
   if (field === 'valveType') return row.valveType ?? subtypeOf(row);
   if (field === 'classRating') return row.classRating ? `CL ${String(row.classRating).replace(/^CL\s*/i, '')}` : '—';
   if (field === 'componentType') return row.componentType ?? row.component ?? '—';
   if (field === 'npsDn') return `NPS ${displayNps(row.nps ?? row.largeNps ?? '—')} / DN ${row.dn ?? '—'}`;
   if (field === 'source') return shortSource(row.source);
-  if (field === 'f2f') return dim(row.faceToFaceMm ?? d.faceToFaceRfMm ?? d.faceToFaceMm);
-  if (field === 'height') return dim(row.heightMm ?? d.heightMm);
-  if (field === 'weight') return weight(row.weightKg ?? w.weightKg ?? w.rfRtjKg ?? w.weightKgPerM);
-  if (field === 'od' || field === 'flangeOd' || field === 'outerDia') return dim(row.odMm ?? row.flangeOdMm ?? row.outerDiaMm ?? d.odMm ?? d.flangeOdMm ?? d.outerDiaMm);
-  if (field === 'innerDia') return dim(row.innerDiaMm ?? d.innerDiaMm);
-  if (field === 'thickness') return dim(row.thicknessMm ?? row.wallMm ?? row.flangeThicknessMm ?? d.thicknessMm ?? d.wallMm ?? d.flangeThicknessMm);
-  if (field === 'centerToEnd') return dim(row.centerToEndMm ?? row.ctrToEndMm ?? d.centerToEndMm);
-  if (field === 'developedLength') return dim(row.developedLengthMm ?? row.devLenMm ?? d.developedLengthMm);
+  if (field === 'f2f') return dim(row, 'faceToFaceRfMm', 'faceToFaceMm', 'dimensions.faceToFaceRfMm', 'dimensions.faceToFaceMm', 'dimensions.faceToFaceRtjMm', 'dimensions.buttWeldLengthMm');
+  if (field === 'height') return dim(row, 'heightMm', 'dimensions.heightMm');
+  if (field === 'weight') return weight(row, 'weightKg', 'rfRtjKg', 'weightKgPerM', 'weights.weightKg', 'weights.rfRtjKg', 'weights.weightKgPerM', 'weights.emptyPipeKgPerM');
+  if (field === 'od' || field === 'flangeOd' || field === 'outerDia') return dim(row, 'odMm', 'flangeOdMm', 'outerDiaMm', 'dimensions.odMm', 'dimensions.flangeOdMm', 'dimensions.outerDiaMm');
+  if (field === 'innerDia') return dim(row, 'innerDiaMm', 'idMm', 'dimensions.innerDiaMm', 'dimensions.idMm');
+  if (field === 'thickness') return dim(row, 'thicknessMm', 'wallMm', 'flangeThicknessMm', 'blindThickMm', 'dimensions.thicknessMm', 'dimensions.wallMm', 'dimensions.flangeThicknessMm', 'dimensions.blindThickMm');
+  if (field === 'centerToEnd') return dim(row, 'centerToEndMm', 'ctrToEndMm', 'dimensions.centerToEndMm');
+  if (field === 'developedLength') return dim(row, 'developedLengthMm', 'devLenMm', 'dimensions.developedLengthMm');
   if (field === 'material') return row.materialFamily ?? row.material ?? '—';
   if (field === 'largeNps' || field === 'smallNps') return displayNps(row[field]);
   if (field === 'schedule') return row.schedule ?? row.largeSchedule ?? row.scheduleOrRating ?? '—';
@@ -207,14 +214,12 @@ function countFor(state, bucket, key) {
   return getDashboardCounts(state.allRows, state.filters)[bucket]?.[key] ?? '';
 }
 
-function dim(value) {
-  const v = value && typeof value === 'object' && 'value' in value ? value.value : value;
-  return v == null || v === '' ? '—' : `${v} mm`;
+function dim(row, ...paths) {
+  return formatDimensionValue(valueFromPaths(row, ...paths));
 }
 
-function weight(value) {
-  const v = value && typeof value === 'object' && 'value' in value ? value.value : value;
-  return v == null || v === '' ? '—' : `${v} kg`;
+function weight(row, ...paths) {
+  return formatWeightValue(valueFromPaths(row, ...paths));
 }
 
 function fieldValues(rows, key) {
