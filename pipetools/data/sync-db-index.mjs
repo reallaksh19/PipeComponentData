@@ -50,17 +50,35 @@ function parseCurrentIndex(text) {
 }
 
 function sameIndex(left, right) {
-  return stableStringify(canonicalizeIndex(left)) === stableStringify(canonicalizeIndex(right));
+  return stableStringify(materialRuntimeIndex(left)) === stableStringify(materialRuntimeIndex(right));
 }
 
-function canonicalizeIndex(value) {
-  if (!value || typeof value !== 'object') return value;
-  if (Array.isArray(value)) return value.map(canonicalizeIndex);
-  const result = {};
-  for (const key of Object.keys(value).sort()) {
-    result[key] = canonicalizeIndex(value[key]);
-  }
-  return result;
+function materialRuntimeIndex(index = {}) {
+  const families = Array.isArray(index.families) ? index.families : [];
+  return {
+    schema: index.schema,
+    generatedBy: index.generatedBy,
+    families: families
+      .map((item = {}) => ({
+        family: item.family,
+        label: item.label,
+        componentType: item.componentType,
+        subtypes: item.subtypes ?? [],
+        standard: item.standard,
+        repositoryPaths: item.repositoryPaths ?? [],
+        runtimeUrls: item.runtimeUrls ?? [],
+        repositoryPath: item.repositoryPath,
+        runtimeUrl: item.runtimeUrl,
+        rowCount: item.rowCount,
+        sourceRowCount: item.sourceRowCount,
+        sourcePackCount: item.sourcePackCount,
+        keyFields: item.keyFields ?? [],
+        searchFields: item.searchFields ?? [],
+        availableFilters: item.availableFilters ?? [],
+        svgSupported: item.svgSupported,
+      }))
+      .sort((a, b) => String(a.family).localeCompare(String(b.family))),
+  };
 }
 
 function stableStringify(value) {
