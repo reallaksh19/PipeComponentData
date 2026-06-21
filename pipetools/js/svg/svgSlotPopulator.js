@@ -5,12 +5,12 @@ const DEFAULT_CONFIDENCE_THRESHOLD = 0.85;
 const DEFAULT_PLACEHOLDERS = ['-', '–', '—'];
 const TARGET_TOLERANCE = 50;
 const DEFAULT_NATIVE_TEXT_STYLE = Object.freeze({
-  fontSize: '280',
+  fontSize: '150',
   fontFamily: 'Inter, Arial, Helvetica, sans-serif',
-  fontWeight: '800',
+  fontWeight: '700',
   fill: '#0f172a',
   stroke: '#ffffff',
-  strokeWidth: '30',
+  strokeWidth: '8',
 });
 
 export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, options = {}) {
@@ -56,7 +56,7 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
     const target = match.target;
     const before = target.text;
     setTextContent(target.node, value);
-    markPopulatedNode(target.node, slotLabel, fact.path, match.confidence, slot);
+    markPopulatedNode(target.node, slotLabel, fact.path, match.confidence, slot, slotBinding);
     usedNodes.add(target.node);
 
     const detail = {
@@ -306,19 +306,19 @@ function effectiveSuppressLabels(slotLabel, slot, fact) {
     .filter(isRenderable);
 }
 
-function markPopulatedNode(node, slotLabel, factPath, confidence, slot = {}) {
+function markPopulatedNode(node, slotLabel, factPath, confidence, slot = {}, slotBinding = {}) {
   node?.setAttribute?.('data-pipetools-slot', slotLabel);
   node?.setAttribute?.('data-pipetools-source-backed', 'true');
   node?.setAttribute?.('data-pipetools-native-value', 'true');
   node?.setAttribute?.('data-pipetools-slot-confidence', String(roundConfidence(confidence)));
   if (factPath) node?.setAttribute?.('data-pipetools-slot-source-path', factPath);
   if (factPath) node?.setAttribute?.('data-pipetools-fact-path', factPath);
-  applyNativeSlotTextStyle(node, slot);
+  applyNativeSlotTextStyle(node, slot, slotBinding);
 }
 
-function applyNativeSlotTextStyle(node, slot = {}) {
+function applyNativeSlotTextStyle(node, slot = {}, slotBinding = {}) {
   if (!node?.setAttribute || slot.nativeTextStyle === false) return;
-  const style = { ...DEFAULT_NATIVE_TEXT_STYLE, ...(slot.nativeTextStyle || {}) };
+  const style = { ...DEFAULT_NATIVE_TEXT_STYLE, ...(slotBinding.nativeTextStyle || {}), ...(slot.nativeTextStyle || {}) };
   const className = [node.getAttribute?.('class'), 'pipetools-native-slot-value'].filter(Boolean).join(' ');
   node.setAttribute('class', className);
   node.setAttribute('font-size', String(style.fontSize));
