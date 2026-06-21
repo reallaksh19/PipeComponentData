@@ -1,49 +1,63 @@
 {
-  "version": "PipeToolsSvgSlotBinding.v1",
+  "version": "PipeToolsSvgSlotBinding.v2",
   "sourceCode": "Flan3",
   "strategy": "populate-native-svg-text",
-  "description": "Populate native Flan3 blind flange DXF dimension text slots from source-backed DB facts.",
+  "coordinateSpace": "source-svg-viewBox",
+  "confidenceThreshold": 0.85,
+  "description": "Deterministic native SVG value slots for Flan3 blind flange when source text placeholders are present.",
   "slots": {
     "Flange OD": {
+      "semanticLabel": "Flange OD",
+      "displayLabel": "OD",
       "labelText": ["OD", "Flange OD", "Outside Diameter"],
-      "placeholderNear": ["-", "—"],
       "preferredValueKeys": ["OD", "Flange OD", "outerDiameterMm", "flangeOuterDiameterMm", "dimensions.odMm", "dimensions.flangeOdMm"],
       "format": "diameter-mm",
+      "target": { "targetBox": [10000, 17300, 11100, 17750], "labelBox": [10000, 17300, 11100, 17750], "placeholderText": ["-"], "allowedExistingText": ["OD", "Flange OD", "Outside Diameter"], "maxDistanceFromLabel": 900, "expectedPosition": "lower flange OD dimension text" },
       "suppressOverlayLabels": ["OD", "Flange OD"]
     },
     "Thickness": {
+      "semanticLabel": "Thickness",
+      "displayLabel": "Thickness",
       "labelText": ["Thickness", "Thk", "Wall / Thk"],
-      "placeholderNear": ["-", "—"],
       "preferredValueKeys": ["Thickness", "Thk", "flangeThicknessMm", "thicknessMm", "dimensions.thicknessMm", "dimensions.flangeThicknessMm"],
       "format": "mm",
+      "target": { "targetBox": [15000, 14100, 15850, 14880], "labelBox": [15000, 14100, 15850, 14880], "placeholderText": ["-"], "allowedExistingText": ["Thickness", "Thk", "Wall / Thk"], "maxDistanceFromLabel": 900, "expectedPosition": "right vertical thickness dimension text" },
       "suppressOverlayLabels": ["Thickness", "Wall / Thk"]
     },
     "RF dia": {
+      "semanticLabel": "RF dia",
+      "displayLabel": "RF dia",
       "labelText": ["RF dia", "RF Dia", "Raised Face Diameter"],
-      "placeholderNear": ["-", "—"],
       "preferredValueKeys": ["RF dia", "Raised Face", "raisedFaceDiaMm", "rfDiaMm", "dimensions.rfDiaMm", "dimensions.raisedFaceDiaMm"],
       "format": "diameter-mm",
+      "target": { "targetBox": [10000, 16000, 11100, 16450], "labelBox": [10000, 16000, 11100, 16450], "placeholderText": ["-"], "allowedExistingText": ["RF dia", "RF Dia", "Raised Face Diameter"], "maxDistanceFromLabel": 900, "expectedPosition": "raised-face diameter text" },
       "suppressOverlayLabels": ["RF dia", "Raised Face"]
     },
     "PCD": {
+      "semanticLabel": "PCD",
+      "displayLabel": "PCD",
       "labelText": ["PCD", "Bolt Circle", "Bolt Circle Diameter"],
-      "placeholderNear": ["-", "—"],
       "preferredValueKeys": ["PCD", "Bolt Circle", "boltCircleMm", "pcdMm", "dimensions.pcdMm", "dimensions.boltCircleMm"],
       "format": "diameter-mm",
+      "target": { "targetBox": [10000, 16600, 11100, 17050], "labelBox": [10000, 16600, 11100, 17050], "placeholderText": ["-"], "allowedExistingText": ["PCD", "Bolt Circle", "Bolt Circle Diameter"], "maxDistanceFromLabel": 900, "expectedPosition": "bolt-circle dimension text" },
       "suppressOverlayLabels": ["PCD", "Bolt Circle"]
     },
     "Bolts": {
+      "semanticLabel": "Bolts",
+      "displayLabel": "Bolts",
       "labelText": ["Bolts", "No. Bolts", "Bolt count"],
-      "placeholderNear": ["-", "—"],
       "preferredValueKeys": ["Bolts", "No. Bolts", "boltCount", "dimensions.boltCount", "dimensions.boltSize"],
       "format": "count",
+      "target": { "targetBox": [13200, 15100, 14500, 15550], "labelBox": [13200, 15100, 14500, 15550], "placeholderText": ["-"], "allowedExistingText": ["Bolts", "No. Bolts", "Bolt count"], "maxDistanceFromLabel": 900, "expectedPosition": "right bolt count text" },
       "suppressOverlayLabels": ["Bolts", "Bolt count", "Bolt size"]
     },
     "Weight": {
+      "semanticLabel": "Weight",
+      "displayLabel": "Weight",
       "labelText": ["Weight", "kg"],
-      "placeholderNear": ["kg", "-", "—"],
       "preferredValueKeys": ["Weight", "weightKg", "weights.kg", "weights.rfRtjKg"],
       "format": "kg",
+      "target": { "targetBox": [13200, 15850, 14500, 16350], "labelBox": [13200, 15850, 14500, 16350], "placeholderText": ["-"], "allowedExistingText": ["Weight", "kg"], "maxDistanceFromLabel": 900, "expectedPosition": "right weight text" },
       "suppressOverlayLabels": ["Weight", "RF/RTJ weight"]
     }
   }

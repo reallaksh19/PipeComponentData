@@ -3,7 +3,7 @@ import { renderDimensionCalloutDiagnostics, clearDimensionCalloutDiagnostics } f
 import { computeAutoSourceSvgOffset } from './sourceSvgAutoFit.js';
 import { loadSourceSvgOffset, offsetStatusText } from './sourceSvgOffsetStore.js';
 import { loadSvgSlotBinding } from './svgSlotBindingStore.js';
-import { populateSvgSlots } from './svgSlotPopulator.js';
+import { populateSvgSlots, slotDiagnosticsSummary } from './svgSlotPopulator.js';
 
 const MANIFEST_JSON_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.json', import.meta.url).href;
 const MANIFEST_JS_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.js', import.meta.url).href;
@@ -149,7 +149,8 @@ async function mountImageFallback(container, result, reason, row) {
   img.dataset.dxfSymbolImg = 'true';
   img.className = 'dxf-symbol-img';
   const viewport = sourceViewport(img);
-  viewport.__pipeToolsNativeSvgSlots = { populatedLabels: [], suppressedOverlayLabels: [], populatedCount: 0 };
+  viewport.__pipeToolsNativeSvgSlots = { populatedLabels: [], suppressedOverlayLabels: [], populatedCount: 0, slots: [] };
+  attachSlotDiagnostics(viewport, viewport.__pipeToolsNativeSvgSlots);
   container.replaceChildren(viewport, metaNode(result, 'file reference'));
   img.onerror = () => {
     clearDimensionCallouts(container);
@@ -254,6 +255,12 @@ function tightenViewBox(svg) {
   });
 }
 
+function attachSlotDiagnostics(viewport, slotPopulation) {
+  const summary = slotDiagnosticsSummary(slotPopulation);
+  viewport.__pipeToolsSvgSlotDiagnostics = summary;
+  viewport.dataset.svgSlotDiagnostics = JSON.stringify(summary);
+}
+
 export async function resolveDxfSymbolForComponent(row) {
   await loadDxfSymbolManifest();
   if (!row || typeof row !== 'object') return { status: 'SVG_NOT_AVAILABLE', reason: 'No component row supplied', symbol: null };
@@ -286,6 +293,7 @@ export async function mountDxfSymbolSvg(row, container) {
     const viewport = sourceViewport(svgNode);
     viewport.__pipeToolsNativeSvgSlots = slotPopulation;
     viewport.__pipeToolsSuppressedOverlayLabels = slotPopulation.suppressedOverlayLabels;
+    attachSlotDiagnostics(viewport, slotPopulation);
     container.replaceChildren(viewport, metaNode(result));
     tightenViewBox(svgNode);
     const callouts = renderDimensionCallouts(row, result.symbol, viewport, { suppressLabels: slotPopulation.suppressedOverlayLabels });
