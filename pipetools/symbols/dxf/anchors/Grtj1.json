@@ -1,0 +1,13 @@
+{
+  "version": "PipeToolsSymbolAnchor.v1",
+  "sourceCode": "Grtj1",
+  "viewBox": [0, 0, 1000, 720],
+  "units": "normalized-svg",
+  "description": "Manual semantic anchors for Grtj1 RTJ ring gasket callouts.",
+  "anchors": {
+    "OD": { "kind": "diameter", "p1": [245, 360], "p2": [755, 360], "labelAt": [500, 118], "preferredValueKeys": ["OD", "Outer Dia", "outerDiameterMm", "odMm", "dimensions.odMm"] },
+    "ID": { "kind": "diameter", "p1": [385, 360], "p2": [615, 360], "labelAt": [500, 604], "preferredValueKeys": ["ID", "Inside Dia", "innerDiameterMm", "idMm", "dimensions.idMm"] },
+    "Thickness": { "kind": "leader", "from": [700, 324], "to": [850, 224], "labelAt": [864, 224], "preferredValueKeys": ["Thickness", "Thk", "Wall / Thk", "thicknessMm", "dimensions.thicknessMm"] },
+    "Weight": { "kind": "badge", "labelAt": [758, 560], "preferredValueKeys": ["Weight", "Weight / m", "weightKg", "weightKgPerM", "weights.kg", "weights.kgPerM"] }
+  }
+}
