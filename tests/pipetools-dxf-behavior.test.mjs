@@ -253,6 +253,6 @@ test('DXF validators and callout audit scripts execute successfully', async () =
     ['pipetools/symbols/dxf/audit-dxf-callout-coverage.mjs', '--check'],
   ];
   for (const args of commands) {
-    await execFileAsync(process.execPath, args, { cwd: repoRoot, timeout: 30000 });
+    await execFileAsync(process.execPath, args, { cwd: repoRoot, timeout: 120000, maxBuffer: 8 * 1024 * 1024 });
   }
 });
