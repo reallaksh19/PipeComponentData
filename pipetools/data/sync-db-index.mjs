@@ -50,7 +50,7 @@ async function buildDbIndex() {
     files.forEach((name) => indexedFiles.add(name));
     const packs = await Promise.all(files.map((name) => readPack(name)));
     const rows = packs.flatMap((pack) => pack.rows);
-    const sources = new Set(rows.map((row) => row?.source).filter(Boolean));
+    const sources = new Set(rows.map(sourceOfRow).filter(Boolean));
     const repositoryPaths = files.map((name) => `data/normalized/${name}`);
     const runtimeUrls = files.map((name) => `../data/normalized/${name}`);
     const rowCount = rows.length;
@@ -93,6 +93,10 @@ async function buildDbIndex() {
     },
     families,
   };
+}
+
+function sourceOfRow(row = {}) {
+  return row.source ?? row.provenance?.source ?? null;
 }
 
 async function readPack(name) {
