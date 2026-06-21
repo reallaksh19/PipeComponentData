@@ -5,10 +5,11 @@ import { normalizeRows } from './rowNormalizer.js';
 
 export async function loadComponentRows(component, options = {}) {
   const root = options.root ?? '..';
-  const entry = getComponentEntry(component);
+  const dbIndex = options.dbIndex ?? null;
+  const entry = getComponentEntry(component, dbIndex);
   if (!entry) return emptyRows(makeIssue('UNKNOWN_COMPONENT', `Unknown component ${component}`));
 
-  const urls = buildComponentUrls(root, entry.key);
+  const urls = buildComponentUrls(root, entry.key, dbIndex);
   const cacheKey = urls.join('|');
   const cached = readCache(cacheKey);
   if (cached) return cached;
@@ -18,7 +19,7 @@ export async function loadComponentRows(component, options = {}) {
     const failed = loaded.find((item) => item.issue);
     if (failed) return emptyRows(failed.issue);
     const rows = normalizeRows(dedupeRows(loaded.flatMap((item) => item.rows)));
-    const metadata = { sources: loaded.map((item) => item.url), sourceCount: loaded.length };
+    const metadata = { sources: loaded.map((item) => item.url), sourceCount: loaded.length, catalogSource: entry.source ?? 'fallback-catalog' };
     return writeCache(cacheKey, loadedRows(rows, metadata));
   } catch (cause) {
     return emptyRows(makeIssue('LOAD_EXCEPTION', cause.message, { urls }));
