@@ -49,11 +49,17 @@ jobs:
       - name: Run DXF state-store behavior tests
         run: node --test --test-name-pattern "missing anchor files|callout mode|Fix Offset|validator scripts" tests/pipetools-dxf-behavior.test.mjs
 
+      - name: Run symbol anchor expansion tests
+        run: node --test tests/pipetools-symbol-anchor-expansion.test.mjs
+
       - name: Validate DXF offset defaults
         run: node pipetools/symbols/dxf/validate-dxf-offsets.mjs
 
       - name: Validate DXF symbol anchors
         run: node pipetools/symbols/dxf/validate-symbol-anchors.mjs
+
+      - name: Audit DXF symbol anchor coverage
+        run: node pipetools/symbols/dxf/audit-symbol-anchor-coverage.mjs --check
 
       - name: Audit DXF callout coverage
         run: node pipetools/symbols/dxf/audit-dxf-callout-coverage.mjs --check
@@ -69,6 +75,14 @@ jobs:
           test -f _site/pipetools/data/db-index.json
           test -f _site/pipetools/data/dxf-symbol-offsets.json
           test -f _site/pipetools/symbols/dxf/anchors/Pipe1.json
+          test -f _site/pipetools/symbols/dxf/anchors/Gflt1.json
+          test -f _site/pipetools/symbols/dxf/anchors/Gspr1.json
+          test -f _site/pipetools/symbols/dxf/anchors/Grtj1.json
+          test -f _site/pipetools/symbols/dxf/anchors/Flan1.json
+          test -f _site/pipetools/symbols/dxf/anchors/Flan2.json
+          test -f _site/pipetools/symbols/dxf/anchors/Flan3.json
+          test -f _site/pipetools/symbols/dxf/anchors/FLAP1.json
+          test -f _site/pipetools/symbols/dxf/anchors/Blnu1.json
           test -f _site/pipetools/vendor/pipespec-svg/svg-engine.js
           test -f _site/pipetools/pipeSpanDetail.css
           test -f _site/pipetools/js/app.js
