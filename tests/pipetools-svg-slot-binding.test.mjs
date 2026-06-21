@@ -110,8 +110,15 @@ test('Pipe1 slots populate target-region text only', async () => {
   const inventory = inventoryFor(binding);
   const result = populateSvgSlots(new TextNode('svg'), 'Pipe1', binding, pipeRow, { inventory });
   assert.deepEqual(result.populatedLabels, ['OD', 'ID', 'Wall / Thk', 'Weight / m']);
-  assert.ok(inventory.some((entry) => entry.node.textContent === '290 mm' && entry.node.getAttribute('data-pipetools-slot') === 'OD'));
-  assert.ok(inventory.some((entry) => entry.node.textContent === '84 kg/m' && entry.node.getAttribute('data-pipetools-slot') === 'Weight / m'));
+  const od = inventory.find((entry) => entry.node.textContent === '290 mm' && entry.node.getAttribute('data-pipetools-slot') === 'OD')?.node;
+  const weight = inventory.find((entry) => entry.node.textContent === '84 kg/m' && entry.node.getAttribute('data-pipetools-slot') === 'Weight / m')?.node;
+  assert.ok(od);
+  assert.ok(weight);
+  assert.equal(od.getAttribute('data-pipetools-native-value'), 'true');
+  assert.equal(od.getAttribute('data-pipetools-source-backed'), 'true');
+  assert.equal(od.getAttribute('font-weight'), '800');
+  assert.ok(Number(od.getAttribute('font-size')) >= 260);
+  assert.equal(weight.getAttribute('paint-order'), 'stroke fill');
   assert.ok(result.slots.every((slot) => slot.status === 'populated' && slot.confidence >= 0.85));
 });
 
