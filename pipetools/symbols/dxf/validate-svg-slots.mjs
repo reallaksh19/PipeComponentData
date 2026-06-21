@@ -108,8 +108,12 @@ function validateTarget(label, target, errors) {
   }
   if (!validBox(target.targetBox)) errors.push(`${label}: target.targetBox must be [minX,minY,maxX,maxY] finite numbers with min < max`);
   if (target.labelBox != null && !validBox(target.labelBox)) errors.push(`${label}: target.labelBox must be [minX,minY,maxX,maxY] finite numbers with min < max`);
-  for (const key of ['placeholderText', 'allowedExistingText', 'unitTextNearby']) {
+  if (target.cleanupBox != null && !validBox(target.cleanupBox)) errors.push(`${label}: target.cleanupBox must be [minX,minY,maxX,maxY] finite numbers with min < max`);
+  for (const key of ['placeholderText', 'allowedExistingText', 'unitTextNearby', 'cleanupPlaceholderText']) {
     if (target[key] != null && !asStringArray(target[key]).length) errors.push(`${label}: target.${key} must be a non-empty string array when present`);
+  }
+  if (target.cleanupPlaceholders != null && typeof target.cleanupPlaceholders !== 'boolean') {
+    errors.push(`${label}: target.cleanupPlaceholders must be boolean when present`);
   }
   if (target.maxDistanceFromLabel != null) {
     const value = Number(target.maxDistanceFromLabel);
@@ -139,7 +143,7 @@ function scanDangerousValues(value, context, errors) {
 }
 
 function allowedPlaceholderContext(context) {
-  return ['placeholderText', 'allowedExistingText'].some((part) => context.includes(part));
+  return ['placeholderText', 'allowedExistingText', 'cleanupPlaceholderText'].some((part) => context.includes(part));
 }
 
 function validBox(value) {
