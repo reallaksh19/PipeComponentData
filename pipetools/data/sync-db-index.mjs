@@ -31,12 +31,26 @@ if (mode === 'write') {
   await writeFile(INDEX_PATH, serialized, 'utf8');
   console.log(`Wrote ${path.relative(REPO_ROOT, INDEX_PATH)} with ${index.families.length} families.`);
 } else {
-  const current = await readFile(INDEX_PATH, 'utf8');
-  if (current !== serialized) {
+  const currentText = await readFile(INDEX_PATH, 'utf8');
+  const current = parseCurrentIndex(currentText);
+  if (!sameIndex(current, index)) {
     console.error('PipeTools DB index is stale. Run: node pipetools/data/sync-db-index.mjs --write');
     process.exit(1);
   }
   console.log(`PipeTools DB index is synchronized: ${index.families.length} families, ${index.families.reduce((sum, item) => sum + item.rowCount, 0)} rows.`);
+}
+
+function parseCurrentIndex(text) {
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    console.error(`Cannot parse ${path.relative(REPO_ROOT, INDEX_PATH)}: ${error.message}`);
+    process.exit(1);
+  }
+}
+
+function sameIndex(left, right) {
+  return JSON.stringify(left) === JSON.stringify(right);
 }
 
 async function buildDbIndex() {
