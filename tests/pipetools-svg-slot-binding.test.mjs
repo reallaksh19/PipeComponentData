@@ -26,7 +26,7 @@ class TextNode {
     this.parentNode = null;
   }
   setAttribute(name, value) { this.attrs.set(name, String(value)); }
-  getAttribute(name) { return this.attrs.get(name) || null; }
+  getAttribute(name) { return this.attrs.has(name) ? this.attrs.get(name) : null; }
   querySelectorAll() { return []; }
 }
 
@@ -107,7 +107,8 @@ test('text inventory maps inherited SVG transforms into source coordinates', asy
 test('Pipe1 slots populate target-region text with compact readable native styling', async () => {
   const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
   const binding = await readSlot('Pipe1');
-  const inventory = inventoryFor(binding);
+  const staleTopDash = inventoryEntry('-', 7000, 13100, 'svg[1]/text[stale-od-dash]');
+  const inventory = [...inventoryFor(binding), staleTopDash];
   const result = populateSvgSlots(new TextNode('svg'), 'Pipe1', binding, pipeRow, { inventory });
   assert.deepEqual(result.populatedLabels, ['OD', 'ID', 'Wall / Thk', 'Weight / m']);
   const od = inventory.find((entry) => entry.node.textContent === '290 mm' && entry.node.getAttribute('data-pipetools-slot') === 'OD')?.node;
@@ -116,11 +117,14 @@ test('Pipe1 slots populate target-region text with compact readable native styli
   assert.ok(weight);
   assert.equal(od.getAttribute('data-pipetools-native-value'), 'true');
   assert.equal(od.getAttribute('data-pipetools-source-backed'), 'true');
-  assert.equal(od.getAttribute('font-weight'), '700');
-  assert.ok(Number(od.getAttribute('font-size')) >= 120);
-  assert.ok(Number(od.getAttribute('font-size')) <= 180);
-  assert.ok(Number(od.getAttribute('stroke-width')) <= 12);
+  assert.equal(od.getAttribute('font-weight'), '600');
+  assert.ok(Number(od.getAttribute('font-size')) >= 90);
+  assert.ok(Number(od.getAttribute('font-size')) <= 130);
+  assert.ok(Number(od.getAttribute('stroke-width')) <= 4);
   assert.equal(weight.getAttribute('paint-order'), 'stroke fill');
+  assert.equal(staleTopDash.node.textContent, '');
+  assert.equal(staleTopDash.node.getAttribute('data-pipetools-placeholder-cleaned'), 'true');
+  assert.ok(result.cleanedPlaceholderCount >= 1);
   assert.ok(result.slots.every((slot) => slot.status === 'populated' && slot.confidence >= 0.85));
 });
 
@@ -133,6 +137,19 @@ test('a candidate outside targetBox is not selected', async () => {
   assert.equal(result.populatedCount, 1);
   assert.equal(outside.node.textContent, '-');
   assert.equal(inside.node.textContent, '290 mm');
+});
+
+test('missing DB values clean configured placeholder text without suppressing overlays', async () => {
+  const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
+  const binding = { sourceCode: 'Pipe1', confidenceThreshold: 0.85, slots: { OD: { semanticLabel: 'OD', displayLabel: 'OD', labelText: ['Outside Diameter'], preferredValueKeys: ['OD', 'dimensions.odMm'], format: 'diameter-mm', target: { targetBox: [900, 900, 1200, 1100], cleanupBox: [850, 850, 1250, 1150], placeholderText: ['-'], cleanupPlaceholderText: ['-'] }, suppressOverlayLabels: ['OD'] } } };
+  const inside = inventoryEntry('-', 1000, 1000, 'inside');
+  const outside = inventoryEntry('-', 2000, 2000, 'outside');
+  const result = populateSvgSlots(new TextNode('svg'), 'Pipe1', binding, {}, { inventory: [inside, outside] });
+  assert.equal(result.populatedCount, 0);
+  assert.deepEqual(result.suppressedOverlayLabels, []);
+  assert.equal(inside.node.textContent, '');
+  assert.equal(outside.node.textContent, '-');
+  assert.equal(inside.node.getAttribute('data-pipetools-placeholder-cleaned'), 'true');
 });
 
 test('unmatched and missing-value slots do not suppress overlays', async () => {
