@@ -50,7 +50,21 @@ function parseCurrentIndex(text) {
 }
 
 function sameIndex(left, right) {
-  return JSON.stringify(left) === JSON.stringify(right);
+  return stableStringify(canonicalizeIndex(left)) === stableStringify(canonicalizeIndex(right));
+}
+
+function canonicalizeIndex(value) {
+  if (!value || typeof value !== 'object') return value;
+  if (Array.isArray(value)) return value.map(canonicalizeIndex);
+  const result = {};
+  for (const key of Object.keys(value).sort()) {
+    result[key] = canonicalizeIndex(value[key]);
+  }
+  return result;
+}
+
+function stableStringify(value) {
+  return JSON.stringify(value);
 }
 
 async function buildDbIndex() {
