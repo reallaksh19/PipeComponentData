@@ -43,8 +43,14 @@ jobs:
       - name: Validate DXF symbols
         run: node pipetools/symbols/dxf/validate-dxf-symbols.mjs
 
-      - name: Run DXF behavior tests
-        run: node --test tests/pipetools-dxf-behavior.test.mjs
+      - name: Run DXF manifest and resolver behavior tests
+        run: node --test --test-name-pattern "DXF manifest|DXF resolver|dimension facts|callout templates" tests/pipetools-dxf-behavior.test.mjs
+
+      - name: Run Pipe1 anchor behavior tests
+        run: node --test --test-name-pattern "Pipe1|manual anchors|missing DB values" tests/pipetools-dxf-behavior.test.mjs
+
+      - name: Run DXF state-store behavior tests
+        run: node --test --test-name-pattern "missing anchor files|callout mode|Fix Offset|validator scripts" tests/pipetools-dxf-behavior.test.mjs
 
       - name: Validate DXF offset defaults
         run: node pipetools/symbols/dxf/validate-dxf-offsets.mjs
