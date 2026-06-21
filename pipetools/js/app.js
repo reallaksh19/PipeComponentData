@@ -98,7 +98,7 @@ async function setComponent(value) {
 }
 
 async function loadFamilyRows(component) {
-  const result = await loadComponentRows(component, { root: DATA_ROOT });
+  const result = await loadComponentRows(component, { root: DATA_ROOT, dbIndex: state.dbIndex });
   return result.rows;
 }
 
