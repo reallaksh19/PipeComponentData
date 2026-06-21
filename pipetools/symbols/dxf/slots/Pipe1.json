@@ -4,76 +4,248 @@
   "strategy": "populate-native-svg-text",
   "coordinateSpace": "source-svg-viewBox",
   "confidenceThreshold": 0.85,
+  "nativeTextStyle": {
+    "fontSize": "112",
+    "fontFamily": "Arial, Helvetica, sans-serif",
+    "fontWeight": "600",
+    "fill": "#111827",
+    "stroke": "#ffffff",
+    "strokeWidth": "3"
+  },
   "description": "Deterministic native SVG value slots for Pipe1 source text positions.",
   "slots": {
     "OD": {
       "semanticLabel": "OD",
       "displayLabel": "OD",
-      "labelText": ["Outside Diameter", "OD"],
-      "preferredValueKeys": ["OD", "Outer Dia", "outerDiameterMm", "odMm", "dimensions.odMm"],
+      "labelText": [
+        "Outside Diameter",
+        "OD"
+      ],
+      "preferredValueKeys": [
+        "OD",
+        "Outer Dia",
+        "outerDiameterMm",
+        "odMm",
+        "dimensions.odMm"
+      ],
       "format": "diameter-mm",
       "target": {
-        "targetBox": [6800, 13300, 8200, 13650],
-        "labelBox": [6800, 13300, 8200, 13650],
-        "placeholderText": ["-", "\u2014", "\u2013"],
-        "allowedExistingText": ["Outside Diameter", "OD"],
+        "targetBox": [
+          6800,
+          13300,
+          8200,
+          13650
+        ],
+        "labelBox": [
+          6800,
+          13300,
+          8200,
+          13650
+        ],
+        "cleanupBox": [
+          6500,
+          12950,
+          8500,
+          13750
+        ],
+        "placeholderText": [
+          "-",
+          "—",
+          "–"
+        ],
+        "cleanupPlaceholderText": [
+          "-",
+          "—",
+          "–"
+        ],
+        "allowedExistingText": [
+          "Outside Diameter",
+          "OD"
+        ],
         "maxDistanceFromLabel": 900,
         "expectedPosition": "above pipe outside-diameter dimension text",
         "replaceMode": "textContent"
       },
-      "suppressOverlayLabels": ["OD", "Outer Dia"]
+      "suppressOverlayLabels": [
+        "OD",
+        "Outer Dia"
+      ]
     },
     "ID": {
       "semanticLabel": "ID",
       "displayLabel": "ID",
-      "labelText": ["Inside Diameter", "ID"],
-      "preferredValueKeys": ["ID", "Inside Dia", "innerDiameterMm", "idMm", "dimensions.idMm"],
+      "labelText": [
+        "Inside Diameter",
+        "ID"
+      ],
+      "preferredValueKeys": [
+        "ID",
+        "Inside Dia",
+        "innerDiameterMm",
+        "idMm",
+        "dimensions.idMm"
+      ],
       "format": "diameter-mm",
       "target": {
-        "targetBox": [6800, 15480, 8250, 15820],
-        "labelBox": [6800, 15480, 8250, 15820],
-        "placeholderText": ["-", "\u2014", "\u2013"],
-        "allowedExistingText": ["Inside Diameter", "ID"],
+        "targetBox": [
+          6800,
+          15480,
+          8250,
+          15820
+        ],
+        "labelBox": [
+          6800,
+          15480,
+          8250,
+          15820
+        ],
+        "cleanupBox": [
+          6500,
+          15380,
+          8500,
+          15920
+        ],
+        "placeholderText": [
+          "-",
+          "—",
+          "–"
+        ],
+        "cleanupPlaceholderText": [
+          "-",
+          "—",
+          "–"
+        ],
+        "allowedExistingText": [
+          "Inside Diameter",
+          "ID"
+        ],
         "maxDistanceFromLabel": 900,
         "expectedPosition": "below pipe inside-diameter dimension text",
         "replaceMode": "textContent"
       },
-      "suppressOverlayLabels": ["ID", "Inside Dia"]
+      "suppressOverlayLabels": [
+        "ID",
+        "Inside Dia"
+      ]
     },
     "Wall / Thk": {
       "semanticLabel": "Wall / Thk",
       "displayLabel": "Wall / Thk",
-      "labelText": ["Wall Thickness", "Wall / Thk", "Wall"],
-      "preferredValueKeys": ["Wall / Thk", "Thickness", "wallThicknessMm", "thicknessMm", "dimensions.wallThicknessMm", "dimensions.thicknessMm"],
+      "labelText": [
+        "Wall Thickness",
+        "Wall / Thk",
+        "Wall"
+      ],
+      "preferredValueKeys": [
+        "Wall / Thk",
+        "Thickness",
+        "wallThicknessMm",
+        "thicknessMm",
+        "dimensions.wallThicknessMm",
+        "dimensions.thicknessMm"
+      ],
       "format": "mm",
       "target": {
-        "targetBox": [5450, 13550, 6550, 13950],
-        "labelBox": [5450, 13550, 6550, 13950],
-        "placeholderText": ["-", "\u2014", "\u2013"],
-        "allowedExistingText": ["Wall Thickness", "Wall / Thk", "Wall"],
+        "targetBox": [
+          5450,
+          13550,
+          6550,
+          13950
+        ],
+        "labelBox": [
+          5450,
+          13550,
+          6550,
+          13950
+        ],
+        "cleanupBox": [
+          5200,
+          13400,
+          6650,
+          14050
+        ],
+        "placeholderText": [
+          "-",
+          "—",
+          "–"
+        ],
+        "cleanupPlaceholderText": [
+          "-",
+          "—",
+          "–"
+        ],
+        "allowedExistingText": [
+          "Wall Thickness",
+          "Wall / Thk",
+          "Wall"
+        ],
         "maxDistanceFromLabel": 850,
         "expectedPosition": "left leader wall-thickness value text",
         "replaceMode": "textContent"
       },
-      "suppressOverlayLabels": ["Wall / Thk", "Thickness"]
+      "suppressOverlayLabels": [
+        "Wall / Thk",
+        "Thickness"
+      ]
     },
     "Weight / m": {
       "semanticLabel": "Weight / m",
       "displayLabel": "Weight / m",
-      "labelText": ["Kg/Mtr", "kg/m", "Weight"],
-      "preferredValueKeys": ["Weight / m", "weightKgPerM", "weights.kgPerM"],
+      "labelText": [
+        "Kg/Mtr",
+        "kg/m",
+        "Weight"
+      ],
+      "preferredValueKeys": [
+        "Weight / m",
+        "weightKgPerM",
+        "weights.kgPerM"
+      ],
       "format": "kg-per-m",
       "target": {
-        "targetBox": [8050, 15880, 8550, 16140],
-        "labelBox": [8050, 15880, 8550, 16140],
-        "placeholderText": ["-", "\u2014", "\u2013"],
-        "allowedExistingText": ["Kg/Mtr", "kg/m"],
-        "unitTextNearby": ["Weight"],
+        "targetBox": [
+          8050,
+          15880,
+          8550,
+          16140
+        ],
+        "labelBox": [
+          8050,
+          15880,
+          8550,
+          16140
+        ],
+        "cleanupBox": [
+          7900,
+          15800,
+          8700,
+          16200
+        ],
+        "placeholderText": [
+          "-",
+          "—",
+          "–"
+        ],
+        "cleanupPlaceholderText": [
+          "-",
+          "—",
+          "–"
+        ],
+        "allowedExistingText": [
+          "Kg/Mtr",
+          "kg/m"
+        ],
+        "unitTextNearby": [
+          "Weight"
+        ],
         "maxDistanceFromLabel": 700,
         "expectedPosition": "first weight table unit/value cell",
         "replaceMode": "textContent"
       },
-      "suppressOverlayLabels": ["Weight / m", "Weight"]
+      "suppressOverlayLabels": [
+        "Weight / m",
+        "Weight"
+      ]
     }
   }
 }
