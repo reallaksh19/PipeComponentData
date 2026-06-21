@@ -109,11 +109,18 @@ function validateTarget(label, target, errors) {
   if (!validBox(target.targetBox)) errors.push(`${label}: target.targetBox must be [minX,minY,maxX,maxY] finite numbers with min < max`);
   if (target.labelBox != null && !validBox(target.labelBox)) errors.push(`${label}: target.labelBox must be [minX,minY,maxX,maxY] finite numbers with min < max`);
   if (target.cleanupBox != null && !validBox(target.cleanupBox)) errors.push(`${label}: target.cleanupBox must be [minX,minY,maxX,maxY] finite numbers with min < max`);
+  if (target.geometryBox != null && !validBox(target.geometryBox)) errors.push(`${label}: target.geometryBox must be [minX,minY,maxX,maxY] finite numbers with min < max`);
   for (const key of ['placeholderText', 'allowedExistingText', 'unitTextNearby', 'cleanupPlaceholderText']) {
     if (target[key] != null && !asStringArray(target[key]).length) errors.push(`${label}: target.${key} must be a non-empty string array when present`);
   }
   if (target.cleanupPlaceholders != null && typeof target.cleanupPlaceholders !== 'boolean') {
     errors.push(`${label}: target.cleanupPlaceholders must be boolean when present`);
+  }
+  if (target.hideGeometryWhenMissing != null && typeof target.hideGeometryWhenMissing !== 'boolean') {
+    errors.push(`${label}: target.hideGeometryWhenMissing must be boolean when present`);
+  }
+  if (target.hideGeometryWhenMissing === true && !validBox(target.geometryBox)) {
+    errors.push(`${label}: target.geometryBox is required when hideGeometryWhenMissing is true`);
   }
   if (target.maxDistanceFromLabel != null) {
     const value = Number(target.maxDistanceFromLabel);
