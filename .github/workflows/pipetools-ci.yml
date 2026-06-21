@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - 'feature/pipetools-*'
+      - 'revert-manual-anchors-and-add-svg-slots'
   workflow_dispatch:
 
 permissions:
@@ -43,23 +44,20 @@ jobs:
       - name: Validate DXF symbols
         run: node pipetools/symbols/dxf/validate-dxf-symbols.mjs
 
-      - name: Run Pipe1 anchor behavior tests
-        run: node --test --test-name-pattern "Pipe1|manual anchors|missing DB values" tests/pipetools-dxf-behavior.test.mjs
+      - name: Run DXF behavior tests
+        run: node --test tests/pipetools-dxf-behavior.test.mjs
 
-      - name: Run DXF state-store behavior tests
-        run: node --test --test-name-pattern "missing anchor files|callout mode|Fix Offset|validator scripts" tests/pipetools-dxf-behavior.test.mjs
-
-      - name: Run symbol anchor expansion tests
-        run: node --test tests/pipetools-symbol-anchor-expansion.test.mjs
+      - name: Run SVG slot binding tests
+        run: node --test tests/pipetools-svg-slot-binding.test.mjs
 
       - name: Validate DXF offset defaults
         run: node pipetools/symbols/dxf/validate-dxf-offsets.mjs
 
-      - name: Validate DXF symbol anchors
-        run: node pipetools/symbols/dxf/validate-symbol-anchors.mjs
+      - name: Validate SVG slot bindings
+        run: node pipetools/symbols/dxf/validate-svg-slots.mjs
 
-      - name: Audit DXF symbol anchor coverage
-        run: node pipetools/symbols/dxf/audit-symbol-anchor-coverage.mjs --check
+      - name: Audit SVG slot binding coverage
+        run: node pipetools/symbols/dxf/audit-svg-slot-coverage.mjs --check
 
       - name: Audit DXF callout coverage
         run: node pipetools/symbols/dxf/audit-dxf-callout-coverage.mjs --check
@@ -74,15 +72,9 @@ jobs:
           test -f _site/pipetools/index.html
           test -f _site/pipetools/data/db-index.json
           test -f _site/pipetools/data/dxf-symbol-offsets.json
-          test -f _site/pipetools/symbols/dxf/anchors/Pipe1.json
-          test -f _site/pipetools/symbols/dxf/anchors/Gflt1.json
-          test -f _site/pipetools/symbols/dxf/anchors/Gspr1.json
-          test -f _site/pipetools/symbols/dxf/anchors/Grtj1.json
-          test -f _site/pipetools/symbols/dxf/anchors/Flan1.json
-          test -f _site/pipetools/symbols/dxf/anchors/Flan2.json
-          test -f _site/pipetools/symbols/dxf/anchors/Flan3.json
-          test -f _site/pipetools/symbols/dxf/anchors/FLAP1.json
-          test -f _site/pipetools/symbols/dxf/anchors/Blnu1.json
+          test -f _site/pipetools/symbols/dxf/slots/Pipe1.json
+          test -f _site/pipetools/symbols/dxf/slots/Flan1.json
+          test -f _site/pipetools/symbols/dxf/slots/Flan3.json
           test -f _site/pipetools/vendor/pipespec-svg/svg-engine.js
           test -f _site/pipetools/pipeSpanDetail.css
           test -f _site/pipetools/js/app.js

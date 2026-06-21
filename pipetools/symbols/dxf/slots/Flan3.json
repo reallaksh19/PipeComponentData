@@ -1,0 +1,50 @@
+{
+  "version": "PipeToolsSvgSlotBinding.v1",
+  "sourceCode": "Flan3",
+  "strategy": "populate-native-svg-text",
+  "description": "Populate native Flan3 blind flange DXF dimension text slots from source-backed DB facts.",
+  "slots": {
+    "Flange OD": {
+      "labelText": ["OD", "Flange OD", "Outside Diameter"],
+      "placeholderNear": ["-", "—"],
+      "preferredValueKeys": ["OD", "Flange OD", "outerDiameterMm", "flangeOuterDiameterMm", "dimensions.odMm", "dimensions.flangeOdMm"],
+      "format": "diameter-mm",
+      "suppressOverlayLabels": ["OD", "Flange OD"]
+    },
+    "Thickness": {
+      "labelText": ["Thickness", "Thk", "Wall / Thk"],
+      "placeholderNear": ["-", "—"],
+      "preferredValueKeys": ["Thickness", "Thk", "flangeThicknessMm", "thicknessMm", "dimensions.thicknessMm", "dimensions.flangeThicknessMm"],
+      "format": "mm",
+      "suppressOverlayLabels": ["Thickness", "Wall / Thk"]
+    },
+    "RF dia": {
+      "labelText": ["RF dia", "RF Dia", "Raised Face Diameter"],
+      "placeholderNear": ["-", "—"],
+      "preferredValueKeys": ["RF dia", "Raised Face", "raisedFaceDiaMm", "rfDiaMm", "dimensions.rfDiaMm", "dimensions.raisedFaceDiaMm"],
+      "format": "diameter-mm",
+      "suppressOverlayLabels": ["RF dia", "Raised Face"]
+    },
+    "PCD": {
+      "labelText": ["PCD", "Bolt Circle", "Bolt Circle Diameter"],
+      "placeholderNear": ["-", "—"],
+      "preferredValueKeys": ["PCD", "Bolt Circle", "boltCircleMm", "pcdMm", "dimensions.pcdMm", "dimensions.boltCircleMm"],
+      "format": "diameter-mm",
+      "suppressOverlayLabels": ["PCD", "Bolt Circle"]
+    },
+    "Bolts": {
+      "labelText": ["Bolts", "No. Bolts", "Bolt count"],
+      "placeholderNear": ["-", "—"],
+      "preferredValueKeys": ["Bolts", "No. Bolts", "boltCount", "dimensions.boltCount", "dimensions.boltSize"],
+      "format": "count",
+      "suppressOverlayLabels": ["Bolts", "Bolt count", "Bolt size"]
+    },
+    "Weight": {
+      "labelText": ["Weight", "kg"],
+      "placeholderNear": ["kg", "-", "—"],
+      "preferredValueKeys": ["Weight", "weightKg", "weights.kg", "weights.rfRtjKg"],
+      "format": "kg",
+      "suppressOverlayLabels": ["Weight", "RF/RTJ weight"]
+    }
+  }
+}

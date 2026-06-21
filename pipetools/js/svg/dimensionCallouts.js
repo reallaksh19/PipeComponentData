@@ -1,7 +1,6 @@
 import { dimensionFacts, formatFact, weightFacts } from '../dimensionDisplay.js';
 import { getDimensionCalloutMode } from './dimensionCalloutModeStore.js';
 import { calloutTemplateFor } from './dimensionCalloutTemplates.js';
-import { getCachedSymbolAnchor } from './symbolAnchorStore.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const ARROW_ID = 'dimension-callout-arrow';
@@ -22,18 +21,18 @@ export function renderDimensionCallouts(row, symbol, viewport, options = {}) {
   if (!viewport) return [];
   viewport.__pipeToolsDimensionRow = row;
   viewport.__pipeToolsDimensionSymbol = symbol;
+  viewport.__pipeToolsSuppressedOverlayLabels = Array.isArray(options.suppressLabels) ? options.suppressLabels : viewport.__pipeToolsSuppressedOverlayLabels || [];
   clearDimensionCallouts(viewport);
   const mode = getDimensionCalloutMode();
   viewport.dataset.dimensionCalloutMode = mode;
   if (mode === 'off') return [];
-  const anchor = Object.hasOwn(options, 'anchor') ? options.anchor : getCachedSymbolAnchor(symbol?.sourceCode || symbol?.code);
-  const callouts = layoutCallouts(calloutsForMode(buildCallouts(row, symbol, { anchor }), mode));
+  const callouts = layoutCallouts(calloutsForMode(buildCallouts(row, symbol, { suppressLabels: viewport.__pipeToolsSuppressedOverlayLabels }), mode));
   if (!callouts.length) return [];
   const layer = svgNode('svg', {
-    class: `dimension-callout-layer dimension-callout-mode-${mode} dimension-callout-family-${String(symbol?.family || 'unknown').toLowerCase()} dimension-callout-source-${anchor ? 'manual-anchor' : 'template'}`,
+    class: `dimension-callout-layer dimension-callout-mode-${mode} dimension-callout-family-${String(symbol?.family || 'unknown').toLowerCase()} dimension-callout-source-template`,
     viewBox: `0 0 ${LAYER_SIZE} ${LAYER_SIZE}`,
     preserveAspectRatio: 'none',
-    'aria-label': `Source-backed DB dimension callouts (${mode})`,
+    'aria-label': `Source-backed DB dimension fallback callouts (${mode})`,
   });
   layer.append(defs());
   callouts.forEach((callout) => layer.append(calloutNode(callout)));
@@ -44,7 +43,7 @@ export function renderDimensionCallouts(row, symbol, viewport, options = {}) {
 export function refreshDimensionCallouts(scope = document) {
   let total = 0;
   scope?.querySelectorAll?.('[data-source-svg-viewport]').forEach((viewport) => {
-    total += renderDimensionCallouts(viewport.__pipeToolsDimensionRow, viewport.__pipeToolsDimensionSymbol, viewport).length;
+    total += renderDimensionCallouts(viewport.__pipeToolsDimensionRow, viewport.__pipeToolsDimensionSymbol, viewport, { suppressLabels: viewport.__pipeToolsSuppressedOverlayLabels || [] }).length;
   });
   return total;
 }
@@ -56,21 +55,23 @@ export function clearDimensionCallouts(scope = document.querySelector('.source-s
 export function buildCallouts(row = {}, symbol = {}, options = {}) {
   const template = calloutTemplateFor(symbol);
   const facts = factMap([...dimensionFacts(row), ...weightFacts(row)]);
+  const suppressed = suppressedLabelSet(options.suppressLabels);
   const used = new Set();
   const calls = [];
-  const anchor = validAnchorForSymbol(options.anchor, symbol);
 
-  anchorCallouts(anchor, facts, used).forEach((callout) => calls.push(callout));
+  for (const fact of facts.values()) {
+    if (isSuppressedFact(fact, suppressed)) used.add(fact.label);
+  }
 
   for (const [slotName, labels, arrow = true] of template.fields || []) {
-    const fact = firstUnusedFact(facts, labels, used);
+    const fact = firstUnusedFact(facts, labels, used, suppressed);
     if (!fact) continue;
     const value = formatFact(fact);
     if (!isRenderable(value) || !isRenderable(fact.label)) continue;
     used.add(fact.label);
     calls.push({ slot: template.slots[slotName], slotName, label: fact.label, value, arrow, priority: priorityFor(fact.label, slotName), source: 'template', factPath: fact.path });
   }
-  fallbackFacts(facts, used, template.slots).forEach((callout) => calls.push(callout));
+  fallbackFacts(facts, used, template.slots, suppressed).forEach((callout) => calls.push(callout));
   return calls.slice(0, FULL_LIMIT);
 }
 
@@ -80,83 +81,6 @@ export function calloutsForMode(callouts, mode) {
     return primary.length ? primary : callouts.slice(0, Math.min(2, callouts.length));
   }
   return callouts.slice(0, FULL_LIMIT);
-}
-
-function validAnchorForSymbol(anchor, symbol) {
-  if (!anchor || typeof anchor !== 'object') return null;
-  const sourceCode = String(symbol?.sourceCode || symbol?.code || '').trim();
-  if (sourceCode && anchor.sourceCode !== sourceCode) return null;
-  return anchor;
-}
-
-function anchorCallouts(anchor, facts, used) {
-  if (!anchor?.anchors) return [];
-  return Object.entries(anchor.anchors)
-    .map(([anchorLabel, spec]) => {
-      const fact = factForAnchor(facts, anchorLabel, spec.preferredValueKeys, used);
-      if (!fact) return null;
-      const value = formatFact(fact);
-      if (!isRenderable(value) || !isRenderable(fact.label)) return null;
-      used.add(fact.label);
-      return {
-        slot: slotFromAnchorSpec(spec, anchor.viewBox),
-        slotName: `anchor-${slug(anchorLabel)}`,
-        label: fact.label,
-        anchorLabel,
-        value,
-        arrow: spec.kind !== 'badge',
-        priority: priorityFor(anchorLabel || fact.label, spec.kind),
-        source: 'manual-anchor',
-        anchorSourceCode: anchor.sourceCode,
-        factPath: fact.path,
-      };
-    })
-    .filter(Boolean);
-}
-
-function factForAnchor(facts, anchorLabel, preferredValueKeys = [], used) {
-  const keys = [anchorLabel, ...preferredValueKeys].map(normalizedFactKey).filter(Boolean);
-  return [...facts.values()].find((fact) => {
-    if (!fact || used.has(fact.label)) return false;
-    const candidates = [fact.label, fact.path].map(normalizedFactKey).filter(Boolean);
-    return candidates.some((candidate) => keys.includes(candidate));
-  });
-}
-
-function slotFromAnchorSpec(spec, viewBox) {
-  const point = (coords) => mapAnchorPoint(coords, viewBox);
-  if (spec.kind === 'diameter') {
-    const [x1, y1] = point(spec.p1);
-    const [x2, y2] = point(spec.p2);
-    const [lx, ly] = point(spec.labelAt);
-    return { kind: 'diameter', x1, y1, x2, y2, lx, ly, anchor: 'middle' };
-  }
-  if (spec.kind === 'leader') {
-    const [featureX, featureY] = point(spec.from);
-    const [tailX, tailY] = point(spec.to);
-    const [lx, ly] = point(spec.labelAt);
-    return { kind: 'leader', x1: tailX, y1: tailY, x2: featureX, y2: featureY, lx, ly, anchor: 'start' };
-  }
-  const [lx, ly] = point(spec.labelAt);
-  return { kind: 'badge', lx, ly, anchor: 'start' };
-}
-
-function mapAnchorPoint(coords = [], viewBox = [0, 0, LAYER_SIZE, LAYER_SIZE]) {
-  const [vx, vy, vw, vh] = viewBox.map(Number);
-  const width = Number.isFinite(vw) && vw > 0 ? vw : LAYER_SIZE;
-  const height = Number.isFinite(vh) && vh > 0 ? vh : LAYER_SIZE;
-  return [
-    ((Number(coords[0]) - (Number.isFinite(vx) ? vx : 0)) / width) * LAYER_SIZE,
-    ((Number(coords[1]) - (Number.isFinite(vy) ? vy : 0)) / height) * LAYER_SIZE,
-  ];
-}
-
-function normalizedFactKey(value) {
-  return String(value || '').trim().toLowerCase().replace(/[._\s/\\-]+/g, '');
-}
-
-function slug(value) {
-  return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'callout';
 }
 
 function priorityFor(label, slotName = '') {
@@ -176,16 +100,29 @@ function factMap(facts) {
   return map;
 }
 
-function firstUnusedFact(facts, labels = [], used) {
-  return labels.map((label) => facts.get(label)).find((fact) => fact && !used.has(fact.label));
+function firstUnusedFact(facts, labels = [], used, suppressed) {
+  return labels.map((label) => facts.get(label)).find((fact) => fact && !used.has(fact.label) && !isSuppressedFact(fact, suppressed));
 }
 
-function fallbackFacts(facts, used, slots) {
+function fallbackFacts(facts, used, slots, suppressed) {
   const badgeSlots = [slots.badge1, slots.badge2, slots.badge3, slots.badge4].filter(Boolean);
   return [...facts.values()]
-    .filter((fact) => !used.has(fact.label))
+    .filter((fact) => !used.has(fact.label) && !isSuppressedFact(fact, suppressed))
     .slice(0, Math.max(0, 3 - used.size))
     .map((fact, index) => ({ slot: badgeSlots[index] || slots.badge1, slotName: `badge${index + 1}`, label: fact.label, value: formatFact(fact), arrow: false, priority: priorityFor(fact.label, `badge${index + 1}`), source: 'fallback-fact', factPath: fact.path }));
+}
+
+function suppressedLabelSet(labels = []) {
+  return new Set((Array.isArray(labels) ? labels : [labels]).map(normalizedFactKey).filter(Boolean));
+}
+
+function isSuppressedFact(fact, suppressed) {
+  if (!fact || !suppressed?.size) return false;
+  return [fact.label, fact.path].map(normalizedFactKey).some((key) => suppressed.has(key));
+}
+
+function normalizedFactKey(value) {
+  return String(value || '').trim().toLowerCase().replace(/[._\s/\\-]+/g, '');
 }
 
 function isRenderable(value) {
