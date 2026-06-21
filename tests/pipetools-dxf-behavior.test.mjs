@@ -11,6 +11,7 @@ const execFileAsync = promisify(execFile);
 const repoRoot = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const manifestPath = path.join(repoRoot, 'pipetools/symbols/dxf/dxf-symbol-manifest.json');
 const dxfRoot = path.join(repoRoot, 'pipetools/symbols/dxf');
+const pipe1AnchorPath = path.join(dxfRoot, 'anchors/Pipe1.json');
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
 const symbols = manifest.symbols || [];
 
@@ -35,6 +36,10 @@ function setGlobalStorage(storage) {
     if (previous) Object.defineProperty(globalThis, 'localStorage', previous);
     else delete globalThis.localStorage;
   };
+}
+
+async function readPipe1Anchor() {
+  return JSON.parse(await readFile(pipe1AnchorPath, 'utf8'));
 }
 
 test('DXF manifest references real SVG files without executable payloads', async () => {
@@ -111,6 +116,101 @@ test('callout templates expose major engineering dimensions for key DXF families
   assert.ok(valveKinds.includes('heightRight'), 'valve needs vertical dimension slot');
 });
 
+test('Pipe1 manual anchor file exists and defines required semantic anchors', async () => {
+  assert.ok(existsSync(pipe1AnchorPath), 'Pipe1 anchor JSON must be committed');
+  const rawAnchor = await readPipe1Anchor();
+  assert.equal(rawAnchor.version, 'PipeToolsSymbolAnchor.v1');
+  assert.equal(rawAnchor.sourceCode, 'Pipe1');
+  assert.deepEqual(Object.keys(rawAnchor.anchors), ['OD', 'ID', 'Wall / Thk', 'Weight / m']);
+  assert.equal(rawAnchor.anchors['Wall / Thk'].kind, 'leader');
+  assert.equal(rawAnchor.anchors['Weight / m'].kind, 'badge');
+});
+
+test('Pipe1 manual anchor JSON contains no embedded DB values or placeholders', async () => {
+  const text = await readFile(pipe1AnchorPath, 'utf8');
+  assert.doesNotMatch(text, /17\.1\s*mm|12\.48\s*mm|2\.31\s*mm|0\.84\s*kg\s*\/\s*m/i);
+  assert.doesNotMatch(text, /"(?:value|displayValue|actualValue|dbValue)"\s*:/i);
+  assert.doesNotMatch(text, /"(?:—|–|-|null|undefined)"/i);
+});
+
+test('Pipe1 callout generation uses manual anchor geometry before template fallback', async () => {
+  const { buildCallouts } = await import('../pipetools/js/svg/dimensionCallouts.js');
+  const { normalizeSymbolAnchor } = await import('../pipetools/js/svg/symbolAnchorStore.js');
+  const anchor = normalizeSymbolAnchor(await readPipe1Anchor());
+  const row = {
+    componentType: 'PIPE',
+    dimensions: {
+      odMm: { value: 290 },
+      idMm: { value: 212 },
+      wallThicknessMm: { value: 39 },
+    },
+    weights: { weightKgPerM: { value: 84 } },
+  };
+  const callouts = buildCallouts(row, symbolByCode('Pipe1'), { anchor });
+  const byLabel = new Map(callouts.map((callout) => [callout.label, callout]));
+
+  assert.equal(byLabel.get('OD')?.source, 'manual-anchor');
+  assert.equal(byLabel.get('ID')?.source, 'manual-anchor');
+  assert.equal(byLabel.get('Wall / Thk')?.source, 'manual-anchor');
+  assert.equal(byLabel.get('Weight / m')?.source, 'manual-anchor');
+  assert.equal(byLabel.get('Wall / Thk')?.slot.kind, 'leader');
+  assert.equal(byLabel.get('Weight / m')?.slot.kind, 'badge');
+  assert.equal(byLabel.get('Weight / m')?.arrow, false);
+  assert.equal(byLabel.get('Wall / Thk')?.factPath, 'dimensions.wallThicknessMm');
+  assert.equal(byLabel.get('Wall / Thk')?.slot.x2, 485);
+  assert.ok(Math.abs(byLabel.get('Wall / Thk').slot.y2 - (275 / 720 * 1000)) < 0.001, 'wall leader arrowhead must map to the pipe-wall anchor point');
+});
+
+test('manual anchors do not duplicate template labels and preserve compact filtering', async () => {
+  const { buildCallouts, calloutsForMode } = await import('../pipetools/js/svg/dimensionCallouts.js');
+  const { normalizeSymbolAnchor } = await import('../pipetools/js/svg/symbolAnchorStore.js');
+  const anchor = normalizeSymbolAnchor(await readPipe1Anchor());
+  const row = {
+    componentType: 'PIPE',
+    dimensions: { odMm: { value: 290 }, idMm: { value: 212 }, wallMm: { value: 39 } },
+    weights: { weightKgPerM: { value: 84 } },
+  };
+  const callouts = buildCallouts(row, symbolByCode('Pipe1'), { anchor });
+  const labels = callouts.map((callout) => callout.label);
+  assert.equal(labels.filter((label) => label === 'OD').length, 1);
+  assert.equal(labels.filter((label) => label === 'Wall / Thk').length, 1);
+  assert.equal(calloutsForMode(callouts, 'full').length, callouts.length);
+  assert.ok(calloutsForMode(callouts, 'compact').length <= 4);
+});
+
+test('missing anchor files are cached safe failures and template fallback still works', async () => {
+  const anchorStore = await import('../pipetools/js/svg/symbolAnchorStore.js');
+  const { buildCallouts } = await import('../pipetools/js/svg/dimensionCallouts.js');
+  const previousFetch = globalThis.fetch;
+  let fetchCount = 0;
+  anchorStore.clearSymbolAnchorCache();
+  globalThis.fetch = async () => {
+    fetchCount += 1;
+    return new Response('', { status: 404, statusText: 'Not Found' });
+  };
+  try {
+    assert.equal(await anchorStore.loadSymbolAnchor('Flan1'), null);
+    assert.equal(await anchorStore.loadSymbolAnchor('Flan1'), null);
+    assert.equal(fetchCount, 1, 'failed anchor lookups should be cached');
+  } finally {
+    globalThis.fetch = previousFetch;
+    anchorStore.clearSymbolAnchorCache();
+  }
+
+  const callouts = buildCallouts({ dimensions: { odMm: { value: 60 }, rfDiaMm: { value: 43 } }, weights: { rfRtjKg: { value: 2 } } }, symbolByCode('Flan1'), { anchor: null });
+  assert.ok(callouts.length > 0, 'template fallback must still produce DB-backed callouts');
+  assert.ok(callouts.every((callout) => callout.source !== 'manual-anchor'));
+});
+
+test('missing DB values do not produce placeholder callouts', async () => {
+  const { buildCallouts } = await import('../pipetools/js/svg/dimensionCallouts.js');
+  const { normalizeSymbolAnchor } = await import('../pipetools/js/svg/symbolAnchorStore.js');
+  const anchor = normalizeSymbolAnchor(await readPipe1Anchor());
+  const callouts = buildCallouts({ componentType: 'PIPE', dimensions: { odMm: { value: 290 } } }, symbolByCode('Pipe1'), { anchor });
+  assert.deepEqual(callouts.map((callout) => callout.label), ['OD']);
+  assert.ok(callouts.every((callout) => !/(?:—|undefined|null)/i.test(`${callout.label} ${callout.value}`)));
+});
+
 test('callout mode cycles and persists without browser dependencies', async () => {
   const restoreStorage = setGlobalStorage(memoryStorage());
   try {
@@ -149,6 +249,7 @@ test('DXF validators and callout audit scripts execute successfully', async () =
   const commands = [
     ['pipetools/symbols/dxf/validate-dxf-symbols.mjs'],
     ['pipetools/symbols/dxf/validate-dxf-offsets.mjs'],
+    ['pipetools/symbols/dxf/validate-symbol-anchors.mjs'],
     ['pipetools/symbols/dxf/audit-dxf-callout-coverage.mjs', '--check'],
   ];
   for (const args of commands) {
