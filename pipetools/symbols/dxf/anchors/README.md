@@ -29,19 +29,21 @@ Top-level fields:
 - `description`: human-readable review note.
 - `anchors`: object keyed by stable callout label, for example `OD`, `ID`, `Wall / Thk`, `Weight / m`.
 
+Anchors are intentionally geometry-only. Display values are injected from the selected normalized DB row at runtime.
+
 ## Supported anchor kinds
 
 ### `diameter`
 
-Uses:
+Use `diameter` when the source SVG visibly represents a circular outside diameter, bore, bolt circle, or similar diameter-style engineering fact.
 
 ```json
 {
   "kind": "diameter",
-  "p1": [265, 350],
-  "p2": [555, 350],
-  "labelAt": [410, 133],
-  "preferredValueKeys": ["OD", "odMm", "dimensions.odMm"]
+  "p1": [205, 360],
+  "p2": [795, 360],
+  "labelAt": [500, 116],
+  "preferredValueKeys": ["OD", "Outer Dia", "odMm", "dimensions.odMm"]
 }
 ```
 
@@ -49,14 +51,15 @@ The renderer draws a diameter dimension line between `p1` and `p2` and places th
 
 ### `leader`
 
-Uses:
+Use `leader` when the fact points to a local feature, such as wall thickness, gasket thickness, flange plate thickness, or raised face height.
 
 ```json
 {
   "kind": "leader",
-  "from": [485, 275],
-  "to": [745, 137],
-  "labelAt": [760, 137]
+  "from": [760, 354],
+  "to": [858, 228],
+  "labelAt": [872, 228],
+  "preferredValueKeys": ["Thickness", "Thk", "Wall / Thk", "dimensions.thicknessMm"]
 }
 ```
 
@@ -64,22 +67,33 @@ Uses:
 
 ### `badge`
 
-Uses:
+Use `badge` for source-backed facts that should not imply a measured line on the drawing, such as weight, bolt summary, provenance/status facts, or optional handle/paddle values.
 
 ```json
 {
   "kind": "badge",
-  "labelAt": [753, 537]
+  "labelAt": [760, 562],
+  "preferredValueKeys": ["Weight", "Weight / m", "weights.kg"]
 }
 ```
 
-A badge has no leader or dimension arrow unless a future schema explicitly adds one.
+A badge has no leader or dimension arrow unless a future schema explicitly adds one. Weights should normally be badges, not arrows or dimension lines.
+
+## Phase 2 gasket and flange examples
+
+The Phase 2 anchors cover the ring/plate-style DXF symbols first because their annotation geometry is simple and visually stable:
+
+- `Gflt1`, `Gspr1`, `Grtj1`: gasket OD, ID, thickness, and weight badge.
+- `Flan1`, `Flan2`, `Flan3`, `FLAP1`: flange OD/PCD, bore where visible, local leaders for thickness/RF, and badges for bolts/weight.
+- `Blnu1`: line-blank OD, thickness, optional paddle/handle badge, and weight badge.
+
+Use `diameter` for visible round geometry, `leader` for a short pointer to a local edge or raised feature, and `badge` when a fact should be displayed without implying measured drawing geometry.
 
 ## Geometry-only rule
 
 Anchors define semantic geometry only. Runtime engineering values are injected from the selected normalized DB row through the existing dimension fact/formatting helpers.
 
-Never hardcode DB values in anchor JSON. Do not include values such as pipe wall thickness, outside diameter, inside diameter, weight, tolerance, rating-derived dimensions, or sample strings like `17.1 mm`.
+Never hardcode DB values in anchor JSON. Do not include values such as pipe wall thickness, outside diameter, inside diameter, weight, tolerance, rating-derived dimensions, or sample strings like numeric dimension text.
 
 ## Add a new sourceCode anchor
 
@@ -88,16 +102,21 @@ Never hardcode DB values in anchor JSON. Do not include values such as pipe wall
 3. Use the normalized SVG viewBox coordinate system for all points.
 4. Add anchors only for facts that are semantically visible in the source SVG.
 5. Use stable labels and `preferredValueKeys` that map to existing DB fact labels or paths.
-6. Run validation and the PipeTools DXF tests.
+6. Run validation, anchor coverage audit, and the PipeTools DXF tests.
 7. Visually inspect the symbol in `pipetools/index.html` using Full, Compact, and Off callout modes.
 
-## Validation
+## Validation and coverage audit
 
 Run:
 
 ```sh
 node pipetools/symbols/dxf/validate-symbol-anchors.mjs
+node pipetools/symbols/dxf/audit-symbol-anchor-coverage.mjs --check
 ```
+
+`validate-symbol-anchors.mjs` fails on invalid schema, unsupported geometry kinds, malformed coordinates, unknown manifest sourceCodes, placeholder values, or hardcoded dimension/weight strings.
+
+`audit-symbol-anchor-coverage.mjs --check` validates all committed anchor files and reports incremental coverage. It does not fail just because many manifest symbols do not yet have anchors.
 
 Recommended full PipeTools verification:
 
@@ -106,11 +125,21 @@ node pipetools/data/sync-db-index.mjs
 node pipetools/symbols/dxf/validate-dxf-symbols.mjs
 node pipetools/symbols/dxf/validate-dxf-offsets.mjs
 node pipetools/symbols/dxf/validate-symbol-anchors.mjs
+node pipetools/symbols/dxf/audit-symbol-anchor-coverage.mjs --check
 node pipetools/symbols/dxf/audit-dxf-callout-coverage.mjs --check
 node --test tests/pipetools-dxf-behavior.test.mjs
+node --test tests/pipetools-symbol-anchor-expansion.test.mjs
 npm test
 ```
 
 ## Visual inspection
 
-Open `pipetools/index.html`, select a row that resolves to the target `sourceCode`, and verify that the callouts attach to the intended source geometry without duplicate labels or placeholder values.
+Open `pipetools/index.html`, select rows that resolve to the target `sourceCode`, and verify that callouts attach to the intended source geometry without duplicate labels or placeholder values.
+
+For Phase 2 QC:
+
+- Pipe1: OD/ID remain diameter callouts, Wall/Thk remains a leader, and Weight/m remains a badge.
+- Gaskets: OD/ID display only when DB-backed, thickness uses a short leader, and weight is a badge.
+- Flanges: OD/Bore/Thickness/RF/PCD/Bolts/Weight display only when DB-backed, and weight is a badge.
+- Line blank: OD and thickness display only when DB-backed; handle/paddle facts display only if the selected DB row exposes a source-backed field.
+- Unanchored valves/fittings: the existing template fallback still works.
