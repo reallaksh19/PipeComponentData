@@ -46,9 +46,13 @@ jobs:
         shell: bash
         run: node pipetools/symbols/dxf/validate-dxf-symbols.mjs
 
-      - name: Run DXF behavior tests
+      - name: Run Pipe1 anchor behavior tests
         shell: bash
-        run: node --test tests/pipetools-dxf-behavior.test.mjs
+        run: node --test --test-name-pattern "Pipe1|manual anchors|missing DB values" tests/pipetools-dxf-behavior.test.mjs
+
+      - name: Run DXF state-store behavior tests
+        shell: bash
+        run: node --test --test-name-pattern "missing anchor files|callout mode|Fix Offset|validator scripts" tests/pipetools-dxf-behavior.test.mjs
 
       - name: Run symbol anchor expansion tests
         shell: bash
