@@ -117,6 +117,7 @@ test('Pipe1 slots populate target-region text with compact readable native styli
   const inventory = [...inventoryFor(binding), staleTopDash];
   const result = populateSvgSlots(new ElementNode('svg'), 'Pipe1', binding, pipeRow, { inventory });
   assert.deepEqual(result.populatedLabels, ['OD', 'ID', 'Wall / Thk', 'Weight / m']);
+  assert.ok(result.missingLabels.includes('Outside Radius'));
   const od = inventory.find((entry) => entry.node.textContent === '290 mm' && entry.node.getAttribute('data-pipetools-slot') === 'OD')?.node;
   const weight = inventory.find((entry) => entry.node.textContent === '84 kg/m' && entry.node.getAttribute('data-pipetools-slot') === 'Weight / m')?.node;
   assert.ok(od);
@@ -124,14 +125,39 @@ test('Pipe1 slots populate target-region text with compact readable native styli
   assert.equal(od.getAttribute('data-pipetools-native-value'), 'true');
   assert.equal(od.getAttribute('data-pipetools-source-backed'), 'true');
   assert.equal(od.getAttribute('font-weight'), '600');
-  assert.ok(Number(od.getAttribute('font-size')) >= 90);
-  assert.ok(Number(od.getAttribute('font-size')) <= 130);
-  assert.ok(Number(od.getAttribute('stroke-width')) <= 4);
+  assert.ok(Number(od.getAttribute('font-size')) >= 80);
+  assert.ok(Number(od.getAttribute('font-size')) <= 110);
+  assert.ok(Number(od.getAttribute('stroke-width')) <= 3);
   assert.equal(weight.getAttribute('paint-order'), 'stroke fill');
   assert.equal(staleTopDash.node.textContent, '');
   assert.equal(staleTopDash.node.getAttribute('data-pipetools-placeholder-cleaned'), 'true');
   assert.ok(result.cleanedPlaceholderCount >= 1);
-  assert.ok(result.slots.every((slot) => slot.status === 'populated' && slot.confidence >= 0.85));
+  assert.ok(result.slots.filter((slot) => slot.status === 'populated').every((slot) => slot.confidence >= 0.85));
+});
+
+test('slot artifact cleanup hides only configured small artifacts and unbacked native dimensions', async () => {
+  const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
+  const { suppressSvgSlotArtifacts } = await import('../pipetools/js/svg/svgSlotArtifactCleanup.js');
+  const binding = await readSlot('Pipe1');
+  const inventory = inventoryFor(binding);
+  const blueOdMarker = new ElementNode('line', { x1: '7000', y1: '13000', x2: '7100', y2: '13000', stroke: '#0000ff' });
+  const greenOdDimension = new ElementNode('line', { x1: '6400', y1: '13000', x2: '8600', y2: '13000', stroke: '#00ff00' });
+  const outsideBlueMarker = new ElementNode('line', { x1: '100', y1: '100', x2: '200', y2: '100', stroke: '#0000ff' });
+  const outsideRadiusLine = new ElementNode('line', { x1: '8300', y1: '14600', x2: '9600', y2: '14600', stroke: '#00ff00' });
+  const outsideRadiusLabel = new TextNode('Outside Radius', { x: '8450', y: '14700', 'font-size': '100' });
+  const pipeRing = new ElementNode('circle', { cx: '7200', cy: '14600', r: '1000', stroke: '#000000' });
+  const root = new ElementNode('svg', {}, [blueOdMarker, greenOdDimension, outsideBlueMarker, outsideRadiusLine, outsideRadiusLabel, pipeRing]);
+  const result = populateSvgSlots(root, 'Pipe1', binding, pipeRow, { inventory });
+  const artifacts = suppressSvgSlotArtifacts(root, binding, result);
+  assert.equal(blueOdMarker.getAttribute('display'), 'none');
+  assert.equal(blueOdMarker.getAttribute('data-pipetools-slot-artifact-hidden'), 'true');
+  assert.equal(greenOdDimension.getAttribute('display'), null);
+  assert.equal(outsideBlueMarker.getAttribute('display'), null);
+  assert.equal(outsideRadiusLine.getAttribute('display'), 'none');
+  assert.equal(outsideRadiusLabel.getAttribute('display'), 'none');
+  assert.equal(pipeRing.getAttribute('display'), null);
+  assert.ok(artifacts.hiddenArtifactCount >= 3);
+  assert.ok(result.hiddenArtifactCount >= 3);
 });
 
 test('a candidate outside targetBox is not selected', async () => {

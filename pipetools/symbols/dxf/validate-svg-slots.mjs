@@ -10,6 +10,8 @@ const SUPPORTED_FORMATS = new Set(['diameter-mm', 'mm', 'kg', 'kg-per-m', 'count
 const PLACEHOLDER_RE = /^(?:—|–|-|null|undefined)?$/i;
 const HARD_CODED_VALUE_RE = /\b\d+(?:\.\d+)?\s*(?:mm|cm|m|kg|kg\/m|kg\s*\/\s*m|cm4|mtr)\b/i;
 const DANGEROUS_VALUE_KEYS = new Set(['value', 'displayValue', 'actualValue', 'dbValue', 'dimensionValue', 'weightValue']);
+const ARTIFACT_WHEN = new Set(['populated', 'missing', 'always']);
+const ARTIFACT_TAGS = new Set(['path', 'line', 'polyline', 'polygon', 'rect', 'circle', 'ellipse', 'text', 'tspan']);
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, '../../..');
@@ -122,10 +124,42 @@ function validateTarget(label, target, errors) {
   if (target.hideGeometryWhenMissing === true && !validBox(target.geometryBox)) {
     errors.push(`${label}: target.geometryBox is required when hideGeometryWhenMissing is true`);
   }
+  if (target.artifactBoxes != null) validateArtifactBoxes(label, target.artifactBoxes, errors);
   if (target.maxDistanceFromLabel != null) {
     const value = Number(target.maxDistanceFromLabel);
     if (!Number.isFinite(value) || value <= 0) errors.push(`${label}: target.maxDistanceFromLabel must be a positive finite number`);
   }
+}
+
+function validateArtifactBoxes(label, artifactBoxes, errors) {
+  if (!Array.isArray(artifactBoxes) || !artifactBoxes.length) {
+    errors.push(`${label}: target.artifactBoxes must be a non-empty array when present`);
+    return;
+  }
+  artifactBoxes.forEach((artifact, index) => {
+    const prefix = `${label}: target.artifactBoxes[${index}]`;
+    if (!artifact || typeof artifact !== 'object' || Array.isArray(artifact)) {
+      errors.push(`${prefix} must be an object`);
+      return;
+    }
+    if (!validBox(artifact.box)) errors.push(`${prefix}.box must be [minX,minY,maxX,maxY] finite numbers with min < max`);
+    const when = String(artifact.when || 'populated').trim().toLowerCase();
+    if (!ARTIFACT_WHEN.has(when)) errors.push(`${prefix}.when must be one of ${[...ARTIFACT_WHEN].join(', ')}`);
+    if (artifact.includeText != null && typeof artifact.includeText !== 'boolean') errors.push(`${prefix}.includeText must be boolean when present`);
+    if (artifact.tags != null) {
+      const tags = asStringArray(artifact.tags).map((tag) => tag.toLowerCase());
+      if (!tags.length) errors.push(`${prefix}.tags must be a non-empty string array when present`);
+      tags.forEach((tag) => { if (!ARTIFACT_TAGS.has(tag)) errors.push(`${prefix}.tags contains unsupported tag ${tag}`); });
+    }
+    if (artifact.strokeColors != null && !asStringArray(artifact.strokeColors).length) errors.push(`${prefix}.strokeColors must be a non-empty string array when present`);
+    for (const key of ['maxWidth', 'maxHeight']) {
+      if (artifact[key] != null) {
+        const value = Number(artifact[key]);
+        if (!Number.isFinite(value) || value <= 0) errors.push(`${prefix}.${key} must be a positive finite number`);
+      }
+    }
+    if (artifact.reason != null && !String(artifact.reason).trim()) errors.push(`${prefix}.reason must be non-empty when present`);
+  });
 }
 
 function scanDangerousValues(value, context, errors) {
