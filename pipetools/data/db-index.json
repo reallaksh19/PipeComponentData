@@ -1,10 +1,11 @@
 {
-  "schema": "pipetools-db-index/v2",
-  "generatedBy": "Wave 13G Agent 22 complete DB index coverage",
+  "schema": "pipetools-db-index/v3",
+  "generatedBy": "pipetools/data/sync-db-index.mjs",
   "policy": {
     "loadOrder": "Load this index first, then lazy-load every runtimeUrls pack for the selected family and de-duplicate by stable row id.",
     "rawSourcePolicy": "Do not publish docs/Pipedata/Database raw DB tree to Pages; publish normalized DB packs only.",
-    "coveragePolicy": "Pending rows means normalized runtime packs still missing from the PipeTools browser. Wave 13G promotes every currently committed normalized DB pack, so pending is zero.",
+    "coveragePolicy": "sourceRowCount is the committed normalized runtime row count; raw source coverage is audited separately under data/audit.",
+    "syncPolicy": "Run node pipetools/data/sync-db-index.mjs --write whenever data/normalized changes; CI runs --check to block stale indexes.",
     "svgPolicy": "svgSupported is an advertised legacy/native routing flag only; DXF-manifest symbols may still resolve even when this flag is false. Unsupported rows must show explicit SVG-not-available, not a wrong fallback."
   },
   "families": [
@@ -16,26 +17,29 @@
       "standard": "PROJECT_PIPE_TABLE",
       "repositoryPaths": [
         "data/normalized/pipes-expanded.json",
-        "data/normalized/pipes.json",
         "data/normalized/pipes-sch80-wave2.json",
         "data/normalized/pipes-sch80-wave3.json",
-        "data/normalized/pipes-sch80-wave4.json"
+        "data/normalized/pipes-sch80-wave4.json",
+        "data/normalized/pipes.json"
       ],
       "runtimeUrls": [
         "../data/normalized/pipes-expanded.json",
-        "../data/normalized/pipes.json",
         "../data/normalized/pipes-sch80-wave2.json",
         "../data/normalized/pipes-sch80-wave3.json",
-        "../data/normalized/pipes-sch80-wave4.json"
+        "../data/normalized/pipes-sch80-wave4.json",
+        "../data/normalized/pipes.json"
       ],
+      "repositoryPath": "data/normalized/pipes-expanded.json",
+      "runtimeUrl": "../data/normalized/pipes-expanded.json",
       "rowCount": 454,
       "sourceRowCount": 454,
-      "sourceFileCount": 18,
+      "sourceFileCount": 37,
+      "sourcePackCount": 5,
       "keyFields": ["componentType", "nps", "dn", "schedule"],
       "searchFields": ["id", "nps", "dn", "schedule", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "nps", "dn", "schedule", "dataStatus", "materialFamily"],
       "svgSupported": true,
-      "notes": ["All committed normalized pipe packs are indexed, including multi-schedule expansion and Schedule 80 continuation packs."]
+      "notes": ["Generated from 5 committed normalized pack(s); rowCount/sourceRowCount count normalized runtime rows only."]
     },
     {
       "family": "VALVE",
@@ -44,25 +48,28 @@
       "subtypes": ["GATE", "GLOBE", "BALL", "CONTROL"],
       "standard": "ASME B16.10",
       "repositoryPaths": [
+        "data/normalized/valves-control-expanded.json",
         "data/normalized/valves-expanded.json",
         "data/normalized/valves-globe-expanded.json",
-        "data/normalized/valves-control-expanded.json",
         "data/normalized/valves.json"
       ],
       "runtimeUrls": [
+        "../data/normalized/valves-control-expanded.json",
         "../data/normalized/valves-expanded.json",
         "../data/normalized/valves-globe-expanded.json",
-        "../data/normalized/valves-control-expanded.json",
         "../data/normalized/valves.json"
       ],
-      "rowCount": 410,
-      "sourceRowCount": 410,
-      "sourceFileCount": 21,
+      "repositoryPath": "data/normalized/valves-control-expanded.json",
+      "runtimeUrl": "../data/normalized/valves-control-expanded.json",
+      "rowCount": 418,
+      "sourceRowCount": 418,
+      "sourceFileCount": 30,
+      "sourcePackCount": 4,
       "keyFields": ["componentType", "valveType", "endType", "nps", "classRating", "facing"],
       "searchFields": ["id", "valveType", "nps", "dn", "classRating", "facing", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "valveType", "subtype", "endType", "facing", "classRating", "nps", "dn", "dataStatus"],
       "svgSupported": true,
-      "notes": ["All committed normalized valve packs are indexed, including gate, globe, ball/control source-backed expansions and legacy seed rows."]
+      "notes": ["Generated from 4 committed normalized pack(s); rowCount/sourceRowCount count normalized runtime rows only."]
     },
     {
       "family": "FLANGE",
@@ -71,21 +78,36 @@
       "subtypes": ["WN", "SO", "BLIND"],
       "standard": "ASME B16.5",
       "repositoryPaths": [
+        "data/normalized/flanges-cl1500-expanded.json",
+        "data/normalized/flanges-cl2500-expanded.json",
+        "data/normalized/flanges-cl400-expanded.json",
+        "data/normalized/flanges-cl600-wave2.json",
+        "data/normalized/flanges-cl600-wave3.json",
+        "data/normalized/flanges-cl900-expanded.json",
         "data/normalized/flanges-expanded.json",
         "data/normalized/flanges.json"
       ],
       "runtimeUrls": [
+        "../data/normalized/flanges-cl1500-expanded.json",
+        "../data/normalized/flanges-cl2500-expanded.json",
+        "../data/normalized/flanges-cl400-expanded.json",
+        "../data/normalized/flanges-cl600-wave2.json",
+        "../data/normalized/flanges-cl600-wave3.json",
+        "../data/normalized/flanges-cl900-expanded.json",
         "../data/normalized/flanges-expanded.json",
         "../data/normalized/flanges.json"
       ],
-      "rowCount": 254,
-      "sourceRowCount": 254,
-      "sourceFileCount": 7,
+      "repositoryPath": "data/normalized/flanges-cl1500-expanded.json",
+      "runtimeUrl": "../data/normalized/flanges-cl1500-expanded.json",
+      "rowCount": 425,
+      "sourceRowCount": 425,
+      "sourceFileCount": 20,
+      "sourcePackCount": 8,
       "keyFields": ["componentType", "subtype", "facing", "nps", "classRating"],
       "searchFields": ["id", "subtype", "nps", "dn", "classRating", "facing", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "facing", "classRating", "nps", "dataStatus"],
       "svgSupported": true,
-      "notes": ["All committed normalized flange packs are indexed: the source-backed WN/BLIND expansion plus legacy sampled WN/SO/BLIND rows."]
+      "notes": ["Generated from 8 committed normalized pack(s); rowCount/sourceRowCount count normalized runtime rows only."]
     },
     {
       "family": "FITTING",
@@ -93,16 +115,19 @@
       "componentType": "FITTING",
       "subtypes": ["ELBOW_90", "ELBOW_45", "TEE_STRAIGHT", "CAP"],
       "standard": "ASME B16.9",
+      "repositoryPaths": ["data/normalized/fittings.json"],
+      "runtimeUrls": ["../data/normalized/fittings.json"],
       "repositoryPath": "data/normalized/fittings.json",
       "runtimeUrl": "../data/normalized/fittings.json",
       "rowCount": 15,
       "sourceRowCount": 15,
       "sourceFileCount": 5,
+      "sourcePackCount": 1,
       "keyFields": ["componentType", "subtype", "nps", "schedule"],
       "searchFields": ["id", "subtype", "nps", "dn", "schedule", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "schedule", "nps", "dn", "dataStatus"],
       "svgSupported": true,
-      "notes": ["All committed normalized fitting seed rows are indexed; larger fitting expansion packs are not referenced until committed."]
+      "notes": ["Generated from 1 committed normalized pack(s); rowCount/sourceRowCount count normalized runtime rows only."]
     },
     {
       "family": "GASKET",
@@ -110,16 +135,19 @@
       "componentType": "GASKET",
       "subtypes": ["FLAT_RING", "RTJ", "SPIRAL_WOUND"],
       "standard": "ASME B16.20 / B16.21",
+      "repositoryPaths": ["data/normalized/gaskets.json"],
+      "runtimeUrls": ["../data/normalized/gaskets.json"],
       "repositoryPath": "data/normalized/gaskets.json",
       "runtimeUrl": "../data/normalized/gaskets.json",
       "rowCount": 3,
       "sourceRowCount": 3,
       "sourceFileCount": 3,
+      "sourcePackCount": 1,
       "keyFields": ["componentType", "subtype", "facing", "nps", "classRating"],
       "searchFields": ["id", "subtype", "nps", "classRating", "facing", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "facing", "classRating", "nps", "dataStatus"],
       "svgSupported": true,
-      "notes": ["All committed normalized gasket inventory rows are indexed; expanded gasket dimensions remain deferred until source tables are promoted."]
+      "notes": ["Generated from 1 committed normalized pack(s); rowCount/sourceRowCount count normalized runtime rows only."]
     },
     {
       "family": "SUPPORT",
@@ -127,16 +155,19 @@
       "componentType": "SUPPORT",
       "subtypes": ["SHOE", "GUIDE"],
       "standard": "PROJECT_SUPPORT_DEFAULTS",
+      "repositoryPaths": ["data/normalized/supports.json"],
+      "runtimeUrls": ["../data/normalized/supports.json"],
       "repositoryPath": "data/normalized/supports.json",
       "runtimeUrl": "../data/normalized/supports.json",
       "rowCount": 2,
       "sourceRowCount": 2,
       "sourceFileCount": 2,
+      "sourcePackCount": 1,
       "keyFields": ["componentFamily", "supportKind"],
       "searchFields": ["id", "supportKind", "attachmentRule", "standard", "source", "dataStatus"],
       "availableFilters": ["componentFamily", "supportKind", "attachmentRule", "dataStatus"],
       "svgSupported": false,
-      "notes": ["All committed normalized support default rows are indexed; SVG support remains deferred."]
+      "notes": ["Generated from 1 committed normalized pack(s); rowCount/sourceRowCount count normalized runtime rows only."]
     },
     {
       "family": "REDUCER",
@@ -144,16 +175,27 @@
       "componentType": "REDUCER",
       "subtypes": ["CONCENTRIC", "ECCENTRIC"],
       "standard": "ASME B16.9",
+      "repositoryPaths": [
+        "data/normalized/reducers-expanded.json",
+        "data/normalized/reducers-sch80-wave1.json",
+        "data/normalized/reducers-sch80-wave2.json"
+      ],
+      "runtimeUrls": [
+        "../data/normalized/reducers-expanded.json",
+        "../data/normalized/reducers-sch80-wave1.json",
+        "../data/normalized/reducers-sch80-wave2.json"
+      ],
       "repositoryPath": "data/normalized/reducers-expanded.json",
       "runtimeUrl": "../data/normalized/reducers-expanded.json",
-      "rowCount": 858,
-      "sourceRowCount": 858,
-      "sourceFileCount": 4,
+      "rowCount": 961,
+      "sourceRowCount": 961,
+      "sourceFileCount": 7,
+      "sourcePackCount": 3,
       "keyFields": ["componentType", "reducerType", "largeNps", "smallNps", "largeSchedule"],
       "searchFields": ["id", "reducerType", "largeNps", "smallNps", "largeSchedule", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "schedule", "nps", "dataStatus"],
       "svgSupported": false,
-      "notes": ["All committed normalized reducer expansion rows are indexed. DXF-derived reducer symbols resolve through the dxf symbol manifest and are not counted in the legacy/native SVG coverage gate."]
+      "notes": ["Generated from 3 committed normalized pack(s); rowCount/sourceRowCount count normalized runtime rows only."]
     },
     {
       "family": "OLET",
@@ -162,25 +204,28 @@
       "subtypes": ["WELDOLET", "SOCKOLET", "THREDOLET", "ELBOLET"],
       "standard": "ASME B16.11 / MSS SP-97",
       "repositoryPaths": [
-        "data/normalized/olets-weldolet.json",
+        "data/normalized/olets-elbolet.json",
         "data/normalized/olets-sockolet.json",
         "data/normalized/olets-thredolet.json",
-        "data/normalized/olets-elbolet.json"
+        "data/normalized/olets-weldolet.json"
       ],
       "runtimeUrls": [
-        "../data/normalized/olets-weldolet.json",
+        "../data/normalized/olets-elbolet.json",
         "../data/normalized/olets-sockolet.json",
         "../data/normalized/olets-thredolet.json",
-        "../data/normalized/olets-elbolet.json"
+        "../data/normalized/olets-weldolet.json"
       ],
+      "repositoryPath": "data/normalized/olets-elbolet.json",
+      "runtimeUrl": "../data/normalized/olets-elbolet.json",
       "rowCount": 140,
       "sourceRowCount": 140,
       "sourceFileCount": 9,
+      "sourcePackCount": 4,
       "keyFields": ["componentType", "oletType", "nps", "scheduleOrRating", "dataStatus"],
       "searchFields": ["id", "oletType", "nps", "dn", "scheduleOrRating", "standard", "source", "dataStatus"],
       "availableFilters": ["componentType", "subtype", "schedule", "nps", "dn", "dataStatus"],
       "svgSupported": false,
-      "notes": ["All committed normalized olet expansion rows are indexed. DXF-derived olet symbols resolve through the dxf symbol manifest and are not counted in the legacy/native SVG coverage gate."]
+      "notes": ["Generated from 4 committed normalized pack(s); rowCount/sourceRowCount count normalized runtime rows only."]
     }
   ]
 }
