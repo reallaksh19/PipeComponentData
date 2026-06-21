@@ -37,6 +37,9 @@ jobs:
       - name: Run repository verification
         run: npm test
 
+      - name: Validate generated PipeTools DB index
+        run: node pipetools/data/sync-db-index.mjs
+
       - name: Run DXF behavior tests
         run: node --test tests/pipetools-dxf-behavior.test.mjs
 
