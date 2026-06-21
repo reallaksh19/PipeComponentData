@@ -27,7 +27,7 @@ class TextNode {
   }
   setAttribute(name, value) { this.attrs.set(name, String(value)); }
   getAttribute(name) { return this.attrs.has(name) ? this.attrs.get(name) : null; }
-  querySelectorAll() { return []; }
+  querySelectorAll(selector = '') { return matchesSelector(this, selector) ? [this] : []; }
 }
 
 class ElementNode extends TextNode {
@@ -43,17 +43,23 @@ class ElementNode extends TextNode {
     child.parentNode = this;
     this.children.push(child);
   }
-  querySelectorAll() {
+  querySelectorAll(selector = '') {
     const out = [];
     const walk = (node) => {
       for (const child of node.children || []) {
-        if (String(child.tagName).toLowerCase() === 'text' || String(child.tagName).toLowerCase() === 'tspan') out.push(child);
+        if (matchesSelector(child, selector)) out.push(child);
         walk(child);
       }
     };
     walk(this);
     return out;
   }
+}
+
+function matchesSelector(node, selector) {
+  const tag = String(node.tagName || node.nodeName || '').toLowerCase();
+  const selectors = String(selector || '').split(',').map((item) => item.trim().toLowerCase()).filter(Boolean);
+  return selectors.includes(tag);
 }
 
 function inventoryEntry(text, x, y, path) {
@@ -85,7 +91,7 @@ test('v2 slot files exist for the active sourceCodes', async () => {
 test('text inventory accepts measured text nodes', async () => {
   const { buildSvgTextInventory } = await import('../pipetools/js/svg/svgTextInventory.js');
   const node = new TextNode('Outside Diameter');
-  const root = { nodeType: 1, querySelectorAll: () => [node] };
+  const root = new ElementNode('svg', {}, [node]);
   const inventory = buildSvgTextInventory(root, { measureTextNode: () => ({ x: 10, y: 20, width: 100, height: 40 }) });
   assert.equal(inventory[0].normalizedText, 'outside diameter');
   assert.deepEqual(inventory[0].center, { x: 60, y: 40 });
@@ -109,7 +115,7 @@ test('Pipe1 slots populate target-region text with compact readable native styli
   const binding = await readSlot('Pipe1');
   const staleTopDash = inventoryEntry('-', 7000, 13100, 'svg[1]/text[stale-od-dash]');
   const inventory = [...inventoryFor(binding), staleTopDash];
-  const result = populateSvgSlots(new TextNode('svg'), 'Pipe1', binding, pipeRow, { inventory });
+  const result = populateSvgSlots(new ElementNode('svg'), 'Pipe1', binding, pipeRow, { inventory });
   assert.deepEqual(result.populatedLabels, ['OD', 'ID', 'Wall / Thk', 'Weight / m']);
   const od = inventory.find((entry) => entry.node.textContent === '290 mm' && entry.node.getAttribute('data-pipetools-slot') === 'OD')?.node;
   const weight = inventory.find((entry) => entry.node.textContent === '84 kg/m' && entry.node.getAttribute('data-pipetools-slot') === 'Weight / m')?.node;
@@ -133,32 +139,40 @@ test('a candidate outside targetBox is not selected', async () => {
   const binding = { sourceCode: 'Pipe1', confidenceThreshold: 0.85, slots: { OD: { semanticLabel: 'OD', displayLabel: 'OD', labelText: ['Outside Diameter'], preferredValueKeys: ['OD', 'dimensions.odMm'], format: 'diameter-mm', target: { targetBox: [900, 900, 1200, 1100], labelBox: [0, 0, 250, 150], placeholderText: ['-'], maxDistanceFromLabel: 2000 }, suppressOverlayLabels: ['OD'] } } };
   const outside = inventoryEntry('-', 150, 100, 'outside');
   const inside = inventoryEntry('-', 1000, 1000, 'inside');
-  const result = populateSvgSlots(new TextNode('svg'), 'Pipe1', binding, pipeRow, { inventory: [inventoryEntry('Outside Diameter', 50, 100, 'label'), outside, inside] });
+  const result = populateSvgSlots(new ElementNode('svg'), 'Pipe1', binding, pipeRow, { inventory: [inventoryEntry('Outside Diameter', 50, 100, 'label'), outside, inside] });
   assert.equal(result.populatedCount, 1);
   assert.equal(outside.node.textContent, '-');
   assert.equal(inside.node.textContent, '290 mm');
 });
 
-test('missing DB values clean configured placeholder text without suppressing overlays', async () => {
+test('missing DB values clean configured placeholder text and can hide configured slot geometry without suppressing overlays', async () => {
   const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
-  const binding = { sourceCode: 'Pipe1', confidenceThreshold: 0.85, slots: { OD: { semanticLabel: 'OD', displayLabel: 'OD', labelText: ['Outside Diameter'], preferredValueKeys: ['OD', 'dimensions.odMm'], format: 'diameter-mm', target: { targetBox: [900, 900, 1200, 1100], cleanupBox: [850, 850, 1250, 1150], placeholderText: ['-'], cleanupPlaceholderText: ['-'] }, suppressOverlayLabels: ['OD'] } } };
+  const binding = { sourceCode: 'Pipe1', confidenceThreshold: 0.85, slots: { OD: { semanticLabel: 'OD', displayLabel: 'OD', labelText: ['Outside Diameter'], preferredValueKeys: ['OD', 'dimensions.odMm'], format: 'diameter-mm', target: { targetBox: [900, 900, 1200, 1100], cleanupBox: [850, 850, 1250, 1150], geometryBox: [850, 850, 1250, 1150], hideGeometryWhenMissing: true, placeholderText: ['-'], cleanupPlaceholderText: ['-'] }, suppressOverlayLabels: ['OD'] } } };
   const inside = inventoryEntry('-', 1000, 1000, 'inside');
   const outside = inventoryEntry('-', 2000, 2000, 'outside');
-  const result = populateSvgSlots(new TextNode('svg'), 'Pipe1', binding, {}, { inventory: [inside, outside] });
+  const dimensionLine = new ElementNode('line', { x1: '900', y1: '1000', x2: '1150', y2: '1000' });
+  const outsideLine = new ElementNode('line', { x1: '2000', y1: '2000', x2: '2200', y2: '2000' });
+  const root = new ElementNode('svg', {}, [dimensionLine, outsideLine]);
+  const result = populateSvgSlots(root, 'Pipe1', binding, {}, { inventory: [inside, outside] });
   assert.equal(result.populatedCount, 0);
   assert.deepEqual(result.suppressedOverlayLabels, []);
   assert.equal(inside.node.textContent, '');
   assert.equal(outside.node.textContent, '-');
   assert.equal(inside.node.getAttribute('data-pipetools-placeholder-cleaned'), 'true');
+  assert.equal(dimensionLine.getAttribute('display'), 'none');
+  assert.equal(dimensionLine.getAttribute('data-pipetools-missing-slot-geometry-hidden'), 'true');
+  assert.equal(outsideLine.getAttribute('display'), null);
+  assert.equal(result.hiddenGeometryCount, 1);
+  assert.equal(result.slots[0].hiddenGeometryCount, 1);
 });
 
 test('unmatched and missing-value slots do not suppress overlays', async () => {
   const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
   const binding = await readSlot('Pipe1');
-  const failed = populateSvgSlots(new TextNode('svg'), 'Pipe1', binding, pipeRow, { inventory: [inventoryEntry('Outside Diameter', 100, 100, 'outside-region')] });
+  const failed = populateSvgSlots(new ElementNode('svg'), 'Pipe1', binding, pipeRow, { inventory: [inventoryEntry('Outside Diameter', 100, 100, 'outside-region')] });
   assert.equal(failed.populatedCount, 0);
   assert.deepEqual(failed.suppressedOverlayLabels, []);
-  const partial = populateSvgSlots(new TextNode('svg'), 'Pipe1', binding, { dimensions: { odMm: { value: 290 } } }, { inventory: inventoryFor(binding) });
+  const partial = populateSvgSlots(new ElementNode('svg'), 'Pipe1', binding, { dimensions: { odMm: { value: 290 } } }, { inventory: inventoryFor(binding) });
   assert.deepEqual(partial.populatedLabels, ['OD']);
   assert.ok(!partial.suppressedOverlayLabels.includes('ID'));
 });
@@ -168,7 +182,7 @@ test('Flan1 and Flan3 target-region fixtures populate source-backed values', asy
   for (const sourceCode of ['Flan1', 'Flan3']) {
     const binding = await readSlot(sourceCode);
     const inventory = [...inventoryFor(binding), inventoryEntry('-', 1, 1, 'outside')];
-    const result = populateSvgSlots(new TextNode('svg'), sourceCode, binding, flangeRow, { inventory });
+    const result = populateSvgSlots(new ElementNode('svg'), sourceCode, binding, flangeRow, { inventory });
     assert.ok(result.populatedLabels.includes('Flange OD'));
     assert.ok(result.populatedLabels.includes('PCD'));
     assert.ok(result.populatedLabels.includes('Weight'));
