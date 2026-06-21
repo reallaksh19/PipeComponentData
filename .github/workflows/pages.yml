@@ -52,7 +52,7 @@ jobs:
 
       - name: Run SVG slot binding tests
         shell: bash
-        run: node --test tests/pipetools-svg-slot-binding.test.mjs
+        run: node --test tests/pipetools-svg-slot-binding.test.mjs tests/pipetools-pipe1-outside-radius-suppression.test.mjs
 
       - name: Validate DXF offset defaults
         shell: bash
