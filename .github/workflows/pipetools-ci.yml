@@ -48,7 +48,7 @@ jobs:
         run: node --test tests/pipetools-dxf-behavior.test.mjs
 
       - name: Run SVG slot binding tests
-        run: node --test tests/pipetools-svg-slot-binding.test.mjs
+        run: node --test tests/pipetools-svg-slot-binding.test.mjs tests/pipetools-pipe1-outside-radius-suppression.test.mjs
 
       - name: Validate DXF offset defaults
         run: node pipetools/symbols/dxf/validate-dxf-offsets.mjs
