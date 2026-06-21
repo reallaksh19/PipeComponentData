@@ -26,6 +26,7 @@ async function readSlot(sourceCode) {
 class FakeElement {
   constructor(tagName, text = '', attrs = {}) {
     this.tagName = tagName;
+    this.nodeName = tagName;
     this.textContent = text;
     this.attributes = new Map(Object.entries(attrs).map(([key, value]) => [key, String(value)]));
     this.children = [];
@@ -73,24 +74,87 @@ class FakeElement {
 
 function fakeSvg(texts) {
   const svg = new FakeElement('svg');
-  texts.forEach(([text, x, y]) => svg.append(new FakeElement('text', text, { x, y })));
+  texts.forEach(([text, x, y, attrs = {}]) => svg.append(new FakeElement('text', text, { x, y, ...attrs })));
+  return svg;
+}
+
+function targetTextFixture(binding, values = {}) {
+  const svg = new FakeElement('svg');
+  for (const [slotLabel, slot] of Object.entries(binding.slots)) {
+    const [minX, minY, maxX, maxY] = slot.target.targetBox;
+    const text = values[slotLabel] || slot.target.allowedExistingText?.[0] || slot.labelText[0] || slotLabel;
+    svg.append(new FakeElement('text', text, { x: (minX + maxX) / 2 - 40, y: (minY + maxY) / 2 + 20 }));
+  }
   return svg;
 }
 
 function textNode(svg, value) {
-  return svg.querySelectorAll('text').find((node) => node.textContent.includes(value));
+  return svg.querySelectorAll('text,tspan').find((node) => String(node.textContent).includes(value));
 }
 
-test('slot binding files validate for Pipe1, Flan1, and Flan3', async () => {
+function pipeRow(overrides = {}) {
+  return {
+    componentType: 'PIPE',
+    dimensions: { odMm: { value: 290 }, idMm: { value: 212 }, wallThicknessMm: { value: 39 }, ...(overrides.dimensions || {}) },
+    weights: { weightKgPerM: { value: 84 }, ...(overrides.weights || {}) },
+    ...overrides.root,
+  };
+}
+
+function flangeRow() {
+  return {
+    componentType: 'FLANGE',
+    dimensions: {
+      flangeOdMm: { value: 150 },
+      boreMm: { value: 80 },
+      flangeThicknessMm: { value: 18 },
+      rfDiaMm: { value: 92 },
+      pcdMm: { value: 120 },
+      boltCount: { value: 4 },
+    },
+    weights: { kg: { value: 3.7 } },
+  };
+}
+
+test('text inventory builds stable entries with bbox and normalized text', async () => {
+  const { buildSvgTextInventory } = await import('../pipetools/js/svg/svgTextInventory.js');
+  const svg = new FakeElement('svg');
+  const group = new FakeElement('g', '', { transform: 'translate(10 20)' });
+  const text = new FakeElement('text', '', { x: 100, y: 200, class: 'dim-label' });
+  const tspan = new FakeElement('tspan', 'Outside   Diameter', { 'font-size': 50 });
+  text.append(tspan);
+  group.append(text);
+  svg.append(group);
+  svg.append(new FakeElement('text', '-', { x: 300, y: 400 }));
+
+  const inventory = buildSvgTextInventory(svg, {
+    measureTextNode: (node) => node.textContent === '-' ? { x: 295, y: 380, width: 20, height: 40 } : null,
+  });
+
+  assert.equal(inventory.length, 2);
+  const label = inventory.find((entry) => entry.text.includes('Outside'));
+  assert.equal(label.normalizedText, 'outside diameter');
+  assert.match(label.path, /^svg\[1\]\/g\[1\]\/text\[1\]\/tspan\[1\]$/);
+  assert.equal(label.transform, 'translate(10 20)');
+  assert.ok(label.bbox.width > 0);
+  const dash = inventory.find((entry) => entry.text === '-');
+  assert.deepEqual(dash.center, { x: 305, y: 400 });
+});
+
+test('slot binding files validate as v2 for Pipe1, Flan1, and Flan3', async () => {
   for (const sourceCode of ['Pipe1', 'Flan1', 'Flan3']) {
     const slotPath = path.join(slotsRoot, `${sourceCode}.json`);
     assert.ok(existsSync(slotPath), `${sourceCode} slot binding must exist`);
     const slot = await readSlot(sourceCode);
-    assert.equal(slot.version, 'PipeToolsSvgSlotBinding.v1');
+    assert.equal(slot.version, 'PipeToolsSvgSlotBinding.v2');
     assert.equal(slot.sourceCode, sourceCode);
     assert.equal(slot.strategy, 'populate-native-svg-text');
+    assert.equal(slot.coordinateSpace, 'source-svg-viewBox');
     assert.ok(Object.keys(slot.slots).length > 0, `${sourceCode} must define slots`);
     assert.ok(manifestCodes.has(sourceCode), `${sourceCode} must exist in manifest`);
+    for (const spec of Object.values(slot.slots)) {
+      assert.ok(Array.isArray(spec.target.targetBox), 'v2 slots must define targetBox');
+    }
   }
 });
 
@@ -103,62 +167,101 @@ test('slot JSON contains no hardcoded DB values or final placeholders', async ()
   }
 });
 
-test('Pipe1 SVG slot population writes source-backed values into native text nodes', async () => {
+test('Pipe1 target-region binding populates intended native slots', async () => {
   const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
   const binding = await readSlot('Pipe1');
-  const svg = fakeSvg([
-    ['Outside Diameter', 100, 100], ['-', 270, 100],
-    ['Inside Diameter', 100, 200], ['-', 270, 200],
-    ['Wall Thickness', 100, 300], ['-', 270, 300],
-    ['Weight', 100, 400], ['Kg/Mtr', 270, 400],
-  ]);
-  const row = {
-    componentType: 'PIPE',
-    dimensions: { odMm: { value: 290 }, idMm: { value: 212 }, wallThicknessMm: { value: 39 } },
-    weights: { weightKgPerM: { value: 84 } },
-  };
+  const svg = targetTextFixture(binding);
+  const result = populateSvgSlots(svg, 'Pipe1', binding, pipeRow());
 
-  const result = populateSvgSlots(svg, 'Pipe1', binding, row);
   assert.deepEqual(result.populatedLabels, ['OD', 'ID', 'Wall / Thk', 'Weight / m']);
   assert.equal(result.populatedCount, 4);
   assert.equal(textNode(svg, '290 mm')?.getAttribute('data-pipetools-slot'), 'OD');
   assert.equal(textNode(svg, '212 mm')?.getAttribute('data-pipetools-source-backed'), 'true');
-  assert.equal(textNode(svg, '39 mm')?.getAttribute('data-pipetools-fact-path'), 'dimensions.wallThicknessMm');
+  assert.equal(textNode(svg, '39 mm')?.getAttribute('data-pipetools-slot-source-path'), 'dimensions.wallThicknessMm');
   assert.equal(textNode(svg, '84 kg/m')?.getAttribute('data-pipetools-slot'), 'Weight / m');
+  assert.ok(result.slots.every((slot) => slot.status === 'populated' && slot.confidence >= 0.85 && slot.targetPath));
 });
 
-test('Pipe1 populated native slots suppress duplicate overlay callouts', async () => {
+test('wrong nearest placeholder is not selected outside targetBox', async () => {
+  const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
+  const binding = {
+    version: 'PipeToolsSvgSlotBinding.v2',
+    sourceCode: 'Pipe1',
+    strategy: 'populate-native-svg-text',
+    coordinateSpace: 'source-svg-viewBox',
+    confidenceThreshold: 0.85,
+    slots: {
+      OD: {
+        semanticLabel: 'OD',
+        displayLabel: 'OD',
+        labelText: ['Outside Diameter'],
+        preferredValueKeys: ['OD', 'dimensions.odMm'],
+        format: 'diameter-mm',
+        target: {
+          targetBox: [900, 900, 1200, 1100],
+          labelBox: [0, 0, 250, 150],
+          placeholderText: ['-'],
+          allowedExistingText: ['Outside Diameter'],
+          maxDistanceFromLabel: 2000,
+        },
+        suppressOverlayLabels: ['OD'],
+      },
+    },
+  };
+  const svg = fakeSvg([
+    ['Outside Diameter', 50, 100],
+    ['-', 150, 100],
+    ['-', 1000, 1000],
+  ]);
+  const result = populateSvgSlots(svg, 'Pipe1', binding, pipeRow({ dimensions: { odMm: { value: 290 } } }));
+  assert.equal(result.populatedCount, 1);
+  assert.equal(svg.querySelectorAll('text')[1].textContent, '-', 'near wrong dash must remain untouched');
+  assert.equal(svg.querySelectorAll('text')[2].textContent, '290 mm', 'targetBox dash must be populated');
+});
+
+test('low-confidence failed slots do not suppress overlay fallback', async () => {
   const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
   const { buildCallouts } = await import('../pipetools/js/svg/dimensionCallouts.js');
   const binding = await readSlot('Pipe1');
   const svg = fakeSvg([
-    ['Outside Diameter', 100, 100], ['-', 270, 100],
-    ['Inside Diameter', 100, 200], ['-', 270, 200],
-    ['Wall Thickness', 100, 300], ['-', 270, 300],
-    ['Weight', 100, 400], ['Kg/Mtr', 270, 400],
+    ['Outside Diameter', 100, 100],
+    ['-', 150, 100],
   ]);
-  const row = {
-    componentType: 'PIPE',
-    dimensions: { odMm: { value: 290 }, idMm: { value: 212 }, wallThicknessMm: { value: 39 } },
-    weights: { weightKgPerM: { value: 84 } },
-  };
-  const slots = populateSvgSlots(svg, 'Pipe1', binding, row);
-  const callouts = buildCallouts(row, symbolByCode('Pipe1'), { suppressLabels: slots.suppressedOverlayLabels });
-  assert.deepEqual(callouts.map((callout) => callout.label), []);
+  const result = populateSvgSlots(svg, 'Pipe1', binding, pipeRow());
+  assert.equal(result.populatedCount, 0);
+  assert.ok(result.slots.some((slot) => slot.slot === 'OD' && slot.status === 'not-populated'));
+  assert.deepEqual(result.suppressedOverlayLabels, []);
+  const callouts = buildCallouts(pipeRow(), symbolByCode('Pipe1'), { suppressLabels: result.suppressedOverlayLabels });
+  assert.ok(callouts.some((callout) => callout.label === 'OD'), 'failed OD slot must fall back to overlay callout');
+});
+
+test('overlay suppression occurs only for populated high-confidence slots', async () => {
+  const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
+  const { buildCallouts } = await import('../pipetools/js/svg/dimensionCallouts.js');
+  const binding = await readSlot('Pipe1');
+  const odBox = binding.slots.OD.target.targetBox;
+  const svg = fakeSvg([
+    ['Outside Diameter', (odBox[0] + odBox[2]) / 2, (odBox[1] + odBox[3]) / 2],
+  ]);
+  const result = populateSvgSlots(svg, 'Pipe1', { ...binding, slots: { OD: binding.slots.OD, 'Wall / Thk': binding.slots['Wall / Thk'] } }, pipeRow());
+  assert.deepEqual(result.populatedLabels, ['OD']);
+  assert.ok(result.suppressedOverlayLabels.includes('OD'));
+  assert.ok(!result.suppressedOverlayLabels.includes('Wall / Thk'));
+  const callouts = buildCallouts(pipeRow(), symbolByCode('Pipe1'), { suppressLabels: result.suppressedOverlayLabels });
+  assert.ok(!callouts.some((callout) => callout.label === 'OD'));
+  assert.ok(callouts.some((callout) => callout.label === 'Wall / Thk'));
 });
 
 test('missing DB values do not populate slots or emit placeholder strings', async () => {
   const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
   const binding = await readSlot('Pipe1');
-  const svg = fakeSvg([
-    ['Outside Diameter', 100, 100], ['-', 270, 100],
-    ['Inside Diameter', 100, 200], ['-', 270, 200],
-  ]);
+  const svg = targetTextFixture(binding);
   const result = populateSvgSlots(svg, 'Pipe1', binding, { componentType: 'PIPE', dimensions: { odMm: { value: 290 } } });
   assert.deepEqual(result.populatedLabels, ['OD']);
   assert.ok(result.missingLabels.includes('ID'));
   assert.equal(textNode(svg, 'undefined'), undefined);
-  assert.equal(textNode(svg, '—'), undefined);
+  assert.equal(textNode(svg, String.fromCharCode(8212)), undefined);
+  assert.ok(!result.suppressedOverlayLabels.includes('ID'));
 });
 
 test('missing slot binding safely falls back to existing template callout behavior', async () => {
@@ -183,33 +286,25 @@ test('missing slot binding safely falls back to existing template callout behavi
   assert.ok(callouts.length > 0, 'template fallback should remain available for unbound symbols');
 });
 
-test('Flan1 and Flan3 populate only source-backed flange facts', async () => {
+test('Flan1 and Flan3 populate only configured targetBox source-backed facts', async () => {
   const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
   for (const sourceCode of ['Flan1', 'Flan3']) {
     const binding = await readSlot(sourceCode);
-    const svg = fakeSvg([
-      ['OD', 100, 100], ['-', 260, 100],
-      ['RF dia', 100, 200], ['-', 260, 200],
-      ['PCD', 100, 300], ['-', 260, 300],
-      ['Bolts', 100, 400], ['-', 260, 400],
-      ['Weight', 100, 500], ['kg', 260, 500],
-    ]);
-    const row = {
-      componentType: 'FLANGE',
-      dimensions: { flangeOdMm: { value: 150 }, rfDiaMm: { value: 92 }, pcdMm: { value: 120 }, boltCount: { value: 4 } },
-      weights: { kg: { value: 3.7 } },
-    };
-    const result = populateSvgSlots(svg, sourceCode, binding, row);
+    const svg = targetTextFixture(binding);
+    svg.append(new FakeElement('text', '-', { x: 1, y: 1 }));
+    const result = populateSvgSlots(svg, sourceCode, binding, flangeRow());
     assert.ok(result.populatedLabels.includes('Flange OD'));
     assert.ok(result.populatedLabels.includes('RF dia'));
     assert.ok(result.populatedLabels.includes('PCD'));
     assert.ok(result.populatedLabels.includes('Bolts'));
     assert.ok(result.populatedLabels.includes('Weight'));
     assert.equal(textNode(svg, '3.7 kg')?.getAttribute('data-pipetools-slot'), 'Weight');
+    const allText = svg.querySelectorAll('text');
+    assert.equal(allText[allText.length - 1].textContent, '-', 'out-of-region dash must not be replaced');
   }
 });
 
-test('overlay full and compact modes continue to filter fallback callouts', async () => {
+test('full and compact modes affect overlay fallback only', async () => {
   const { buildCallouts, calloutsForMode } = await import('../pipetools/js/svg/dimensionCallouts.js');
   const row = { dimensions: { faceToFaceRfMm: { value: 178 }, heightMm: { value: 409 }, handwheelDiaMm: { value: 200 } } };
   const callouts = buildCallouts(row, symbolByCode('Vlfl1'), { suppressLabels: [] });
@@ -221,4 +316,11 @@ test('overlay full and compact modes continue to filter fallback callouts', asyn
 test('SVG slot validators pass', async () => {
   await execFileAsync(process.execPath, [path.join(dxfRoot, 'validate-svg-slots.mjs')], { cwd: repoRoot });
   await execFileAsync(process.execPath, [path.join(dxfRoot, 'audit-svg-slot-coverage.mjs'), '--check'], { cwd: repoRoot });
+});
+
+test('manual anchor artifacts are not reintroduced', async () => {
+  assert.equal(existsSync(path.join(repoRoot, 'pipetools/js/svg/symbolAnchorStore.js')), false);
+  assert.equal(existsSync(path.join(repoRoot, 'tests/pipetools-symbol-anchor-expansion.test.mjs')), false);
+  const engine = await readFile(path.join(repoRoot, 'pipetools/js/svg/dxfSymbolEngine.js'), 'utf8');
+  assert.doesNotMatch(engine, /symbolAnchorStore|validate-symbol-anchors|audit-symbol-anchor-coverage/);
 });
