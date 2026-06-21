@@ -5,12 +5,12 @@ const DEFAULT_CONFIDENCE_THRESHOLD = 0.85;
 const DEFAULT_PLACEHOLDERS = ['-', '–', '—'];
 const TARGET_TOLERANCE = 50;
 const DEFAULT_NATIVE_TEXT_STYLE = Object.freeze({
-  fontSize: '150',
-  fontFamily: 'Inter, Arial, Helvetica, sans-serif',
-  fontWeight: '700',
-  fill: '#0f172a',
+  fontSize: '112',
+  fontFamily: 'Arial, Helvetica, sans-serif',
+  fontWeight: '600',
+  fill: '#111827',
   stroke: '#ffffff',
-  strokeWidth: '8',
+  strokeWidth: '3',
 });
 
 export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, options = {}) {
@@ -34,13 +34,17 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
   const suppressed = new Set();
   const usedNodes = new Set();
   const slots = [];
+  const cleanedPlaceholderPaths = [];
 
   for (const [slotLabel, slot] of slotEntries) {
     const fact = factForSlot(facts, slotLabel, slot);
     const value = fact ? formatFact(fact) : '';
+
     if (!fact || !isRenderable(value)) {
       missingLabels.push(slotLabel);
-      slots.push(notPopulated(sourceCode, slotLabel, 0, 'no source-backed DB fact'));
+      const cleaned = cleanupSlotPlaceholders(inventory, slotLabel, slot, usedNodes);
+      cleanedPlaceholderPaths.push(...cleaned.map((entry) => entry.path));
+      slots.push(notPopulated(sourceCode, slotLabel, 0, 'no source-backed DB fact', {}, cleaned));
       continue;
     }
 
@@ -49,7 +53,9 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
       missingLabels.push(slotLabel);
       const confidence = match?.confidence ?? 0;
       const reason = match?.reason || `confidence ${confidence.toFixed(2)} below threshold ${threshold}`;
-      slots.push(notPopulated(sourceCode, slotLabel, confidence, reason, match));
+      const cleaned = cleanupSlotPlaceholders(inventory, slotLabel, slot, usedNodes);
+      cleanedPlaceholderPaths.push(...cleaned.map((entry) => entry.path));
+      slots.push(notPopulated(sourceCode, slotLabel, confidence, reason, match, cleaned));
       continue;
     }
 
@@ -58,6 +64,9 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
     setTextContent(target.node, value);
     markPopulatedNode(target.node, slotLabel, fact.path, match.confidence, slot, slotBinding);
     usedNodes.add(target.node);
+
+    const cleaned = cleanupSlotPlaceholders(inventory, slotLabel, slot, usedNodes);
+    cleanedPlaceholderPaths.push(...cleaned.map((entry) => entry.path));
 
     const detail = {
       sourceCode,
@@ -73,6 +82,8 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
       factPath: fact.path,
       displayValue: value,
       suppressedOverlayLabels: effectiveSuppressLabels(slotLabel, slot, fact),
+      cleanedPlaceholderPaths: cleaned.map((entry) => entry.path),
+      cleanedPlaceholderCount: cleaned.length,
     };
     slots.push(detail);
     populatedLabels.push(slotLabel);
@@ -87,6 +98,8 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
     populatedCount: populatedLabels.length,
     failedCount: slots.filter((slot) => slot.status !== 'populated').length,
     confidenceThreshold: threshold,
+    cleanedPlaceholderCount: cleanedPlaceholderPaths.length,
+    cleanedPlaceholderPaths,
     slots,
   };
 
@@ -114,6 +127,8 @@ export function slotDiagnosticsSummary(slotPopulation) {
     populatedCount: slots.filter((slot) => slot.status === 'populated').length,
     failedCount: slots.filter((slot) => slot.status !== 'populated').length,
     confidenceThreshold: Number(slotPopulation?.confidenceThreshold ?? DEFAULT_CONFIDENCE_THRESHOLD),
+    cleanedPlaceholderCount: Number(slotPopulation?.cleanedPlaceholderCount || 0),
+    cleanedPlaceholderPaths: slotPopulation?.cleanedPlaceholderPaths || [],
     slots: slots.map((slot) => ({
       slot: slot.slot,
       status: slot.status,
@@ -126,6 +141,8 @@ export function slotDiagnosticsSummary(slotPopulation) {
       factPath: slot.factPath || '',
       displayValue: slot.displayValue || slot.targetTextAfter || '',
       suppressedOverlayLabels: slot.suppressedOverlayLabels || [],
+      cleanedPlaceholderCount: Number(slot.cleanedPlaceholderCount || 0),
+      cleanedPlaceholderPaths: slot.cleanedPlaceholderPaths || [],
     })),
   };
 }
@@ -257,6 +274,37 @@ function scoreTargetCandidate(candidate, candidates, labelCandidates, target) {
   };
 }
 
+function cleanupSlotPlaceholders(inventory, slotLabel, slot, usedNodes) {
+  const target = slot?.target || {};
+  if (target.cleanupPlaceholders === false) return [];
+  const box = normalizedBox(target.cleanupBox) || normalizedBox(target.targetBox);
+  if (!box) return [];
+
+  const cleanupText = [
+    ...DEFAULT_PLACEHOLDERS,
+    ...stringList(target.placeholderText),
+    ...stringList(target.cleanupPlaceholderText),
+  ].map(normalizeSvgText).filter(Boolean);
+
+  const cleaned = [];
+  for (const entry of inventory) {
+    if (!entry?.node || usedNodes.has(entry.node)) continue;
+    if (!pointInsideBox(entry.center, box, 0)) continue;
+    if (!cleanupText.includes(entry.normalizedText)) continue;
+    setTextContent(entry.node, '');
+    markCleanedPlaceholder(entry.node, slotLabel);
+    usedNodes.add(entry.node);
+    cleaned.push(entry);
+  }
+  return cleaned;
+}
+
+function markCleanedPlaceholder(node, slotLabel) {
+  node?.setAttribute?.('data-pipetools-slot', slotLabel);
+  node?.setAttribute?.('data-pipetools-placeholder-cleaned', 'true');
+  node?.setAttribute?.('aria-hidden', 'true');
+}
+
 function allowedTargetTexts(slotLabel, slot, target) {
   return [
     ...DEFAULT_PLACEHOLDERS,
@@ -325,17 +373,23 @@ function applyNativeSlotTextStyle(node, slot = {}, slotBinding = {}) {
   node.setAttribute('font-family', String(style.fontFamily));
   node.setAttribute('font-weight', String(style.fontWeight));
   node.setAttribute('fill', String(style.fill));
-  node.setAttribute('stroke', String(style.stroke));
-  node.setAttribute('stroke-width', String(style.strokeWidth));
+  if (style.stroke === false || style.stroke === 'none' || Number(style.strokeWidth) <= 0) {
+    node.setAttribute('stroke', 'none');
+    node.setAttribute('stroke-width', '0');
+  } else {
+    node.setAttribute('stroke', String(style.stroke));
+    node.setAttribute('stroke-width', String(style.strokeWidth));
+  }
   node.setAttribute('paint-order', 'stroke fill');
   node.setAttribute('stroke-linejoin', 'round');
+  if (style.letterSpacing != null) node.setAttribute('letter-spacing', String(style.letterSpacing));
 }
 
 function setTextContent(node, value) {
   if (node) node.textContent = value;
 }
 
-function notPopulated(sourceCode, slot, confidence, reason, match = {}) {
+function notPopulated(sourceCode, slot, confidence, reason, match = {}, cleaned = []) {
   return {
     sourceCode,
     slot,
@@ -347,6 +401,8 @@ function notPopulated(sourceCode, slot, confidence, reason, match = {}) {
     matchedBy: match?.matchedBy || [],
     reason,
     suppressedOverlayLabels: [],
+    cleanedPlaceholderPaths: cleaned.map((entry) => entry.path),
+    cleanedPlaceholderCount: cleaned.length,
   };
 }
 
@@ -373,6 +429,8 @@ function emptyResult(sourceCode) {
     populatedCount: 0,
     failedCount: 0,
     confidenceThreshold: DEFAULT_CONFIDENCE_THRESHOLD,
+    cleanedPlaceholderCount: 0,
+    cleanedPlaceholderPaths: [],
     slots: [],
   };
 }
