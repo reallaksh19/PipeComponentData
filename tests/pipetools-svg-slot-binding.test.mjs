@@ -104,7 +104,7 @@ test('text inventory maps inherited SVG transforms into source coordinates', asy
   assert.ok(entry.center.y > 220);
 });
 
-test('Pipe1 slots populate target-region text only', async () => {
+test('Pipe1 slots populate target-region text with compact readable native styling', async () => {
   const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
   const binding = await readSlot('Pipe1');
   const inventory = inventoryFor(binding);
@@ -116,8 +116,10 @@ test('Pipe1 slots populate target-region text only', async () => {
   assert.ok(weight);
   assert.equal(od.getAttribute('data-pipetools-native-value'), 'true');
   assert.equal(od.getAttribute('data-pipetools-source-backed'), 'true');
-  assert.equal(od.getAttribute('font-weight'), '800');
-  assert.ok(Number(od.getAttribute('font-size')) >= 260);
+  assert.equal(od.getAttribute('font-weight'), '700');
+  assert.ok(Number(od.getAttribute('font-size')) >= 120);
+  assert.ok(Number(od.getAttribute('font-size')) <= 180);
+  assert.ok(Number(od.getAttribute('stroke-width')) <= 12);
   assert.equal(weight.getAttribute('paint-order'), 'stroke fill');
   assert.ok(result.slots.every((slot) => slot.status === 'populated' && slot.confidence >= 0.85));
 });
