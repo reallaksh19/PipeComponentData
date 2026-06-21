@@ -1,0 +1,36 @@
+{
+  "version": "PipeToolsSvgSlotBinding.v1",
+  "sourceCode": "Pipe1",
+  "strategy": "populate-native-svg-text",
+  "description": "Populate native Pipe1 DXF dimension text slots from source-backed DB facts.",
+  "slots": {
+    "OD": {
+      "labelText": ["Outside Diameter", "OD"],
+      "placeholderNear": ["-", "—"],
+      "preferredValueKeys": ["OD", "Outer Dia", "outerDiameterMm", "odMm", "dimensions.odMm"],
+      "format": "diameter-mm",
+      "suppressOverlayLabels": ["OD", "Outer Dia"]
+    },
+    "ID": {
+      "labelText": ["Inside Diameter", "ID"],
+      "placeholderNear": ["-", "—"],
+      "preferredValueKeys": ["ID", "Inside Dia", "innerDiameterMm", "idMm", "dimensions.idMm"],
+      "format": "diameter-mm",
+      "suppressOverlayLabels": ["ID", "Inside Dia"]
+    },
+    "Wall / Thk": {
+      "labelText": ["Wall Thickness", "Wall / Thk", "Wall"],
+      "placeholderNear": ["-", "—"],
+      "preferredValueKeys": ["Wall / Thk", "Thickness", "wallThicknessMm", "thicknessMm", "dimensions.wallThicknessMm", "dimensions.thicknessMm"],
+      "format": "mm",
+      "suppressOverlayLabels": ["Wall / Thk", "Thickness"]
+    },
+    "Weight / m": {
+      "labelText": ["Weight", "Kg/Mtr", "kg/m"],
+      "placeholderNear": ["Kg/Mtr", "kg/m", "-", "—"],
+      "preferredValueKeys": ["Weight / m", "weightKgPerM", "weights.kgPerM"],
+      "format": "kg-per-m",
+      "suppressOverlayLabels": ["Weight / m", "Weight"]
+    }
+  }
+}
