@@ -158,7 +158,7 @@ async function mountImageFallback(container, result, reason, row) {
     container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(reason)}</div>`;
   };
   const callouts = renderDimensionCallouts(row, result.symbol, viewport, { suppressLabels: [] });
-  renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts);
+  renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts, { slotPopulation: viewport.__pipeToolsNativeSvgSlots });
   scheduleStoredOffset(container, result);
   return { ...result, renderMode: 'img', reason: `${result.reason}; inline parse unavailable, mounted SVG file reference` };
 }
@@ -297,7 +297,7 @@ export async function mountDxfSymbolSvg(row, container) {
     attachSlotDiagnostics(viewport, slotPopulation);
     tightenViewBox(svgNode);
     const callouts = renderDimensionCallouts(row, result.symbol, viewport, { suppressLabels: slotPopulation.suppressedOverlayLabels });
-    renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts);
+    renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts, { slotPopulation });
     scheduleStoredOffset(container, result);
     return { ...result, renderMode: 'inline', slotPopulation };
   } catch (error) {
