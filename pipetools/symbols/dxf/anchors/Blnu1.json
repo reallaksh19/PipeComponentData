@@ -1,0 +1,13 @@
+{
+  "version": "PipeToolsSymbolAnchor.v1",
+  "sourceCode": "Blnu1",
+  "viewBox": [0, 0, 1000, 720],
+  "units": "normalized-svg",
+  "description": "Manual semantic anchors for Blnu1 figure-8 blank / spectacle blind callouts.",
+  "anchors": {
+    "OD": { "kind": "diameter", "p1": [175, 360], "p2": [825, 360], "labelAt": [500, 104], "preferredValueKeys": ["OD", "Outer Dia", "outerDiameterMm", "odMm", "dimensions.odMm"] },
+    "Thickness": { "kind": "leader", "from": [736, 382], "to": [860, 224], "labelAt": [874, 224], "preferredValueKeys": ["Thickness", "Thk", "Wall / Thk", "thicknessMm", "lineBlankThicknessMm", "dimensions.thicknessMm", "dimensions.lineBlankThicknessMm"] },
+    "Paddle Length": { "kind": "badge", "labelAt": [710, 532], "preferredValueKeys": ["Handle", "Paddle Length", "handleLengthMm", "paddleLengthMm", "dimensions.handleLengthMm", "dimensions.paddleLengthMm"] },
+    "Weight": { "kind": "badge", "labelAt": [710, 582], "preferredValueKeys": ["Weight", "weightKg", "weights.kg", "weights.weightKg"] }
+  }
+}
