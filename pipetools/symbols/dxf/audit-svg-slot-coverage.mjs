@@ -112,6 +112,9 @@ function validateBinding(binding, basename) {
     else {
       if (!validBox(slot.target.targetBox)) errors.push(`${label}: missing or invalid targetBox`);
       if (slot.target.labelBox != null && !validBox(slot.target.labelBox)) errors.push(`${label}: invalid labelBox`);
+      if (slot.target.cleanupBox != null && !validBox(slot.target.cleanupBox)) errors.push(`${label}: invalid cleanupBox`);
+      if (slot.target.cleanupPlaceholders != null && typeof slot.target.cleanupPlaceholders !== 'boolean') errors.push(`${label}: malformed cleanupPlaceholders`);
+      if (slot.target.cleanupPlaceholderText != null && !asStringArray(slot.target.cleanupPlaceholderText).length) errors.push(`${label}: malformed cleanupPlaceholderText`);
     }
     if (slot.suppressOverlayLabels != null && !Array.isArray(slot.suppressOverlayLabels)) errors.push(`${label}: malformed suppressOverlayLabels`);
   }
