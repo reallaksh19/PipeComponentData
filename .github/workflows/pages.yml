@@ -42,6 +42,10 @@ jobs:
         shell: bash
         run: node pipetools/data/sync-db-index.mjs
 
+      - name: Validate DXF symbols
+        shell: bash
+        run: node pipetools/symbols/dxf/validate-dxf-symbols.mjs
+
       - name: Run DXF behavior tests
         shell: bash
         run: node --test tests/pipetools-dxf-behavior.test.mjs
@@ -49,6 +53,14 @@ jobs:
       - name: Validate DXF offset defaults
         shell: bash
         run: node pipetools/symbols/dxf/validate-dxf-offsets.mjs
+
+      - name: Validate DXF symbol anchors
+        shell: bash
+        run: node pipetools/symbols/dxf/validate-symbol-anchors.mjs
+
+      - name: Audit DXF callout coverage
+        shell: bash
+        run: node pipetools/symbols/dxf/audit-dxf-callout-coverage.mjs --check
 
       - name: Prepare static Pages artifact
         shell: bash
@@ -68,6 +80,7 @@ jobs:
           test -f _site/pipetools/index.html
           test -f _site/pipetools/data/db-index.json
           test -f _site/pipetools/data/dxf-symbol-offsets.json
+          test -f _site/pipetools/symbols/dxf/anchors/Pipe1.json
           test -f _site/pipetools/vendor/pipespec-svg/svg-engine.js
           test -f _site/pipetools/pipeSpanDetail.css
           test -f _site/pipetools/js/app.js

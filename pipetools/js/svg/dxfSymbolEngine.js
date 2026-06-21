@@ -2,6 +2,7 @@ import { renderDimensionCallouts, clearDimensionCallouts } from './dimensionCall
 import { renderDimensionCalloutDiagnostics, clearDimensionCalloutDiagnostics } from './dimensionCalloutDiagnostics.js';
 import { computeAutoSourceSvgOffset } from './sourceSvgAutoFit.js';
 import { loadSourceSvgOffset, offsetStatusText } from './sourceSvgOffsetStore.js';
+import { loadSymbolAnchor } from './symbolAnchorStore.js';
 
 const MANIFEST_JSON_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.json', import.meta.url).href;
 const MANIFEST_JS_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.js', import.meta.url).href;
@@ -139,7 +140,7 @@ function scoreSymbol(symbol, row) {
   return lookupWeight + fieldWeight + standardScore(symbol, row);
 }
 
-function mountImageFallback(container, result, reason, row) {
+async function mountImageFallback(container, result, reason, row, anchorPromise = Promise.resolve(null)) {
   const img = new Image();
   img.src = result.svgUrl;
   img.alt = `${result.symbol.title} DXF symbol`;
@@ -153,7 +154,8 @@ function mountImageFallback(container, result, reason, row) {
     clearDimensionCalloutDiagnostics(container);
     container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(reason)}</div>`;
   };
-  const callouts = renderDimensionCallouts(row, result.symbol, viewport);
+  const anchor = await anchorPromise;
+  const callouts = renderDimensionCallouts(row, result.symbol, viewport, { anchor });
   renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts);
   scheduleStoredOffset(container, result);
   return { ...result, renderMode: 'img', reason: `${result.reason}; inline parse unavailable, mounted SVG file reference` };
@@ -266,6 +268,7 @@ export async function resolveDxfSymbolForComponent(row) {
 export async function mountDxfSymbolSvg(row, container) {
   if (!container) return { status: 'SVG_NOT_AVAILABLE', reason: 'No SVG host supplied', symbol: null };
   let result;
+  let anchorPromise = Promise.resolve(null);
   try {
     result = await resolveDxfSymbolForComponent(row);
     if (result.status !== 'OK') {
@@ -274,6 +277,7 @@ export async function mountDxfSymbolSvg(row, container) {
       container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(result.reason)}</div>`;
       return result;
     }
+    anchorPromise = loadSymbolAnchor(result.sourceCode);
     const response = await fetchWithTimeout(result.svgUrl);
     if (!response.ok) throw new Error(`DXF SVG file failed to load: ${response.status} ${response.statusText}`);
     const svgNode = parseSvgNode(await response.text());
@@ -281,12 +285,13 @@ export async function mountDxfSymbolSvg(row, container) {
     const viewport = sourceViewport(svgNode);
     container.replaceChildren(viewport, metaNode(result));
     tightenViewBox(svgNode);
-    const callouts = renderDimensionCallouts(row, result.symbol, viewport);
+    const anchor = await anchorPromise;
+    const callouts = renderDimensionCallouts(row, result.symbol, viewport, { anchor });
     renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts);
     scheduleStoredOffset(container, result);
     return { ...result, renderMode: 'inline' };
   } catch (error) {
-    if (result?.status === 'OK') return mountImageFallback(container, result, error.message, row);
+    if (result?.status === 'OK') return mountImageFallback(container, result, error.message, row, anchorPromise);
     clearDimensionCallouts(container);
     clearDimensionCalloutDiagnostics(container);
     const failed = { status: 'SVG_NOT_AVAILABLE', reason: error.message || 'DXF symbol lookup failed', symbol: null };
