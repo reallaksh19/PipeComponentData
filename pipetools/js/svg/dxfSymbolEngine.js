@@ -288,13 +288,13 @@ export async function mountDxfSymbolSvg(row, container) {
     const svgNode = parseSvgNode(await response.text());
     if (!svgNode) throw new Error('DXF SVG file is not a safe parseable SVG payload');
     const slotBinding = await slotPromise;
+    const viewport = sourceViewport(svgNode);
+    container.replaceChildren(viewport, metaNode(result));
     const slotPopulation = populateSvgSlots(svgNode, result.sourceCode, slotBinding, row);
     removePlaceholderText(svgNode);
-    const viewport = sourceViewport(svgNode);
     viewport.__pipeToolsNativeSvgSlots = slotPopulation;
     viewport.__pipeToolsSuppressedOverlayLabels = slotPopulation.suppressedOverlayLabels;
     attachSlotDiagnostics(viewport, slotPopulation);
-    container.replaceChildren(viewport, metaNode(result));
     tightenViewBox(svgNode);
     const callouts = renderDimensionCallouts(row, result.symbol, viewport, { suppressLabels: slotPopulation.suppressedOverlayLabels });
     renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts);

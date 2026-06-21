@@ -1,4 +1,5 @@
 const TEXT_SELECTOR = 'text, tspan';
+const IDENTITY_MATRIX = [1, 0, 0, 1, 0, 0];
 
 export function buildSvgTextInventory(svgRoot, options = {}) {
   const root = svgRoot?.nodeType ? svgRoot : null;
@@ -39,22 +40,78 @@ export function distance(a, b) {
   return Math.hypot(Number(a.x) - Number(b.x), Number(a.y) - Number(b.y));
 }
 
+export function parseSvgTransform(value) {
+  const text = String(value || '').trim();
+  if (!text) return IDENTITY_MATRIX.slice();
+  let matrix = IDENTITY_MATRIX.slice();
+  const pattern = /([a-zA-Z]+)\s*\(([^)]*)\)/g;
+  let match;
+  while ((match = pattern.exec(text))) {
+    const op = match[1].toLowerCase();
+    const values = parseNumberList(match[2]);
+    const next = transformOperationMatrix(op, values);
+    if (next) matrix = multiplyMatrices(matrix, next);
+  }
+  return matrix;
+}
+
+export function multiplyMatrices(left, right) {
+  const [a1, b1, c1, d1, e1, f1] = left || IDENTITY_MATRIX;
+  const [a2, b2, c2, d2, e2, f2] = right || IDENTITY_MATRIX;
+  return [
+    a1 * a2 + c1 * b2,
+    b1 * a2 + d1 * b2,
+    a1 * c2 + c1 * d2,
+    b1 * c2 + d1 * d2,
+    a1 * e2 + c1 * f2 + e1,
+    b1 * e2 + d1 * f2 + f1,
+  ];
+}
+
+export function transformPoint(point, matrix = IDENTITY_MATRIX) {
+  if (!point) return null;
+  const x = Number(point.x);
+  const y = Number(point.y);
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+  const [a, b, c, d, e, f] = matrix;
+  return { x: a * x + c * y + e, y: b * x + d * y + f };
+}
+
+export function transformBox(box, matrix = IDENTITY_MATRIX) {
+  if (!isBoxObject(box)) return null;
+  const corners = [
+    { x: box.x, y: box.y },
+    { x: box.x + box.width, y: box.y },
+    { x: box.x, y: box.y + box.height },
+    { x: box.x + box.width, y: box.y + box.height },
+  ].map((point) => transformPoint(point, matrix)).filter(Boolean);
+  if (corners.length !== 4) return null;
+  const xs = corners.map((point) => point.x);
+  const ys = corners.map((point) => point.y);
+  const x = Math.min(...xs);
+  const y = Math.min(...ys);
+  return { x, y, width: Math.max(...xs) - x, height: Math.max(...ys) - y };
+}
+
 function entryForNode(node, root, measure) {
   const text = rawTextContent(node);
   if (!text) return null;
   const path = stablePath(node, root);
+  const matrix = composedTransformMatrix(node, root);
   const measured = safeMeasure(node, { path, text }, measure);
-  const attrPoint = inheritedPoint(node);
-  const bbox = measured || fallbackBox(node, text, attrPoint);
-  const center = boxCenter(bbox) || attrPoint || null;
+  const localPoint = inheritedPoint(node);
+  const localBox = measured || fallbackBox(node, text, localPoint);
+  const bbox = transformBox(localBox, matrix) || localBox;
+  const transformedPoint = transformPoint(localPoint, matrix);
+  const center = boxCenter(bbox) || transformedPoint || localPoint || null;
   return {
     path,
     node,
     text,
     normalizedText: normalizeSvgText(text),
     rawText: String(node.textContent ?? ''),
-    x: attrPoint?.x ?? center?.x ?? null,
-    y: attrPoint?.y ?? center?.y ?? null,
+    x: transformedPoint?.x ?? center?.x ?? null,
+    y: transformedPoint?.y ?? center?.y ?? null,
     bbox,
     center,
     tagName: String(node.tagName || node.nodeName || '').toLowerCase(),
@@ -83,7 +140,7 @@ function safeMeasure(node, seed, measure) {
 
 function fallbackBox(node, text, point) {
   const p = point || { x: 0, y: 0 };
-  const fontSize = inheritedNumberAttr(node, 'font-size') || 80;
+  const fontSize = inheritedNumberAttr(node, 'font-size') || inheritedStyleFontSize(node) || 80;
   const width = Math.max(fontSize * 0.6, String(text).length * fontSize * 0.58);
   const height = fontSize;
   return { x: p.x, y: p.y - height, width, height };
@@ -126,6 +183,60 @@ function inheritedAttributeChain(node, name) {
     current = current.parentElement || current.parentNode || null;
   }
   return values.reverse();
+}
+
+function composedTransformMatrix(node, root) {
+  const chain = [];
+  let current = node;
+  while (current && current !== root?.parentNode) {
+    chain.push(current);
+    if (current === root) break;
+    current = current.parentElement || current.parentNode || null;
+  }
+  return chain.reverse().reduce((matrix, item) => multiplyMatrices(matrix, parseSvgTransform(stringAttr(item, 'transform'))), IDENTITY_MATRIX.slice());
+}
+
+function transformOperationMatrix(op, values) {
+  if (op === 'matrix' && values.length >= 6) return values.slice(0, 6);
+  if (op === 'translate') return [1, 0, 0, 1, values[0] || 0, values.length > 1 ? values[1] || 0 : 0];
+  if (op === 'scale') {
+    const sx = Number.isFinite(values[0]) ? values[0] : 1;
+    const sy = Number.isFinite(values[1]) ? values[1] : sx;
+    return [sx, 0, 0, sy, 0, 0];
+  }
+  if (op === 'rotate' && values.length >= 1) {
+    const radians = values[0] * Math.PI / 180;
+    const cos = Math.cos(radians);
+    const sin = Math.sin(radians);
+    const rotate = [cos, sin, -sin, cos, 0, 0];
+    if (values.length >= 3) {
+      const [angle, cx, cy] = values;
+      void angle;
+      return multiplyMatrices(multiplyMatrices([1, 0, 0, 1, cx, cy], rotate), [1, 0, 0, 1, -cx, -cy]);
+    }
+    return rotate;
+  }
+  if (op === 'skewx' && values.length >= 1) return [1, 0, Math.tan(values[0] * Math.PI / 180), 1, 0, 0];
+  if (op === 'skewy' && values.length >= 1) return [1, Math.tan(values[0] * Math.PI / 180), 0, 1, 0, 0];
+  return null;
+}
+
+function parseNumberList(value) {
+  return String(value || '').trim().split(/[\s,]+/).filter(Boolean).map(Number).filter(Number.isFinite);
+}
+
+function inheritedStyleFontSize(node) {
+  let current = node;
+  while (current) {
+    const style = stringAttr(current, 'style');
+    const match = /font-size\s*:\s*([0-9.]+)/i.exec(style);
+    if (match) {
+      const value = Number(match[1]);
+      if (Number.isFinite(value)) return value;
+    }
+    current = current.parentElement || current.parentNode || null;
+  }
+  return NaN;
 }
 
 function normalizeBox(box) {
