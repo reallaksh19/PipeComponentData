@@ -113,6 +113,9 @@ function validateBinding(binding, basename) {
       if (!validBox(slot.target.targetBox)) errors.push(`${label}: missing or invalid targetBox`);
       if (slot.target.labelBox != null && !validBox(slot.target.labelBox)) errors.push(`${label}: invalid labelBox`);
       if (slot.target.cleanupBox != null && !validBox(slot.target.cleanupBox)) errors.push(`${label}: invalid cleanupBox`);
+      if (slot.target.geometryBox != null && !validBox(slot.target.geometryBox)) errors.push(`${label}: invalid geometryBox`);
+      if (slot.target.hideGeometryWhenMissing != null && typeof slot.target.hideGeometryWhenMissing !== 'boolean') errors.push(`${label}: malformed hideGeometryWhenMissing`);
+      if (slot.target.hideGeometryWhenMissing === true && !validBox(slot.target.geometryBox)) errors.push(`${label}: geometryBox required when hideGeometryWhenMissing is true`);
       if (slot.target.cleanupPlaceholders != null && typeof slot.target.cleanupPlaceholders !== 'boolean') errors.push(`${label}: malformed cleanupPlaceholders`);
       if (slot.target.cleanupPlaceholderText != null && !asStringArray(slot.target.cleanupPlaceholderText).length) errors.push(`${label}: malformed cleanupPlaceholderText`);
     }
