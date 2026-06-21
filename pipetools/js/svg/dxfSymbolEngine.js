@@ -3,6 +3,7 @@ import { renderDimensionCalloutDiagnostics, clearDimensionCalloutDiagnostics } f
 import { computeAutoSourceSvgOffset } from './sourceSvgAutoFit.js';
 import { loadSourceSvgOffset, offsetStatusText } from './sourceSvgOffsetStore.js';
 import { loadSvgSlotBinding } from './svgSlotBindingStore.js';
+import { suppressSvgSlotArtifacts } from './svgSlotArtifactCleanup.js';
 import { populateSvgSlots, slotDiagnosticsSummary } from './svgSlotPopulator.js';
 
 const MANIFEST_JSON_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.json', import.meta.url).href;
@@ -291,6 +292,7 @@ export async function mountDxfSymbolSvg(row, container) {
     const viewport = sourceViewport(svgNode);
     container.replaceChildren(viewport, metaNode(result));
     const slotPopulation = populateSvgSlots(svgNode, result.sourceCode, slotBinding, row);
+    suppressSvgSlotArtifacts(svgNode, slotBinding, slotPopulation);
     removePlaceholderText(svgNode);
     viewport.__pipeToolsNativeSvgSlots = slotPopulation;
     viewport.__pipeToolsSuppressedOverlayLabels = slotPopulation.suppressedOverlayLabels;
