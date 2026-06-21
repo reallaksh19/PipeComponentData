@@ -48,6 +48,13 @@
           8500,
           13750
         ],
+        "geometryBox": [
+          6100,
+          12550,
+          8650,
+          13880
+        ],
+        "hideGeometryWhenMissing": true,
         "placeholderText": [
           "-",
           "—",
@@ -105,6 +112,13 @@
           8500,
           15920
         ],
+        "geometryBox": [
+          6100,
+          15150,
+          8500,
+          16080
+        ],
+        "hideGeometryWhenMissing": true,
         "placeholderText": [
           "-",
           "—",
@@ -164,6 +178,13 @@
           6650,
           14050
         ],
+        "geometryBox": [
+          4300,
+          13200,
+          6900,
+          14500
+        ],
+        "hideGeometryWhenMissing": true,
         "placeholderText": [
           "-",
           "—",
@@ -221,6 +242,13 @@
           8700,
           16200
         ],
+        "geometryBox": [
+          5200,
+          15750,
+          8700,
+          16600
+        ],
+        "hideGeometryWhenMissing": true,
         "placeholderText": [
           "-",
           "—",
