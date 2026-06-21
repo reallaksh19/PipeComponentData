@@ -4,6 +4,14 @@ import { buildSvgTextInventory, distance, normalizeSvgText, pointInsideBox } fro
 const DEFAULT_CONFIDENCE_THRESHOLD = 0.85;
 const DEFAULT_PLACEHOLDERS = ['-', '–', '—'];
 const TARGET_TOLERANCE = 50;
+const DEFAULT_NATIVE_TEXT_STYLE = Object.freeze({
+  fontSize: '280',
+  fontFamily: 'Inter, Arial, Helvetica, sans-serif',
+  fontWeight: '800',
+  fill: '#0f172a',
+  stroke: '#ffffff',
+  strokeWidth: '30',
+});
 
 export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, options = {}) {
   const empty = emptyResult(sourceCode);
@@ -48,7 +56,7 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
     const target = match.target;
     const before = target.text;
     setTextContent(target.node, value);
-    markPopulatedNode(target.node, slotLabel, fact.path, match.confidence);
+    markPopulatedNode(target.node, slotLabel, fact.path, match.confidence, slot);
     usedNodes.add(target.node);
 
     const detail = {
@@ -114,6 +122,9 @@ export function slotDiagnosticsSummary(slotPopulation) {
       targetPath: slot.targetPath || '',
       targetTextBefore: slot.targetTextBefore || '',
       targetTextAfter: slot.targetTextAfter || '',
+      factLabel: slot.factLabel || '',
+      factPath: slot.factPath || '',
+      displayValue: slot.displayValue || slot.targetTextAfter || '',
       suppressedOverlayLabels: slot.suppressedOverlayLabels || [],
     })),
   };
@@ -295,12 +306,29 @@ function effectiveSuppressLabels(slotLabel, slot, fact) {
     .filter(isRenderable);
 }
 
-function markPopulatedNode(node, slotLabel, factPath, confidence) {
+function markPopulatedNode(node, slotLabel, factPath, confidence, slot = {}) {
   node?.setAttribute?.('data-pipetools-slot', slotLabel);
   node?.setAttribute?.('data-pipetools-source-backed', 'true');
+  node?.setAttribute?.('data-pipetools-native-value', 'true');
   node?.setAttribute?.('data-pipetools-slot-confidence', String(roundConfidence(confidence)));
   if (factPath) node?.setAttribute?.('data-pipetools-slot-source-path', factPath);
   if (factPath) node?.setAttribute?.('data-pipetools-fact-path', factPath);
+  applyNativeSlotTextStyle(node, slot);
+}
+
+function applyNativeSlotTextStyle(node, slot = {}) {
+  if (!node?.setAttribute || slot.nativeTextStyle === false) return;
+  const style = { ...DEFAULT_NATIVE_TEXT_STYLE, ...(slot.nativeTextStyle || {}) };
+  const className = [node.getAttribute?.('class'), 'pipetools-native-slot-value'].filter(Boolean).join(' ');
+  node.setAttribute('class', className);
+  node.setAttribute('font-size', String(style.fontSize));
+  node.setAttribute('font-family', String(style.fontFamily));
+  node.setAttribute('font-weight', String(style.fontWeight));
+  node.setAttribute('fill', String(style.fill));
+  node.setAttribute('stroke', String(style.stroke));
+  node.setAttribute('stroke-width', String(style.strokeWidth));
+  node.setAttribute('paint-order', 'stroke fill');
+  node.setAttribute('stroke-linejoin', 'round');
 }
 
 function setTextContent(node, value) {
