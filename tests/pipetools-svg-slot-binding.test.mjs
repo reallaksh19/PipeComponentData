@@ -15,17 +15,45 @@ const manifestCodes = new Set((manifest.symbols || []).map((symbol) => symbol.so
 const readSlot = async (sourceCode) => JSON.parse(await readFile(path.join(slotsRoot, `${sourceCode}.json`), 'utf8'));
 
 class TextNode {
-  constructor(text) {
+  constructor(text, attrs = {}) {
     this.textContent = text;
     this.tagName = 'text';
     this.nodeName = 'text';
-    this.attrs = new Map();
+    this.attrs = new Map(Object.entries(attrs).map(([key, value]) => [key, String(value)]));
     this.children = [];
     this.nodeType = 1;
+    this.parentElement = null;
+    this.parentNode = null;
   }
   setAttribute(name, value) { this.attrs.set(name, String(value)); }
   getAttribute(name) { return this.attrs.get(name) || null; }
   querySelectorAll() { return []; }
+}
+
+class ElementNode extends TextNode {
+  constructor(tagName, attrs = {}, children = []) {
+    super('', attrs);
+    this.tagName = tagName;
+    this.nodeName = tagName;
+    this.children = [];
+    children.forEach((child) => this.append(child));
+  }
+  append(child) {
+    child.parentElement = this;
+    child.parentNode = this;
+    this.children.push(child);
+  }
+  querySelectorAll() {
+    const out = [];
+    const walk = (node) => {
+      for (const child of node.children || []) {
+        if (String(child.tagName).toLowerCase() === 'text' || String(child.tagName).toLowerCase() === 'tspan') out.push(child);
+        walk(child);
+      }
+    };
+    walk(this);
+    return out;
+  }
 }
 
 function inventoryEntry(text, x, y, path) {
@@ -61,6 +89,19 @@ test('text inventory accepts measured text nodes', async () => {
   const inventory = buildSvgTextInventory(root, { measureTextNode: () => ({ x: 10, y: 20, width: 100, height: 40 }) });
   assert.equal(inventory[0].normalizedText, 'outside diameter');
   assert.deepEqual(inventory[0].center, { x: 60, y: 40 });
+});
+
+test('text inventory maps inherited SVG transforms into source coordinates', async () => {
+  const { buildSvgTextInventory } = await import('../pipetools/js/svg/svgTextInventory.js');
+  const text = new TextNode('Outside Diameter', { x: '10', y: '20', 'font-size': '10' });
+  const group = new ElementNode('g', { transform: 'translate(100,200) scale(2)' }, [text]);
+  const root = new ElementNode('svg', {}, [group]);
+  const [entry] = buildSvgTextInventory(root);
+  assert.equal(entry.text, 'Outside Diameter');
+  assert.equal(entry.x, 120);
+  assert.equal(entry.y, 240);
+  assert.ok(entry.center.x > 120);
+  assert.ok(entry.center.y > 220);
 });
 
 test('Pipe1 slots populate target-region text only', async () => {
