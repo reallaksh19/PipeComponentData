@@ -40,7 +40,7 @@ if (mode === 'write') {
 }
 
 async function buildDbIndex() {
-  const fileNames = (await readdir(NORMALIZED_DIR)).filter((name) => name.endsWith('.json')).sort((a, b) => a.localeCompare(b));
+  const fileNames = (await readdir(NORMALIZED_DIR)).filter((name) => name.endsWith('.json')).sort();
   const families = [];
   const indexedFiles = new Set();
 
