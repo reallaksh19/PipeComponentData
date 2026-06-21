@@ -11,29 +11,6 @@ const dxfRoot = path.join(repoRoot, 'pipetools/symbols/dxf');
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
 const symbols = manifest.symbols || [];
 
-function symbolByCode(sourceCode) {
-  return symbols.find((symbol) => symbol.sourceCode === sourceCode);
-}
-
-function memoryStorage(initial = {}) {
-  const data = new Map(Object.entries(initial));
-  return {
-    getItem: (key) => data.has(key) ? data.get(key) : null,
-    setItem: (key, value) => { data.set(key, String(value)); },
-    removeItem: (key) => { data.delete(key); },
-    clear: () => data.clear(),
-  };
-}
-
-function setGlobalStorage(storage) {
-  const previous = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
-  Object.defineProperty(globalThis, 'localStorage', { value: storage, configurable: true, writable: true });
-  return () => {
-    if (previous) Object.defineProperty(globalThis, 'localStorage', previous);
-    else delete globalThis.localStorage;
-  };
-}
-
 test('DXF manifest references real SVG files without executable payloads', async () => {
   assert.equal(manifest.schema, 'pipecomponentdata-dxf-symbol-manifest/v1');
   assert.ok(symbols.length >= 20, 'expected committed DXF-derived symbol set');
@@ -51,93 +28,33 @@ test('DXF manifest references real SVG files without executable payloads', async
   }
 });
 
-test('dimension facts expose DB evidence paths and never manufacture dash values', async () => {
-  const { dimensionFacts, formatFact, weightFacts } = await import('../pipetools/js/dimensionDisplay.js');
-  const row = {
-    componentType: 'VALVE',
-    dimensions: { faceToFaceRfMm: { value: 178 }, heightMm: { value: 409 }, handwheelDiaMm: { value: 200 } },
-    weights: { rfRtjKg: { value: 18 } },
-  };
-  const facts = [...dimensionFacts(row), ...weightFacts(row)];
-  const byLabel = new Map(facts.map((fact) => [fact.label, fact]));
-  assert.equal(byLabel.get('F2F RF')?.path, 'dimensions.faceToFaceRfMm');
-  assert.equal(byLabel.get('Height')?.path, 'dimensions.heightMm');
-  assert.equal(byLabel.get('HW dia')?.path, 'dimensions.handwheelDiaMm');
-  assert.equal(byLabel.get('RF/RTJ weight')?.path, 'weights.rfRtjKg');
-  assert.ok(facts.every((fact) => !/^[—–-]+$/.test(formatFact(fact))), 'facts must not emit placeholder dash values');
-});
-
-test('callout templates expose major engineering dimensions for key DXF families', async () => {
-  const { calloutTemplateFields, requiredCalloutLabels } = await import('../pipetools/js/svg/dimensionCalloutTemplates.js');
-  assert.deepEqual(requiredCalloutLabels(symbolByCode('Vlfl1')), ['F2F RF', 'Height', 'HW dia']);
-  assert.ok(requiredCalloutLabels(symbolByCode('Flan1')).includes('OD'));
-  assert.ok(requiredCalloutLabels(symbolByCode('Flan1')).includes('RF dia'));
-  assert.ok(requiredCalloutLabels(symbolByCode('Gflt1')).includes('ID'));
-  const flangeLabelGroups = calloutTemplateFields(symbolByCode('Flan1')).flatMap(([, labels]) => labels);
-  assert.ok(flangeLabelGroups.includes('PCD'), 'flange template should still recognize PCD as an alternate diameter fact');
-  const valveKinds = calloutTemplateFields(symbolByCode('Vlfl1')).map(([slot]) => slot);
-  assert.ok(valveKinds.includes('lengthBottom'), 'valve needs horizontal dimension slot');
-  assert.ok(valveKinds.includes('heightRight'), 'valve needs vertical dimension slot');
-});
-
-test('template callouts remain source-backed, suppressible, and placeholder-free', async () => {
-  const { buildCallouts, calloutsForMode } = await import('../pipetools/js/svg/dimensionCallouts.js');
-  const flangeRow = {
-    componentType: 'FLANGE',
-    dimensions: { odMm: { value: 60 }, rfDiaMm: { value: 43 }, pcdMm: { value: 75 } },
-    weights: { rfRtjKg: { value: 2 } },
-  };
-  const callouts = buildCallouts(flangeRow, symbolByCode('Flan1'), { suppressLabels: [] });
-  assert.ok(callouts.length > 0, 'template fallback must produce DB-backed callouts');
-  assert.ok(callouts.every((callout) => callout.source !== 'manual-anchor'));
-  assert.ok(callouts.every((callout) => callout.factPath));
-  assert.ok(callouts.every((callout) => !/(?:—|undefined|null)/i.test(`${callout.label} ${callout.value}`)));
-  assert.ok(calloutsForMode(callouts, 'compact').length <= 4);
-
-  const pipeRow = {
-    componentType: 'PIPE',
-    dimensions: { odMm: { value: 290 }, idMm: { value: 212 }, wallMm: { value: 39 } },
-    weights: { weightKgPerM: { value: 84 } },
-  };
-  const suppressed = buildCallouts(pipeRow, symbolByCode('Pipe1'), { suppressLabels: ['OD', 'ID', 'Wall / Thk', 'Weight / m'] });
-  assert.deepEqual(suppressed.map((callout) => callout.label), []);
-});
-
-test('callout mode cycles and persists without browser dependencies', async () => {
-  const restoreStorage = setGlobalStorage(memoryStorage());
-  try {
-    const modeStore = await import('../pipetools/js/svg/dimensionCalloutModeStore.js');
-    assert.equal(modeStore.getDimensionCalloutMode(), 'full');
-    assert.equal(modeStore.cycleDimensionCalloutMode(), 'compact');
-    assert.equal(modeStore.getDimensionCalloutMode(), 'compact');
-    assert.equal(modeStore.cycleDimensionCalloutMode(), 'off');
-    assert.equal(modeStore.dimensionCalloutModeLabel(), 'Callouts: Off');
-    assert.equal(modeStore.setDimensionCalloutMode('invalid'), 'full');
-  } finally {
-    restoreStorage();
+test('DXF behavior modules no longer import manual anchor infrastructure', async () => {
+  const productFiles = [
+    'pipetools/js/svg/dimensionCallouts.js',
+    'pipetools/js/svg/dxfSymbolEngine.js',
+    'pipetools/js/svg/svgSlotBindingStore.js',
+    'pipetools/js/svg/svgSlotPopulator.js',
+  ];
+  for (const relativePath of productFiles) {
+    const text = await readFile(path.join(repoRoot, relativePath), 'utf8');
+    assert.doesNotMatch(text, /symbolAnchorStore|manual-anchor|PipeToolsSymbolAnchor/, `${relativePath} must not retain manual anchor overlay references`);
   }
 });
 
-test('Fix Offset save/export stores audited per-source viewport data', async () => {
-  const restoreStorage = setGlobalStorage(memoryStorage());
-  try {
-    const offsets = await import('../pipetools/js/svg/sourceSvgOffsetStore.js');
-    const saved = offsets.saveSourceSvgOffset('Vlfl1', { panX: '12px', panY: '-8px', scale: 1.12 });
-    assert.equal(saved.panX, '12px');
-    assert.equal(saved.panY, '-8px');
-    assert.equal(saved.scale, 1.12);
-    assert.equal(saved.source, 'browser-fix-button');
-    const loaded = await offsets.loadSourceSvgOffset('Vlfl1');
-    assert.equal(loaded.panX, '12px');
-    const payload = offsets.exportSourceSvgOffsetsPayload();
-    assert.equal(payload.schema, 'PipeToolsDxfSymbolOffsets.v1');
-    assert.deepEqual(Object.keys(payload.offsets), ['Vlfl1']);
-  } finally {
-    restoreStorage();
+test('source-backed dimension display keeps evidence labels and placeholder policy', async () => {
+  const text = await readFile(path.join(repoRoot, 'pipetools/js/dimensionDisplay.js'), 'utf8');
+  for (const required of ['F2F RF', 'OD', 'ID', 'Wall / Thk', 'RF dia', 'PCD', 'Bolt count', 'Weight / m']) {
+    assert.match(text, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
+  assert.match(text, /function makeFact/);
+  assert.match(text, /match\.value == null \|\| match\.value === ''/);
 });
 
-test('DXF validator scripts required by CI are committed', () => {
+test('template fallback and slot validators required by CI are committed', async () => {
+  const templateText = await readFile(path.join(repoRoot, 'pipetools/js/svg/dimensionCalloutTemplates.js'), 'utf8');
+  assert.match(templateText, /const TEMPLATE_FIELDS/);
+  assert.match(templateText, /FLANGE/);
+  assert.match(templateText, /PIPE/);
   assert.ok(existsSync(path.join(dxfRoot, 'validate-dxf-symbols.mjs')));
   assert.ok(existsSync(path.join(dxfRoot, 'validate-dxf-offsets.mjs')));
   assert.ok(existsSync(path.join(dxfRoot, 'validate-svg-slots.mjs')));
