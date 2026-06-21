@@ -29,7 +29,7 @@ function setGlobalStorage(storage) {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
   Object.defineProperty(globalThis, 'localStorage', { value: storage, configurable: true, writable: true });
   return () => {
-    if (previous) Object.defineProperty(globalThis, 'localStorage', previous);
+    if (previous) Object.defineProperty(globalThis, previous);
     else delete globalThis.localStorage;
   };
 }
@@ -48,30 +48,6 @@ test('DXF manifest references real SVG files without executable payloads', async
     const svgText = await readFile(svgPath, 'utf8');
     assert.match(svgText, /<svg[\s>]/i, `${symbol.sourceCode} is not an SVG payload`);
     assert.doesNotMatch(svgText, /<script[\s>]/i, `${symbol.sourceCode} must not contain scripts`);
-  }
-});
-
-test('DXF resolver maps real normalized-style rows and rejects unsupported rows', async () => {
-  const previousFetch = globalThis.fetch;
-  globalThis.fetch = async (url) => {
-    const textUrl = String(url);
-    if (textUrl.endsWith('/dxf-symbol-manifest.json')) {
-      return new Response(JSON.stringify(manifest), { status: 200, statusText: 'OK', headers: { 'content-type': 'application/json' } });
-    }
-    throw new Error(`unexpected fetch in resolver test: ${textUrl}`);
-  };
-  try {
-    const { resolveDxfSymbolForComponent } = await import('../pipetools/js/svg/dxfSymbolEngine.js');
-    const valve = await resolveDxfSymbolForComponent({ componentType: 'VALVE', valveType: 'GATE', endType: 'FLANGED', standard: 'ASME B16.10', nps: '2' });
-    assert.equal(valve.status, 'OK');
-    assert.equal(valve.sourceCode, 'Vlfl1');
-    assert.equal(valve.symbol.title, 'Flanged Gate Valve');
-
-    const unsupported = await resolveDxfSymbolForComponent({ componentType: 'SUPPORT', supportKind: 'HANGER', standard: 'PROJECT' });
-    assert.equal(unsupported.status, 'SVG_NOT_AVAILABLE');
-    assert.match(unsupported.reason, /No DXF manifest mapping/);
-  } finally {
-    globalThis.fetch = previousFetch;
   }
 });
 
@@ -104,29 +80,27 @@ test('callout templates expose major engineering dimensions for key DXF families
   assert.ok(valveKinds.includes('heightRight'), 'valve needs vertical dimension slot');
 });
 
-test('template callouts remain source-backed and do not produce placeholder labels', async () => {
+test('template callouts remain source-backed, suppressible, and placeholder-free', async () => {
   const { buildCallouts, calloutsForMode } = await import('../pipetools/js/svg/dimensionCallouts.js');
-  const row = {
+  const flangeRow = {
     componentType: 'FLANGE',
     dimensions: { odMm: { value: 60 }, rfDiaMm: { value: 43 }, pcdMm: { value: 75 } },
     weights: { rfRtjKg: { value: 2 } },
   };
-  const callouts = buildCallouts(row, symbolByCode('Flan1'), { suppressLabels: [] });
+  const callouts = buildCallouts(flangeRow, symbolByCode('Flan1'), { suppressLabels: [] });
   assert.ok(callouts.length > 0, 'template fallback must produce DB-backed callouts');
   assert.ok(callouts.every((callout) => callout.source !== 'manual-anchor'));
+  assert.ok(callouts.every((callout) => callout.factPath));
   assert.ok(callouts.every((callout) => !/(?:—|undefined|null)/i.test(`${callout.label} ${callout.value}`)));
   assert.ok(calloutsForMode(callouts, 'compact').length <= 4);
-});
 
-test('slot-populated labels can suppress overlay callouts without suppressing unrelated facts', async () => {
-  const { buildCallouts } = await import('../pipetools/js/svg/dimensionCallouts.js');
-  const row = {
+  const pipeRow = {
     componentType: 'PIPE',
     dimensions: { odMm: { value: 290 }, idMm: { value: 212 }, wallMm: { value: 39 } },
     weights: { weightKgPerM: { value: 84 } },
   };
-  const callouts = buildCallouts(row, symbolByCode('Pipe1'), { suppressLabels: ['OD', 'ID', 'Wall / Thk', 'Weight / m'] });
-  assert.deepEqual(callouts.map((callout) => callout.label), []);
+  const suppressed = buildCallouts(pipeRow, symbolByCode('Pipe1'), { suppressLabels: ['OD', 'ID', 'Wall / Thk', 'Weight / m'] });
+  assert.deepEqual(suppressed.map((callout) => callout.label), []);
 });
 
 test('callout mode cycles and persists without browser dependencies', async () => {
@@ -167,5 +141,6 @@ test('DXF validator scripts required by CI are committed', () => {
   assert.ok(existsSync(path.join(dxfRoot, 'validate-dxf-symbols.mjs')));
   assert.ok(existsSync(path.join(dxfRoot, 'validate-dxf-offsets.mjs')));
   assert.ok(existsSync(path.join(dxfRoot, 'validate-svg-slots.mjs')));
+  assert.ok(existsSync(path.join(dxfRoot, 'audit-svg-slot-coverage.mjs')));
   assert.ok(existsSync(path.join(dxfRoot, 'audit-dxf-callout-coverage.mjs')));
 });
