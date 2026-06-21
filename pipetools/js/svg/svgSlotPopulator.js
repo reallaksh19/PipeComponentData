@@ -1,9 +1,20 @@
 import { dimensionFacts, formatFact, weightFacts } from '../dimensionDisplay.js';
-import { buildSvgTextInventory, distance, normalizeSvgText, pointInsideBox } from './svgTextInventory.js';
+import {
+  boxCenter,
+  buildSvgTextInventory,
+  distance,
+  multiplyMatrices,
+  normalizeSvgText,
+  parseSvgTransform,
+  pointInsideBox,
+  transformBox,
+} from './svgTextInventory.js';
 
 const DEFAULT_CONFIDENCE_THRESHOLD = 0.85;
 const DEFAULT_PLACEHOLDERS = ['-', '–', '—'];
 const TARGET_TOLERANCE = 50;
+const GEOMETRY_SELECTOR = 'path,line,polyline,polygon,rect,circle,ellipse';
+const TEXT_TAGS = new Set(['text', 'tspan']);
 const DEFAULT_NATIVE_TEXT_STYLE = Object.freeze({
   fontSize: '112',
   fontFamily: 'Arial, Helvetica, sans-serif',
@@ -33,8 +44,10 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
   const missingLabels = [];
   const suppressed = new Set();
   const usedNodes = new Set();
+  const hiddenGeometryNodes = new Set();
   const slots = [];
   const cleanedPlaceholderPaths = [];
+  const hiddenGeometryPaths = [];
 
   for (const [slotLabel, slot] of slotEntries) {
     const fact = factForSlot(facts, slotLabel, slot);
@@ -43,8 +56,10 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
     if (!fact || !isRenderable(value)) {
       missingLabels.push(slotLabel);
       const cleaned = cleanupSlotPlaceholders(inventory, slotLabel, slot, usedNodes);
+      const hidden = hideMissingSlotGeometry(svgRoot, slotLabel, slot, options, hiddenGeometryNodes);
       cleanedPlaceholderPaths.push(...cleaned.map((entry) => entry.path));
-      slots.push(notPopulated(sourceCode, slotLabel, 0, 'no source-backed DB fact', {}, cleaned));
+      hiddenGeometryPaths.push(...hidden.map((entry) => entry.path));
+      slots.push(notPopulated(sourceCode, slotLabel, 0, 'no source-backed DB fact', {}, cleaned, hidden));
       continue;
     }
 
@@ -84,6 +99,8 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
       suppressedOverlayLabels: effectiveSuppressLabels(slotLabel, slot, fact),
       cleanedPlaceholderPaths: cleaned.map((entry) => entry.path),
       cleanedPlaceholderCount: cleaned.length,
+      hiddenGeometryPaths: [],
+      hiddenGeometryCount: 0,
     };
     slots.push(detail);
     populatedLabels.push(slotLabel);
@@ -100,6 +117,8 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
     confidenceThreshold: threshold,
     cleanedPlaceholderCount: cleanedPlaceholderPaths.length,
     cleanedPlaceholderPaths,
+    hiddenGeometryCount: hiddenGeometryPaths.length,
+    hiddenGeometryPaths,
     slots,
   };
 
@@ -129,6 +148,8 @@ export function slotDiagnosticsSummary(slotPopulation) {
     confidenceThreshold: Number(slotPopulation?.confidenceThreshold ?? DEFAULT_CONFIDENCE_THRESHOLD),
     cleanedPlaceholderCount: Number(slotPopulation?.cleanedPlaceholderCount || 0),
     cleanedPlaceholderPaths: slotPopulation?.cleanedPlaceholderPaths || [],
+    hiddenGeometryCount: Number(slotPopulation?.hiddenGeometryCount || 0),
+    hiddenGeometryPaths: slotPopulation?.hiddenGeometryPaths || [],
     slots: slots.map((slot) => ({
       slot: slot.slot,
       status: slot.status,
@@ -143,6 +164,8 @@ export function slotDiagnosticsSummary(slotPopulation) {
       suppressedOverlayLabels: slot.suppressedOverlayLabels || [],
       cleanedPlaceholderCount: Number(slot.cleanedPlaceholderCount || 0),
       cleanedPlaceholderPaths: slot.cleanedPlaceholderPaths || [],
+      hiddenGeometryCount: Number(slot.hiddenGeometryCount || 0),
+      hiddenGeometryPaths: slot.hiddenGeometryPaths || [],
     })),
   };
 }
@@ -299,6 +322,104 @@ function cleanupSlotPlaceholders(inventory, slotLabel, slot, usedNodes) {
   return cleaned;
 }
 
+function hideMissingSlotGeometry(svgRoot, slotLabel, slot, options = {}, hiddenNodes = new Set()) {
+  const target = slot?.target || {};
+  if (target.hideGeometryWhenMissing !== true) return [];
+  const box = normalizedBox(target.geometryBox) || null;
+  if (!box || !svgRoot?.querySelectorAll) return [];
+
+  const measure = typeof options.measureSvgElement === 'function' ? options.measureSvgElement : null;
+  const hidden = [];
+  for (const node of safeQueryAll(svgRoot, GEOMETRY_SELECTOR)) {
+    if (!node || hiddenNodes.has(node) || TEXT_TAGS.has(tagName(node))) continue;
+    const bbox = geometryBBox(node, svgRoot, measure);
+    if (!bbox || !boxIntersectsObject(box, bbox)) continue;
+    hideGeometryNode(node, slotLabel);
+    hiddenNodes.add(node);
+    hidden.push({ path: stableElementPath(node, svgRoot), node, bbox });
+  }
+  return hidden;
+}
+
+function geometryBBox(node, root, measure) {
+  const local = safeMeasureElement(node, measure) || staticGeometryBox(node);
+  if (!local) return null;
+  const matrix = composedTransformMatrix(node, root);
+  return transformBox(local, matrix) || local;
+}
+
+function safeMeasureElement(node, measure) {
+  if (measure) {
+    const box = normalizeBoxObject(measure(node));
+    if (box) return box;
+  }
+  if (typeof node?.getBBox === 'function') {
+    try {
+      const box = normalizeBoxObject(node.getBBox());
+      if (box) return box;
+    } catch {
+      // Detached/test SVG nodes commonly cannot measure geometry.
+    }
+  }
+  return null;
+}
+
+function staticGeometryBox(node) {
+  const tag = tagName(node);
+  if (tag === 'line') {
+    const x1 = firstNumberAttr(node, 'x1');
+    const y1 = firstNumberAttr(node, 'y1');
+    const x2 = firstNumberAttr(node, 'x2');
+    const y2 = firstNumberAttr(node, 'y2');
+    if ([x1, y1, x2, y2].every(Number.isFinite)) return boxFromPoints([{ x: x1, y: y1 }, { x: x2, y: y2 }]);
+  }
+  if (tag === 'rect') {
+    const x = firstNumberAttr(node, 'x') || 0;
+    const y = firstNumberAttr(node, 'y') || 0;
+    const width = firstNumberAttr(node, 'width');
+    const height = firstNumberAttr(node, 'height');
+    if ([x, y, width, height].every(Number.isFinite)) return { x, y, width, height };
+  }
+  if (tag === 'circle') {
+    const cx = firstNumberAttr(node, 'cx');
+    const cy = firstNumberAttr(node, 'cy');
+    const r = firstNumberAttr(node, 'r');
+    if ([cx, cy, r].every(Number.isFinite)) return { x: cx - r, y: cy - r, width: 2 * r, height: 2 * r };
+  }
+  if (tag === 'ellipse') {
+    const cx = firstNumberAttr(node, 'cx');
+    const cy = firstNumberAttr(node, 'cy');
+    const rx = firstNumberAttr(node, 'rx');
+    const ry = firstNumberAttr(node, 'ry');
+    if ([cx, cy, rx, ry].every(Number.isFinite)) return { x: cx - rx, y: cy - ry, width: 2 * rx, height: 2 * ry };
+  }
+  if (tag === 'polyline' || tag === 'polygon') {
+    const points = parsePointList(stringAttr(node, 'points'));
+    if (points.length) return boxFromPoints(points);
+  }
+  if (tag === 'path') {
+    const points = parsePathCoordinatePairs(stringAttr(node, 'd'));
+    if (points.length) return boxFromPoints(points);
+  }
+  return null;
+}
+
+function hideGeometryNode(node, slotLabel) {
+  if (!node?.setAttribute) return;
+  if (!node.getAttribute?.('data-pipetools-previous-display')) {
+    const previousDisplay = node.getAttribute?.('display');
+    if (previousDisplay != null) node.setAttribute('data-pipetools-previous-display', previousDisplay);
+  }
+  if (!node.getAttribute?.('data-pipetools-previous-visibility')) {
+    const previousVisibility = node.getAttribute?.('visibility');
+    if (previousVisibility != null) node.setAttribute('data-pipetools-previous-visibility', previousVisibility);
+  }
+  node.setAttribute('data-pipetools-slot', slotLabel);
+  node.setAttribute('data-pipetools-missing-slot-geometry-hidden', 'true');
+  node.setAttribute('display', 'none');
+  node.setAttribute('aria-hidden', 'true');
+}
+
 function markCleanedPlaceholder(node, slotLabel) {
   node?.setAttribute?.('data-pipetools-slot', slotLabel);
   node?.setAttribute?.('data-pipetools-placeholder-cleaned', 'true');
@@ -389,7 +510,7 @@ function setTextContent(node, value) {
   if (node) node.textContent = value;
 }
 
-function notPopulated(sourceCode, slot, confidence, reason, match = {}, cleaned = []) {
+function notPopulated(sourceCode, slot, confidence, reason, match = {}, cleaned = [], hidden = []) {
   return {
     sourceCode,
     slot,
@@ -403,6 +524,8 @@ function notPopulated(sourceCode, slot, confidence, reason, match = {}, cleaned 
     suppressedOverlayLabels: [],
     cleanedPlaceholderPaths: cleaned.map((entry) => entry.path),
     cleanedPlaceholderCount: cleaned.length,
+    hiddenGeometryPaths: hidden.map((entry) => entry.path),
+    hiddenGeometryCount: hidden.length,
   };
 }
 
@@ -431,6 +554,8 @@ function emptyResult(sourceCode) {
     confidenceThreshold: DEFAULT_CONFIDENCE_THRESHOLD,
     cleanedPlaceholderCount: 0,
     cleanedPlaceholderPaths: [],
+    hiddenGeometryCount: 0,
+    hiddenGeometryPaths: [],
     slots: [],
   };
 }
@@ -469,4 +594,108 @@ function isRenderable(value) {
 function roundConfidence(value) {
   const number = Number(value);
   return Number.isFinite(number) ? Math.round(number * 1000) / 1000 : 0;
+}
+
+function safeQueryAll(root, selector) {
+  try {
+    return [...(root.querySelectorAll?.(selector) || [])];
+  } catch {
+    return [];
+  }
+}
+
+function normalizeBoxObject(box) {
+  if (!box) return null;
+  const x = Number(box.x);
+  const y = Number(box.y);
+  const width = Number(box.width);
+  const height = Number(box.height);
+  if (![x, y, width, height].every(Number.isFinite) || width < 0 || height < 0) return null;
+  return { x, y, width, height };
+}
+
+function boxIntersectsObject(box, objectBox) {
+  if (!box || !objectBox) return false;
+  const other = [objectBox.x, objectBox.y, objectBox.x + objectBox.width, objectBox.y + objectBox.height];
+  const center = boxCenter(objectBox);
+  return pointInsideBox(center, box, 0) || !(other[2] < box[0] || other[0] > box[2] || other[3] < box[1] || other[1] > box[3]);
+}
+
+function boxFromPoints(points) {
+  const valid = points.filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+  if (!valid.length) return null;
+  const xs = valid.map((point) => point.x);
+  const ys = valid.map((point) => point.y);
+  const x = Math.min(...xs);
+  const y = Math.min(...ys);
+  return { x, y, width: Math.max(...xs) - x, height: Math.max(...ys) - y };
+}
+
+function parsePointList(value) {
+  const numbers = parseNumberList(value);
+  const points = [];
+  for (let index = 0; index + 1 < numbers.length; index += 2) {
+    points.push({ x: numbers[index], y: numbers[index + 1] });
+  }
+  return points;
+}
+
+function parsePathCoordinatePairs(value) {
+  return parsePointList(value);
+}
+
+function parseNumberList(value) {
+  return String(value || '').match(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?/gi)?.map(Number).filter(Number.isFinite) || [];
+}
+
+function composedTransformMatrix(node, root) {
+  const chain = [];
+  let current = node;
+  while (current && current !== root?.parentNode) {
+    chain.push(current);
+    if (current === root) break;
+    current = current.parentElement || current.parentNode || null;
+  }
+  return chain.reverse().reduce((matrix, item) => multiplyMatrices(matrix, parseSvgTransform(stringAttr(item, 'transform'))), [1, 0, 0, 1, 0, 0]);
+}
+
+function stableElementPath(node, root) {
+  if (!node) return '';
+  const parts = [];
+  let current = node;
+  while (current && current !== root?.parentNode) {
+    const tag = tagName(current);
+    if (!tag || tag === '#document') break;
+    parts.push(`${tag}[${indexAmongSameTag(current)}]`);
+    if (current === root) break;
+    current = current.parentElement || current.parentNode || null;
+  }
+  return parts.reverse().join('/');
+}
+
+function indexAmongSameTag(node) {
+  const tag = tagName(node);
+  const parent = node.parentElement || node.parentNode;
+  if (!parent?.children) return 1;
+  let index = 0;
+  for (const child of parent.children) {
+    if (tagName(child) === tag) index += 1;
+    if (child === node) return index;
+  }
+  return 1;
+}
+
+function tagName(node) {
+  return String(node?.tagName || node?.nodeName || '').toLowerCase();
+}
+
+function stringAttr(node, name) {
+  return typeof node?.getAttribute === 'function' ? String(node.getAttribute(name) ?? '').trim() : '';
+}
+
+function firstNumberAttr(node, name) {
+  const raw = stringAttr(node, name);
+  const first = String(raw || '').split(/[\s,]+/).find(Boolean);
+  const value = Number(first);
+  return Number.isFinite(value) ? value : NaN;
 }
