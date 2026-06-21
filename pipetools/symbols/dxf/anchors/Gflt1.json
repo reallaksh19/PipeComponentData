@@ -1,0 +1,95 @@
+{
+  "version": "PipeToolsSymbolAnchor.v1",
+  "sourceCode": "Gflt1",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    720
+  ],
+  "units": "normalized-svg",
+  "description": "Manual semantic anchors for Gflt1 flat ring gasket callouts.",
+  "anchors": {
+    "OD": {
+      "kind": "diameter",
+      "p1": [
+        205,
+        360
+      ],
+      "p2": [
+        795,
+        360
+      ],
+      "labelAt": [
+        500,
+        116
+      ],
+      "preferredValueKeys": [
+        "OD",
+        "Outer Dia",
+        "outerDiameterMm",
+        "odMm",
+        "dimensions.odMm"
+      ]
+    },
+    "ID": {
+      "kind": "diameter",
+      "p1": [
+        355,
+        360
+      ],
+      "p2": [
+        645,
+        360
+      ],
+      "labelAt": [
+        500,
+        612
+      ],
+      "preferredValueKeys": [
+        "ID",
+        "Inside Dia",
+        "innerDiameterMm",
+        "idMm",
+        "dimensions.idMm"
+      ]
+    },
+    "Thickness": {
+      "kind": "leader",
+      "from": [
+        760,
+        354
+      ],
+      "to": [
+        858,
+        228
+      ],
+      "labelAt": [
+        872,
+        228
+      ],
+      "preferredValueKeys": [
+        "Thickness",
+        "Thk",
+        "Wall / Thk",
+        "thicknessMm",
+        "dimensions.thicknessMm"
+      ]
+    },
+    "Weight": {
+      "kind": "badge",
+      "labelAt": [
+        760,
+        562
+      ],
+      "preferredValueKeys": [
+        "Weight",
+        "Weight / m",
+        "weightKg",
+        "weightKgPerM",
+        "weights.kg",
+        "weights.kgPerM"
+      ]
+    }
+  }
+}

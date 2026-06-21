@@ -1,0 +1,35 @@
+{
+  "version": "PipeToolsSymbolAnchor.v1",
+  "sourceCode": "Gspr1",
+  "viewBox": [0, 0, 1000, 720],
+  "units": "normalized-svg",
+  "description": "Manual semantic anchors for Gspr1 spiral wound gasket callouts.",
+  "anchors": {
+    "OD": {
+      "kind": "diameter",
+      "p1": [210, 360],
+      "p2": [790, 360],
+      "labelAt": [500, 112],
+      "preferredValueKeys": ["OD", "Outer Dia", "outerDiameterMm", "odMm", "dimensions.odMm"]
+    },
+    "ID": {
+      "kind": "diameter",
+      "p1": [365, 360],
+      "p2": [635, 360],
+      "labelAt": [500, 610],
+      "preferredValueKeys": ["ID", "Inside Dia", "innerDiameterMm", "idMm", "dimensions.idMm"]
+    },
+    "Thickness": {
+      "kind": "leader",
+      "from": [748, 344],
+      "to": [852, 218],
+      "labelAt": [866, 218],
+      "preferredValueKeys": ["Thickness", "Thk", "Wall / Thk", "thicknessMm", "dimensions.thicknessMm"]
+    },
+    "Weight": {
+      "kind": "badge",
+      "labelAt": [760, 562],
+      "preferredValueKeys": ["Weight", "Weight / m", "weightKg", "weightKgPerM", "weights.kg", "weights.kgPerM"]
+    }
+  }
+}
