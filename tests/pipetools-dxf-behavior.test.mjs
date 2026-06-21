@@ -29,7 +29,7 @@ function setGlobalStorage(storage) {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
   Object.defineProperty(globalThis, 'localStorage', { value: storage, configurable: true, writable: true });
   return () => {
-    if (previous) Object.defineProperty(globalThis, previous);
+    if (previous) Object.defineProperty(globalThis, 'localStorage', previous);
     else delete globalThis.localStorage;
   };
 }
