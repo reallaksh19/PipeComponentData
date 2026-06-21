@@ -38,6 +38,10 @@ jobs:
         shell: bash
         run: npm test
 
+      - name: Validate generated PipeTools DB index
+        shell: bash
+        run: node pipetools/data/sync-db-index.mjs
+
       - name: Run DXF behavior tests
         shell: bash
         run: node --test tests/pipetools-dxf-behavior.test.mjs
@@ -89,7 +93,7 @@ jobs:
             echo "ERROR: Raw source database tree must not be published to Pages"
             exit 1
           fi
-          printf '%s\n' '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="refresh" content="0; url=./pipetools/"><title>PipeTools Suite</title></head><body><p><a href="./pipetools/">Open PipeTools Suite</a></p><p><a href="./studio/">Open Pipe Component Studio</a></p></body></html>' > _site/index.html
+          echo '<!doctype html><title>PipeTools Suite</title><p><a href="./pipetools/">Open PipeTools Suite</a></p><p><a href="./studio/">Open Pipe Component Studio</a></p>' > _site/index.html
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
