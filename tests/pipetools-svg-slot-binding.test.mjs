@@ -272,7 +272,7 @@ test('missing slot binding safely falls back to existing template callout behavi
   slotStore.clearSvgSlotBindingCache();
   globalThis.fetch = async () => {
     fetchCount += 1;
-    return new Response('', { status: 404, statusText: 'Not Found' });
+    return { ok: false, status: 404, statusText: 'Not Found' };
   };
   try {
     assert.equal(await slotStore.loadSvgSlotBinding('Vlfl1'), null);
