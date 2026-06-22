@@ -63,14 +63,15 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
       continue;
     }
 
-    const match = matchTargetForSlot(inventory, slotLabel, slot, { threshold, usedNodes });
+    const match = matchTargetForSlot(inventory, slotLabel, slot, { threshold, usedNodes, svgRoot });
     if (!match || match.confidence < threshold || !match.target?.node || usedNodes.has(match.target.node)) {
       missingLabels.push(slotLabel);
       const confidence = match?.confidence ?? 0;
       const reason = match?.reason || `confidence ${confidence.toFixed(2)} below threshold ${threshold}`;
-      const cleaned = cleanupSlotPlaceholders(inventory, slotLabel, slot, usedNodes);
-      cleanedPlaceholderPaths.push(...cleaned.map((entry) => entry.path));
-      slots.push(notPopulated(sourceCode, slotLabel, confidence, reason, match, cleaned));
+      // Do not clean placeholders when a DB value exists but native targeting failed.
+      // Leaving the native dash visible makes the failure diagnosable and prevents
+      // overlay callouts from appearing as if they were correctly bound SVG text.
+      slots.push(notPopulated(sourceCode, slotLabel, confidence, reason, match, [], []));
       continue;
     }
 
@@ -93,6 +94,7 @@ export function populateSvgSlots(svgRoot, sourceCode, slotBinding, row = {}, opt
       targetTextAfter: value,
       matchedBy: match.matchedBy,
       reason: match.reason,
+      nativeSlotKey: match.nativeSlotKey || '',
       factLabel: fact.label,
       factPath: fact.path,
       displayValue: value,
@@ -155,6 +157,8 @@ export function slotDiagnosticsSummary(slotPopulation) {
       status: slot.status,
       confidence: slot.confidence,
       reason: slot.reason,
+      matchedBy: slot.matchedBy || [],
+      nativeSlotKey: slot.nativeSlotKey || '',
       targetPath: slot.targetPath || '',
       targetTextBefore: slot.targetTextBefore || '',
       targetTextAfter: slot.targetTextAfter || '',
@@ -171,13 +175,17 @@ export function slotDiagnosticsSummary(slotPopulation) {
 }
 
 export function matchTargetForSlot(inventory, slotLabel, slot, options = {}) {
+  const usedNodes = options.usedNodes || new Set();
+  const direct = findDirectNativeSlotCandidate(inventory, slotLabel, slot, usedNodes);
+  if (direct) return direct;
+
   const target = slot?.target || {};
   const threshold = Number(options.threshold ?? DEFAULT_CONFIDENCE_THRESHOLD);
   const targetBox = normalizedBox(target.targetBox);
   if (!targetBox) return { confidence: 0, reason: 'slot has no valid targetBox', matchedBy: [] };
 
   const labelCandidates = findLabelCandidates(inventory, slot, target);
-  const targetCandidates = findTargetCandidates(inventory, slotLabel, slot, target, options.usedNodes || new Set());
+  const targetCandidates = findTargetCandidates(inventory, slotLabel, slot, target, usedNodes);
   if (!targetCandidates.length) {
     return {
       confidence: 0,
@@ -205,6 +213,47 @@ export function matchTargetForSlot(inventory, slotLabel, slot, options = {}) {
     best.reason = best.reason || 'placeholder inside targetBox and nearest expected label';
   }
   return best;
+}
+
+function findDirectNativeSlotCandidate(inventory, slotLabel, slot, usedNodes) {
+  const wanted = slotKeyAliases(slotLabel, slot);
+  const candidates = inventory
+    .filter((entry) => entry?.node && !usedNodes.has(entry.node))
+    .map((entry) => {
+      const keys = nativeSlotKeys(entry.node);
+      const nativeSlotKey = keys.find((key) => wanted.has(normalizedKey(key)));
+      if (!nativeSlotKey) return null;
+      return {
+        target: entry,
+        confidence: 0.99,
+        matchedBy: ['nativeSlotKey'],
+        distanceToLabel: 0,
+        nativeSlotKey,
+        reason: `semantic native slot key matched ${nativeSlotKey}`,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.target.path.localeCompare(b.target.path));
+  return candidates[0] || null;
+}
+
+function nativeSlotKeys(node) {
+  return [
+    node?.dataset?.pipetoolsSlotKey,
+    node?.dataset?.pipetoolsNativeSlotKey,
+    stringAttr(node, 'data-pipetools-slot-key'),
+    stringAttr(node, 'data-pipetools-native-slot-key'),
+  ].map((value) => String(value || '').trim()).filter(Boolean);
+}
+
+function slotKeyAliases(slotLabel, slot) {
+  return new Set([
+    slotLabel,
+    slot?.semanticLabel,
+    slot?.displayLabel,
+    ...stringList(slot?.labelText),
+    ...stringList(slot?.suppressOverlayLabels),
+  ].map(normalizedKey).filter(Boolean));
 }
 
 function findLabelCandidates(inventory, slot, target) {
@@ -520,6 +569,7 @@ function notPopulated(sourceCode, slot, confidence, reason, match = {}, cleaned 
     targetTextBefore: match?.target?.text || '',
     targetTextAfter: '',
     matchedBy: match?.matchedBy || [],
+    nativeSlotKey: match?.nativeSlotKey || '',
     reason,
     suppressedOverlayLabels: [],
     cleanedPlaceholderPaths: cleaned.map((entry) => entry.path),
