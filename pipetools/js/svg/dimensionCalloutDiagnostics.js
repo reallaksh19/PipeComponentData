@@ -4,6 +4,7 @@ import { requiredCalloutLabels } from './dimensionCalloutTemplates.js';
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const MAX_SHOWN = 5;
 const MAX_MISSING = 4;
+const CLEANUP_ONLY_SLOT_LABELS = new Set(['outside radius']);
 
 export function renderDimensionCalloutDiagnostics(row, symbol, container, callouts = [], options = {}) {
   const canvas = container?.closest?.('.source-svg-canvas') || container?.querySelector?.('.source-svg-canvas') || document.querySelector('.source-svg-canvas');
@@ -79,7 +80,8 @@ function isHiddenNativeCleanupSlot(slot, { facts, required }) {
   const hasFact = labels.some((label) => facts.has(label));
   const hiddenCount = Number(slot.hiddenGeometryCount || 0) + Number(slot.hiddenArtifactCount || 0);
   const reason = String(slot.reason || slot.purpose || '').toLowerCase();
-  return !isRequired && !hasFact && (hiddenCount > 0 || reason.includes('cleanup'));
+  const cleanupOnlyLabel = labels.some((label) => CLEANUP_ONLY_SLOT_LABELS.has(String(label).trim().toLowerCase()));
+  return !isRequired && !hasFact && (hiddenCount > 0 || reason.includes('cleanup') || cleanupOnlyLabel);
 }
 
 function diagnosticHtml(model) {
@@ -87,13 +89,13 @@ function diagnosticHtml(model) {
     ? model.shown.map((item) => `<span title="${esc(item.path || item.label)}"><b>${esc(item.label)}</b>${esc(item.value)}<em>${esc(item.source || item.path || 'row')}</em></span>`).join('')
     : '<span class="muted">No rendered DB dimension callouts.</span>';
   const missing = model.missing.length
-    ? model.missing.map((label) => `<span class="missing-chip">${esc(label)}</span>`).join('')
-    : '<span class="ok-chip">Major dimensions available</span>';
+    ? `<div class="dimension-diagnostics-missing"><b>Missing major</b>${model.missing.map((label) => `<span class="missing-chip">${esc(label)}</span>`).join('')}</div>`
+    : '<div class="dimension-diagnostics-missing"><span class="ok-chip">Major dimensions available</span></div>';
   const nativeStatus = nativeStatusText(model);
   return `<strong>DB callout evidence</strong>
     <div class="dimension-diagnostics-summary">${esc(model.sourceCode)} · ${esc(model.renderedCount)} overlay callouts${nativeStatus} · ${esc(model.totalFacts)} DB facts</div>
     <div class="dimension-diagnostics-section">${shown}</div>
-    <div class="dimension-diagnostics-missing"><b>Missing major</b>${missing}</div>`;
+    ${missing}`;
 }
 
 function nativeStatusText(model) {
