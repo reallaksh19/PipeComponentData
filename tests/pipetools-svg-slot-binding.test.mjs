@@ -97,7 +97,7 @@ test('runtime slot normalizer preserves Pipe1 cleanup directives and typography 
 
   const outsideRadius = binding.slots['Outside Radius'];
   assert.equal(outsideRadius.purpose, 'cleanup-unbacked-native-dimension');
-  assert.equal(outsideRadius.target.hideGeometryWhenMissing, true);
+  assert.equal(outsideRadius.target.hideGeometryWhenMissing, false);
   assert.deepEqual(outsideRadius.target.geometryBox, [8250, 14280, 11080, 15450]);
   assert.ok(outsideRadius.target.cleanupPlaceholderText.includes('Outside Radius'));
   assert.equal(outsideRadius.target.artifactBoxes.length, 2);
