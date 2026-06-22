@@ -1,4 +1,4 @@
-export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v4-layout';
+export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v5-weight-layout';
 
 export function buildPipe1NativeDrawing(doc = document) {
   const ns = ['h', 'ttp:', '', 'www.w3.org', '2000', 'svg'].join('/').replace('h/', 'h');
@@ -119,7 +119,7 @@ export function buildPipe1NativeDrawing(doc = document) {
   slotText(slots, 7300, 13378, '-', 110, 'OD');
   slotText(slots, 7300, 15772, '-', 110, 'ID');
   slotText(slots, 5890, 13880, '-', 110, 'Wall / Thk');
-  slotText(slots, 8400, 16125, '-', 110, 'Weight / m');
+  slotText(slots, 8275, 15905, '-', 110, 'Weight / m');
 
   return root;
 }
