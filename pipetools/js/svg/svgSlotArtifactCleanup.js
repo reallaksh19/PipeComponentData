@@ -74,6 +74,8 @@ function hideArtifactsInBox(svgRoot, slotLabel, artifact, options, hiddenNodes) 
 }
 
 function artifactNodeAllowed(node, artifact = {}) {
+  if (isProtectedNativeSlotNode(node)) return false;
+
   const tag = tagName(node);
   const tags = stringList(artifact.tags).map((item) => item.toLowerCase());
   if (tags.length && !tags.includes(tag)) return false;
@@ -85,6 +87,15 @@ function artifactNodeAllowed(node, artifact = {}) {
   }
 
   return true;
+}
+
+function isProtectedNativeSlotNode(node) {
+  if (!node?.getAttribute) return false;
+  return node.getAttribute('data-pipetools-source-backed') === 'true'
+    || node.getAttribute('data-pipetools-native-value') === 'true'
+    || node.getAttribute('data-pipetools-pipe1-value-slot') === 'true'
+    || node.getAttribute('data-pipetools-pipe1-static-label') === 'true'
+    || Boolean(node.getAttribute('data-pipetools-slot-key'));
 }
 
 function artifactNodeBBox(node, root, artifact = {}, options = {}) {
@@ -283,25 +294,6 @@ function indexAmongSameTag(node) {
   return 1;
 }
 
-function strokeColor(node) {
-  const direct = stringAttr(node, 'stroke');
-  if (direct) return direct;
-  const style = stringAttr(node, 'style');
-  const match = style.match(/(?:^|;)\s*stroke\s*:\s*([^;]+)/i);
-  return match?.[1] || '';
-}
-
-function normalizeColor(value) {
-  const text = String(value || '').trim().toLowerCase();
-  if (!text || text === 'none') return '';
-  if (text === 'blue') return '#0000ff';
-  if (text === 'cyan' || text === 'aqua') return '#00ffff';
-  if (text === 'lime' || text === 'green') return '#00ff00';
-  const rgb = text.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i);
-  if (rgb) return `#${rgb.slice(1).map((part) => Number(part).toString(16).padStart(2, '0')).join('')}`;
-  return text;
-}
-
 function boxIntersectsObject(box, objectBox) {
   if (!box || !objectBox) return false;
   const other = [objectBox.x, objectBox.y, objectBox.x + objectBox.width, objectBox.y + objectBox.height];
@@ -319,12 +311,16 @@ function boxFromPoints(points) {
 }
 
 function parsePointList(value) {
-  const numbers = String(value || '').match(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?/gi)?.map(Number).filter(Number.isFinite) || [];
+  const numbers = parseNumberList(value);
   const points = [];
   for (let index = 0; index + 1 < numbers.length; index += 2) {
     points.push({ x: numbers[index], y: numbers[index + 1] });
   }
   return points;
+}
+
+function parseNumberList(value) {
+  return String(value || '').match(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?/gi)?.map(Number).filter(Number.isFinite) || [];
 }
 
 function inheritedNumberAttr(node, name) {
@@ -342,6 +338,30 @@ function firstNumberAttr(node, name) {
   const first = String(raw || '').split(/[\s,]+/).find(Boolean);
   const value = Number(first);
   return Number.isFinite(value) ? value : NaN;
+}
+
+function strokeColor(node) {
+  const own = stringAttr(node, 'stroke');
+  if (own) return own;
+  let current = node.parentElement || node.parentNode;
+  while (current) {
+    const value = stringAttr(current, 'stroke');
+    if (value) return value;
+    current = current.parentElement || current.parentNode;
+  }
+  return '';
+}
+
+function normalizeColor(value) {
+  const text = String(value || '').trim().toLowerCase();
+  if (!text || text === 'none') return '';
+  if (text === '#00f') return '#0000ff';
+  if (text === '#0f0') return '#00ff00';
+  if (text === 'blue') return '#0000ff';
+  if (text === 'green' || text === 'lime') return '#00ff00';
+  const rgb = text.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i);
+  if (rgb) return `#${rgb.slice(1).map((part) => Number(part).toString(16).padStart(2, '0')).join('')}`;
+  return text;
 }
 
 function tagName(node) {
