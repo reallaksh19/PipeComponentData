@@ -152,9 +152,9 @@ function styleDeclaration(styleText, onChange) {
   };
 }
 
-function inventoryEntry(text, x, y, path) {
-  const node = new TextNode(text);
-  return { path, node, text, normalizedText: String(text).toLowerCase(), rawText: text, x, y, bbox: { x, y, width: 10, height: 10 }, center: { x, y }, tagName: 'text', parentPath: 'svg[1]', transform: '', className: '', style: '' };
+function inventoryEntry(text, x, y, path, attrs = {}) {
+  const node = new TextNode(text, attrs);
+  return { path, node, text, normalizedText: String(text).toLowerCase(), rawText: text, x, y, bbox: { x, y, width: 10, height: 10 }, center: { x, y }, tagName: 'text', parentPath: 'svg[1]', transform: '', className: node.className || '', style: String(node.style || '') };
 }
 
 function boxCenter(box) {
@@ -169,7 +169,7 @@ function inventoryFor(binding) {
     const target = boxCenter(slot.target.targetBox);
     if (target) {
       const placeholder = slot.target.placeholderText?.[0] || slot.target.allowedExistingText?.[0] || slot.labelText?.[0] || label;
-      entries.push(inventoryEntry(placeholder, target.x, target.y, `svg[1]/text[target-${index}]`));
+      entries.push(inventoryEntry(placeholder, target.x, target.y, `svg[1]/text[target-${index}]`, { 'data-pipetools-slot-key': label }));
     }
     const labelPoint = boxCenter(slot.target.labelBox);
     const labelText = slot.labelText?.[0] || slot.displayLabel || label;
