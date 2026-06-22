@@ -251,6 +251,11 @@ function scheduleStoredOffset(container, result) {
   const panel = container.closest?.('#source-svg-panel');
   if (panel) panel.dataset.currentSourceCode = result.sourceCode || '';
   nextFrame(async () => {
+    if (result.sourceCode === PIPE1_SOURCE_CODE) {
+      const measured = computeAutoSourceSvgOffset(container);
+      applyPanelOffset(container, measured, result.sourceCode);
+      return;
+    }
     const stored = await loadSourceSvgOffset(result.sourceCode);
     const measured = stored?.source === 'built-in-default' ? computeAutoSourceSvgOffset(container) : null;
     const offset = measured || stored;
