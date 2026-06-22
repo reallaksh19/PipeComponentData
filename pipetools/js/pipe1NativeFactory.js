@@ -1,4 +1,4 @@
-export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v3';
+export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v4-layout';
 
 export function buildPipe1NativeDrawing(doc = document) {
   const ns = ['h', 'ttp:', '', 'www.w3.org', '2000', 'svg'].join('/').replace('h/', 'h');
@@ -59,13 +59,16 @@ export function buildPipe1NativeDrawing(doc = document) {
     'stroke-linejoin': 'round',
     ...extra,
   }, value);
-  const labelText = (parent, x, y, value, size = 72) => textNode(parent, x, y, value, size, {
+  const labelText = (parent, x, y, value, size = 86, extra = {}) => textNode(parent, x, y, value, size, {
     fill: '#047857',
     stroke: '#ffffff',
-    'stroke-width': 1.4,
+    'stroke-width': 1.8,
+    'font-weight': 700,
     'data-pipetools-pipe1-static-label': 'true',
+    ...extra,
   });
   const slotText = (parent, x, y, value = '-', size = 110, slotKey = '', extra = {}) => textNode(parent, x, y, value, size, {
+    'text-anchor': 'middle',
     'data-pipetools-pipe1-value-slot': 'true',
     'data-pipetools-slot-key': slotKey,
     ...extra,
@@ -107,16 +110,16 @@ export function buildPipe1NativeDrawing(doc = document) {
   textNode(cleanup, 8500, 15010, 'Outside Radius', 90, { 'data-pipetools-outside-radius-label': 'true' });
 
   const labels = add(drawing, names.group, { 'data-pipetools-pipe1-static-labels': 'true' });
-  labelText(labels, 6360, 13518, 'OD');
-  labelText(labels, 6360, 15703, 'ID');
-  labelText(labels, 5100, 13685, 'Wall / Thk');
-  labelText(labels, 7200, 16088, 'Weight / m');
+  labelText(labels, 6360, 13545, 'OD', 82);
+  labelText(labels, 6360, 15728, 'ID', 82);
+  labelText(labels, 5080, 13680, 'Wall / Thk', 90);
+  labelText(labels, 7200, 16125, 'Weight / m', 82);
 
   const slots = add(drawing, names.group, { 'data-pipetools-pipe1-native-slots': 'true' });
-  slotText(slots, 7000, 13520, '-', 110, 'OD');
-  slotText(slots, 7000, 15705, '-', 110, 'ID');
-  slotText(slots, 5700, 13850, '-', 110, 'Wall / Thk');
-  slotText(slots, 8105, 16090, '-', 110, 'Weight / m');
+  slotText(slots, 7300, 13378, '-', 110, 'OD');
+  slotText(slots, 7300, 15772, '-', 110, 'ID');
+  slotText(slots, 5890, 13880, '-', 110, 'Wall / Thk');
+  slotText(slots, 8400, 16125, '-', 110, 'Weight / m');
 
   return root;
 }
