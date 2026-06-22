@@ -21,9 +21,9 @@
       "preferredValueKeys": ["OD", "Outer Dia", "outerDiameterMm", "odMm", "dimensions.odMm"],
       "format": "diameter-mm",
       "target": {
-        "targetBox": [6800, 13300, 8200, 13650],
-        "labelBox": [6300, 13280, 6750, 13680],
-        "cleanupBox": [6750, 13080, 8250, 13720],
+        "targetBox": [6700, 13240, 7950, 13570],
+        "labelBox": [6300, 13360, 6720, 13660],
+        "cleanupBox": [6600, 13080, 8250, 13720],
         "geometryBox": [6100, 12550, 8650, 13880],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
@@ -40,7 +40,7 @@
         "placeholderText": ["-", "—", "–"],
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Outside Diameter", "OD"],
-        "maxDistanceFromLabel": 1100,
+        "maxDistanceFromLabel": 1150,
         "expectedPosition": "above pipe outside-diameter dimension value slot",
         "replaceMode": "textContent"
       },
@@ -53,9 +53,9 @@
       "preferredValueKeys": ["ID", "Inside Dia", "innerDiameterMm", "idMm", "dimensions.idMm"],
       "format": "diameter-mm",
       "target": {
-        "targetBox": [6800, 15480, 8250, 15820],
-        "labelBox": [6300, 15460, 6750, 15840],
-        "cleanupBox": [6750, 15440, 8300, 15920],
+        "targetBox": [6700, 15610, 7950, 15960],
+        "labelBox": [6300, 15570, 6720, 15890],
+        "cleanupBox": [6600, 15440, 8300, 16040],
         "geometryBox": [6100, 15150, 8500, 16080],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
@@ -72,7 +72,7 @@
         "placeholderText": ["-", "—", "–"],
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Inside Diameter", "ID"],
-        "maxDistanceFromLabel": 1100,
+        "maxDistanceFromLabel": 1150,
         "expectedPosition": "below pipe inside-diameter dimension value slot",
         "replaceMode": "textContent"
       },
@@ -85,9 +85,9 @@
       "preferredValueKeys": ["Wall / Thk", "Thickness", "wallThicknessMm", "thicknessMm", "dimensions.wallThicknessMm", "dimensions.thicknessMm"],
       "format": "mm",
       "target": {
-        "targetBox": [5550, 13550, 6550, 13950],
-        "labelBox": [5000, 13520, 5500, 14020],
-        "cleanupBox": [5520, 13480, 6650, 14050],
+        "targetBox": [5520, 13680, 6550, 14050],
+        "labelBox": [5000, 13520, 5500, 13960],
+        "cleanupBox": [5450, 13480, 6700, 14100],
         "geometryBox": [4300, 13200, 6900, 14500],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
@@ -157,10 +157,10 @@
       "preferredValueKeys": ["Weight / m", "weightKgPerM", "weights.kgPerM"],
       "format": "kg-per-m",
       "target": {
-        "targetBox": [8050, 15880, 8550, 16140],
-        "labelBox": [7100, 15840, 8050, 16150],
-        "cleanupBox": [8050, 15800, 8700, 16200],
-        "geometryBox": [5200, 15750, 8700, 16600],
+        "targetBox": [8040, 15980, 8850, 16300],
+        "labelBox": [7100, 15950, 8050, 16260],
+        "cleanupBox": [8000, 15800, 8900, 16340],
+        "geometryBox": [5200, 15750, 9000, 16600],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
           {
@@ -182,7 +182,7 @@
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Kg/Mtr", "kg/m"],
         "unitTextNearby": ["Weight", "Weight / m"],
-        "maxDistanceFromLabel": 1000,
+        "maxDistanceFromLabel": 1300,
         "expectedPosition": "first weight table value cell",
         "replaceMode": "textContent"
       },
