@@ -68,13 +68,23 @@ function inventoryEntry(text, x, y, path, node = new TestNode('text', {}, text))
   };
 }
 
+function boxCenter(box) {
+  if (!Array.isArray(box) || box.length !== 4) return null;
+  return { x: (box[0] + box[2]) / 2, y: (box[1] + box[3]) / 2 };
+}
+
 function inventoryForPopulatedPipe1Slots(binding) {
-  return ['OD', 'ID', 'Wall / Thk', 'Weight / m'].map((label, index) => {
+  const entries = [];
+  let index = 1;
+  for (const label of ['OD', 'ID', 'Wall / Thk', 'Weight / m']) {
     const slot = binding.slots[label];
-    const [x1, y1, x2, y2] = slot.target.targetBox;
-    const text = slot.target.allowedExistingText?.[0] || slot.labelText?.[0] || label;
-    return inventoryEntry(text, (x1 + x2) / 2, (y1 + y2) / 2, `svg[1]/text[${index + 1}]`);
-  });
+    const target = boxCenter(slot.target.targetBox);
+    const labelPoint = boxCenter(slot.target.labelBox);
+    if (target) entries.push(inventoryEntry('-', target.x, target.y, `svg[1]/text[target-${index}]`));
+    if (labelPoint) entries.push(inventoryEntry(slot.labelText?.[0] || label, labelPoint.x, labelPoint.y, `svg[1]/text[label-${index}]`));
+    index += 1;
+  }
+  return entries;
 }
 
 test('Pipe1 missing Outside Radius clears native label and suppresses only its native scaffold', async () => {
