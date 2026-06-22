@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { selectedRowForId } from '../pipetools/js/pipespecState.js';
 
 await import('./pipetools-pipe1-native-cleanup.test.mjs');
 
@@ -42,6 +43,16 @@ test('DXF behavior modules no longer import manual anchor infrastructure', async
     assert.doesNotMatch(text, /symbolAnchorStore|manual-anchor|PipeToolsSymbolAnchor/, `${relativePath} must not retain manual anchor overlay references`);
   }
   assert.equal(existsSync(path.join(repoRoot, 'pipetools/symbols/dxf/anchors')), false);
+});
+
+test('selected row id resolves to the visible row object for SVG preview', () => {
+  const rows = [
+    { id: 'PIPE_STD_001', nps: '1/2', componentType: 'PIPE' },
+    { id: 'PIPE_STD_002', nps: '3/4', componentType: 'PIPE' },
+  ];
+  assert.equal(selectedRowForId(rows, 'PIPE_STD_002'), rows[1]);
+  assert.equal(selectedRowForId(rows, 'MISSING'), null);
+  assert.equal(selectedRowForId(rows, null), null);
 });
 
 test('source-backed dimension display keeps evidence labels and placeholder policy', async () => {
