@@ -90,7 +90,9 @@ test('Pipe1 native value typography has bounded source-scale and CSS override fo
   assert.ok(Number(style.strokeWidth) <= 4, 'Pipe1 native stroke halo is oversized');
   const css = await readFile(path.join(repoRoot, 'pipetools/pipetools.css'), 'utf8');
   assert.match(css, /\[data-pipetools-native-value="true"\]/);
+  assert.match(css, /\[data-pipetools-native-value="true"\]\s*\*/);
   assert.match(css, /font-size:\s*124px\s*!important/);
+  assert.match(css, /rect\.BoundingBox\s*\{\s*display:\s*none\s*!important/);
   assert.doesNotMatch(css, /font-size:\s*2[0-9]{2}px\s*!important/);
 });
 
@@ -104,7 +106,7 @@ test('Pipe1 cleanup-only Outside Radius is hidden without becoming evidence slot
     ...pipe1Inventory(binding, ['OD', 'ID', 'Wall / Thk', 'Weight / m']),
     inventoryEntry('Outside Radius', 8900, 15000, 'svg[1]/text[outside-radius]', outsideText),
   ];
-  const outsideRadiusLine = new TestNode('line', { x1: '8355', y1: '14874', x2: '10600', y2: '14874', stroke: 'rgb(0,255,0)' });
+  const outsideRadiusLine = new TestNode('line', { x1: '8355', y1: '14874', x2: '12000', y2: '14874', stroke: 'rgb(0,255,0)' });
   const outsideRadiusArrow = new TestNode('line', { x1: '8355', y1: '14491', x2: '8379', y2: '14578', stroke: 'rgb(0,255,0)' });
   const pipeRightEdge = new TestNode('line', { x1: '8012', y1: '14312', x2: '8012', y2: '13359', stroke: 'rgb(0,255,0)' });
   const unrelatedGreenLine = new TestNode('line', { x1: '5499', y1: '13632', x2: '6437', y2: '13632', stroke: 'rgb(0,255,0)' });
