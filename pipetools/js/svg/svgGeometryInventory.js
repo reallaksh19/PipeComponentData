@@ -6,6 +6,7 @@ import {
 } from './svgTextInventory.js';
 
 const GEOMETRY_SELECTOR = 'path,line,polyline,polygon,rect,circle,ellipse,text,tspan';
+const NON_RENDERED_ANCESTOR_TAGS = new Set(['defs', 'clippath', 'font', 'glyph', 'marker', 'mask', 'metadata', 'pattern', 'symbol']);
 const IDENTITY_MATRIX = [1, 0, 0, 1, 0, 0];
 
 export function buildSvgGeometryInventory(svgRoot, options = {}) {
@@ -14,7 +15,7 @@ export function buildSvgGeometryInventory(svgRoot, options = {}) {
 
   const includeHidden = options.includeHidden !== false;
   const measure = typeof options.measureSvgElement === 'function' ? options.measureSvgElement : null;
-  const nodes = safeQueryAll(root, GEOMETRY_SELECTOR);
+  const nodes = safeQueryAll(root, GEOMETRY_SELECTOR).filter((node) => !hasNonRenderedAncestor(node, root));
 
   return nodes
     .map((node) => geometryEntry(node, root, measure))
@@ -31,6 +32,7 @@ export function isSvgGeometryVisible(node) {
   if (!node) return false;
   let current = node;
   while (current) {
+    if (current !== node && NON_RENDERED_ANCESTOR_TAGS.has(tagName(current))) return false;
     const display = stringAttr(current, 'display') || styleValue(current, 'display');
     if (String(display).trim().toLowerCase() === 'none') return false;
     const visibility = stringAttr(current, 'visibility') || styleValue(current, 'visibility');
@@ -116,10 +118,10 @@ function staticNodeBox(node) {
     if (points.length) return boxFromPoints(points);
   }
   if (tag === 'text' || tag === 'tspan') {
-    const x = firstNumberAttr(node, 'x');
-    const y = firstNumberAttr(node, 'y');
+    const x = inheritedNumberAttr(node, 'x');
+    const y = inheritedNumberAttr(node, 'y');
     const text = String(node.textContent || '').trim();
-    const fontSize = firstNumberAttr(node, 'font-size') || styleNumber(node, 'font-size') || 100;
+    const fontSize = inheritedNumberAttr(node, 'font-size') || inheritedStyleNumber(node, 'font-size') || 100;
     if (Number.isFinite(x) && Number.isFinite(y)) {
       return { x, y: y - fontSize, width: Math.max(fontSize, text.length * fontSize * 0.55), height: fontSize };
     }
@@ -221,6 +223,26 @@ function firstNumberAttr(node, name) {
   return Number.isFinite(value) ? value : NaN;
 }
 
+function inheritedNumberAttr(node, name) {
+  let current = node;
+  while (current) {
+    const value = firstNumberAttr(current, name);
+    if (Number.isFinite(value)) return value;
+    current = current.parentElement || current.parentNode || null;
+  }
+  return NaN;
+}
+
+function inheritedStyleNumber(node, name) {
+  let current = node;
+  while (current) {
+    const value = styleNumber(current, name);
+    if (Number.isFinite(value)) return value;
+    current = current.parentElement || current.parentNode || null;
+  }
+  return NaN;
+}
+
 function styleNumber(node, name) {
   const value = Number(styleValue(node, name));
   return Number.isFinite(value) ? value : NaN;
@@ -247,6 +269,15 @@ function safeQueryAll(root, selector) {
   } catch {
     return [];
   }
+}
+
+function hasNonRenderedAncestor(node, root) {
+  let current = node;
+  while (current && current !== root) {
+    current = current.parentElement || current.parentNode || null;
+    if (current && NON_RENDERED_ANCESTOR_TAGS.has(tagName(current))) return true;
+  }
+  return false;
 }
 
 function tagName(node) {
