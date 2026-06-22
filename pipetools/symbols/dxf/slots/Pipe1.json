@@ -40,7 +40,7 @@
         "placeholderText": ["-", "—", "–"],
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Outside Diameter", "OD"],
-        "maxDistanceFromLabel": 900,
+        "maxDistanceFromLabel": 1100,
         "expectedPosition": "above pipe outside-diameter dimension value slot",
         "replaceMode": "textContent"
       },
@@ -72,7 +72,7 @@
         "placeholderText": ["-", "—", "–"],
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Inside Diameter", "ID"],
-        "maxDistanceFromLabel": 900,
+        "maxDistanceFromLabel": 1100,
         "expectedPosition": "below pipe inside-diameter dimension value slot",
         "replaceMode": "textContent"
       },
