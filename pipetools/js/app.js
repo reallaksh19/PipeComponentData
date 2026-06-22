@@ -4,7 +4,7 @@ import { loadComponentRows } from './loaders/componentLoader.js';
 import { filterPipeSpecRows } from './pipespecFilters.js';
 import { applySearchResultToState, runPipeSpecSearch } from './pipespecAdapters.js';
 import { actionFromFilterKey, createInitialPipeSpecState, reducePipeSpecState } from './pipespecState.js';
-import { renderDashboards, renderMain, renderTabs } from './render.js';
+import { renderDashboards, renderMain, renderTabs } from './render.js?v=pipe1-native-recovery-20260622b';
 import { updateUiScope } from './uiScopePatch.js';
 
 const DATA_ROOT = '..';
