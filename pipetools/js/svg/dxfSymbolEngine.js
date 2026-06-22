@@ -10,6 +10,12 @@ import { populateSvgSlots, slotDiagnosticsSummary } from './svgSlotPopulator.js'
 const MANIFEST_JSON_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.json', import.meta.url).href;
 const MANIFEST_JS_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.js', import.meta.url).href;
 const FETCH_TIMEOUT_MS = 6000;
+const PIPE1_SOURCE_CODE = 'Pipe1';
+const PIPE1_LEGACY_VIEW_BOX = Object.freeze({ x: 5000, y: 12750, width: 5250, height: 4100 });
+const SVG_ROOT_RE = new RegExp(String.raw`<` + String.raw`svg[\s>]`, 'i');
+const SCRIPT_TAG_RE = new RegExp(String.raw`<` + String.raw`script[\s>]`, 'i');
+const XML_DECL_RE = new RegExp(String.raw`^\s*<\?xml[\s\S]*?\?>`, 'i');
+const DOCTYPE_RE = new RegExp(String.raw`<!DOCTYPE[\s\S]*?>`, 'i');
 
 let manifestPromise;
 let manifestUrl = MANIFEST_JSON_URL;
@@ -157,7 +163,7 @@ async function mountImageFallback(container, result, reason, row) {
   img.onerror = () => {
     clearDimensionCallouts(container);
     clearDimensionCalloutDiagnostics(container);
-    container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(reason)}</div>`;
+    renderSvgUnavailable(container, reason);
   };
   const callouts = renderDimensionCallouts(row, result.symbol, viewport, { suppressLabels: [] });
   renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts, { slotPopulation: viewport.__pipeToolsNativeSvgSlots });
@@ -167,14 +173,14 @@ async function mountImageFallback(container, result, reason, row) {
 
 function cleanSvgDocument(svgText) {
   return String(svgText || '')
-    .replace(/^\s*<\?xml[\s\S]*?\?>/i, '')
-    .replace(/<!DOCTYPE[\s\S]*?>/i, '')
+    .replace(XML_DECL_RE, '')
+    .replace(DOCTYPE_RE, '')
     .trim();
 }
 
 function parseSvgNode(svgText) {
   const cleaned = cleanSvgDocument(svgText);
-  if (!/<svg[\s>]/i.test(cleaned) || /<script[\s>]/i.test(cleaned)) return null;
+  if (!SVG_ROOT_RE.test(cleaned) || SCRIPT_TAG_RE.test(cleaned)) return null;
   const parser = new DOMParser();
   const doc = parser.parseFromString(cleaned, 'image/svg+xml');
   if (doc.querySelector('parsererror')) return null;
@@ -211,6 +217,15 @@ function metaNode(result, mode = 'inline') {
   meta.className = 'source-svg-meta';
   meta.textContent = `DXF ${result.sourceCode} · ${result.symbol.family} · ${result.symbol.subtype || '—'} · ${mode}`;
   return meta;
+}
+
+function renderSvgUnavailable(container, reason) {
+  const node = document.createElement('div');
+  node.className = 'svg-unavailable';
+  const title = document.createElement('strong');
+  title.textContent = 'SVG_NOT_AVAILABLE';
+  node.append(title, document.createElement('br'), document.createTextNode(esc(reason)));
+  container.replaceChildren(node);
 }
 
 function applyPanelOffset(container, offset, sourceCode) {
@@ -250,6 +265,14 @@ function tightenViewBox(svg) {
   svg.setAttribute('viewBox', `${roundBoxValue(box.x - pad)} ${roundBoxValue(box.y - pad)} ${roundBoxValue(box.width + pad * 2)} ${roundBoxValue(box.height + pad * 2)}`);
   svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
   svg.dataset.pipetoolsTightViewBox = 'source-geometry';
+}
+
+function recoverPipe1LegacyViewBox(svg) {
+  if (!svg?.setAttribute) return;
+  const box = PIPE1_LEGACY_VIEW_BOX;
+  svg.setAttribute('viewBox', `${box.x} ${box.y} ${box.width} ${box.height}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  svg.dataset.pipetoolsTightViewBox = 'pipe1-legacy-recovered';
 }
 
 function sourceContentBox(svg) {
@@ -306,7 +329,7 @@ export async function mountDxfSymbolSvg(row, container) {
     if (result.status !== 'OK') {
       clearDimensionCallouts(container);
       clearDimensionCalloutDiagnostics(container);
-      container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(result.reason)}</div>`;
+      renderSvgUnavailable(container, result.reason);
       return result;
     }
     const slotPromise = loadSvgSlotBinding(result.sourceCode);
@@ -317,7 +340,8 @@ export async function mountDxfSymbolSvg(row, container) {
     const slotBinding = await slotPromise;
     const viewport = sourceViewport(svgNode);
     container.replaceChildren(viewport, metaNode(result));
-    tightenViewBox(svgNode);
+    if (result.sourceCode === PIPE1_SOURCE_CODE) recoverPipe1LegacyViewBox(svgNode);
+    else tightenViewBox(svgNode);
     const slotPopulation = populateSvgSlots(svgNode, result.sourceCode, slotBinding, row);
     suppressSvgSlotArtifacts(svgNode, slotBinding, slotPopulation);
     removePlaceholderText(svgNode);
@@ -333,7 +357,7 @@ export async function mountDxfSymbolSvg(row, container) {
     clearDimensionCallouts(container);
     clearDimensionCalloutDiagnostics(container);
     const failed = { status: 'SVG_NOT_AVAILABLE', reason: error.message || 'DXF symbol lookup failed', symbol: null };
-    container.innerHTML = `<div class="svg-unavailable"><strong>SVG_NOT_AVAILABLE</strong><br>${esc(failed.reason)}</div>`;
+    renderSvgUnavailable(container, failed.reason);
     return failed;
   }
 }
