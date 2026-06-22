@@ -52,8 +52,13 @@ export function clearInvalidSelections(state, rows = []) {
   const filters = normalizeFilters(state.filters ?? {});
   if (!isFacingApplicable(filters)) filters.facing = null;
   const visibleRows = filterPipeSpecRows(rows, filters);
-  const selectedRowId = visibleRows.some((row) => row.id === state.selectedRowId) ? state.selectedRowId : null;
+  const selectedRowId = visibleRows.some((row) => sameRowId(row?.id, state.selectedRowId)) ? state.selectedRowId : null;
   return { ...state, filters, selectedRowId };
+}
+
+export function selectedRowForId(rows = [], selectedRowId = null) {
+  if (selectedRowId == null || selectedRowId === '') return null;
+  return rows.find((row) => sameRowId(row?.id, selectedRowId)) ?? null;
 }
 
 export function actionFromFilterKey(key, value) {
@@ -67,4 +72,8 @@ function updateFilter(state, key, value) {
 
 function normalizeFilters(filters) {
   return { ...DEFAULT_PIPESPEC_FILTERS, ...toDashboardFilterPatch(filters) };
+}
+
+function sameRowId(left, right) {
+  return String(left ?? '') === String(right ?? '');
 }
