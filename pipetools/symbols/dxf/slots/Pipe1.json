@@ -157,9 +157,9 @@
       "preferredValueKeys": ["Weight / m", "weightKgPerM", "weights.kgPerM"],
       "format": "kg-per-m",
       "target": {
-        "targetBox": [8040, 15980, 8850, 16300],
+        "targetBox": [7800, 15760, 8900, 16030],
         "labelBox": [7100, 15950, 8050, 16260],
-        "cleanupBox": [8000, 15800, 8900, 16340],
+        "cleanupBox": [7750, 15720, 8950, 16080],
         "geometryBox": [5200, 15750, 9000, 16600],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
@@ -175,7 +175,7 @@
             "when": "populated",
             "includeText": true,
             "tags": ["text", "tspan"],
-            "reason": "hide unsupported stale weight table units"
+            "reason": "hide unsupported stale weight table units below native weight value"
           }
         ],
         "placeholderText": ["-", "—", "–"],
@@ -183,7 +183,7 @@
         "allowedExistingText": ["-", "Kg/Mtr", "kg/m"],
         "unitTextNearby": ["Weight", "Weight / m"],
         "maxDistanceFromLabel": 1300,
-        "expectedPosition": "first weight table value cell",
+        "expectedPosition": "native weight value above first weight scaffold line",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["Weight / m", "Weight"]
