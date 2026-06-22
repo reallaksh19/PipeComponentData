@@ -4,6 +4,7 @@ import { computeAutoSourceSvgOffset } from './sourceSvgAutoFit.js';
 import { loadSourceSvgOffset, offsetStatusText } from './sourceSvgOffsetStore.js';
 import { loadSvgSlotBinding } from './svgSlotBindingStore.js';
 import { suppressSvgSlotArtifacts } from './svgSlotArtifactCleanup.js';
+import { computeVisibleSvgBBox } from './svgGeometryInventory.js';
 import { populateSvgSlots, slotDiagnosticsSummary } from './svgSlotPopulator.js';
 
 const MANIFEST_JSON_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.json', import.meta.url).href;
@@ -243,17 +244,42 @@ function scheduleStoredOffset(container, result) {
 }
 
 function tightenViewBox(svg) {
-  requestAnimationFrame(() => {
-    try {
-      const box = svg.getBBox();
-      if (!Number.isFinite(box.width) || !Number.isFinite(box.height) || box.width <= 0 || box.height <= 0) return;
-      const pad = Math.max(box.width, box.height) * 0.08;
-      svg.setAttribute('viewBox', `${box.x - pad} ${box.y - pad} ${box.width + pad * 2} ${box.height + pad * 2}`);
-      svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-    } catch {
-      // Browser may reject getBBox for some imported SVGs; raw viewBox remains valid.
-    }
-  });
+  const box = sourceContentBox(svg);
+  if (!box) return;
+  const pad = Math.max(box.width, box.height) * 0.08;
+  svg.setAttribute('viewBox', `${roundBoxValue(box.x - pad)} ${roundBoxValue(box.y - pad)} ${roundBoxValue(box.width + pad * 2)} ${roundBoxValue(box.height + pad * 2)}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  svg.dataset.pipetoolsTightViewBox = 'source-geometry';
+}
+
+function sourceContentBox(svg) {
+  const inventoryBox = normalizeBoxObject(computeVisibleSvgBBox(svg));
+  if (isUsableBox(inventoryBox)) return inventoryBox;
+  if (typeof svg?.getBBox !== 'function') return null;
+  try {
+    const measured = normalizeBoxObject(svg.getBBox());
+    return isUsableBox(measured) ? measured : null;
+  } catch {
+    return null;
+  }
+}
+
+function normalizeBoxObject(box) {
+  if (!box) return null;
+  const x = Number(box.x);
+  const y = Number(box.y);
+  const width = Number(box.width);
+  const height = Number(box.height);
+  if (![x, y, width, height].every(Number.isFinite) || width <= 0 || height <= 0) return null;
+  return { x, y, width, height };
+}
+
+function isUsableBox(box) {
+  return box && Number.isFinite(box.x) && Number.isFinite(box.y) && box.width > 1 && box.height > 1;
+}
+
+function roundBoxValue(value) {
+  return Math.round(Number(value) * 1000) / 1000;
 }
 
 function attachSlotDiagnostics(viewport, slotPopulation) {
@@ -291,13 +317,13 @@ export async function mountDxfSymbolSvg(row, container) {
     const slotBinding = await slotPromise;
     const viewport = sourceViewport(svgNode);
     container.replaceChildren(viewport, metaNode(result));
+    tightenViewBox(svgNode);
     const slotPopulation = populateSvgSlots(svgNode, result.sourceCode, slotBinding, row);
     suppressSvgSlotArtifacts(svgNode, slotBinding, slotPopulation);
     removePlaceholderText(svgNode);
     viewport.__pipeToolsNativeSvgSlots = slotPopulation;
     viewport.__pipeToolsSuppressedOverlayLabels = slotPopulation.suppressedOverlayLabels;
     attachSlotDiagnostics(viewport, slotPopulation);
-    tightenViewBox(svgNode);
     const callouts = renderDimensionCallouts(row, result.symbol, viewport, { suppressLabels: slotPopulation.suppressedOverlayLabels });
     renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts, { slotPopulation });
     scheduleStoredOffset(container, result);
