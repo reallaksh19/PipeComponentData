@@ -1,3 +1,5 @@
+export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-recovery-20260622';
+
 export function buildPipe1NativeDrawing(doc = document) {
   const ns = ['http:', '', 'www.w3.org', '2000', 'svg'].join('/');
   const names = {
@@ -28,6 +30,7 @@ export function buildPipe1NativeDrawing(doc = document) {
   root.dataset.dxfSymbolSvg = 'true';
   root.dataset.pipetoolsPipe1RecoveredSvg = 'true';
   root.dataset.pipetoolsTightViewBox = 'pipe1-native-recovered';
+  root.dataset.pipetoolsPipe1FactoryVersion = PIPE1_NATIVE_FACTORY_VERSION;
   const drawing = add(root, names.group, { 'data-pipetools-pipe1-drawing': 'true' });
   const strokeLine = (parent, x1, y1, x2, y2, stroke = '#00ff00', width = 28, extra = {}) => add(parent, names.line, { x1, y1, x2, y2, fill: 'none', stroke, 'stroke-width': width, 'stroke-linecap': 'round', ...extra });
   const slotText = (parent, x, y, value, size = 110) => add(parent, names.text, { x, y, 'font-family': 'Inter, Arial, sans-serif', 'font-size': size, 'font-weight': 600, fill: '#101827', stroke: '#ffffff', 'stroke-width': 2, 'paint-order': 'stroke fill', 'stroke-linejoin': 'round' }, value);
