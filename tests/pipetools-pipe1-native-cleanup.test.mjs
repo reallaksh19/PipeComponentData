@@ -182,6 +182,22 @@ test('geometry inventory exposes hidden nodes but visible bbox excludes cleanup 
   assert.deepEqual(computeVisibleSvgBBox(root), { x: 60, y: 60, width: 80, height: 80 });
 });
 
+test('geometry inventory ignores non-rendered SVG defs when computing visible bbox', async () => {
+  const { buildSvgGeometryInventory, computeVisibleSvgBBox } = await import('../pipetools/js/svg/svgGeometryInventory.js');
+  const defs = new TestNode('defs');
+  defs.append(new TestNode('path', { d: 'M 0 0 L 2000 0 L 2000 2000 L 0 2000 Z' }));
+  const clipPath = new TestNode('clipPath');
+  clipPath.append(new TestNode('rect', { x: '0', y: '0', width: '21000', height: '29700' }));
+  const pipeRing = new TestNode('circle', { cx: '7200', cy: '14600', r: '1000', stroke: '#111111', fill: 'none' });
+  const root = new TestNode('svg');
+  for (const node of [defs, clipPath, pipeRing]) root.append(node);
+
+  const all = buildSvgGeometryInventory(root);
+  assert.equal(all.length, 1);
+  assert.equal(all[0].tagName, 'circle');
+  assert.deepEqual(computeVisibleSvgBBox(root), { x: 6200, y: 13600, width: 2000, height: 2000 });
+});
+
 test('manual anchor overlay architecture is not reintroduced', async () => {
   assert.equal(existsSync(path.join(repoRoot, 'pipetools/js/svg/symbolAnchorStore.js')), false);
   assert.equal(existsSync(path.join(repoRoot, 'pipetools/symbols/dxf/anchors')), false);
