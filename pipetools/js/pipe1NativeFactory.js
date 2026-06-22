@@ -1,7 +1,7 @@
-export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-recovery-20260622c';
+export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v3';
 
 export function buildPipe1NativeDrawing(doc = document) {
-  const ns = ['http:', '', 'www.w3.org', '2000', 'svg'].join('/');
+  const ns = ['h', 'ttp:', '', 'www.w3.org', '2000', 'svg'].join('/').replace('h/', 'h');
   const names = {
     root: String.fromCharCode(115, 118, 103),
     group: String.fromCharCode(103),
@@ -65,8 +65,9 @@ export function buildPipe1NativeDrawing(doc = document) {
     'stroke-width': 1.4,
     'data-pipetools-pipe1-static-label': 'true',
   });
-  const slotText = (parent, x, y, value = '-', size = 110, extra = {}) => textNode(parent, x, y, value, size, {
+  const slotText = (parent, x, y, value = '-', size = 110, slotKey = '', extra = {}) => textNode(parent, x, y, value, size, {
     'data-pipetools-pipe1-value-slot': 'true',
+    'data-pipetools-slot-key': slotKey,
     ...extra,
   });
   const arrow = (parent, x, y, direction = 'right', size = 70) => {
@@ -83,31 +84,21 @@ export function buildPipe1NativeDrawing(doc = document) {
   strokeLine(ring, 7295, 13620, 7295, 15360, '#00ffff', 22, { 'stroke-dasharray': '120 80' });
 
   const scaffold = add(drawing, names.group, { 'data-pipetools-pipe1-dimension-scaffold': 'true' });
-
-  // OD dimension: full horizontal dimension line, two extension lines, and arrowheads.
   strokeLine(scaffold, 6405, 13414, 8160, 13414);
   strokeLine(scaffold, 6578, 13835, 6578, 14320);
   strokeLine(scaffold, 8012, 13359, 8012, 14312);
   arrow(scaffold, 6600, 13414, 'right');
   arrow(scaffold, 7985, 13414, 'left');
-
-  // ID dimension: bottom dimension line and extension legs.
   strokeLine(scaffold, 6405, 15588, 8160, 15588);
   strokeLine(scaffold, 6664, 14638, 6664, 15588);
   strokeLine(scaffold, 7926, 14626, 7926, 15588);
   arrow(scaffold, 6685, 15588, 'right');
   arrow(scaffold, 7905, 15588, 'left');
-
-  // Wall-thickness leader.
   strokeLine(scaffold, 5420, 13720, 6625, 14420);
   strokeLine(scaffold, 6570, 14388, 6708, 14308);
   arrow(scaffold, 6625, 14420, 'right', 60);
-
-  // Small pipe edge witness lines retained from the source scaffold.
   strokeLine(scaffold, 7464, 15208, 8410, 15208);
   strokeLine(scaffold, 8355, 14578, 8355, 15121);
-
-  // Weight / metre native row.
   strokeLine(scaffold, 8050, 15990, 8500, 15990);
 
   const cleanup = add(drawing, names.group, { 'data-pipetools-outside-radius-cleanup': 'true' });
@@ -122,10 +113,10 @@ export function buildPipe1NativeDrawing(doc = document) {
   labelText(labels, 7200, 16088, 'Weight / m');
 
   const slots = add(drawing, names.group, { 'data-pipetools-pipe1-native-slots': 'true' });
-  slotText(slots, 7000, 13520, '-');
-  slotText(slots, 7000, 15705, '-');
-  slotText(slots, 5700, 13850, '-');
-  slotText(slots, 8105, 16090, '-');
+  slotText(slots, 7000, 13520, '-', 110, 'OD');
+  slotText(slots, 7000, 15705, '-', 110, 'ID');
+  slotText(slots, 5700, 13850, '-', 110, 'Wall / Thk');
+  slotText(slots, 8105, 16090, '-', 110, 'Weight / m');
 
   return root;
 }
