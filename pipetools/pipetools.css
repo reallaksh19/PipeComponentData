@@ -78,6 +78,7 @@ tr.selected td { background: rgba(56,189,248,.12); }
 .source-svg-viewport { position: relative; width: 96%; height: 96%; display: grid; place-items: center; transform: translate(var(--source-svg-pan-x), var(--source-svg-pan-y)) scale(var(--source-svg-scale)); transform-origin: center; transition: transform .12s ease; will-change: transform; }
 .source-svg-canvas[data-pan-active="true"] .source-svg-viewport { transition: none; }
 .source-svg-viewport [data-dxf-symbol-svg], .source-svg-viewport img.dxf-symbol-img { grid-area: 1 / 1; width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: contain; transform: none !important; }
+.source-svg-viewport [data-pipetools-native-value="true"] { font-family: Inter, Arial, sans-serif !important; font-size: 124px !important; font-weight: 650 !important; fill: #101827 !important; stroke: #fff !important; stroke-width: 2px !important; paint-order: stroke fill !important; stroke-linejoin: round !important; }
 .dimension-callout-layer { grid-area: 1 / 1; position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; overflow: visible; transform: none !important; }
 .dimension-callout-line, .dimension-callout-witness, .dimension-callout-centre-mark { stroke: #0f172a; stroke-width: 3; fill: none; vector-effect: non-scaling-stroke; }
 .dimension-callout-witness { stroke-width: 1.6; stroke-dasharray: 5 5; opacity: .72; }
