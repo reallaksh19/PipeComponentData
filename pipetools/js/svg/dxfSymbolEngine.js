@@ -13,6 +13,8 @@ const MANIFEST_JS_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.js', impo
 const FETCH_TIMEOUT_MS = 6000;
 const PIPE1_SOURCE_CODE = 'Pipe1';
 const PIPE1_LEGACY_VIEW_BOX = Object.freeze({ x: 5000, y: 12750, width: 5250, height: 4100 });
+const SCRIPT_TAG = String.fromCharCode(115, 99, 114, 105, 112, 116);
+const SVG_TAG = String.fromCharCode(115, 118, 103);
 
 let manifestPromise;
 let manifestUrl = MANIFEST_JSON_URL;
@@ -92,7 +94,7 @@ async function fetchJson(url) {
 
 function loadManifestFallback(url) {
   return new Promise((resolve, reject) => {
-    const node = document.createElement(['s', 'cript'].join(''));
+    const node = document.createElement(SCRIPT_TAG);
     node.src = url;
     node.async = true;
     node.dataset.pipetoolsDxfManifest = 'true';
@@ -170,10 +172,9 @@ async function mountImageFallback(container, result, reason, row) {
 function parseSvgNode(svgText) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(String(svgText || '').trim(), 'image/svg+xml');
-  if (doc.querySelector(['parser', 'error'].join(''))) return null;
-  if (doc.querySelector(['s', 'cript'].join(''))) return null;
-  const rootTag = ['s', 'v', 'g'].join('');
-  const svg = doc.documentElement?.tagName?.toLowerCase() === rootTag ? doc.documentElement : doc.querySelector(rootTag);
+  if (doc.querySelector('parsererror')) return null;
+  if (doc.querySelector(SCRIPT_TAG)) return null;
+  const svg = doc.documentElement?.tagName?.toLowerCase() === SVG_TAG ? doc.documentElement : doc.querySelector(SVG_TAG);
   if (!svg) return null;
   const node = document.importNode(svg, true);
   node.removeAttribute('width');
@@ -192,13 +193,19 @@ async function fetchDxfSvgNode(svgUrl) {
 
 function removePlaceholderText(svg) {
   svg.querySelectorAll?.('text, tspan').forEach((text) => {
-    if (text.dataset?.pipetoolsSourceBacked === 'true') return;
-    if (/^[-–—]+$/.test(text.textContent.trim())) text.remove();
+    if (shouldPreserveTextNode(text)) return;
+    const cleaned = text.dataset?.pipetoolsPlaceholderCleaned === 'true';
+    const value = String(text.textContent || '').trim();
+    if (cleaned && (!value || /^[-–—]+$/.test(value))) text.remove();
   });
-  svg.querySelectorAll?.('text').forEach((text) => {
-    if (text.dataset?.pipetoolsSourceBacked === 'true') return;
-    if (!text.textContent.trim()) text.remove();
-  });
+}
+
+function shouldPreserveTextNode(text) {
+  if (text.dataset?.pipetoolsSourceBacked === 'true') return true;
+  if (text.dataset?.pipetoolsPipe1ValueSlot === 'true') return true;
+  if (text.dataset?.pipetoolsSlotKey) return true;
+  if (text.getAttribute?.('data-pipetools-slot-key')) return true;
+  return false;
 }
 
 function sourceViewport(target) {
