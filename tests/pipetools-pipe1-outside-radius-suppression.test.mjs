@@ -79,7 +79,9 @@ function inventoryForPopulatedPipe1Slots(binding) {
 
 test('Pipe1 missing Outside Radius clears native label and suppresses only its native scaffold', async () => {
   const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
+  const { suppressSvgSlotArtifacts } = await import('../pipetools/js/svg/svgSlotArtifactCleanup.js');
   const binding = JSON.parse(await readFile(pipe1SlotPath, 'utf8'));
+  assert.equal(binding.slots['Outside Radius'].target.hideGeometryWhenMissing, false, 'cleanup-only radius must not use broad geometryBox hiding');
 
   const outsideRadiusTextNode = new TestNode('text', { x: '8641', y: '15021', 'font-size': '73' }, 'Outside Radius');
   const inventory = [
@@ -95,6 +97,7 @@ test('Pipe1 missing Outside Radius clears native label and suppresses only its n
   for (const node of [outsideRadiusLine, outsideRadiusArrow, pipeRightEdge, unrelatedGreenLine]) root.append(node);
 
   const result = populateSvgSlots(root, 'Pipe1', binding, pipeRow, { inventory });
+  const artifacts = suppressSvgSlotArtifacts(root, binding, result);
 
   assert.ok(result.missingLabels.includes('Outside Radius'));
   assert.equal(outsideRadiusTextNode.textContent, '');
@@ -103,5 +106,7 @@ test('Pipe1 missing Outside Radius clears native label and suppresses only its n
   assert.equal(outsideRadiusArrow.getAttribute('display'), 'none');
   assert.equal(pipeRightEdge.getAttribute('display'), null);
   assert.equal(unrelatedGreenLine.getAttribute('display'), null);
+  assert.ok(artifacts.hiddenArtifactCount >= 2);
+  assert.ok(result.hiddenArtifactCount >= 2);
   assert.ok(result.hiddenGeometryCount >= 2);
 });
