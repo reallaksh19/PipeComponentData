@@ -4,7 +4,7 @@ import { loadComponentRows } from './loaders/componentLoader.js';
 import { filterPipeSpecRows } from './pipespecFilters.js';
 import { applySearchResultToState, runPipeSpecSearch } from './pipespecAdapters.js';
 import { actionFromFilterKey, createInitialPipeSpecState, reducePipeSpecState } from './pipespecState.js';
-import { renderDashboards, renderMain, renderTabs } from './render.js?v=pipe1-native-recovery-20260622b';
+import { renderDashboards, renderMain, renderTabs } from './render.js?v=pipe1-native-slot-contract-v3';
 import { updateUiScope } from './uiScopePatch.js';
 
 const DATA_ROOT = '..';
@@ -118,59 +118,54 @@ function syncStateFromPipeSpec() {
     query: pipeSpecState.searchQuery,
     chips: pipeSpecState.searchChips,
     matchType: pipeSpecState.matchType ?? 'none',
-  } : state.search;
-  state.currentDbFamily = getDbFamily(state.dbIndex, pipeSpecState.filters.component);
+  } : null;
   state.selectedId = pipeSpecState.selectedRowId;
-  state.selectedRow = state.rows.find((row) => row.id === state.selectedId) ?? null;
-}
-
-function bindSearch() {
-  const input = document.getElementById('global-search');
-  input.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter') return;
-    const searchResult = runPipeSpecSearch(input.value, state.allRows);
-    state.activeModule = 'PipeSpec DB';
-    pipeSpecState = applySearchResultToState(pipeSpecState, searchResult);
-    applyFilters();
-    requestRender();
-  });
+  state.selectedRow = pipeSpecState.selectedRow;
 }
 
 function requestRender() {
-  if (renderGuard.active) {
-    renderGuard.queued = true;
-    return;
-  }
-  render();
-}
-
-function render() {
+  renderGuard.burst += 1;
   if (renderGuard.active) {
     renderGuard.queued = true;
     return;
   }
   renderGuard.active = true;
-  try {
-    renderTabs(state, actions.setModule);
-    renderDashboards(state, actions);
-    renderMain(state, actions);
-    updateUiScope();
-  } catch (error) {
-    showFatal(error);
-  } finally {
+  const burst = renderGuard.burst;
+  requestAnimationFrame(() => {
+    renderGuard.queued = false;
+    renderGuard.burst = 0;
+    render();
     renderGuard.active = false;
-    if (renderGuard.queued && renderGuard.burst < 2) {
-      renderGuard.queued = false;
-      renderGuard.burst += 1;
-      queueMicrotask(requestRender);
-    } else {
-      renderGuard.queued = false;
-      renderGuard.burst = 0;
-    }
-  }
+    if (renderGuard.queued || renderGuard.burst > burst) requestRender();
+  });
 }
 
-function showFatal(error) {
-  const message = error?.message ?? String(error);
-  document.body.innerHTML = `<main class="panel" style="margin:20px;padding:20px">PipeTools failed to load: ${message}</main>`;
+function render() {
+  renderTabs(state, actions);
+  renderDashboards(state, actions);
+  renderMain(state, actions);
+}
+
+function bindSearch() {
+  const input = document.getElementById('global-search');
+  if (!input) return;
+  let timer;
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const query = input.value.trim();
+      if (!query) {
+        pipeSpecState = reducePipeSpecState(pipeSpecState, { type: 'CLEAR_SEARCH' });
+      } else {
+        pipeSpecState = applySearchResultToState(pipeSpecState, runPipeSpecSearch(query, state.allRows));
+      }
+      syncStateFromPipeSpec();
+      requestRender();
+    }, 120);
+  });
+}
+
+async function showFatal(error) {
+  console.error(error);
+  document.body.innerHTML = `<pre style="white-space:pre-wrap;color:#fee2e2;background:#111827;padding:24px;min-height:100vh">PipeTools failed to start\n\n${error?.stack || error?.message || error}</pre>`;
 }
