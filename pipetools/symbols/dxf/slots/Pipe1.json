@@ -3,7 +3,7 @@
   "sourceCode": "Pipe1",
   "strategy": "populate-native-svg-text",
   "coordinateSpace": "source-svg-viewBox",
-  "confidenceThreshold": 0.85,
+  "confidenceThreshold": 0.7,
   "nativeTextStyle": {
     "fontSize": "110",
     "fontFamily": "Inter, Arial, sans-serif",
@@ -23,7 +23,7 @@
       "target": {
         "targetBox": [6800, 13300, 8200, 13650],
         "labelBox": [6300, 13280, 6750, 13680],
-        "cleanupBox": [6750, 13280, 8250, 13720],
+        "cleanupBox": [6750, 13080, 8250, 13720],
         "geometryBox": [6100, 12550, 8650, 13880],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
@@ -40,7 +40,7 @@
         "placeholderText": ["-", "—", "–"],
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Outside Diameter", "OD"],
-        "maxDistanceFromLabel": 900,
+        "maxDistanceFromLabel": 1100,
         "expectedPosition": "above pipe outside-diameter dimension value slot",
         "replaceMode": "textContent"
       },
@@ -72,7 +72,7 @@
         "placeholderText": ["-", "—", "–"],
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Inside Diameter", "ID"],
-        "maxDistanceFromLabel": 900,
+        "maxDistanceFromLabel": 1100,
         "expectedPosition": "below pipe inside-diameter dimension value slot",
         "replaceMode": "textContent"
       },
