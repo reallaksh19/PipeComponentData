@@ -64,8 +64,7 @@ function hideArtifactsInBox(svgRoot, slotLabel, artifact, options, hiddenNodes) 
     if (!artifactNodeAllowed(node, artifact)) continue;
     const bbox = artifactNodeBBox(node, svgRoot, artifact, options);
     if (!bbox) continue;
-    const center = boxCenter(bbox);
-    if (!pointInsideBox(center, box, 0)) continue;
+    if (!artifactNodeMatchesBox(node, bbox, box)) continue;
     hideArtifactNode(node, slotLabel, artifact.reason || 'configured SVG slot artifact');
     hiddenNodes.add(node);
     hidden.push({ path: stableElementPath(node, svgRoot), node, bbox });
@@ -98,6 +97,25 @@ function artifactNodeBBox(node, root, artifact = {}, options = {}) {
   if (maxWidth && box.width > maxWidth) return null;
   if (maxHeight && box.height > maxHeight) return null;
   return box;
+}
+
+function artifactNodeMatchesBox(node, bbox, box) {
+  const center = boxCenter(bbox);
+  if (pointInsideBox(center, box, 0)) return true;
+  if (nodeEndpointInsideBox(node, box)) return true;
+  return boxIntersectsObject(box, bbox);
+}
+
+function nodeEndpointInsideBox(node, box) {
+  const tag = tagName(node);
+  if (tag === 'line') {
+    return pointInsideBox({ x: firstNumberAttr(node, 'x1'), y: firstNumberAttr(node, 'y1') }, box, 0)
+      || pointInsideBox({ x: firstNumberAttr(node, 'x2'), y: firstNumberAttr(node, 'y2') }, box, 0);
+  }
+  if (tag === 'polyline' || tag === 'polygon') {
+    return parsePointList(stringAttr(node, 'points')).some((point) => pointInsideBox(point, box, 0));
+  }
+  return false;
 }
 
 function safeMeasureElement(node, measure) {
@@ -154,10 +172,10 @@ function staticNodeBox(node) {
     if (points.length) return boxFromPoints(points);
   }
   if (tag === 'text' || tag === 'tspan') {
-    const x = firstNumberAttr(node, 'x');
-    const y = firstNumberAttr(node, 'y');
+    const x = inheritedNumberAttr(node, 'x');
+    const y = inheritedNumberAttr(node, 'y');
     const text = String(node.textContent || '').trim();
-    const fontSize = firstNumberAttr(node, 'font-size') || 100;
+    const fontSize = inheritedNumberAttr(node, 'font-size') || 100;
     if (Number.isFinite(x) && Number.isFinite(y)) return { x, y: y - fontSize, width: Math.max(fontSize, text.length * fontSize * 0.55), height: fontSize };
   }
   return null;
@@ -278,9 +296,16 @@ function normalizeColor(value) {
   if (!text || text === 'none') return '';
   if (text === 'blue') return '#0000ff';
   if (text === 'cyan' || text === 'aqua') return '#00ffff';
-  if (text === 'lime') return '#00ff00';
-  if (/^#[0-9a-f]{3}$/i.test(text)) return `#${text[1]}${text[1]}${text[2]}${text[2]}${text[3]}${text[3]}`.toLowerCase();
+  if (text === 'lime' || text === 'green') return '#00ff00';
+  const rgb = text.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i);
+  if (rgb) return `#${rgb.slice(1).map((part) => Number(part).toString(16).padStart(2, '0')).join('')}`;
   return text;
+}
+
+function boxIntersectsObject(box, objectBox) {
+  if (!box || !objectBox) return false;
+  const other = [objectBox.x, objectBox.y, objectBox.x + objectBox.width, objectBox.y + objectBox.height];
+  return !(other[2] < box[0] || other[0] > box[2] || other[3] < box[1] || other[1] > box[3]);
 }
 
 function boxFromPoints(points) {
@@ -302,12 +327,14 @@ function parsePointList(value) {
   return points;
 }
 
-function tagName(node) {
-  return String(node?.tagName || node?.nodeName || '').toLowerCase();
-}
-
-function stringAttr(node, name) {
-  return typeof node?.getAttribute === 'function' ? String(node.getAttribute(name) ?? '').trim() : '';
+function inheritedNumberAttr(node, name) {
+  let current = node;
+  while (current) {
+    const value = firstNumberAttr(current, name);
+    if (Number.isFinite(value)) return value;
+    current = current.parentElement || current.parentNode || null;
+  }
+  return NaN;
 }
 
 function firstNumberAttr(node, name) {
@@ -315,4 +342,12 @@ function firstNumberAttr(node, name) {
   const first = String(raw || '').split(/[\s,]+/).find(Boolean);
   const value = Number(first);
   return Number.isFinite(value) ? value : NaN;
+}
+
+function tagName(node) {
+  return String(node?.tagName || node?.nodeName || '').toLowerCase();
+}
+
+function stringAttr(node, name) {
+  return typeof node?.getAttribute === 'function' ? String(node.getAttribute(name) ?? '').trim() : '';
 }
