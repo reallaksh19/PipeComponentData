@@ -39,15 +39,20 @@ test('DXF behavior modules no longer import manual anchor infrastructure', async
     const text = await readFile(path.join(repoRoot, relativePath), 'utf8');
     assert.doesNotMatch(text, /symbolAnchorStore|manual-anchor|PipeToolsSymbolAnchor/, `${relativePath} must not retain manual anchor overlay references`);
   }
+  assert.equal(existsSync(path.join(repoRoot, 'pipetools/symbols/dxf/anchors')), false);
 });
 
 test('source-backed dimension display keeps evidence labels and placeholder policy', async () => {
   const text = await readFile(path.join(repoRoot, 'pipetools/js/dimensionDisplay.js'), 'utf8');
   for (const required of ['F2F RF', 'OD', 'ID', 'Wall / Thk', 'RF dia', 'PCD', 'Bolt count', 'Weight / m']) {
-    assert.match(text, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    assert.match(text, new RegExp(required.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')));
   }
   assert.match(text, /function makeFact/);
   assert.match(text, /match\.value == null \|\| match\.value === ''/);
+});
+
+test('Pipe1 native cleanup regression suite is committed', async () => {
+  assert.ok(existsSync(path.join(repoRoot, 'tests/pipetools-pipe1-native-cleanup.test.mjs')));
 });
 
 test('template fallback and slot validators required by CI are committed', async () => {
