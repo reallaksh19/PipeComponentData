@@ -55,7 +55,7 @@
       "target": {
         "targetBox": [6700, 15610, 7950, 15960],
         "labelBox": [6300, 15570, 6720, 15890],
-        "cleanupBox": [6600, 15440, 8300, 16040],
+        "cleanupBox": [6600, 15440, 8050, 16040],
         "geometryBox": [6100, 15150, 8500, 16080],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
@@ -73,7 +73,7 @@
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Inside Diameter", "ID"],
         "maxDistanceFromLabel": 1150,
-        "expectedPosition": "below pipe inside-diameter dimension value slot",
+        "expectedPosition": "below pipe inside-diameter dimension value slot without overlapping the weight value slot",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["ID", "Inside Dia"]
@@ -154,7 +154,7 @@
       "semanticLabel": "Weight / m",
       "displayLabel": "Weight / m",
       "labelText": ["Kg/Mtr", "kg/m", "Weight", "Weight / m"],
-      "preferredValueKeys": ["Weight / m", "weightKgPerM", "weights.kgPerM"],
+      "preferredValueKeys": ["Weight / m", "weightKgPerM", "weights.weightKgPerM", "weights.kgPerM", "weights.emptyPipeKgPerM", "weights.pipeKgPerM"],
       "format": "kg-per-m",
       "target": {
         "targetBox": [7800, 15760, 8900, 16030],
