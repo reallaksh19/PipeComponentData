@@ -88,6 +88,27 @@ test('v2 slot files exist for the active sourceCodes', async () => {
   }
 });
 
+test('runtime slot normalizer preserves Pipe1 cleanup directives and typography controls', async () => {
+  const { normalizeSvgSlotBinding } = await import('../pipetools/js/svg/svgSlotBindingStore.js');
+  const binding = normalizeSvgSlotBinding(await readSlot('Pipe1'));
+  assert.ok(binding, 'Pipe1 binding should normalize for browser runtime');
+  assert.equal(binding.nativeTextStyle.fontSize, '110');
+  assert.equal(binding.nativeTextStyle.fontWeight, '600');
+
+  const outsideRadius = binding.slots['Outside Radius'];
+  assert.equal(outsideRadius.purpose, 'cleanup-unbacked-native-dimension');
+  assert.equal(outsideRadius.target.hideGeometryWhenMissing, true);
+  assert.deepEqual(outsideRadius.target.geometryBox, [8250, 14280, 11080, 15450]);
+  assert.ok(outsideRadius.target.cleanupPlaceholderText.includes('Outside Radius'));
+  assert.equal(outsideRadius.target.artifactBoxes.length, 2);
+  assert.equal(outsideRadius.target.artifactBoxes[0].includeText, true);
+  assert.deepEqual(outsideRadius.target.artifactBoxes[1].tags, ['line', 'path', 'polyline']);
+
+  const weight = binding.slots['Weight / m'];
+  assert.equal(weight.target.artifactBoxes.length, 2);
+  assert.ok(weight.target.artifactBoxes.every((box) => box.includeText === true));
+});
+
 test('text inventory accepts measured text nodes', async () => {
   const { buildSvgTextInventory } = await import('../pipetools/js/svg/svgTextInventory.js');
   const node = new TextNode('Outside Diameter');
@@ -135,18 +156,20 @@ test('Pipe1 slots populate target-region text with compact readable native styli
   assert.ok(result.slots.filter((slot) => slot.status === 'populated').every((slot) => slot.confidence >= 0.85));
 });
 
-test('slot artifact cleanup hides only configured small artifacts and unbacked native dimensions', async () => {
+test('slot artifact cleanup hides configured small artifacts and unbacked native dimensions after runtime normalization', async () => {
   const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
   const { suppressSvgSlotArtifacts } = await import('../pipetools/js/svg/svgSlotArtifactCleanup.js');
-  const binding = await readSlot('Pipe1');
+  const { normalizeSvgSlotBinding } = await import('../pipetools/js/svg/svgSlotBindingStore.js');
+  const binding = normalizeSvgSlotBinding(await readSlot('Pipe1'));
   const inventory = inventoryFor(binding);
   const blueOdMarker = new ElementNode('line', { x1: '7000', y1: '13000', x2: '7100', y2: '13000', stroke: '#0000ff' });
   const greenOdDimension = new ElementNode('line', { x1: '6400', y1: '13000', x2: '8600', y2: '13000', stroke: '#00ff00' });
   const outsideBlueMarker = new ElementNode('line', { x1: '100', y1: '100', x2: '200', y2: '100', stroke: '#0000ff' });
-  const outsideRadiusLine = new ElementNode('line', { x1: '8300', y1: '14600', x2: '9600', y2: '14600', stroke: '#00ff00' });
-  const outsideRadiusLabel = new TextNode('Outside Radius', { x: '8450', y: '14700', 'font-size': '100' });
+  const outsideRadiusLine = new ElementNode('line', { x1: '8355', y1: '14874', x2: '9457', y2: '14874', stroke: '#00ff00' });
+  const outsideRadiusLeader = new ElementNode('line', { x1: '8355', y1: '15121', x2: '8355', y2: '14578', stroke: '#00ff00' });
+  const outsideRadiusLabel = new TextNode('Outside Radius', { x: '8641', y: '15021', 'font-size': '73' });
   const pipeRing = new ElementNode('circle', { cx: '7200', cy: '14600', r: '1000', stroke: '#000000' });
-  const root = new ElementNode('svg', {}, [blueOdMarker, greenOdDimension, outsideBlueMarker, outsideRadiusLine, outsideRadiusLabel, pipeRing]);
+  const root = new ElementNode('svg', {}, [blueOdMarker, greenOdDimension, outsideBlueMarker, outsideRadiusLine, outsideRadiusLeader, outsideRadiusLabel, pipeRing]);
   const result = populateSvgSlots(root, 'Pipe1', binding, pipeRow, { inventory });
   const artifacts = suppressSvgSlotArtifacts(root, binding, result);
   assert.equal(blueOdMarker.getAttribute('display'), 'none');
@@ -154,10 +177,11 @@ test('slot artifact cleanup hides only configured small artifacts and unbacked n
   assert.equal(greenOdDimension.getAttribute('display'), null);
   assert.equal(outsideBlueMarker.getAttribute('display'), null);
   assert.equal(outsideRadiusLine.getAttribute('display'), 'none');
+  assert.equal(outsideRadiusLeader.getAttribute('display'), 'none');
   assert.equal(outsideRadiusLabel.getAttribute('display'), 'none');
   assert.equal(pipeRing.getAttribute('display'), null);
-  assert.ok(artifacts.hiddenArtifactCount >= 3);
-  assert.ok(result.hiddenArtifactCount >= 3);
+  assert.ok(artifacts.hiddenArtifactCount >= 4);
+  assert.ok(result.hiddenArtifactCount >= 4);
 });
 
 test('a candidate outside targetBox is not selected', async () => {
