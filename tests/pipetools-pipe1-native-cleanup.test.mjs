@@ -101,18 +101,22 @@ test('Pipe1 cleanup-only Outside Radius is hidden without becoming evidence slot
   const { suppressSvgSlotArtifacts } = await import('../pipetools/js/svg/svgSlotArtifactCleanup.js');
   const { buildDimensionCalloutDiagnosticModel } = await import('../pipetools/js/svg/dimensionCalloutDiagnostics.js');
   const binding = JSON.parse(await readFile(pipe1SlotPath, 'utf8'));
+  assert.equal(binding.slots['Outside Radius'].target.hideGeometryWhenMissing, false, 'cleanup-only radius must not use broad geometryBox hiding');
   const outsideText = textNode('Outside Radius', 8900, 15000, 73);
   const inventory = [
     ...pipe1Inventory(binding, ['OD', 'ID', 'Wall / Thk', 'Weight / m']),
     inventoryEntry('Outside Radius', 8900, 15000, 'svg[1]/text[outside-radius]', outsideText),
   ];
-  const outsideRadiusLine = new TestNode('line', { x1: '8355', y1: '14874', x2: '12000', y2: '14874', stroke: 'rgb(0,255,0)' });
+  const outsideRadiusLine = new TestNode('line', { x1: '8355', y1: '14874', x2: '9457', y2: '14874', stroke: 'rgb(0,255,0)' });
   const outsideRadiusArrow = new TestNode('line', { x1: '8355', y1: '14491', x2: '8379', y2: '14578', stroke: 'rgb(0,255,0)' });
+  const outsideRadiusBlueMarker = new TestNode('line', { x1: '8985', y1: '14800', x2: '9003', y2: '14800', stroke: 'rgb(0,0,255)' });
   const pipeRightEdge = new TestNode('line', { x1: '8012', y1: '14312', x2: '8012', y2: '13359', stroke: 'rgb(0,255,0)' });
+  const blackPipeArcInsideRadiusBox = new TestNode('line', { x1: '8350', y1: '14420', x2: '8400', y2: '14480', stroke: 'rgb(15,15,15)' });
+  const cyanCenterlineInsideRadiusBox = new TestNode('line', { x1: '8300', y1: '14491', x2: '8500', y2: '14491', stroke: 'rgb(0,255,255)' });
   const unrelatedGreenLine = new TestNode('line', { x1: '5499', y1: '13632', x2: '6437', y2: '13632', stroke: 'rgb(0,255,0)' });
   const cyanCenterline = new TestNode('line', { x1: '7200', y1: '13000', x2: '7200', y2: '16000', stroke: 'rgb(0,255,255)' });
   const root = new TestNode('svg');
-  for (const node of [outsideRadiusLine, outsideRadiusArrow, pipeRightEdge, unrelatedGreenLine, cyanCenterline]) root.append(node);
+  for (const node of [outsideRadiusLine, outsideRadiusArrow, outsideRadiusBlueMarker, pipeRightEdge, blackPipeArcInsideRadiusBox, cyanCenterlineInsideRadiusBox, unrelatedGreenLine, cyanCenterline]) root.append(node);
 
   const result = populateSvgSlots(root, 'Pipe1', binding, pipeRow, { inventory });
   suppressSvgSlotArtifacts(root, binding, result);
@@ -121,7 +125,10 @@ test('Pipe1 cleanup-only Outside Radius is hidden without becoming evidence slot
   assert.equal(outsideText.textContent, '');
   assert.equal(outsideRadiusLine.getAttribute('display'), 'none');
   assert.equal(outsideRadiusArrow.getAttribute('display'), 'none');
+  assert.equal(outsideRadiusBlueMarker.getAttribute('display'), 'none');
   assert.equal(pipeRightEdge.getAttribute('display'), null);
+  assert.equal(blackPipeArcInsideRadiusBox.getAttribute('display'), null);
+  assert.equal(cyanCenterlineInsideRadiusBox.getAttribute('display'), null);
   assert.equal(unrelatedGreenLine.getAttribute('display'), null);
   assert.equal(cyanCenterline.getAttribute('display'), null);
   assert.equal(evidence.nativeCount, 4);
