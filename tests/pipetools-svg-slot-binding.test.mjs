@@ -146,7 +146,7 @@ function styleDeclaration(styleText, onChange) {
   const commit = () => onChange([...values.entries()].map(([key, value]) => `${key}: ${value}`).join('; '));
   return {
     setProperty(name, value) { values.set(String(name), String(value)); commit(); },
-    removeProperty(name) { const previous = values.get(String(name)) || ''; values.delete(String(name)); commit(); return previous; },
+    removeProperty(name) { const previous = values.get(String(name)) || ''; values.delete(name); commit(); return previous; },
     getPropertyValue(name) { return values.get(String(name)) || ''; },
     toString() { return [...values.entries()].map(([key, value]) => `${key}: ${value}`).join('; '); },
   };
@@ -157,12 +157,28 @@ function inventoryEntry(text, x, y, path) {
   return { path, node, text, normalizedText: String(text).toLowerCase(), rawText: text, x, y, bbox: { x, y, width: 10, height: 10 }, center: { x, y }, tagName: 'text', parentPath: 'svg[1]', transform: '', className: '', style: '' };
 }
 
+function boxCenter(box) {
+  if (!Array.isArray(box) || box.length !== 4) return null;
+  return { x: (box[0] + box[2]) / 2, y: (box[1] + box[3]) / 2 };
+}
+
 function inventoryFor(binding) {
-  return Object.entries(binding.slots).map(([label, slot], index) => {
-    const [x1, y1, x2, y2] = slot.target.targetBox;
-    const text = slot.target.allowedExistingText?.[0] || slot.labelText[0] || label;
-    return inventoryEntry(text, (x1 + x2) / 2, (y1 + y2) / 2, `svg[1]/text[${index + 1}]`);
-  });
+  const entries = [];
+  let index = 1;
+  for (const [label, slot] of Object.entries(binding.slots)) {
+    const target = boxCenter(slot.target.targetBox);
+    if (target) {
+      const placeholder = slot.target.placeholderText?.[0] || slot.target.allowedExistingText?.[0] || slot.labelText?.[0] || label;
+      entries.push(inventoryEntry(placeholder, target.x, target.y, `svg[1]/text[target-${index}]`));
+    }
+    const labelPoint = boxCenter(slot.target.labelBox);
+    const labelText = slot.labelText?.[0] || slot.displayLabel || label;
+    if (labelPoint && labelText) {
+      entries.push(inventoryEntry(labelText, labelPoint.x, labelPoint.y, `svg[1]/text[label-${index}]`));
+    }
+    index += 1;
+  }
+  return entries;
 }
 
 const pipeRow = { dimensions: { odMm: { value: 290 }, idMm: { value: 212 }, wallThicknessMm: { value: 39 } }, weights: { weightKgPerM: { value: 84 } } };
@@ -221,11 +237,12 @@ test('text inventory maps inherited SVG transforms into source coordinates', asy
   assert.ok(entry.center.y > 220);
 });
 
-test('Pipe1 slots populate target-region text with compact readable native styling', async () => {
+test('Pipe1 slots populate separate value placeholders without overwriting static labels', async () => {
   const { populateSvgSlots } = await import('../pipetools/js/svg/svgSlotPopulator.js');
   const binding = await readSlot('Pipe1');
   const staleTopDash = inventoryEntry('-', 7000, 13100, 'svg[1]/text[stale-od-dash]');
   const inventory = [...inventoryFor(binding), staleTopDash];
+  const labelNodesBefore = inventory.filter((entry) => String(entry.path).includes('label-')).map((entry) => entry.node);
   const result = populateSvgSlots(new ElementNode('svg'), 'Pipe1', binding, pipeRow, { inventory });
   assert.deepEqual(result.populatedLabels, ['OD', 'ID', 'Wall / Thk', 'Weight / m']);
   assert.ok(result.missingLabels.includes('Outside Radius'));
@@ -240,6 +257,8 @@ test('Pipe1 slots populate target-region text with compact readable native styli
   assert.ok(Number(od.getAttribute('font-size')) <= 110);
   assert.ok(Number(od.getAttribute('stroke-width')) <= 3);
   assert.equal(weight.getAttribute('paint-order'), 'stroke fill');
+  assert.ok(labelNodesBefore.some((node) => node.textContent === 'Outside Diameter'));
+  assert.ok(labelNodesBefore.some((node) => node.textContent === 'Inside Diameter'));
   assert.equal(staleTopDash.node.textContent, '');
   assert.equal(staleTopDash.node.getAttribute('data-pipetools-placeholder-cleaned'), 'true');
   assert.ok(result.cleanedPlaceholderCount >= 1);
