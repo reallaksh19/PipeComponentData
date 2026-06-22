@@ -1,4 +1,4 @@
-export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v5-weight-layout';
+export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v6-weight-native-cleanup';
 
 export function buildPipe1NativeDrawing(doc = document) {
   const ns = ['h', 'ttp:', '', 'www.w3.org', '2000', 'svg'].join('/').replace('h/', 'h');
