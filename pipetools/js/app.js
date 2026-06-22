@@ -3,8 +3,8 @@ import { loadDbIndex, getDbFamilies, getDbFamily } from './db/dbIndex.js';
 import { loadComponentRows } from './loaders/componentLoader.js';
 import { filterPipeSpecRows } from './pipespecFilters.js';
 import { applySearchResultToState, runPipeSpecSearch } from './pipespecAdapters.js';
-import { actionFromFilterKey, createInitialPipeSpecState, reducePipeSpecState } from './pipespecState.js';
-import { renderDashboards, renderMain, renderTabs } from './render.js?v=pipe1-native-slot-contract-v3';
+import { actionFromFilterKey, createInitialPipeSpecState, reducePipeSpecState, selectedRowForId } from './pipespecState.js';
+import { renderDashboards, renderMain, renderTabs } from './render.js?v=selected-row-svg-preview';
 import { updateUiScope } from './uiScopePatch.js';
 
 const DATA_ROOT = '..';
@@ -120,7 +120,7 @@ function syncStateFromPipeSpec() {
     matchType: pipeSpecState.matchType ?? 'none',
   } : null;
   state.selectedId = pipeSpecState.selectedRowId;
-  state.selectedRow = pipeSpecState.selectedRow;
+  state.selectedRow = selectedRowForId(state.rows, pipeSpecState.selectedRowId);
 }
 
 function requestRender() {
