@@ -27,27 +27,121 @@ class TestNode {
     this.children = [];
     this.parentElement = null;
     this.parentNode = null;
+    this.ownerSVGElement = String(tagName).toLowerCase() === 'svg' ? this : null;
     this.nodeType = 1;
+    this.dataset = datasetFromAttrs(this.attrs);
+    this.className = this.attrs.get('class') || '';
+    this.style = styleDeclaration(this.attrs.get('style') || '', (value) => {
+      if (value) this.attrs.set('style', value);
+      else this.attrs.delete('style');
+    });
   }
   append(child) {
     child.parentElement = this;
     child.parentNode = this;
+    child.ownerSVGElement = String(this.tagName).toLowerCase() === 'svg' ? this : this.ownerSVGElement;
     this.children.push(child);
+    for (const descendant of child.querySelectorAll?.('*') || []) {
+      descendant.ownerSVGElement = child.ownerSVGElement;
+    }
   }
-  setAttribute(name, value) { this.attrs.set(name, String(value)); }
+  setAttribute(name, value) {
+    this.attrs.set(name, String(value));
+    syncDomFacade(this, name, String(value));
+  }
   getAttribute(name) { return this.attrs.has(name) ? this.attrs.get(name) : null; }
+  removeAttribute(name) {
+    this.attrs.delete(name);
+    syncDomFacade(this, name, null);
+  }
+  matches(selector = '') { return matchesSelector(this, selector); }
   querySelectorAll(selector = '') {
-    const tags = String(selector).split(',').map((item) => item.trim().toLowerCase()).filter(Boolean);
     const matches = [];
     const walk = (node) => {
       for (const child of node.children || []) {
-        if (tags.includes(String(child.tagName || child.nodeName).toLowerCase())) matches.push(child);
+        if (matchesSelector(child, selector)) matches.push(child);
         walk(child);
       }
     };
     walk(this);
     return matches;
   }
+  remove() {
+    const siblings = this.parentNode?.children;
+    if (Array.isArray(siblings)) {
+      const index = siblings.indexOf(this);
+      if (index >= 0) siblings.splice(index, 1);
+    }
+    this.parentElement = null;
+    this.parentNode = null;
+    this.ownerSVGElement = null;
+  }
+}
+
+function matchesSelector(node, selector) {
+  const tag = String(node.tagName || node.nodeName || '').toLowerCase();
+  const selectors = String(selector || '').split(',').map((item) => item.trim()).filter(Boolean);
+  return selectors.some((raw) => matchesSingleSelector(node, tag, raw));
+}
+
+function matchesSingleSelector(node, tag, rawSelector) {
+  const selector = rawSelector.trim().toLowerCase();
+  if (!selector) return false;
+  if (selector === '*') return true;
+  const last = selector.split(/\s+/).pop();
+  const attrMatch = last.match(/^([a-z0-9_-]+)?\[([^=\]]+)(?:=["']?([^"'\]]+)["']?)?\]$/i);
+  if (attrMatch) {
+    const [, wantedTag, attrName, attrValue] = attrMatch;
+    if (wantedTag && wantedTag !== tag) return false;
+    const actual = node.getAttribute?.(attrName);
+    return attrValue == null ? actual != null : String(actual) === attrValue;
+  }
+  const classMatch = last.match(/^([a-z0-9_-]+)?\.([a-z0-9_-]+)$/i);
+  if (classMatch) {
+    const [, wantedTag, className] = classMatch;
+    if (wantedTag && wantedTag !== tag) return false;
+    return String(node.getAttribute?.('class') || node.className || '').split(/\s+/).includes(className);
+  }
+  return last === tag;
+}
+
+function syncDomFacade(node, name, value) {
+  if (name === 'class') node.className = value || '';
+  if (name === 'style') node.style = styleDeclaration(value || '', (styleText) => {
+    if (styleText) node.attrs.set('style', styleText);
+    else node.attrs.delete('style');
+  });
+  if (name.startsWith('data-')) {
+    const key = datasetKey(name);
+    if (value == null) delete node.dataset[key];
+    else node.dataset[key] = value;
+  }
+}
+
+function datasetFromAttrs(attrs) {
+  const dataset = {};
+  for (const [name, value] of attrs.entries()) {
+    if (name.startsWith('data-')) dataset[datasetKey(name)] = value;
+  }
+  return dataset;
+}
+
+function datasetKey(name) {
+  return String(name).slice(5).replace(/-([a-z0-9])/gi, (_, ch) => ch.toUpperCase());
+}
+
+function styleDeclaration(styleText, onChange) {
+  const values = new Map(String(styleText || '').split(';').map((part) => part.trim()).filter(Boolean).map((part) => {
+    const index = part.indexOf(':');
+    return index >= 0 ? [part.slice(0, index).trim(), part.slice(index + 1).trim()] : [part, ''];
+  }));
+  const commit = () => onChange([...values.entries()].map(([key, value]) => `${key}: ${value}`).join('; '));
+  return {
+    setProperty(name, value) { values.set(String(name), String(value)); commit(); },
+    removeProperty(name) { const previous = values.get(String(name)) || ''; values.delete(String(name)); commit(); return previous; },
+    getPropertyValue(name) { return values.get(String(name)) || ''; },
+    toString() { return [...values.entries()].map(([key, value]) => `${key}: ${value}`).join('; '); },
+  };
 }
 
 function textNode(text, x, y, fontSize = 80) {
