@@ -359,6 +359,8 @@ function normalizeColor(value) {
   if (text === '#0f0') return '#00ff00';
   if (text === 'blue') return '#0000ff';
   if (text === 'green' || text === 'lime') return '#00ff00';
+  const rgb = text.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i);
+  if (rgb) return `#${rgb.slice(1).map((part) => Number(part).toString(16).padStart(2, '0')).join('')}`;
   return text;
 }
 
