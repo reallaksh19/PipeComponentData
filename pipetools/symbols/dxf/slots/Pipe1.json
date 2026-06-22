@@ -17,456 +17,176 @@
     "OD": {
       "semanticLabel": "OD",
       "displayLabel": "OD",
-      "labelText": [
-        "Outside Diameter",
-        "OD"
-      ],
-      "preferredValueKeys": [
-        "OD",
-        "Outer Dia",
-        "outerDiameterMm",
-        "odMm",
-        "dimensions.odMm"
-      ],
+      "labelText": ["Outside Diameter", "OD"],
+      "preferredValueKeys": ["OD", "Outer Dia", "outerDiameterMm", "odMm", "dimensions.odMm"],
       "format": "diameter-mm",
       "target": {
-        "targetBox": [
-          6800,
-          13300,
-          8200,
-          13650
-        ],
-        "labelBox": [
-          6800,
-          13300,
-          8200,
-          13650
-        ],
-        "cleanupBox": [
-          6500,
-          12950,
-          8500,
-          13750
-        ],
-        "geometryBox": [
-          6100,
-          12550,
-          8650,
-          13880
-        ],
+        "targetBox": [6800, 13300, 8200, 13650],
+        "labelBox": [6800, 13300, 8200, 13650],
+        "cleanupBox": [6500, 12950, 8500, 13750],
+        "geometryBox": [6100, 12550, 8650, 13880],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
           {
-            "box": [
-              6400,
-              12680,
-              8600,
-              13280
-            ],
+            "box": [6400, 12680, 8600, 13280],
             "when": "populated",
-            "tags": [
-              "line",
-              "path",
-              "polyline"
-            ],
-            "strokeColors": [
-              "#0000ff",
-              "blue"
-            ],
+            "tags": ["line", "path", "polyline"],
+            "strokeColors": ["#0000ff", "blue"],
             "maxWidth": 650,
             "maxHeight": 420,
             "reason": "remove orphan DXF marker above OD dimension line"
           }
         ],
-        "placeholderText": [
-          "-",
-          "—",
-          "–"
-        ],
-        "cleanupPlaceholderText": [
-          "-",
-          "—",
-          "–"
-        ],
-        "allowedExistingText": [
-          "Outside Diameter",
-          "OD"
-        ],
+        "placeholderText": ["-", "—", "–"],
+        "cleanupPlaceholderText": ["-", "—", "–"],
+        "allowedExistingText": ["Outside Diameter", "OD"],
         "maxDistanceFromLabel": 900,
         "expectedPosition": "above pipe outside-diameter dimension text",
         "replaceMode": "textContent"
       },
-      "suppressOverlayLabels": [
-        "OD",
-        "Outer Dia"
-      ]
+      "suppressOverlayLabels": ["OD", "Outer Dia"]
     },
     "ID": {
       "semanticLabel": "ID",
       "displayLabel": "ID",
-      "labelText": [
-        "Inside Diameter",
-        "ID"
-      ],
-      "preferredValueKeys": [
-        "ID",
-        "Inside Dia",
-        "innerDiameterMm",
-        "idMm",
-        "dimensions.idMm"
-      ],
+      "labelText": ["Inside Diameter", "ID"],
+      "preferredValueKeys": ["ID", "Inside Dia", "innerDiameterMm", "idMm", "dimensions.idMm"],
       "format": "diameter-mm",
       "target": {
-        "targetBox": [
-          6800,
-          15480,
-          8250,
-          15820
-        ],
-        "labelBox": [
-          6800,
-          15480,
-          8250,
-          15820
-        ],
-        "cleanupBox": [
-          6500,
-          15380,
-          8500,
-          15920
-        ],
-        "geometryBox": [
-          6100,
-          15150,
-          8500,
-          16080
-        ],
+        "targetBox": [6800, 15480, 8250, 15820],
+        "labelBox": [6800, 15480, 8250, 15820],
+        "cleanupBox": [6500, 15380, 8500, 15920],
+        "geometryBox": [6100, 15150, 8500, 16080],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
           {
-            "box": [
-              6400,
-              15740,
-              8600,
-              16280
-            ],
+            "box": [6400, 15740, 8600, 16280],
             "when": "populated",
-            "tags": [
-              "line",
-              "path",
-              "polyline"
-            ],
-            "strokeColors": [
-              "#0000ff",
-              "blue"
-            ],
+            "tags": ["line", "path", "polyline"],
+            "strokeColors": ["#0000ff", "blue"],
             "maxWidth": 650,
             "maxHeight": 420,
             "reason": "remove orphan DXF marker below ID dimension line"
           }
         ],
-        "placeholderText": [
-          "-",
-          "—",
-          "–"
-        ],
-        "cleanupPlaceholderText": [
-          "-",
-          "—",
-          "–"
-        ],
-        "allowedExistingText": [
-          "Inside Diameter",
-          "ID"
-        ],
+        "placeholderText": ["-", "—", "–"],
+        "cleanupPlaceholderText": ["-", "—", "–"],
+        "allowedExistingText": ["Inside Diameter", "ID"],
         "maxDistanceFromLabel": 900,
         "expectedPosition": "below pipe inside-diameter dimension text",
         "replaceMode": "textContent"
       },
-      "suppressOverlayLabels": [
-        "ID",
-        "Inside Dia"
-      ]
+      "suppressOverlayLabels": ["ID", "Inside Dia"]
     },
     "Wall / Thk": {
       "semanticLabel": "Wall / Thk",
       "displayLabel": "Wall / Thk",
-      "labelText": [
-        "Wall Thickness",
-        "Wall / Thk",
-        "Wall"
-      ],
-      "preferredValueKeys": [
-        "Wall / Thk",
-        "Thickness",
-        "wallThicknessMm",
-        "thicknessMm",
-        "dimensions.wallThicknessMm",
-        "dimensions.thicknessMm"
-      ],
+      "labelText": ["Wall Thickness", "Wall / Thk", "Wall"],
+      "preferredValueKeys": ["Wall / Thk", "Thickness", "wallThicknessMm", "thicknessMm", "dimensions.wallThicknessMm", "dimensions.thicknessMm"],
       "format": "mm",
       "target": {
-        "targetBox": [
-          5450,
-          13550,
-          6550,
-          13950
-        ],
-        "labelBox": [
-          5450,
-          13550,
-          6550,
-          13950
-        ],
-        "cleanupBox": [
-          5200,
-          13400,
-          6650,
-          14050
-        ],
-        "geometryBox": [
-          4300,
-          13200,
-          6900,
-          14500
-        ],
+        "targetBox": [5450, 13550, 6550, 13950],
+        "labelBox": [5450, 13550, 6550, 13950],
+        "cleanupBox": [5200, 13400, 6650, 14050],
+        "geometryBox": [4300, 13200, 6900, 14500],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
           {
-            "box": [
-              4200,
-              13200,
-              5000,
-              14500
-            ],
+            "box": [4200, 13200, 5000, 14500],
             "when": "populated",
-            "tags": [
-              "line",
-              "path",
-              "polyline"
-            ],
-            "strokeColors": [
-              "#0000ff",
-              "blue"
-            ],
+            "tags": ["line", "path", "polyline"],
+            "strokeColors": ["#0000ff", "blue"],
             "maxWidth": 650,
             "maxHeight": 650,
             "reason": "remove orphan DXF marker near wall-thickness leader"
           }
         ],
-        "placeholderText": [
-          "-",
-          "—",
-          "–"
-        ],
-        "cleanupPlaceholderText": [
-          "-",
-          "—",
-          "–"
-        ],
-        "allowedExistingText": [
-          "Wall Thickness",
-          "Wall / Thk",
-          "Wall"
-        ],
+        "placeholderText": ["-", "—", "–"],
+        "cleanupPlaceholderText": ["-", "—", "–"],
+        "allowedExistingText": ["Wall Thickness", "Wall / Thk", "Wall"],
         "maxDistanceFromLabel": 850,
         "expectedPosition": "left leader wall-thickness value text",
         "replaceMode": "textContent"
       },
-      "suppressOverlayLabels": [
-        "Wall / Thk",
-        "Thickness"
-      ]
+      "suppressOverlayLabels": ["Wall / Thk", "Thickness"]
     },
     "Outside Radius": {
       "semanticLabel": "Outside Radius",
       "displayLabel": "Outside Radius",
       "purpose": "cleanup-unbacked-native-dimension",
-      "labelText": [
-        "Outside Radius"
-      ],
-      "preferredValueKeys": [
-        "outsideRadiusMm",
-        "dimensions.outsideRadiusMm"
-      ],
+      "labelText": ["Outside Radius"],
+      "preferredValueKeys": ["outsideRadiusMm", "dimensions.outsideRadiusMm"],
       "format": "mm",
       "target": {
-        "targetBox": [
-          8200,
-          14400,
-          9900,
-          15100
-        ],
-        "labelBox": [
-          8200,
-          14400,
-          9900,
-          15100
-        ],
-        "cleanupBox": [
-          8300,
-          14600,
-          10100,
-          15250
-        ],
-        "geometryBox": [
-          8250,
-          14280,
-          11080,
-          15450
-        ],
-        "hideGeometryWhenMissing": true,
+        "targetBox": [8200, 14400, 9900, 15100],
+        "labelBox": [8200, 14400, 9900, 15100],
+        "cleanupBox": [8300, 14600, 10100, 15250],
+        "geometryBox": [8250, 14280, 11080, 15450],
+        "hideGeometryWhenMissing": false,
         "artifactBoxes": [
           {
-            "box": [
-              8450,
-              14600,
-              10100,
-              15250
-            ],
+            "box": [8450, 14600, 10100, 15250],
             "when": "missing",
             "includeText": true,
-            "tags": [
-              "text",
-              "tspan"
-            ],
+            "tags": ["text", "tspan"],
             "reason": "hide unbacked outside-radius native label"
           },
           {
-            "box": [
-              8250,
-              14280,
-              11080,
-              15450
-            ],
+            "box": [8200, 14280, 9600, 15300],
             "when": "missing",
-            "tags": [
-              "line",
-              "path",
-              "polyline"
-            ],
-            "reason": "hide unbacked outside-radius native scaffold and marker"
+            "tags": ["line", "path", "polyline"],
+            "strokeColors": ["#00ff00", "green", "#0000ff", "blue"],
+            "maxWidth": 1500,
+            "maxHeight": 700,
+            "reason": "hide unbacked outside-radius native scaffold and marker without hiding pipe geometry"
           }
         ],
-        "placeholderText": [
-          "-",
-          "—",
-          "–"
-        ],
-        "cleanupPlaceholderText": [
-          "-",
-          "—",
-          "–",
-          "Outside Radius"
-        ],
-        "allowedExistingText": [
-          "Outside Radius"
-        ],
+        "placeholderText": ["-", "—", "–"],
+        "cleanupPlaceholderText": ["-", "—", "–", "Outside Radius"],
+        "allowedExistingText": ["Outside Radius"],
         "maxDistanceFromLabel": 900,
         "expectedPosition": "right-side outside-radius native dimension label",
         "replaceMode": "textContent"
       },
-      "suppressOverlayLabels": [
-        "Outside Radius"
-      ]
+      "suppressOverlayLabels": ["Outside Radius"]
     },
     "Weight / m": {
       "semanticLabel": "Weight / m",
       "displayLabel": "Weight / m",
-      "labelText": [
-        "Kg/Mtr",
-        "kg/m",
-        "Weight"
-      ],
-      "preferredValueKeys": [
-        "Weight / m",
-        "weightKgPerM",
-        "weights.kgPerM"
-      ],
+      "labelText": ["Kg/Mtr", "kg/m", "Weight"],
+      "preferredValueKeys": ["Weight / m", "weightKgPerM", "weights.kgPerM"],
       "format": "kg-per-m",
       "target": {
-        "targetBox": [
-          8050,
-          15880,
-          8550,
-          16140
-        ],
-        "labelBox": [
-          8050,
-          15880,
-          8550,
-          16140
-        ],
-        "cleanupBox": [
-          7900,
-          15800,
-          8700,
-          16200
-        ],
-        "geometryBox": [
-          5200,
-          15750,
-          8700,
-          16600
-        ],
+        "targetBox": [8050, 15880, 8550, 16140],
+        "labelBox": [8050, 15880, 8550, 16140],
+        "cleanupBox": [7900, 15800, 8700, 16200],
+        "geometryBox": [5200, 15750, 8700, 16600],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
           {
-            "box": [
-              5000,
-              16060,
-              6900,
-              16650
-            ],
+            "box": [5000, 16060, 6900, 16650],
             "when": "populated",
             "includeText": true,
-            "tags": [
-              "text",
-              "tspan"
-            ],
+            "tags": ["text", "tspan"],
             "reason": "hide unsupported stale weight table row labels"
           },
           {
-            "box": [
-              8050,
-              16150,
-              8800,
-              16650
-            ],
+            "box": [8050, 16150, 8800, 16650],
             "when": "populated",
             "includeText": true,
-            "tags": [
-              "text",
-              "tspan"
-            ],
+            "tags": ["text", "tspan"],
             "reason": "hide unsupported stale weight table units"
           }
         ],
-        "placeholderText": [
-          "-",
-          "—",
-          "–"
-        ],
-        "cleanupPlaceholderText": [
-          "-",
-          "—",
-          "–"
-        ],
-        "allowedExistingText": [
-          "Kg/Mtr",
-          "kg/m"
-        ],
-        "unitTextNearby": [
-          "Weight"
-        ],
+        "placeholderText": ["-", "—", "–"],
+        "cleanupPlaceholderText": ["-", "—", "–"],
+        "allowedExistingText": ["Kg/Mtr", "kg/m"],
+        "unitTextNearby": ["Weight"],
         "maxDistanceFromLabel": 700,
         "expectedPosition": "first weight table unit/value cell",
         "replaceMode": "textContent"
       },
-      "suppressOverlayLabels": [
-        "Weight / m",
-        "Weight"
-      ]
+      "suppressOverlayLabels": ["Weight / m", "Weight"]
     }
   }
 }
