@@ -5,6 +5,8 @@ import path from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
+await import('./pipetools-pipe1-native-cleanup.test.mjs');
+
 const repoRoot = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const manifestPath = path.join(repoRoot, 'pipetools/symbols/dxf/dxf-symbol-manifest.json');
 const dxfRoot = path.join(repoRoot, 'pipetools/symbols/dxf');
