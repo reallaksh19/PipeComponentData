@@ -3,7 +3,7 @@
   "sourceCode": "Pipe1",
   "strategy": "populate-native-svg-text",
   "coordinateSpace": "source-svg-viewBox",
-  "confidenceThreshold": 0.85,
+  "confidenceThreshold": 0.7,
   "nativeTextStyle": {
     "fontSize": "110",
     "fontFamily": "Inter, Arial, sans-serif",
