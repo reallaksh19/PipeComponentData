@@ -15,13 +15,12 @@ const BASE_SLOTS = {
   badge4: { kind: 'badge', lx: 735, ly: 250, anchor: 'start' },
 };
 
+const VALVE_FACE_TO_FACE_FIELDS = [
+  ['lengthBottom', ['F2F RF', 'F2F RTJ', 'BW length', 'C-E']],
+];
+
 const TEMPLATE_FIELDS = {
-  VALVE: [
-    ['lengthBottom', ['F2F RF', 'F2F RTJ', 'BW length', 'C-E']],
-    ['heightRight', ['Height']],
-    ['diameterTop', ['HW dia']],
-    ['badge1', ['Weight', 'RF/RTJ weight', 'BW weight'], false],
-  ],
+  VALVE: VALVE_FACE_TO_FACE_FIELDS,
   FLANGE: [
     ['diameterLeft', ['OD']],
     ['thicknessMid', ['Wall / Thk', 'RF height']],
@@ -71,9 +70,6 @@ const TEMPLATE_FIELDS = {
 const SOURCE_OVERRIDES = {
   Vlfl7: { fields: [
     ['lengthMid', ['F2F RF', 'F2F RTJ', 'BW length', 'C-E']],
-    ['diameterTop', ['OD', 'HW dia']],
-    ['thicknessMid', ['Wall / Thk']],
-    ['badge1', ['Weight', 'RF/RTJ weight'], false],
   ] },
   Ftbw6: { fields: teeFields() },
   Ftbw7: { fields: teeFields() },
