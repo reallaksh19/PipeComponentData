@@ -21,9 +21,9 @@
       "preferredValueKeys": ["OD", "Outer Dia", "outerDiameterMm", "odMm", "dimensions.odMm"],
       "format": "diameter-mm",
       "target": {
-        "targetBox": [6700, 13180, 7950, 13460],
+        "targetBox": [6700, 13110, 7950, 13380],
         "labelBox": [6300, 13480, 6720, 13740],
-        "cleanupBox": [6600, 13070, 8250, 13680],
+        "cleanupBox": [6600, 13020, 8250, 13680],
         "geometryBox": [6100, 12550, 8650, 13880],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
@@ -40,8 +40,8 @@
         "placeholderText": ["-", "—", "–"],
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Outside Diameter", "OD"],
-        "maxDistanceFromLabel": 1150,
-        "expectedPosition": "above pipe outside-diameter dimension value slot with clearance from the OD dimension line",
+        "maxDistanceFromLabel": 1250,
+        "expectedPosition": "above pipe outside-diameter dimension value slot with clear separation from the OD dimension line",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["OD", "Outer Dia"]
@@ -85,9 +85,9 @@
       "preferredValueKeys": ["Wall / Thk", "Thickness", "wallThicknessMm", "thicknessMm", "dimensions.wallThicknessMm", "dimensions.thicknessMm"],
       "format": "mm",
       "target": {
-        "targetBox": [5520, 13560, 6550, 13900],
-        "labelBox": [4950, 13520, 5650, 13860],
-        "cleanupBox": [5450, 13480, 6700, 14020],
+        "targetBox": [5520, 13460, 6550, 13740],
+        "labelBox": [4950, 13470, 5650, 13740],
+        "cleanupBox": [5450, 13420, 6700, 13880],
         "geometryBox": [4300, 13200, 6900, 14500],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
@@ -105,7 +105,7 @@
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Wall Thickness", "Wall / Thk", "Wall"],
         "maxDistanceFromLabel": 900,
-        "expectedPosition": "left leader wall-thickness value slot clear of the leader line",
+        "expectedPosition": "left leader wall-thickness value slot on the same baseline as the label and clear of the leader line",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["Wall / Thk", "Thickness"]
