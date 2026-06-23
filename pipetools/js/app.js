@@ -4,8 +4,9 @@ import { loadComponentRows } from './loaders/componentLoader.js';
 import { filterPipeSpecRows } from './pipespecFilters.js';
 import { applySearchResultToState, runPipeSpecSearch } from './pipespecAdapters.js';
 import { actionFromFilterKey, createInitialPipeSpecState, reducePipeSpecState, selectedRowForId } from './pipespecState.js';
-import { renderDashboards, renderMain, renderTabs } from './render.js?v=selected-row-svg-preview';
+import { renderDashboards, renderMain, renderTabs } from './render.js?v=valve-face-to-face-only';
 import { updateUiScope } from './uiScopePatch.js';
+import { applyValveCanvasPolicy } from './valveCanvasPolicy.js';
 
 const DATA_ROOT = '..';
 const DB_INDEX_URL = './data/db-index.json';
@@ -154,6 +155,7 @@ function render() {
   renderTabs(state, actions);
   renderDashboards(state, actions);
   renderMain(state, actions);
+  applyValveCanvasPolicy(state.selectedRow);
 }
 
 function bindSearch() {
