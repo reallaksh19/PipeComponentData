@@ -54,9 +54,9 @@
       "format": "diameter-mm",
       "target": {
         "targetBox": [7000, 15620, 7950, 15940],
-        "labelBox": [6380, 15620, 6760, 15940],
-        "cleanupBox": [6600, 15440, 8050, 16040],
-        "geometryBox": [6100, 15150, 8500, 16080],
+        "labelBox": [6480, 15620, 6860, 15940],
+        "cleanupBox": [6680, 15440, 7900, 16040],
+        "geometryBox": [6600, 14440, 8000, 16080],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
           {
@@ -73,7 +73,7 @@
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Inside Diameter", "ID"],
         "maxDistanceFromLabel": 900,
-        "expectedPosition": "inline ID label end-anchored at the left ID arrow-tip X and sharing the ID value baseline",
+        "expectedPosition": "inline ID label end-anchored at the left inner-circumference arrow corner and sharing the ID value baseline",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["ID", "Inside Dia"]

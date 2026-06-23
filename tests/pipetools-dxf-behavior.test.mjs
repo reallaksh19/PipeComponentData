@@ -55,6 +55,20 @@ test('selected row id resolves to the visible row object for SVG preview', () =>
   assert.equal(selectedRowForId(rows, null), null);
 });
 
+test('Pipe1 ID dimension geometry is tied to the inner circumference', async () => {
+  const alignerText = await readFile(path.join(repoRoot, 'pipetools/js/svg/pipe1IdGeometry.js'), 'utf8');
+  const engineText = await readFile(path.join(repoRoot, 'pipetools/js/svg/dxfSymbolEngine.js'), 'utf8');
+  const slotText = await readFile(path.join(repoRoot, 'pipetools/symbols/dxf/slots/Pipe1.json'), 'utf8');
+  assert.match(alignerText, /const CENTER_X = 7295/);
+  assert.match(alignerText, /const INNER_RADIUS = 515/);
+  assert.match(alignerText, /const LEFT_ID_X = CENTER_X - INNER_RADIUS/);
+  assert.match(alignerText, /const RIGHT_ID_X = CENTER_X \+ INNER_RADIUS/);
+  assert.match(alignerText, /setLine\(leftExtension, LEFT_ID_X, CENTER_Y, LEFT_ID_X, ID_DIMENSION_Y\)/);
+  assert.match(alignerText, /setLine\(rightExtension, RIGHT_ID_X, CENTER_Y, RIGHT_ID_X, ID_DIMENSION_Y\)/);
+  assert.match(engineText, /alignPipe1IdGeometry\(buildPipe1NativeDrawing\(document\)\)/);
+  assert.match(slotText, /left inner-circumference arrow corner/);
+});
+
 test('source-backed dimension display keeps evidence labels and placeholder policy', async () => {
   const text = await readFile(path.join(repoRoot, 'pipetools/js/dimensionDisplay.js'), 'utf8');
   for (const required of ['F2F RF', 'OD', 'ID', 'Wall / Thk', 'RF dia', 'PCD', 'Bolt count', 'Weight / m']) {
