@@ -1,11 +1,17 @@
 const PIPE1_ID_GEOMETRY_VERSION = 'pipe1-id-inner-circumference-v1';
+const PIPE1_OD_GEOMETRY_VERSION = 'pipe1-od-outer-circumference-v1';
 const CENTER_X = 7295;
 const CENTER_Y = 14491;
 const INNER_RADIUS = 515;
+const OUTER_RADIUS = 720;
 const LEFT_ID_X = CENTER_X - INNER_RADIUS;
 const RIGHT_ID_X = CENTER_X + INNER_RADIUS;
+const LEFT_OD_X = CENTER_X - OUTER_RADIUS;
+const RIGHT_OD_X = CENTER_X + OUTER_RADIUS;
 const ID_DIMENSION_Y = 15588;
+const OD_DIMENSION_Y = 13414;
 const ID_TEXT_Y = 15772;
+const OD_TEXT_Y = 13255;
 
 export function alignPipe1IdGeometry(svgRoot) {
   if (!svgRoot?.querySelectorAll) return svgRoot;
@@ -13,6 +19,49 @@ export function alignPipe1IdGeometry(svgRoot) {
   const lines = [...svgRoot.querySelectorAll('line')];
   const arrows = [...svgRoot.querySelectorAll('[data-pipetools-pipe1-arrowhead]')];
 
+  alignOdGeometry(svgRoot, lines, arrows);
+  alignIdGeometry(svgRoot, lines, arrows);
+
+  svgRoot.dataset.pipetoolsPipe1FactoryVersion = 'pipe1-native-slot-contract-v16-od-equal-extension-lines';
+  return svgRoot;
+}
+
+function alignOdGeometry(svgRoot, lines, arrows) {
+  const odHorizontal = findLine(lines, { x1: 6405, y1: OD_DIMENSION_Y, x2: 8160, y2: OD_DIMENSION_Y });
+  setLine(odHorizontal, LEFT_OD_X, OD_DIMENSION_Y, RIGHT_OD_X, OD_DIMENSION_Y, 'od');
+
+  const leftExtension = findLine(lines, { x1: 6578, x2: 6578 });
+  setLine(leftExtension, LEFT_OD_X, OD_DIMENSION_Y, LEFT_OD_X, CENTER_Y, 'od');
+
+  const rightExtension = findLine(lines, { x1: 8012, x2: 8012 });
+  setLine(rightExtension, RIGHT_OD_X, OD_DIMENSION_Y, RIGHT_OD_X, CENTER_Y, 'od');
+
+  const leftArrow = findPolygon(arrows, 6600, OD_DIMENSION_Y);
+  setArrow(leftArrow, LEFT_OD_X, OD_DIMENSION_Y, 'right', 'od');
+
+  const rightArrow = findPolygon(arrows, 7985, OD_DIMENSION_Y);
+  setArrow(rightArrow, RIGHT_OD_X, OD_DIMENSION_Y, 'left', 'od');
+
+  const odLabel = findStaticLabel(svgRoot, 'OD');
+  if (odLabel) {
+    odLabel.setAttribute('x', String(LEFT_OD_X));
+    odLabel.setAttribute('y', String(OD_TEXT_Y));
+    odLabel.setAttribute('text-anchor', 'end');
+    odLabel.setAttribute('data-pipetools-pipe1-od-outer-circumference', 'true');
+  }
+
+  const odValue = svgRoot.querySelector('[data-pipetools-slot-key="OD"]');
+  if (odValue) {
+    odValue.setAttribute('x', String(CENTER_X));
+    odValue.setAttribute('y', String(OD_TEXT_Y));
+    odValue.setAttribute('text-anchor', 'middle');
+    odValue.setAttribute('data-pipetools-pipe1-od-outer-circumference', 'true');
+  }
+
+  svgRoot.dataset.pipetoolsPipe1OdGeometry = PIPE1_OD_GEOMETRY_VERSION;
+}
+
+function alignIdGeometry(svgRoot, lines, arrows) {
   const idHorizontal = findLine(lines, { x1: 6405, y1: ID_DIMENSION_Y, x2: 8160, y2: ID_DIMENSION_Y });
   setLine(idHorizontal, LEFT_ID_X, ID_DIMENSION_Y, RIGHT_ID_X, ID_DIMENSION_Y);
 
@@ -23,17 +72,17 @@ export function alignPipe1IdGeometry(svgRoot) {
   setLine(rightExtension, RIGHT_ID_X, CENTER_Y, RIGHT_ID_X, ID_DIMENSION_Y);
 
   const leftArrow = findPolygon(arrows, 6685, ID_DIMENSION_Y);
-  setArrow(leftArrow, LEFT_ID_X, ID_DIMENSION_Y, 'right');
+  setArrow(leftArrow, LEFT_ID_X, ID_DIMENSION_Y, 'right', 'id');
 
   const rightArrow = findPolygon(arrows, 7905, ID_DIMENSION_Y);
-  setArrow(rightArrow, RIGHT_ID_X, ID_DIMENSION_Y, 'left');
+  setArrow(rightArrow, RIGHT_ID_X, ID_DIMENSION_Y, 'left', 'id');
 
-  const idLabel = [...svgRoot.querySelectorAll('[data-pipetools-pipe1-static-label]')]
-    .find((node) => String(node.textContent || '').trim() === 'ID');
+  const idLabel = findStaticLabel(svgRoot, 'ID');
   if (idLabel) {
     idLabel.setAttribute('x', String(LEFT_ID_X));
     idLabel.setAttribute('y', String(ID_TEXT_Y));
     idLabel.setAttribute('text-anchor', 'end');
+    idLabel.setAttribute('data-pipetools-pipe1-id-inner-circumference', 'true');
   }
 
   const idValue = svgRoot.querySelector('[data-pipetools-slot-key="ID"]');
@@ -41,20 +90,20 @@ export function alignPipe1IdGeometry(svgRoot) {
     idValue.setAttribute('x', String(CENTER_X));
     idValue.setAttribute('y', String(ID_TEXT_Y));
     idValue.setAttribute('text-anchor', 'middle');
+    idValue.setAttribute('data-pipetools-pipe1-id-inner-circumference', 'true');
   }
 
   svgRoot.dataset.pipetoolsPipe1IdGeometry = PIPE1_ID_GEOMETRY_VERSION;
-  svgRoot.dataset.pipetoolsPipe1FactoryVersion = 'pipe1-native-slot-contract-v15-id-inner-circumference';
-  return svgRoot;
 }
 
-function setLine(node, x1, y1, x2, y2) {
+function setLine(node, x1, y1, x2, y2, dimension = 'id') {
   if (!node?.setAttribute) return;
   node.setAttribute('x1', String(x1));
   node.setAttribute('y1', String(y1));
   node.setAttribute('x2', String(x2));
   node.setAttribute('y2', String(y2));
-  node.setAttribute('data-pipetools-pipe1-id-inner-circumference', 'true');
+  if (dimension === 'od') node.setAttribute('data-pipetools-pipe1-od-outer-circumference', 'true');
+  if (dimension === 'id') node.setAttribute('data-pipetools-pipe1-id-inner-circumference', 'true');
 }
 
 function findLine(lines, expected) {
@@ -69,13 +118,19 @@ function findPolygon(polygons, tipX, tipY) {
   });
 }
 
-function setArrow(node, x, y, direction, size = 70) {
+function setArrow(node, x, y, direction, dimension = '', size = 70) {
   if (!node?.setAttribute) return;
   const points = direction === 'left'
     ? `${x},${y} ${x + size},${y - size / 2} ${x + size},${y + size / 2}`
     : `${x},${y} ${x - size},${y - size / 2} ${x - size},${y + size / 2}`;
   node.setAttribute('points', points);
-  node.setAttribute('data-pipetools-pipe1-id-inner-circumference', 'true');
+  if (dimension === 'od') node.setAttribute('data-pipetools-pipe1-od-outer-circumference', 'true');
+  if (dimension === 'id') node.setAttribute('data-pipetools-pipe1-id-inner-circumference', 'true');
+}
+
+function findStaticLabel(svgRoot, text) {
+  return [...svgRoot.querySelectorAll('[data-pipetools-pipe1-static-label]')]
+    .find((node) => String(node.textContent || '').trim() === text);
 }
 
 function closeNumber(actual, expected, tolerance = 0.001) {
