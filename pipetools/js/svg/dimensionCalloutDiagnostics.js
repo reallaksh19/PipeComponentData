@@ -11,9 +11,11 @@ export function renderDimensionCalloutDiagnostics(row, symbol, container, callou
   if (!canvas) return;
   clearDimensionCalloutDiagnostics(canvas);
   const model = buildDimensionCalloutDiagnosticModel(row, symbol, callouts, options);
-  const panel = document.createElement('div');
+  const panel = document.createElement('details');
   panel.className = `dimension-diagnostics ${model.missing.length ? 'has-missing' : 'complete'}`;
   panel.dataset.dimensionDiagnostics = 'true';
+  panel.dataset.collapsedByDefault = 'true';
+  if (options.openDiagnostics === true) panel.open = true;
   panel.innerHTML = diagnosticHtml(model);
   canvas.append(panel);
 }
@@ -92,10 +94,11 @@ function diagnosticHtml(model) {
     ? `<div class="dimension-diagnostics-missing"><b>Missing major</b>${model.missing.map((label) => `<span class="missing-chip">${esc(label)}</span>`).join('')}</div>`
     : '<div class="dimension-diagnostics-missing"><span class="ok-chip">Major dimensions available</span></div>';
   const nativeStatus = nativeStatusText(model);
-  return `<strong>DB callout evidence</strong>
-    <div class="dimension-diagnostics-summary">${esc(model.sourceCode)} · ${esc(model.renderedCount)} overlay callouts${nativeStatus} · ${esc(model.totalFacts)} DB facts</div>
-    <div class="dimension-diagnostics-section">${shown}</div>
-    ${missing}`;
+  return `<summary><strong>DB callout evidence</strong><span class="dimension-diagnostics-summary">${esc(model.sourceCode)} · ${esc(model.renderedCount)} overlay callouts${nativeStatus} · ${esc(model.totalFacts)} DB facts</span></summary>
+    <div class="dimension-diagnostics-body">
+      <div class="dimension-diagnostics-section">${shown}</div>
+      ${missing}
+    </div>`;
 }
 
 function nativeStatusText(model) {
