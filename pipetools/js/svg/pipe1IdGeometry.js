@@ -63,13 +63,13 @@ function alignOdGeometry(svgRoot, lines, arrows) {
 
 function alignIdGeometry(svgRoot, lines, arrows) {
   const idHorizontal = findLine(lines, { x1: 6405, y1: ID_DIMENSION_Y, x2: 8160, y2: ID_DIMENSION_Y });
-  setLine(idHorizontal, LEFT_ID_X, ID_DIMENSION_Y, RIGHT_ID_X, ID_DIMENSION_Y, 'id');
+  setLine(idHorizontal, LEFT_ID_X, ID_DIMENSION_Y, RIGHT_ID_X, ID_DIMENSION_Y);
 
   const leftExtension = findLine(lines, { x1: 6664, x2: 6664, y2: ID_DIMENSION_Y });
-  setLine(leftExtension, LEFT_ID_X, CENTER_Y, LEFT_ID_X, ID_DIMENSION_Y, 'id');
+  setLine(leftExtension, LEFT_ID_X, CENTER_Y, LEFT_ID_X, ID_DIMENSION_Y);
 
   const rightExtension = findLine(lines, { x1: 7926, x2: 7926, y2: ID_DIMENSION_Y });
-  setLine(rightExtension, RIGHT_ID_X, CENTER_Y, RIGHT_ID_X, ID_DIMENSION_Y, 'id');
+  setLine(rightExtension, RIGHT_ID_X, CENTER_Y, RIGHT_ID_X, ID_DIMENSION_Y);
 
   const leftArrow = findPolygon(arrows, 6685, ID_DIMENSION_Y);
   setArrow(leftArrow, LEFT_ID_X, ID_DIMENSION_Y, 'right', 'id');
@@ -96,7 +96,7 @@ function alignIdGeometry(svgRoot, lines, arrows) {
   svgRoot.dataset.pipetoolsPipe1IdGeometry = PIPE1_ID_GEOMETRY_VERSION;
 }
 
-function setLine(node, x1, y1, x2, y2, dimension = '') {
+function setLine(node, x1, y1, x2, y2, dimension = 'id') {
   if (!node?.setAttribute) return;
   node.setAttribute('x1', String(x1));
   node.setAttribute('y1', String(y1));
