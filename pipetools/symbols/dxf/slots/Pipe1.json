@@ -21,8 +21,8 @@
       "preferredValueKeys": ["OD", "Outer Dia", "outerDiameterMm", "odMm", "dimensions.odMm"],
       "format": "diameter-mm",
       "target": {
-        "targetBox": [6700, 13110, 7950, 13380],
-        "labelBox": [5950, 12920, 6500, 13220],
+        "targetBox": [7000, 13110, 7950, 13390],
+        "labelBox": [6550, 13110, 7000, 13390],
         "cleanupBox": [6600, 13020, 8250, 13680],
         "geometryBox": [6100, 12550, 8650, 13880],
         "hideGeometryWhenMissing": true,
@@ -40,8 +40,8 @@
         "placeholderText": ["-", "—", "–"],
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Outside Diameter", "OD"],
-        "maxDistanceFromLabel": 1450,
-        "expectedPosition": "strong above-left OD label clearance zone with value centered above the outside-diameter dimension line",
+        "maxDistanceFromLabel": 900,
+        "expectedPosition": "inline OD label and value above the outside-diameter dimension line",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["OD", "Outer Dia"]
@@ -53,8 +53,8 @@
       "preferredValueKeys": ["ID", "Inside Dia", "innerDiameterMm", "idMm", "dimensions.idMm"],
       "format": "diameter-mm",
       "target": {
-        "targetBox": [6700, 15610, 7950, 15960],
-        "labelBox": [6100, 15920, 6650, 16190],
+        "targetBox": [7000, 15620, 7950, 15940],
+        "labelBox": [6450, 15620, 7000, 15940],
         "cleanupBox": [6600, 15440, 8050, 16040],
         "geometryBox": [6100, 15150, 8500, 16080],
         "hideGeometryWhenMissing": true,
@@ -72,8 +72,8 @@
         "placeholderText": ["-", "—", "–"],
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Inside Diameter", "ID"],
-        "maxDistanceFromLabel": 1350,
-        "expectedPosition": "strong lower-left ID label clearance zone with value centered below the inside-diameter dimension line",
+        "maxDistanceFromLabel": 900,
+        "expectedPosition": "inline ID label and value below the inside-diameter dimension line",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["ID", "Inside Dia"]
@@ -157,8 +157,8 @@
       "preferredValueKeys": ["Weight / m", "weightKgPerM", "weights.weightKgPerM", "weights.kgPerM", "weights.emptyPipeKgPerM", "weights.pipeKgPerM"],
       "format": "kg-per-m",
       "target": {
-        "targetBox": [8280, 15880, 9350, 16310],
-        "labelBox": [7450, 16090, 8350, 16310],
+        "targetBox": [8280, 15880, 9350, 16320],
+        "labelBox": [7450, 16090, 8350, 16320],
         "cleanupBox": [8250, 15880, 9400, 16320],
         "geometryBox": [7300, 15840, 9450, 16400],
         "hideGeometryWhenMissing": true,
@@ -183,7 +183,7 @@
         "allowedExistingText": ["-", "Kg/Mtr", "kg/m"],
         "unitTextNearby": ["Weight", "Weight / m"],
         "maxDistanceFromLabel": 1300,
-        "expectedPosition": "inline native weight value after the Weight / m label with underline below both texts",
+        "expectedPosition": "inline native weight value after the Weight / m label without a decorative underline",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["Weight / m", "Weight"]

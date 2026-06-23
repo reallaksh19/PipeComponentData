@@ -1,4 +1,4 @@
-export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v11-strong-label-clearance';
+export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v12-inline-labels-no-underlines';
 
 export function buildPipe1NativeDrawing(doc = document) {
   const ns = ['h', 'ttp:', '', 'www.w3.org', '2000', 'svg'].join('/').replace('h/', 'h');
@@ -102,7 +102,6 @@ export function buildPipe1NativeDrawing(doc = document) {
   arrow(scaffold, 6625, 14420, 'right', 60);
   strokeLine(scaffold, 7464, 15208, 8410, 15208);
   strokeLine(scaffold, 8355, 14578, 8355, 15121);
-  strokeLine(scaffold, 7500, 16270, 9200, 16270);
 
   const cleanup = add(drawing, names.group, { 'data-pipetools-outside-radius-cleanup': 'true' });
   strokeLine(cleanup, 8420, 14620, 9550, 14620, '#00ff00', 22);
@@ -110,8 +109,8 @@ export function buildPipe1NativeDrawing(doc = document) {
   textNode(cleanup, 8500, 15010, 'Outside Radius', 90, { 'data-pipetools-outside-radius-label': 'true' });
 
   const labels = add(drawing, names.group, { 'data-pipetools-pipe1-static-labels': 'true' });
-  labelText(labels, 6060, 13070, 'OD');
-  labelText(labels, 6200, 16070, 'ID');
+  labelText(labels, 6660, 13255, 'OD');
+  labelText(labels, 6560, 15772, 'ID');
   labelText(labels, 5030, 13610, 'Wall / Thk');
   labelText(labels, 7520, 16240, 'Weight / m', 110, { 'text-anchor': 'start' });
 
