@@ -25,8 +25,7 @@
   left: 10px;
   top: 10px;
   z-index: 6;
-  display: grid;
-  gap: 5px;
+  display: block;
   width: min(310px, calc(100% - 20px));
   max-height: calc(100% - 72px);
   overflow: hidden;
@@ -36,7 +35,42 @@
   background: rgba(7,17,31,.88);
   color: #dbeafe;
   box-shadow: 0 12px 30px rgba(0,0,0,.22);
-  pointer-events: none;
+  pointer-events: auto;
+}
+
+.dimension-diagnostics:not([open]) {
+  width: min(280px, calc(100% - 20px));
+  max-height: 56px;
+}
+
+.dimension-diagnostics summary {
+  display: grid;
+  gap: 3px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.dimension-diagnostics summary::-webkit-details-marker {
+  display: none;
+}
+
+.dimension-diagnostics summary::before {
+  content: '▸';
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  color: #7dd3fc;
+  font-size: 11px;
+}
+
+.dimension-diagnostics[open] summary::before {
+  content: '▾';
+}
+
+.dimension-diagnostics-body {
+  display: grid;
+  gap: 5px;
+  margin-top: 6px;
 }
 
 .dimension-diagnostics strong {
@@ -47,6 +81,8 @@
 }
 
 .dimension-diagnostics-summary {
+  display: block;
+  padding-right: 16px;
   color: #93c5fd;
   font-size: 10px;
   white-space: nowrap;
