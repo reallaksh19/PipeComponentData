@@ -157,21 +157,21 @@
       "preferredValueKeys": ["Weight / m", "weightKgPerM", "weights.weightKgPerM", "weights.kgPerM", "weights.emptyPipeKgPerM", "weights.pipeKgPerM"],
       "format": "kg-per-m",
       "target": {
-        "targetBox": [8280, 16090, 9350, 16310],
+        "targetBox": [8280, 15880, 9350, 16310],
         "labelBox": [7450, 16090, 8350, 16310],
-        "cleanupBox": [8250, 16070, 9400, 16320],
-        "geometryBox": [7300, 16000, 9450, 16400],
+        "cleanupBox": [8250, 15880, 9400, 16320],
+        "geometryBox": [7300, 15840, 9450, 16400],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
           {
-            "box": [5000, 16320, 6900, 16650],
+            "box": [5000, 16060, 6900, 16650],
             "when": "populated",
             "includeText": true,
             "tags": ["text", "tspan"],
             "reason": "hide unsupported stale weight table row labels"
           },
           {
-            "box": [8050, 16320, 8800, 16650],
+            "box": [8050, 16150, 8800, 16650],
             "when": "populated",
             "includeText": true,
             "tags": ["text", "tspan"],
