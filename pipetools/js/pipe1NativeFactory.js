@@ -1,4 +1,4 @@
-export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v9-od-wall-clearance';
+export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v10-label-clearance-zones';
 
 export function buildPipe1NativeDrawing(doc = document) {
   const ns = ['h', 'ttp:', '', 'www.w3.org', '2000', 'svg'].join('/').replace('h/', 'h');
@@ -110,8 +110,8 @@ export function buildPipe1NativeDrawing(doc = document) {
   textNode(cleanup, 8500, 15010, 'Outside Radius', 90, { 'data-pipetools-outside-radius-label': 'true' });
 
   const labels = add(drawing, names.group, { 'data-pipetools-pipe1-static-labels': 'true' });
-  labelText(labels, 6360, 13570, 'OD');
-  labelText(labels, 6360, 15890, 'ID');
+  labelText(labels, 6340, 13302, 'OD');
+  labelText(labels, 6520, 15890, 'ID');
   labelText(labels, 5030, 13610, 'Wall / Thk');
   labelText(labels, 7520, 16240, 'Weight / m', 110, { 'text-anchor': 'start' });
 
