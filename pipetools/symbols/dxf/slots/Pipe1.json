@@ -21,9 +21,9 @@
       "preferredValueKeys": ["OD", "Outer Dia", "outerDiameterMm", "odMm", "dimensions.odMm"],
       "format": "diameter-mm",
       "target": {
-        "targetBox": [6700, 13240, 7950, 13570],
-        "labelBox": [6300, 13360, 6720, 13660],
-        "cleanupBox": [6600, 13080, 8250, 13720],
+        "targetBox": [6700, 13180, 7950, 13460],
+        "labelBox": [6300, 13480, 6720, 13740],
+        "cleanupBox": [6600, 13070, 8250, 13680],
         "geometryBox": [6100, 12550, 8650, 13880],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
@@ -41,7 +41,7 @@
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Outside Diameter", "OD"],
         "maxDistanceFromLabel": 1150,
-        "expectedPosition": "above pipe outside-diameter dimension value slot",
+        "expectedPosition": "above pipe outside-diameter dimension value slot with clearance from the OD dimension line",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["OD", "Outer Dia"]
@@ -54,7 +54,7 @@
       "format": "diameter-mm",
       "target": {
         "targetBox": [6700, 15610, 7950, 15960],
-        "labelBox": [6300, 15570, 6720, 15890],
+        "labelBox": [6300, 15780, 6720, 16040],
         "cleanupBox": [6600, 15440, 8050, 16040],
         "geometryBox": [6100, 15150, 8500, 16080],
         "hideGeometryWhenMissing": true,
@@ -85,9 +85,9 @@
       "preferredValueKeys": ["Wall / Thk", "Thickness", "wallThicknessMm", "thicknessMm", "dimensions.wallThicknessMm", "dimensions.thicknessMm"],
       "format": "mm",
       "target": {
-        "targetBox": [5520, 13680, 6550, 14050],
-        "labelBox": [5000, 13520, 5500, 13960],
-        "cleanupBox": [5450, 13480, 6700, 14100],
+        "targetBox": [5520, 13560, 6550, 13900],
+        "labelBox": [4950, 13520, 5650, 13860],
+        "cleanupBox": [5450, 13480, 6700, 14020],
         "geometryBox": [4300, 13200, 6900, 14500],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
@@ -105,7 +105,7 @@
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Wall Thickness", "Wall / Thk", "Wall"],
         "maxDistanceFromLabel": 900,
-        "expectedPosition": "left leader wall-thickness value slot",
+        "expectedPosition": "left leader wall-thickness value slot clear of the leader line",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["Wall / Thk", "Thickness"]
@@ -157,21 +157,21 @@
       "preferredValueKeys": ["Weight / m", "weightKgPerM", "weights.weightKgPerM", "weights.kgPerM", "weights.emptyPipeKgPerM", "weights.pipeKgPerM"],
       "format": "kg-per-m",
       "target": {
-        "targetBox": [7800, 15880, 8900, 16105],
-        "labelBox": [7850, 16120, 8700, 16340],
-        "cleanupBox": [7750, 15840, 8950, 16135],
-        "geometryBox": [5200, 15750, 9000, 16600],
+        "targetBox": [8280, 16090, 9350, 16310],
+        "labelBox": [7450, 16090, 8350, 16310],
+        "cleanupBox": [8250, 16070, 9400, 16320],
+        "geometryBox": [7300, 16000, 9450, 16400],
         "hideGeometryWhenMissing": true,
         "artifactBoxes": [
           {
-            "box": [5000, 16060, 6900, 16650],
+            "box": [5000, 16320, 6900, 16650],
             "when": "populated",
             "includeText": true,
             "tags": ["text", "tspan"],
             "reason": "hide unsupported stale weight table row labels"
           },
           {
-            "box": [8050, 16150, 8800, 16650],
+            "box": [8050, 16320, 8800, 16650],
             "when": "populated",
             "includeText": true,
             "tags": ["text", "tspan"],
@@ -183,7 +183,7 @@
         "allowedExistingText": ["-", "Kg/Mtr", "kg/m"],
         "unitTextNearby": ["Weight", "Weight / m"],
         "maxDistanceFromLabel": 1300,
-        "expectedPosition": "centered native weight value above its weight scaffold line",
+        "expectedPosition": "inline native weight value after the Weight / m label with underline below both texts",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["Weight / m", "Weight"]
