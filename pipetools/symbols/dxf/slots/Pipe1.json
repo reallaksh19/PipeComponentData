@@ -22,7 +22,7 @@
       "format": "diameter-mm",
       "target": {
         "targetBox": [7000, 13110, 7950, 13390],
-        "labelBox": [6500, 13110, 7050, 13390],
+        "labelBox": [6300, 13110, 6700, 13390],
         "cleanupBox": [6600, 13020, 8250, 13680],
         "geometryBox": [6100, 12550, 8650, 13880],
         "hideGeometryWhenMissing": true,
@@ -41,7 +41,7 @@
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Outside Diameter", "OD"],
         "maxDistanceFromLabel": 900,
-        "expectedPosition": "inline OD label anchored at the left OD arrow-tip X and value centered between OD arrow tips",
+        "expectedPosition": "inline OD label end-anchored at the left OD arrow-tip X and sharing the OD value baseline",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["OD", "Outer Dia"]
@@ -54,7 +54,7 @@
       "format": "diameter-mm",
       "target": {
         "targetBox": [7000, 15620, 7950, 15940],
-        "labelBox": [6600, 15620, 7100, 15940],
+        "labelBox": [6380, 15620, 6760, 15940],
         "cleanupBox": [6600, 15440, 8050, 16040],
         "geometryBox": [6100, 15150, 8500, 16080],
         "hideGeometryWhenMissing": true,
@@ -73,7 +73,7 @@
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Inside Diameter", "ID"],
         "maxDistanceFromLabel": 900,
-        "expectedPosition": "inline ID label anchored at the left ID arrow-tip X and value centered between ID arrow tips",
+        "expectedPosition": "inline ID label end-anchored at the left ID arrow-tip X and sharing the ID value baseline",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["ID", "Inside Dia"]
