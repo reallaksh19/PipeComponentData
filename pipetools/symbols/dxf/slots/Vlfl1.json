@@ -1,0 +1,47 @@
+{
+  "version": "PipeToolsSvgSlotBinding.v2",
+  "sourceCode": "Vlfl1",
+  "strategy": "populate-native-svg-text",
+  "coordinateSpace": "source-svg-viewBox",
+  "confidenceThreshold": 0.7,
+  "nativeTextStyle": {
+    "fontSize": "28",
+    "fontFamily": "Inter, Arial, sans-serif",
+    "fontWeight": "600",
+    "fill": "#101827",
+    "stroke": "#ffffff",
+    "strokeWidth": "1"
+  },
+  "description": "Deterministic native SVG value slot for Vlfl1 Face-to-Face only. Other valve DB values are rendered below the image.",
+  "slots": {
+    "Face to Face": {
+      "semanticLabel": "Face to Face",
+      "displayLabel": "Face to Face",
+      "labelText": ["Face to Face", "Face-to-Face", "F2F", "F2F RF"],
+      "preferredValueKeys": [
+        "F2F RF",
+        "Face to Face",
+        "Face-to-Face RF",
+        "faceToFaceRfMm",
+        "faceToFaceMm",
+        "dimensions.faceToFaceRfMm",
+        "dimensions.faceToFaceMm"
+      ],
+      "format": "mm",
+      "target": {
+        "targetBox": [270, 550, 520, 610],
+        "labelBox": [55, 550, 270, 610],
+        "cleanupBox": [260, 545, 540, 615],
+        "geometryBox": [230, 470, 970, 640],
+        "hideGeometryWhenMissing": true,
+        "placeholderText": ["-", "—", "–"],
+        "cleanupPlaceholderText": ["-", "—", "–"],
+        "allowedExistingText": ["-", "Face to Face", "Face-to-Face", "F2F", "F2F RF"],
+        "maxDistanceFromLabel": 320,
+        "expectedPosition": "inline Face-to-Face label end-anchored at left valve face arrow corner with DB value on the same baseline",
+        "replaceMode": "textContent"
+      },
+      "suppressOverlayLabels": ["Face to Face", "Face-to-Face", "F2F", "F2F RF", "F2F RTJ", "BW length"]
+    }
+  }
+}

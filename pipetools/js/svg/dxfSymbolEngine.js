@@ -8,11 +8,13 @@ import { computeVisibleSvgBBox } from './svgGeometryInventory.js';
 import { populateSvgSlots, slotDiagnosticsSummary } from './svgSlotPopulator.js';
 import { alignPipe1IdGeometry } from './pipe1IdGeometry.js';
 import { buildPipe1NativeDrawing } from '../pipe1NativeFactory.js';
+import { buildVlfl1NativeDrawing } from '../vlfl1NativeFactory.js';
 
 const MANIFEST_JSON_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.json', import.meta.url).href;
 const MANIFEST_JS_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.js', import.meta.url).href;
 const FETCH_TIMEOUT_MS = 6000;
 const PIPE1_SOURCE_CODE = 'Pipe1';
+const VLFL1_SOURCE_CODE = 'Vlfl1';
 const PIPE1_LEGACY_VIEW_BOX = Object.freeze({ x: 5000, y: 12750, width: 5250, height: 4100 });
 const SCRIPT_TAG = String.fromCharCode(115, 99, 114, 105, 112, 116);
 const SVG_TAG = String.fromCharCode(115, 118, 103);
@@ -204,6 +206,7 @@ function removePlaceholderText(svg) {
 function shouldPreserveTextNode(text) {
   if (text.dataset?.pipetoolsSourceBacked === 'true') return true;
   if (text.dataset?.pipetoolsPipe1ValueSlot === 'true') return true;
+  if (text.dataset?.pipetoolsVlfl1ValueSlot === 'true') return true;
   if (text.dataset?.pipetoolsSlotKey) return true;
   if (text.getAttribute?.('data-pipetools-slot-key')) return true;
   return false;
@@ -252,11 +255,15 @@ function nextFrame(callback) {
   raf(() => raf(callback));
 }
 
+function usesFreshAutoOffset(sourceCode) {
+  return sourceCode === PIPE1_SOURCE_CODE || sourceCode === VLFL1_SOURCE_CODE;
+}
+
 function scheduleStoredOffset(container, result) {
   const panel = container.closest?.('#source-svg-panel');
   if (panel) panel.dataset.currentSourceCode = result.sourceCode || '';
   nextFrame(async () => {
-    if (result.sourceCode === PIPE1_SOURCE_CODE) {
+    if (usesFreshAutoOffset(result.sourceCode)) {
       const measured = computeAutoSourceSvgOffset(container);
       applyPanelOffset(container, measured, result.sourceCode);
       return;
@@ -321,6 +328,24 @@ function attachSlotDiagnostics(viewport, slotPopulation) {
   viewport.dataset.svgSlotDiagnostics = JSON.stringify(summary);
 }
 
+function nativeSvgNodeForSource(sourceCode) {
+  if (sourceCode === PIPE1_SOURCE_CODE) return alignPipe1IdGeometry(buildPipe1NativeDrawing(document));
+  if (sourceCode === VLFL1_SOURCE_CODE) return buildVlfl1NativeDrawing(document);
+  return null;
+}
+
+function renderModeForSource(sourceCode) {
+  if (sourceCode === PIPE1_SOURCE_CODE) return 'native recovered';
+  if (sourceCode === VLFL1_SOURCE_CODE) return 'native f2f';
+  return 'inline';
+}
+
+function resultRenderModeForSource(sourceCode) {
+  if (sourceCode === PIPE1_SOURCE_CODE) return 'native-recovered';
+  if (sourceCode === VLFL1_SOURCE_CODE) return 'native-f2f';
+  return 'inline';
+}
+
 export async function resolveDxfSymbolForComponent(row) {
   await loadDxfSymbolManifest();
   if (!row || typeof row !== 'object') return { status: 'SVG_NOT_AVAILABLE', reason: 'No component row supplied', symbol: null };
@@ -343,13 +368,14 @@ export async function mountDxfSymbolSvg(row, container) {
       return result;
     }
     const slotPromise = loadSvgSlotBinding(result.sourceCode);
-    const svgNode = result.sourceCode === PIPE1_SOURCE_CODE ? alignPipe1IdGeometry(buildPipe1NativeDrawing(document)) : await fetchDxfSvgNode(result.svgUrl);
+    const nativeNode = nativeSvgNodeForSource(result.sourceCode);
+    const svgNode = nativeNode || await fetchDxfSvgNode(result.svgUrl);
     const slotBinding = await slotPromise;
     const viewport = sourceViewport(svgNode);
-    const mode = result.sourceCode === PIPE1_SOURCE_CODE ? 'native recovered' : 'inline';
+    const mode = renderModeForSource(result.sourceCode);
     container.replaceChildren(viewport, metaNode(result, mode));
     if (result.sourceCode === PIPE1_SOURCE_CODE) recoverPipe1LegacyViewBox(svgNode);
-    else tightenViewBox(svgNode);
+    else if (!nativeNode) tightenViewBox(svgNode);
     const slotPopulation = populateSvgSlots(svgNode, result.sourceCode, slotBinding, row);
     suppressSvgSlotArtifacts(svgNode, slotBinding, slotPopulation);
     removePlaceholderText(svgNode);
@@ -359,7 +385,7 @@ export async function mountDxfSymbolSvg(row, container) {
     const callouts = renderDimensionCallouts(row, result.symbol, viewport, { suppressLabels: slotPopulation.suppressedOverlayLabels });
     renderDimensionCalloutDiagnostics(row, result.symbol, container, callouts, { slotPopulation });
     scheduleStoredOffset(container, result);
-    return { ...result, renderMode: result.sourceCode === PIPE1_SOURCE_CODE ? 'native-recovered' : 'inline', slotPopulation };
+    return { ...result, renderMode: resultRenderModeForSource(result.sourceCode), slotPopulation };
   } catch (error) {
     if (result?.status === 'OK') return mountImageFallback(container, result, error.message, row);
     clearDimensionCallouts(container);
