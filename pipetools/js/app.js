@@ -69,12 +69,22 @@ const actions = {
 start().catch((error) => showFatal(error));
 
 async function start() {
+  bindDiagnosticsToggleGuard();
   state.dbIndex = await loadDbIndex({ url: DB_INDEX_URL });
   state.dbFamilies = getDbFamilies(state.dbIndex);
   state.allRows = await loadFamilyRows(pipeSpecState.filters.component);
   applyFilters();
   bindSearch();
   requestRender();
+}
+
+function bindDiagnosticsToggleGuard() {
+  const guard = (event) => {
+    if (event.target?.closest?.('.dimension-diagnostics,[data-dimension-diagnostics]')) event.stopPropagation();
+  };
+  ['pointerdown', 'mousedown', 'click', 'touchstart'].forEach((type) => {
+    document.addEventListener(type, guard, true);
+  });
 }
 
 async function setComponent(value) {
