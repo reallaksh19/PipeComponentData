@@ -22,7 +22,7 @@
       "format": "diameter-mm",
       "target": {
         "targetBox": [6700, 13110, 7950, 13380],
-        "labelBox": [6300, 13480, 6720, 13740],
+        "labelBox": [6250, 13180, 6700, 13420],
         "cleanupBox": [6600, 13020, 8250, 13680],
         "geometryBox": [6100, 12550, 8650, 13880],
         "hideGeometryWhenMissing": true,
@@ -41,7 +41,7 @@
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Outside Diameter", "OD"],
         "maxDistanceFromLabel": 1250,
-        "expectedPosition": "above pipe outside-diameter dimension value slot with clear separation from the OD dimension line",
+        "expectedPosition": "above-left OD label clearance zone with value centered above the outside-diameter dimension line",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["OD", "Outer Dia"]
@@ -54,7 +54,7 @@
       "format": "diameter-mm",
       "target": {
         "targetBox": [6700, 15610, 7950, 15960],
-        "labelBox": [6300, 15780, 6720, 16040],
+        "labelBox": [6450, 15780, 6900, 16040],
         "cleanupBox": [6600, 15440, 8050, 16040],
         "geometryBox": [6100, 15150, 8500, 16080],
         "hideGeometryWhenMissing": true,
@@ -73,7 +73,7 @@
         "cleanupPlaceholderText": ["-", "—", "–"],
         "allowedExistingText": ["-", "Inside Diameter", "ID"],
         "maxDistanceFromLabel": 1150,
-        "expectedPosition": "below pipe inside-diameter dimension value slot without overlapping the weight value slot",
+        "expectedPosition": "lower-left ID label clearance zone with value centered below the inside-diameter dimension line",
         "replaceMode": "textContent"
       },
       "suppressOverlayLabels": ["ID", "Inside Dia"]
