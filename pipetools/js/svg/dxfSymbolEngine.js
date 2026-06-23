@@ -6,6 +6,7 @@ import { loadSvgSlotBinding } from './svgSlotBindingStore.js';
 import { suppressSvgSlotArtifacts } from './svgSlotArtifactCleanup.js';
 import { computeVisibleSvgBBox } from './svgGeometryInventory.js';
 import { populateSvgSlots, slotDiagnosticsSummary } from './svgSlotPopulator.js';
+import { alignPipe1IdGeometry } from './pipe1IdGeometry.js';
 import { buildPipe1NativeDrawing } from '../pipe1NativeFactory.js';
 
 const MANIFEST_JSON_URL = new URL('../../symbols/dxf/dxf-symbol-manifest.json', import.meta.url).href;
@@ -342,7 +343,7 @@ export async function mountDxfSymbolSvg(row, container) {
       return result;
     }
     const slotPromise = loadSvgSlotBinding(result.sourceCode);
-    const svgNode = result.sourceCode === PIPE1_SOURCE_CODE ? buildPipe1NativeDrawing(document) : await fetchDxfSvgNode(result.svgUrl);
+    const svgNode = result.sourceCode === PIPE1_SOURCE_CODE ? alignPipe1IdGeometry(buildPipe1NativeDrawing(document)) : await fetchDxfSvgNode(result.svgUrl);
     const slotBinding = await slotPromise;
     const viewport = sourceViewport(svgNode);
     const mode = result.sourceCode === PIPE1_SOURCE_CODE ? 'native recovered' : 'inline';
