@@ -1,4 +1,4 @@
-export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v7-weight-note-aligned';
+export const PIPE1_NATIVE_FACTORY_VERSION = 'pipe1-native-slot-contract-v8-inline-weight-uniform-text';
 
 export function buildPipe1NativeDrawing(doc = document) {
   const ns = ['h', 'ttp:', '', 'www.w3.org', '2000', 'svg'].join('/').replace('h/', 'h');
@@ -59,10 +59,10 @@ export function buildPipe1NativeDrawing(doc = document) {
     'stroke-linejoin': 'round',
     ...extra,
   }, value);
-  const labelText = (parent, x, y, value, size = 86, extra = {}) => textNode(parent, x, y, value, size, {
+  const labelText = (parent, x, y, value, size = 110, extra = {}) => textNode(parent, x, y, value, size, {
     fill: '#047857',
     stroke: '#ffffff',
-    'stroke-width': 1.8,
+    'stroke-width': 2,
     'font-weight': 700,
     'data-pipetools-pipe1-static-label': 'true',
     ...extra,
@@ -102,7 +102,7 @@ export function buildPipe1NativeDrawing(doc = document) {
   arrow(scaffold, 6625, 14420, 'right', 60);
   strokeLine(scaffold, 7464, 15208, 8410, 15208);
   strokeLine(scaffold, 8355, 14578, 8355, 15121);
-  strokeLine(scaffold, 7950, 16105, 8600, 16105);
+  strokeLine(scaffold, 7500, 16270, 9200, 16270);
 
   const cleanup = add(drawing, names.group, { 'data-pipetools-outside-radius-cleanup': 'true' });
   strokeLine(cleanup, 8420, 14620, 9550, 14620, '#00ff00', 22);
@@ -110,16 +110,16 @@ export function buildPipe1NativeDrawing(doc = document) {
   textNode(cleanup, 8500, 15010, 'Outside Radius', 90, { 'data-pipetools-outside-radius-label': 'true' });
 
   const labels = add(drawing, names.group, { 'data-pipetools-pipe1-static-labels': 'true' });
-  labelText(labels, 6360, 13545, 'OD', 82);
-  labelText(labels, 6360, 15728, 'ID', 82);
-  labelText(labels, 5080, 13680, 'Wall / Thk', 90);
-  labelText(labels, 8275, 16225, 'Weight / m', 82, { 'text-anchor': 'middle' });
+  labelText(labels, 6360, 13570, 'OD');
+  labelText(labels, 6360, 15890, 'ID');
+  labelText(labels, 5030, 13680, 'Wall / Thk');
+  labelText(labels, 7520, 16240, 'Weight / m', 110, { 'text-anchor': 'start' });
 
   const slots = add(drawing, names.group, { 'data-pipetools-pipe1-native-slots': 'true' });
-  slotText(slots, 7300, 13378, '-', 110, 'OD');
+  slotText(slots, 7300, 13310, '-', 110, 'OD');
   slotText(slots, 7300, 15772, '-', 110, 'ID');
-  slotText(slots, 5890, 13880, '-', 110, 'Wall / Thk');
-  slotText(slots, 8275, 16010, '-', 110, 'Weight / m');
+  slotText(slots, 5900, 13765, '-', 110, 'Wall / Thk');
+  slotText(slots, 8360, 16240, '-', 110, 'Weight / m', { 'text-anchor': 'start' });
 
   return root;
 }
