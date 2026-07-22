@@ -6,6 +6,9 @@ on:
       - agent/f2s-002-wasm-build
     paths-ignore:
       - build-output/**
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -60,7 +63,18 @@ jobs:
           wc -c out/fbx_parser.wasm build-output/fbx_parser.wasm.xz build-output/fbx_parser.wasm.xz.b64 | tee build-output/size.txt
           echo 'ufbx revision: 729ab835444f5f229e5f7cff332692ce6c00415d' >> build-output/build-info.txt
           echo 'C bridge SHA-256: 97dd63ae25d26cef0a8d89c8de1c804c42997e6bab8b11548164ad81d591544e' >> build-output/build-info.txt
+      - name: Upload exact build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: f2s-002-wasm
+          path: |
+            out/fbx_parser.wasm
+            build-output/build-info.txt
+            build-output/compiler.txt
+            build-output/size.txt
+          if-no-files-found: error
       - name: Publish verified build to temporary branch
+        if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
