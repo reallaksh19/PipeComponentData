@@ -53,10 +53,11 @@ jobs:
           cmp out/fbx_parser.first.wasm out/fbx_parser.wasm
           cp out/fbx_parser.wasm build-output/fbx_parser.wasm
           xz -9e -c out/fbx_parser.wasm > build-output/fbx_parser.wasm.xz
+          base64 -w 18000 build-output/fbx_parser.wasm.xz > build-output/fbx_parser.wasm.xz.b64
           clang-18 --version | tee build-output/compiler.txt
           sha256sum out/fbx_parser.first.wasm out/fbx_parser.wasm | tee build-output/build-info.txt
           sha256sum build-output/fbx_parser.wasm.xz | tee -a build-output/build-info.txt
-          wc -c out/fbx_parser.wasm build-output/fbx_parser.wasm.xz | tee build-output/size.txt
+          wc -c out/fbx_parser.wasm build-output/fbx_parser.wasm.xz build-output/fbx_parser.wasm.xz.b64 | tee build-output/size.txt
           echo 'ufbx revision: 729ab835444f5f229e5f7cff332692ce6c00415d' >> build-output/build-info.txt
           echo 'C bridge SHA-256: 97dd63ae25d26cef0a8d89c8de1c804c42997e6bab8b11548164ad81d591544e' >> build-output/build-info.txt
       - name: Publish verified build to temporary branch
@@ -66,5 +67,5 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add build-output
-          git commit -m 'build: publish compressed exact F2S-002 WASM'
+          git commit -m 'build: publish transferable exact F2S-002 WASM'
           git push origin HEAD:agent/f2s-002-wasm-build
