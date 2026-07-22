@@ -1,0 +1,4 @@
+452725 out/fbx_parser.wasm
+131200 build-output/fbx_parser.wasm.xz
+174971 build-output/fbx_parser.wasm.xz.b64
+758896 total
